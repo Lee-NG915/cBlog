@@ -1,11 +1,8 @@
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export default function NotFound() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4 text-gray-900 dark:text-gray-100">
@@ -22,7 +19,6 @@ export default function NotFound() {
           </Link>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
