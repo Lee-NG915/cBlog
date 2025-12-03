@@ -14,6 +14,7 @@ export interface Post {
   excerpt?: string;
   content: string;
   readingTime?: number;
+  coverImage?: string;
 }
 
 export interface Category {
@@ -44,6 +45,7 @@ export function getAllPosts(): Post[] {
         excerpt: data.excerpt || "",
         content,
         readingTime: calculateReadingTime(content),
+        coverImage: data.coverCard || data.coverImage || undefined,
       } as Post;
     });
 
@@ -96,6 +98,7 @@ export function getPostBySlug(slug: string): Post | null {
     excerpt: data.excerpt || "",
     content,
     readingTime: calculateReadingTime(content),
+    coverImage: data.coverCard || data.coverImage || undefined,
   } as Post;
 }
 

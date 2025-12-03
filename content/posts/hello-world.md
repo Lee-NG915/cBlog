@@ -28,10 +28,21 @@ title: 文章标题
 date: 2024-01-01
 category: 分类名称
 excerpt: 文章摘要
+coverCard: /images/covers/tech/my-cover.jpg # 可选：封面图片
 ---
 ```
 
 3. 然后编写你的文章内容即可
+
+### 添加图片到文章
+
+在文章内容中可以使用 Markdown 语法插入图片：
+
+```markdown
+![图片描述](/images/posts/2024/my-article/image.jpg)
+```
+
+图片应该放在 `public/images/posts/` 目录下，建议按年份或文章 slug 创建子目录来组织。
 
 ## 支持的文章分类
 

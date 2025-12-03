@@ -6,6 +6,7 @@
 
 - 📝 **Markdown 支持**：直接在项目中编辑 `.md` 文件即可发布文章
 - 🏷️ **分类管理**：支持多分类，自动统计分类文章数量
+- 🖼️ **封面图片**：支持为每篇文章配置封面图片，提升视觉效果
 - 📱 **响应式设计**：完美适配移动端、平板和桌面端
 - 🚀 **自动部署**：配置 GitHub Actions，推送到 main 分支自动部署
 - ⚡ **性能优化**：静态站点生成，快速加载
@@ -46,10 +47,60 @@ title: 文章标题
 date: 2024-01-01
 category: 技术类
 excerpt: 文章摘要（可选）
+coverCard: https://example.com/image.jpg # 封面图片 URL（可选）
 ---
 ```
 
 3. 然后编写你的 Markdown 内容即可
+
+### 封面图片配置
+
+你可以在 frontmatter 中使用 `coverCard` 字段来为文章添加封面图片：
+
+- **coverCard**: 封面图片的 URL（支持外部链接或本地图片路径）
+- 如果不设置 `coverCard`，文章卡片将不显示封面图片
+- 封面图片会在文章卡片顶部显示，鼠标悬停时有缩放效果
+- 建议使用 16:9 或 4:3 比例的图片以获得最佳显示效果
+
+#### 使用本地图片
+
+1. **推荐目录结构**：将图片放在 `public/images/` 目录下
+
+   ```
+   public/images/
+   ├── covers/          # 封面图片
+   │   ├── tech/       # 技术类
+   │   ├── life/       # 日常生活
+   │   ├── study/      # 学习记录
+   │   └── travel/     # 旅游
+   └── posts/          # 文章内容图片
+   ```
+
+2. **在 frontmatter 中引用**：
+
+   ```yaml
+   ---
+   title: 我的文章
+   coverCard: /images/covers/tech/nextjs-blog.jpg
+   ---
+   ```
+
+   注意：路径以 `/` 开头，从 `public` 目录开始
+
+3. **在文章内容中使用图片**：
+   ```markdown
+   ![图片描述](/images/posts/2024/my-article/image.jpg)
+   ```
+
+#### 使用外部图片
+
+也可以直接使用外部图片 URL：
+
+```yaml
+---
+coverCard: https://images.unsplash.com/photo-xxx
+---
+```
 
 ### 支持的文章分类
 

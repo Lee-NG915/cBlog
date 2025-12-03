@@ -3,6 +3,7 @@ title: 使用 Next.js 搭建个人博客
 date: 2024-01-02
 category: 技术类
 excerpt: 详细介绍如何使用 Next.js 和 Markdown 搭建一个现代化的个人博客网站。
+coverCard: https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop
 ---
 
 # 使用 Next.js 搭建个人博客

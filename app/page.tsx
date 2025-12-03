@@ -13,7 +13,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="text-center mb-12 md:mb-16">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-            欢迎来到我的博客
+            欢迎来到 Color 的博客
           </h1>
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             分享技术、生活、学习和旅行的点点滴滴
