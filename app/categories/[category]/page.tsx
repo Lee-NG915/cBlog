@@ -11,6 +11,13 @@ interface CategoryPageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const categories = getAllCategories();
+  return categories.map((category) => ({
+    category: encodeURIComponent(category.name),
+  }));
+}
+
 export default function CategoryPage({ params }: CategoryPageProps) {
   const category = decodeURIComponent(params.category);
   const posts = getPostsByCategory(category);
