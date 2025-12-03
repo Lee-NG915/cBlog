@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { userProfile, mainNavItems, socialLinks, projectLinks } from "@/lib/navigation";
 import { getAllCategories } from "@/lib/posts";
+import ThemeToggle from "./ThemeToggle";
 
 // 图标组件
 const HomeIcon = () => (
@@ -105,7 +106,7 @@ export default function Sidebar({ categories }: SidebarProps) {
   };
 
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:border-r lg:border-gray-200 dark:lg:border-gray-700 bg-white dark:bg-gray-800">
+    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:border-r lg:border-gray-200 dark:lg:border-gray-700 bg-white dark:bg-[#242424] transition-colors duration-300">
       <div className="flex flex-col flex-grow overflow-y-auto">
         {/* 用户信息区域 */}
         <div className="flex-shrink-0 px-6 py-6 border-b border-gray-200 dark:border-gray-700">
@@ -223,11 +224,12 @@ export default function Sidebar({ categories }: SidebarProps) {
           )}
         </nav>
 
-        {/* 社交链接 */}
-        {socialLinks.length > 0 && (
-          <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        {/* 社交链接和主题切换 */}
+        <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              {socialLinks.map((link) => {
+              {socialLinks.length > 0 &&
+                socialLinks.map((link) => {
                 if (link.icon === "github") {
                   return (
                     <a
@@ -265,11 +267,12 @@ export default function Sidebar({ categories }: SidebarProps) {
                   >
                     {link.label}
                   </a>
-                );
-              })}
+                  );
+                })}
             </div>
+            <ThemeToggle />
           </div>
-        )}
+        </div>
       </div>
     </aside>
   );

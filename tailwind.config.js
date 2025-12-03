@@ -5,6 +5,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -20,6 +21,18 @@ module.exports = {
           800: "#075985",
           900: "#0c4a6e",
         },
+        // 护眼主题配色
+        background: {
+          light: "#fafafa", // 非常浅的灰白色，护眼
+          dark: "#1a1a1a", // 深色背景
+        },
+        surface: {
+          light: "#ffffff",
+          dark: "#242424",
+        },
+      },
+      transitionProperty: {
+        colors: "color, background-color, border-color",
       },
     },
   },

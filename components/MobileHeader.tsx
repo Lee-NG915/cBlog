@@ -28,7 +28,7 @@ export default function MobileHeader({ categories }: MobileHeaderProps) {
 
   return (
     <>
-      <header className="lg:hidden sticky top-0 z-30 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+      <header className="lg:hidden sticky top-0 z-30 bg-white dark:bg-[#242424] shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="flex items-center justify-between h-14 px-4">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold text-primary-600 dark:text-primary-400">

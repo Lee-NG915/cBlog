@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { userProfile, mainNavItems, socialLinks, projectLinks } from "@/lib/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 // 图标组件（与Sidebar相同）
 const HomeIcon = () => (
@@ -153,7 +154,7 @@ export default function MobileDrawer({
 
       {/* 抽屉 */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 transform transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#242424] transform transition-all duration-300 ease-in-out lg:hidden ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -274,11 +275,12 @@ export default function MobileDrawer({
             )}
           </nav>
 
-          {/* 社交链接 */}
-          {socialLinks.length > 0 && (
-            <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+          {/* 社交链接和主题切换 */}
+          <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                {socialLinks.map((link) => {
+                {socialLinks.length > 0 &&
+                  socialLinks.map((link) => {
                   if (link.icon === "github") {
                     return (
                       <a
@@ -316,11 +318,12 @@ export default function MobileDrawer({
                     >
                       {link.label}
                     </a>
-                  );
-                })}
+                    );
+                  })}
               </div>
+              <ThemeToggle />
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

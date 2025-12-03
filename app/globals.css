@@ -9,6 +9,26 @@
 
   body {
     @apply antialiased;
+    /* 添加平滑的主题切换过渡 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* 护眼背景色 */
+    background-color: #fafafa;
+  }
+
+  body.dark {
+    background-color: #1a1a1a;
+  }
+
+  /* 为所有元素添加颜色过渡 - 平滑的主题切换动画 */
+  * {
+    transition-property: color, background-color, border-color, fill, stroke;
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 排除一些不需要过渡的元素 */
+  *, *::before, *::after {
+    transition-property: color, background-color, border-color, fill, stroke, opacity, transform;
   }
 }
 
@@ -31,6 +51,9 @@
 
   .prose p {
     @apply mb-4 leading-7 text-gray-700 dark:text-gray-300;
+    /* 护眼字体大小和行高 */
+    font-size: 1.0625rem;
+    line-height: 1.75;
   }
 
   .prose ul,

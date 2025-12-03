@@ -10,7 +10,7 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col">
+    <article className="bg-white dark:bg-[#242424] rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col hover:-translate-y-1">
       <Link href={`/posts/${post.slug}`} className="flex flex-col flex-grow">
         {/* 封面图片 */}
         {post.coverImage && (
