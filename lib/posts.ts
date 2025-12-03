@@ -4,6 +4,24 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
+// 处理图片路径，添加 basePath
+function processImagePath(imagePath: string | undefined): string | undefined {
+  if (!imagePath) return undefined;
+
+  // 如果已经是完整 URL，直接返回
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+
+  // 如果路径以 / 开头，添加 basePath
+  if (imagePath.startsWith("/")) {
+    const basePath = process.env.BASE_PATH || "";
+    return basePath + imagePath;
+  }
+
+  return imagePath;
+}
+
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
 export interface Post {
@@ -45,7 +63,9 @@ export function getAllPosts(): Post[] {
         excerpt: data.excerpt || "",
         content,
         readingTime: calculateReadingTime(content),
-        coverImage: data.coverCard || data.coverImage || undefined,
+        coverImage: processImagePath(
+          data.coverCard || data.coverImage || undefined
+        ),
       } as Post;
     });
 
@@ -98,7 +118,9 @@ export function getPostBySlug(slug: string): Post | null {
     excerpt: data.excerpt || "",
     content,
     readingTime: calculateReadingTime(content),
-    coverImage: data.coverCard || data.coverImage || undefined,
+    coverImage: processImagePath(
+      data.coverCard || data.coverImage || undefined
+    ),
   } as Post;
 }
 
@@ -117,7 +139,24 @@ export function getAllPostSlugs(): string[] {
 // 将 Markdown 转换为 HTML
 export async function markdownToHtml(markdown: string): Promise<string> {
   const result = await remark().use(html).process(markdown);
-  return result.toString();
+  let htmlContent = result.toString();
+
+  // 处理图片路径，添加 basePath（如果需要）
+  const basePath = process.env.BASE_PATH || "";
+  if (basePath) {
+    // 替换所有 <img src="/... 为 <img src="{basePath}/...
+    htmlContent = htmlContent.replace(
+      /<img([^>]*)\ssrc="\//g,
+      `<img$1 src="${basePath}/`
+    );
+    // 也处理 Markdown 转换后的图片标签
+    htmlContent = htmlContent.replace(
+      /src="\/(images\/[^"]+)"/g,
+      `src="${basePath}/$1"`
+    );
+  }
+
+  return htmlContent;
 }
 
 // 计算阅读时间（基于中文字符数）

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import { Post } from "@/lib/posts";
+import { getImagePath } from "@/lib/utils";
 
 interface PostCardProps {
   post: Post;
@@ -16,7 +17,7 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="relative w-full h-48 md:h-56 overflow-hidden bg-gray-200 dark:bg-gray-700">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={post.coverImage}
+              src={getImagePath(post.coverImage)}
               alt={post.title}
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               loading="lazy"

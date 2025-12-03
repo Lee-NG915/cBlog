@@ -41,8 +41,10 @@ jobs:
         run: |
           if [ "${{ github.event.repository.name }}" = "${{ github.repository_owner }}.github.io" ]; then
             echo "BASE_PATH=" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_BASE_PATH=" >> $GITHUB_ENV
           else
             echo "BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
           fi
 
       - name: Build
