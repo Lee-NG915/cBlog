@@ -7,6 +7,7 @@ interface PostCardProps {
   post: Post;
 }
 
+// test
 export default function PostCard({ post }: PostCardProps) {
   return (
     <article className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
