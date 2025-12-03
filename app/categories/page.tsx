@@ -1,5 +1,3 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
 
@@ -8,12 +6,10 @@ export default function CategoriesPage() {
   const allPosts = getAllPosts();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-          文章分类
-        </h1>
+    <>
+      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
+        文章分类
+      </h1>
 
         {categories.length === 0 ? (
           <div className="text-center py-12">
@@ -44,8 +40,6 @@ export default function CategoriesPage() {
             })}
           </div>
         )}
-      </main>
-      <Footer />
-    </div>
+    </>
   );
 }

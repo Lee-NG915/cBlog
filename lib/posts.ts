@@ -40,34 +40,99 @@ export interface Category {
   count: number;
 }
 
+/**
+ * 递归获取目录下所有 Markdown 文件
+ * 支持按日期组织的文件夹结构：YYYY/MM/DD/slug.md 或 YYYY/MM/slug.md
+ */
+function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
+  if (!fs.existsSync(dir)) {
+    return fileList;
+  }
+
+  const files = fs.readdirSync(dir);
+
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isDirectory()) {
+      // 递归读取子目录
+      getAllMarkdownFiles(filePath, fileList);
+    } else if (file.endsWith(".md")) {
+      // 保存相对路径（相对于 postsDirectory）
+      const relativePath = path.relative(postsDirectory, filePath);
+      fileList.push(relativePath);
+    }
+  });
+
+  return fileList;
+}
+
+/**
+ * 从文件路径生成 slug
+ * 例如：2024/01/01/hello-world.md -> hello-world
+ * 或者：2024/01/hello-world.md -> hello-world
+ */
+function getSlugFromPath(filePath: string): string {
+  const fileName = path.basename(filePath, ".md");
+  return fileName;
+}
+
+/**
+ * 从文件路径提取日期（如果路径包含日期信息）
+ * 例如：2024/01/01/hello-world.md -> 2024-01-01
+ * 或者：2024/01/hello-world.md -> 2024-01-01（使用 01 作为日期）
+ */
+function extractDateFromPath(filePath: string): string | null {
+  const parts = filePath.split(path.sep);
+  // 查找符合 YYYY/MM/DD 或 YYYY/MM 格式的路径部分
+  const yearMatch = parts.find((part) => /^\d{4}$/.test(part));
+  if (!yearMatch) return null;
+
+  const yearIndex = parts.indexOf(yearMatch);
+  const monthPart = parts[yearIndex + 1];
+  const dayPart = parts[yearIndex + 2];
+
+  if (monthPart && /^\d{2}$/.test(monthPart)) {
+    if (dayPart && /^\d{2}$/.test(dayPart)) {
+      return `${yearMatch}-${monthPart}-${dayPart}`;
+    }
+    // 如果没有日期，使用 01
+    return `${yearMatch}-${monthPart}-01`;
+  }
+
+  return null;
+}
+
 // 获取所有文章
 export function getAllPosts(): Post[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
   }
 
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
-    .filter((fileName) => fileName.endsWith(".md"))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.md$/, "");
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContents);
+  const markdownFiles = getAllMarkdownFiles(postsDirectory);
+  const allPostsData = markdownFiles.map((relativePath) => {
+    const fullPath = path.join(postsDirectory, relativePath);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data, content } = matter(fileContents);
 
-      return {
-        slug,
-        title: data.title || slug,
-        date: data.date || "",
-        category: data.category || "未分类",
-        excerpt: data.excerpt || "",
-        content,
-        readingTime: calculateReadingTime(content),
-        coverImage: processImagePath(
-          data.coverCard || data.coverImage || undefined
-        ),
-      } as Post;
-    });
+    // 从路径提取日期作为默认值（如果 frontmatter 中没有日期）
+    const pathDate = extractDateFromPath(relativePath);
+    const slug = getSlugFromPath(relativePath);
+
+    return {
+      slug,
+      title: data.title || slug,
+      date: data.date || pathDate || "",
+      category: data.category || "未分类",
+      excerpt: data.excerpt || "",
+      content,
+      readingTime: calculateReadingTime(content),
+      coverImage: processImagePath(
+        data.coverCard || data.coverImage || undefined
+      ),
+    } as Post;
+  });
 
   return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
@@ -101,19 +166,28 @@ export function getAllCategories(): Category[] {
 
 // 根据 slug 获取文章
 export function getPostBySlug(slug: string): Post | null {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  // 递归查找匹配的文件
+  const markdownFiles = getAllMarkdownFiles(postsDirectory);
+  const matchedFile = markdownFiles.find((filePath) => {
+    const fileSlug = getSlugFromPath(filePath);
+    return fileSlug === slug;
+  });
 
-  if (!fs.existsSync(fullPath)) {
+  if (!matchedFile) {
     return null;
   }
 
+  const fullPath = path.join(postsDirectory, matchedFile);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
+
+  // 从路径提取日期作为默认值
+  const pathDate = extractDateFromPath(matchedFile);
 
   return {
     slug,
     title: data.title || slug,
-    date: data.date || "",
+    date: data.date || pathDate || "",
     category: data.category || "未分类",
     excerpt: data.excerpt || "",
     content,
@@ -130,10 +204,8 @@ export function getAllPostSlugs(): string[] {
     return [];
   }
 
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith(".md"))
-    .map((fileName) => fileName.replace(/\.md$/, ""));
+  const markdownFiles = getAllMarkdownFiles(postsDirectory);
+  return markdownFiles.map((filePath) => getSlugFromPath(filePath));
 }
 
 // 将 Markdown 转换为 HTML

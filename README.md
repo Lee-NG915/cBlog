@@ -38,20 +38,60 @@ npm run build
 
 ## 📝 如何添加文章
 
-1. 在 `content/posts` 目录下创建新的 `.md` 文件
-2. 在文件开头添加 frontmatter：
+### 文件组织结构
+
+文章应按照**日期**组织在 `content/posts/` 目录下，支持以下格式：
+
+**推荐格式（按年月日组织）**：
+```
+content/posts/
+├── 2024/
+│   ├── 01/
+│   │   ├── 01/
+│   │   │   └── hello-world.md
+│   │   └── 15/
+│   │       └── my-article.md
+```
+
+**简化格式（按年月组织）**：
+```
+content/posts/
+├── 2024/
+│   ├── 01/
+│   │   ├── hello-world.md
+│   │   └── my-article.md
+```
+
+### 创建新文章的步骤
+
+1. **创建目录结构**（如果不存在）：
+   ```bash
+   # 例如：2024年1月15日的文章
+   mkdir -p content/posts/2024/01/15
+   ```
+
+2. **创建文章文件**：
+   ```bash
+   # 文件名使用小写字母、数字和连字符
+   touch content/posts/2024/01/15/my-article.md
+   ```
+
+3. **添加 frontmatter**（在文件开头）：
 
 ```yaml
 ---
 title: 文章标题
-date: 2024-01-01
+date: 2024-01-15
 category: 技术类
 excerpt: 文章摘要（可选）
-coverCard: https://example.com/image.jpg # 封面图片 URL（可选）
+coverCard: /images/covers/tech/my-cover.jpg # 封面图片（可选）
 ---
 ```
 
-3. 然后编写你的 Markdown 内容即可
+4. **编写 Markdown 内容**：
+   在 frontmatter 后编写你的文章内容即可
+
+> 📖 详细规范请参考 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md)
 
 ### 封面图片配置
 
@@ -151,12 +191,26 @@ cBlog/
 │   ├── Footer.tsx         # 页脚
 │   └── PostCard.tsx       # 文章卡片
 ├── content/               # 内容目录
-│   └── posts/            # Markdown 文章
+│   └── posts/            # Markdown 文章（按日期组织）
+│       ├── 2024/         # 按年份组织
+│       │   ├── 01/       # 按月份组织
+│       │   │   ├── 01/   # 按日期组织
+│       │   │   │   └── hello-world.md
+│       │   │   └── 15/
+│       │   │       └── my-article.md
+│       │   └── 12/
+│       └── 2025/
 ├── lib/                   # 工具函数
-│   └── posts.ts          # 文章处理逻辑
+│   ├── posts.ts          # 文章处理逻辑
+│   └── utils.ts          # 工具函数
 ├── .github/
 │   └── workflows/        # GitHub Actions 配置
-└── public/               # 静态资源
+├── public/               # 静态资源
+│   └── images/          # 图片资源
+│       ├── covers/      # 封面图片
+│       └── posts/       # 文章内容图片
+├── CONTENT_GUIDE.md      # 内容编写规范
+└── README.md            # 项目说明
 ```
 
 ## 🛠️ 技术栈
@@ -172,6 +226,15 @@ cBlog/
 
 MIT
 
+## 📚 相关文档
+
+- [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) - 详细的内容编写规范，包括文件组织结构、Frontmatter 规范、图片使用等
+
 ## 🤝 贡献
 
 欢迎提交 Issue 和 Pull Request！
+
+在提交文章前，请确保：
+- 按照 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) 中的规范组织文件
+- Frontmatter 格式正确
+- 文件名和路径符合规范

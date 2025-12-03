@@ -1,7 +1,5 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import PostCard from "@/components/PostCard";
-import Link from "next/link";
+import BackButton from "@/components/BackButton";
 import { getPostsByCategory, getAllCategories } from "@/lib/posts";
 import { notFound } from "next/navigation";
 
@@ -29,20 +27,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="mb-6">
-          <Link
-            href="/categories"
-            className="text-primary-600 dark:text-primary-400 hover:underline mb-4 inline-block"
-          >
-            ← 返回分类
-          </Link>
-        </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-          {category}
-        </h1>
+    <>
+      <BackButton href="/categories" label="返回分类" />
+      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
+        {category}
+      </h1>
 
         {posts.length === 0 ? (
           <div className="text-center py-12">
@@ -57,8 +46,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             ))}
           </div>
         )}
-      </main>
-      <Footer />
-    </div>
+    </>
   );
 }
