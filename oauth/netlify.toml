@@ -1,0 +1,7 @@
+[build]
+  command = "echo 'No build needed'"
+  publish = "."
+
+[dev]
+  command = "node server.js"
+  port = 3000
