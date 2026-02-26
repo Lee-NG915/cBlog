@@ -2,7 +2,7 @@ backend:
   name: github
   repo: Lee-NG915/cBlog
   branch: main
-  base_url: https://preeminent-haupia-e52cc2.netlify.app
+  base_url: https://dazzling-fudge-8fab3f.netlify.app
 
 site_url: https://lee-ng915.github.io/cBlog
 display_url: https://lee-ng915.github.io/cBlog
