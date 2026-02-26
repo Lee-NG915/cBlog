@@ -8,7 +8,7 @@ export default function Footer() {
           <p>&copy; {currentYear} cBlog. 使用 Next.js 构建</p>
           <div className="flex items-center gap-4">
             <a
-              href="/admin/"
+              href="/admin/index.html"
               className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               管理后台
