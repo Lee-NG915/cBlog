@@ -2,9 +2,7 @@ backend:
   name: github
   repo: Lee-NG915/cBlog
   branch: main
-  base_url: https://decap-oauth-cblog.netlify.app
-  # ⬆️ 替换为你自己部署的 OAuth 代理地址
-  # 部署方法见 README 中的「CMS 管理后台配置」章节
+  base_url: https://preeminent-haupia-e52cc2.netlify.app
 
 site_url: https://lee-ng915.github.io/cBlog
 display_url: https://lee-ng915.github.io/cBlog
