@@ -2,12 +2,7 @@
   "name": "cblog-oauth",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
-    "express": "^4.18.0",
-    "simple-oauth2": "^5.0.0",
-    "randomstring": "^1.3.0"
+    "node-fetch": "^2.7.0"
   }
 }
