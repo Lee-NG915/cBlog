@@ -1,9 +1,10 @@
 [build]
-  base = "oauth"
-  publish = "oauth"
+  publish = "."
+  command = "npm install"
 
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/auth"
