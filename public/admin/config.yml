@@ -2,8 +2,7 @@ backend:
   name: github
   repo: Lee-NG915/cBlog
   branch: main
-  auth_type: pkce
-  app_id: Ov23liAp6khZLw0XzQwN
+  base_url: https://preeminent-haupia-e52cc2.netlify.app
 
 site_url: https://lee-ng915.github.io/cBlog
 display_url: https://lee-ng915.github.io/cBlog
