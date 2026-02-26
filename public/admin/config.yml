@@ -1,0 +1,97 @@
+backend:
+  name: github
+  repo: Lee-NG915/cBlog
+  branch: main
+  auth_type: pkce
+  app_id: "Ov23liAp6khZLw0XzQwN"
+  # 创建 OAuth App: https://github.com/settings/developers
+  # Authorization callback URL 设置为: https://api.decap-cms.org/callback
+
+publish_mode: editorial_workflow
+
+media_folder: public/images/posts
+public_folder: /images/posts
+
+site_url: https://lee-ng915.github.io/cBlog
+display_url: https://lee-ng915.github.io/cBlog
+
+locale: zh_Hans
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: posts
+    label: "博客文章"
+    label_singular: "文章"
+    folder: "content/posts"
+    path: "{{year}}/{{month}}/{{day}}/{{slug}}"
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} - {{year}}/{{month}}/{{day}}"
+    sortable_fields:
+      fields:
+        - date
+        - title
+    view_filters:
+      - label: 技术类
+        field: category
+        pattern: 技术类
+      - label: 日常生活
+        field: category
+        pattern: 日常生活
+      - label: 学习记录
+        field: category
+        pattern: 学习记录
+      - label: 旅游
+        field: category
+        pattern: 旅游
+      - label: 草稿
+        field: draft
+        pattern: true
+    fields:
+      - label: "标题"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        required: true
+      - label: "分类"
+        name: "category"
+        widget: "select"
+        options:
+          - 技术类
+          - 日常生活
+          - 学习记录
+          - 旅游
+        default: "技术类"
+        required: true
+      - label: "摘要"
+        name: "excerpt"
+        widget: "text"
+        required: false
+      - label: "封面图片"
+        name: "coverCard"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/covers"
+        public_folder: "/images/covers"
+      - label: "草稿"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        required: false
+      - label: "正文"
+        name: "body"
+        widget: "markdown"
+        required: true
