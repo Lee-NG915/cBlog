@@ -3,7 +3,7 @@ backend:
   repo: Lee-NG915/cBlog
   branch: main
   auth_type: pkce
-  app_id: ""  # 请填入你的 GitHub OAuth App 的 Client ID
+  app_id: "Ov23liAp6khZLw0XzQwN"
   # 创建 OAuth App: https://github.com/settings/developers
   # Authorization callback URL 设置为: https://api.decap-cms.org/callback
 
