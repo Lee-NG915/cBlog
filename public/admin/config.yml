@@ -2,12 +2,18 @@ backend:
   name: github
   repo: Lee-NG915/cBlog
   branch: main
-  base_url: https://decap-oauth.netlify.app
+  auth_type: pkce
+  app_id: ""  # 请填入你的 GitHub OAuth App 的 Client ID
+  # 创建 OAuth App: https://github.com/settings/developers
+  # Authorization callback URL 设置为: https://api.decap-cms.org/callback
 
 publish_mode: editorial_workflow
 
 media_folder: public/images/posts
 public_folder: /images/posts
+
+site_url: https://lee-ng915.github.io/cBlog
+display_url: https://lee-ng915.github.io/cBlog
 
 locale: zh_Hans
 
