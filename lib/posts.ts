@@ -1,19 +1,21 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeStringify from "rehype-stringify";
 
-// 处理图片路径，添加 basePath
 function processImagePath(imagePath: string | undefined): string | undefined {
   if (!imagePath) return undefined;
 
-  // 如果已经是完整 URL，直接返回
   if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
     return imagePath;
   }
 
-  // 如果路径以 / 开头，添加 basePath
   if (imagePath.startsWith("/")) {
     const basePath = process.env.BASE_PATH || "";
     return basePath + imagePath;
@@ -33,6 +35,13 @@ export interface Post {
   content: string;
   readingTime?: number;
   coverImage?: string;
+  draft?: boolean;
+}
+
+export interface TocItem {
+  id: string;
+  text: string;
+  level: number;
 }
 
 export interface Category {
@@ -40,10 +49,6 @@ export interface Category {
   count: number;
 }
 
-/**
- * 递归获取目录下所有 Markdown 文件
- * 支持按日期组织的文件夹结构：YYYY/MM/DD/slug.md 或 YYYY/MM/slug.md
- */
 function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
   if (!fs.existsSync(dir)) {
     return fileList;
@@ -56,10 +61,8 @@ function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      // 递归读取子目录
       getAllMarkdownFiles(filePath, fileList);
     } else if (file.endsWith(".md")) {
-      // 保存相对路径（相对于 postsDirectory）
       const relativePath = path.relative(postsDirectory, filePath);
       fileList.push(relativePath);
     }
@@ -68,24 +71,13 @@ function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
   return fileList;
 }
 
-/**
- * 从文件路径生成 slug
- * 例如：2024/01/01/hello-world.md -> hello-world
- * 或者：2024/01/hello-world.md -> hello-world
- */
 function getSlugFromPath(filePath: string): string {
   const fileName = path.basename(filePath, ".md");
   return fileName;
 }
 
-/**
- * 从文件路径提取日期（如果路径包含日期信息）
- * 例如：2024/01/01/hello-world.md -> 2024-01-01
- * 或者：2024/01/hello-world.md -> 2024-01-01（使用 01 作为日期）
- */
 function extractDateFromPath(filePath: string): string | null {
   const parts = filePath.split(path.sep);
-  // 查找符合 YYYY/MM/DD 或 YYYY/MM 格式的路径部分
   const yearMatch = parts.find((part) => /^\d{4}$/.test(part));
   if (!yearMatch) return null;
 
@@ -97,14 +89,12 @@ function extractDateFromPath(filePath: string): string | null {
     if (dayPart && /^\d{2}$/.test(dayPart)) {
       return `${yearMatch}-${monthPart}-${dayPart}`;
     }
-    // 如果没有日期，使用 01
     return `${yearMatch}-${monthPart}-01`;
   }
 
   return null;
 }
 
-// 获取所有文章
 export function getAllPosts(): Post[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -116,7 +106,6 @@ export function getAllPosts(): Post[] {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
 
-    // 从路径提取日期作为默认值（如果 frontmatter 中没有日期）
     const pathDate = extractDateFromPath(relativePath);
     const slug = getSlugFromPath(relativePath);
 
@@ -131,25 +120,26 @@ export function getAllPosts(): Post[] {
       coverImage: processImagePath(
         data.coverCard || data.coverImage || undefined
       ),
+      draft: data.draft || false,
     } as Post;
   });
 
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+  return allPostsData
+    .filter((post) => !post.draft)
+    .sort((a, b) => {
+      if (a.date < b.date) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
 }
 
-// 根据分类获取文章
 export function getPostsByCategory(category: string): Post[] {
   const allPosts = getAllPosts();
   return allPosts.filter((post) => post.category === category);
 }
 
-// 获取所有分类
 export function getAllCategories(): Category[] {
   const allPosts = getAllPosts();
   const categoryMap = new Map<string, number>();
@@ -164,9 +154,7 @@ export function getAllCategories(): Category[] {
     .sort((a, b) => b.count - a.count);
 }
 
-// 根据 slug 获取文章
 export function getPostBySlug(slug: string): Post | null {
-  // 递归查找匹配的文件
   const markdownFiles = getAllMarkdownFiles(postsDirectory);
   const matchedFile = markdownFiles.find((filePath) => {
     const fileSlug = getSlugFromPath(filePath);
@@ -181,7 +169,6 @@ export function getPostBySlug(slug: string): Post | null {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
-  // 从路径提取日期作为默认值
   const pathDate = extractDateFromPath(matchedFile);
 
   return {
@@ -195,10 +182,10 @@ export function getPostBySlug(slug: string): Post | null {
     coverImage: processImagePath(
       data.coverCard || data.coverImage || undefined
     ),
+    draft: data.draft || false,
   } as Post;
 }
 
-// 获取所有文章的 slug
 export function getAllPostSlugs(): string[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -208,20 +195,42 @@ export function getAllPostSlugs(): string[] {
   return markdownFiles.map((filePath) => getSlugFromPath(filePath));
 }
 
-// 将 Markdown 转换为 HTML
+export function extractToc(markdown: string): TocItem[] {
+  const headingRegex = /^(#{2,4})\s+(.+)$/gm;
+  const toc: TocItem[] = [];
+  let match;
+
+  while ((match = headingRegex.exec(markdown)) !== null) {
+    const level = match[1].length;
+    const text = match[2].trim();
+    const id = text
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fa5]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    toc.push({ id, text, level });
+  }
+
+  return toc;
+}
+
 export async function markdownToHtml(markdown: string): Promise<string> {
-  const result = await remark().use(html).process(markdown);
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, { behavior: "wrap" })
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .process(markdown);
+
   let htmlContent = result.toString();
 
-  // 处理图片路径，添加 basePath（如果需要）
   const basePath = process.env.BASE_PATH || "";
   if (basePath) {
-    // 替换所有 <img src="/... 为 <img src="{basePath}/...
     htmlContent = htmlContent.replace(
       /<img([^>]*)\ssrc="\//g,
       `<img$1 src="${basePath}/`
     );
-    // 也处理 Markdown 转换后的图片标签
     htmlContent = htmlContent.replace(
       /src="\/(images\/[^"]+)"/g,
       `src="${basePath}/$1"`
@@ -231,14 +240,12 @@ export async function markdownToHtml(markdown: string): Promise<string> {
   return htmlContent;
 }
 
-// 计算阅读时间（基于中文字符数）
 function calculateReadingTime(content: string): number {
   const chineseCharCount = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
   const englishWordCount = content
     .split(/\s+/)
     .filter((word) => /^[a-zA-Z]+$/.test(word)).length;
   const totalWords = chineseCharCount + englishWordCount;
-  // 假设阅读速度：中文 300 字/分钟，英文 200 词/分钟
   const readingTime = Math.ceil(totalWords / 250);
   return readingTime || 1;
 }

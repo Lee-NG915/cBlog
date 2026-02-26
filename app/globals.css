@@ -5,13 +5,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
   }
 
   body {
     @apply antialiased;
-    /* 添加平滑的主题切换过渡 */
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* 护眼背景色 */
     background-color: #fafafa;
   }
 
@@ -19,16 +18,18 @@
     background-color: #1a1a1a;
   }
 
-  /* 为所有元素添加颜色过渡 - 平滑的主题切换动画 */
   * {
     transition-property: color, background-color, border-color, fill, stroke;
     transition-duration: 0.3s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* 排除一些不需要过渡的元素 */
   *, *::before, *::after {
     transition-property: color, background-color, border-color, fill, stroke, opacity, transform;
+  }
+
+  ::selection {
+    @apply bg-primary-200 dark:bg-primary-800 text-primary-900 dark:text-primary-100;
   }
 }
 
@@ -38,58 +39,102 @@
   }
 
   .prose h1 {
-    @apply text-3xl md:text-4xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100;
+    @apply text-3xl md:text-4xl font-bold mt-10 mb-4 text-gray-900 dark:text-gray-100;
   }
 
   .prose h2 {
-    @apply text-2xl md:text-3xl font-semibold mt-6 mb-3 text-gray-800 dark:text-gray-200;
+    @apply text-2xl md:text-3xl font-semibold mt-8 mb-4 text-gray-800 dark:text-gray-200 pb-2 border-b border-gray-200 dark:border-gray-700;
   }
 
   .prose h3 {
-    @apply text-xl md:text-2xl font-semibold mt-4 mb-2 text-gray-800 dark:text-gray-200;
+    @apply text-xl md:text-2xl font-semibold mt-6 mb-3 text-gray-800 dark:text-gray-200;
+  }
+
+  .prose h4 {
+    @apply text-lg md:text-xl font-semibold mt-4 mb-2 text-gray-800 dark:text-gray-200;
   }
 
   .prose p {
-    @apply mb-4 leading-7 text-gray-700 dark:text-gray-300;
-    /* 护眼字体大小和行高 */
+    @apply mb-5 text-gray-700 dark:text-gray-300;
     font-size: 1.0625rem;
-    line-height: 1.75;
+    line-height: 1.8;
   }
 
   .prose ul,
   .prose ol {
-    @apply mb-4 pl-6;
+    @apply mb-5 pl-6;
+  }
+
+  .prose ul {
+    @apply list-disc;
+  }
+
+  .prose ol {
+    @apply list-decimal;
   }
 
   .prose li {
-    @apply mb-2 text-gray-700 dark:text-gray-300;
+    @apply mb-2 text-gray-700 dark:text-gray-300 leading-relaxed;
+  }
+
+  .prose li > ul,
+  .prose li > ol {
+    @apply mt-2 mb-0;
   }
 
   .prose a {
-    @apply text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 underline;
+    @apply text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 no-underline border-b border-primary-200 dark:border-primary-700 hover:border-primary-500 dark:hover:border-primary-400 transition-colors;
+  }
+
+  .prose strong {
+    @apply font-bold text-gray-900 dark:text-gray-100;
   }
 
   .prose code {
-    @apply bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-primary-700 dark:text-primary-300;
   }
 
   .prose pre {
-    @apply bg-gray-900 dark:bg-gray-950 p-4 rounded-lg overflow-x-auto mb-4;
+    @apply bg-gray-900 dark:bg-gray-950 p-4 md:p-5 rounded-xl overflow-x-auto mb-5 border border-gray-800 dark:border-gray-700;
   }
 
   .prose pre code {
-    @apply bg-transparent p-0 text-gray-100;
+    @apply bg-transparent p-0 text-gray-100 text-sm leading-relaxed;
   }
 
   .prose blockquote {
-    @apply border-l-4 border-primary-500 pl-4 italic my-4 text-gray-600 dark:text-gray-400;
+    @apply border-l-4 border-primary-400 dark:border-primary-500 pl-4 md:pl-5 py-2 my-5 bg-primary-50/50 dark:bg-primary-900/10 rounded-r-lg;
+  }
+
+  .prose blockquote p {
+    @apply text-gray-600 dark:text-gray-400 italic mb-0;
   }
 
   .prose img {
-    @apply rounded-lg my-4 max-w-full h-auto;
+    @apply rounded-xl my-6 max-w-full h-auto shadow-sm;
   }
 
   .prose hr {
-    @apply my-8 border-gray-300 dark:border-gray-700;
+    @apply my-10 border-gray-200 dark:border-gray-700;
+  }
+
+  .prose table {
+    @apply w-full mb-5 text-sm;
+  }
+
+  .prose thead {
+    @apply bg-gray-50 dark:bg-gray-800;
+  }
+
+  .prose th {
+    @apply px-4 py-3 text-left font-semibold text-gray-900 dark:text-gray-100 border-b-2 border-gray-200 dark:border-gray-700;
+  }
+
+  .prose td {
+    @apply px-4 py-3 border-b border-gray-100 dark:border-gray-800 text-gray-700 dark:text-gray-300;
+  }
+
+  .prose tbody tr:hover {
+    @apply bg-gray-50/50 dark:bg-gray-800/30;
   }
 }

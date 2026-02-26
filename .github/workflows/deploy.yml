@@ -36,6 +36,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate content
+        run: pnpm validate
+
+      - name: Lint
+        run: pnpm lint
+
       - name: Set BASE_PATH
         id: base_path
         run: |
