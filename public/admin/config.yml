@@ -3,11 +3,7 @@ backend:
   repo: Lee-NG915/cBlog
   branch: main
   auth_type: pkce
-  app_id: "Ov23liAp6khZLw0XzQwN"
-  # 创建 OAuth App: https://github.com/settings/developers
-  # Authorization callback URL 设置为: https://api.decap-cms.org/callback
-
-publish_mode: editorial_workflow
+  app_id: Ov23liAp6khZLw0XzQwN
 
 media_folder: public/images/posts
 public_folder: /images/posts
