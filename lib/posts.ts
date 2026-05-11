@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import html from "remark-html";
 import { postCategories } from "./site";
 
@@ -301,7 +302,7 @@ export function getPostStats(): PostStats {
 
 // 将 Markdown 转换为 HTML
 export async function markdownToHtml(markdown: string): Promise<string> {
-  const result = await remark().use(html).process(markdown);
+  const result = await remark().use(remarkGfm).use(html).process(markdown);
   let htmlContent = result.toString();
 
   // 处理图片路径，添加 basePath（如果需要）

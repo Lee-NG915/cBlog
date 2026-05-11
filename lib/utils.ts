@@ -37,3 +37,21 @@ export function getImagePath(path: string): string {
 
   return path;
 }
+
+export function decodePathSegment(segment: string): string {
+  let decoded = segment;
+
+  for (let i = 0; i < 3; i += 1) {
+    try {
+      const nextDecoded = decodeURIComponent(decoded);
+      if (nextDecoded === decoded) {
+        break;
+      }
+      decoded = nextDecoded;
+    } catch {
+      break;
+    }
+  }
+
+  return decoded;
+}

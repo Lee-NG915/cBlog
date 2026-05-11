@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import { getPostBySlug, getAllPostSlugs, markdownToHtml } from "@/lib/posts";
 import { notFound } from "next/navigation";
+import { decodePathSegment } from "@/lib/utils";
 
 interface PostPageProps {
   params: {
@@ -13,12 +14,13 @@ interface PostPageProps {
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
   return slugs.map((slug) => ({
-    slug,
+    slug: encodeURIComponent(slug),
   }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = getPostBySlug(params.slug);
+  const slug = decodePathSegment(params.slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();

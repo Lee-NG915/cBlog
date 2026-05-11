@@ -2,6 +2,7 @@ import PostCard from "@/components/PostCard";
 import BackButton from "@/components/BackButton";
 import { getPostsByCategory, getAllCategories } from "@/lib/posts";
 import { notFound } from "next/navigation";
+import { decodePathSegment } from "@/lib/utils";
 
 interface CategoryPageProps {
   params: {
@@ -17,7 +18,7 @@ export async function generateStaticParams() {
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = decodeURIComponent(params.category);
+  const category = decodePathSegment(params.category);
   const posts = getPostsByCategory(category);
   const allCategories = getAllCategories();
 
