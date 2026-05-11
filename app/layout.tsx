@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
-import MobileHeader from "@/components/MobileHeader";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { getAllCategories } from "@/lib/posts";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "cBlog",
-  description: "分享技术、生活、学习和旅行的点点滴滴",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -20,20 +20,14 @@ export default function RootLayout({
 
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <body className="min-h-screen bg-[#fafafa] dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-100 transition-colors duration-300">
+      <body className="min-h-screen min-w-[1180px] bg-[#f7f7f4] dark:bg-[#181818] text-gray-800 dark:text-gray-100 transition-colors duration-300">
         <ThemeProvider>
           <div className="flex min-h-screen">
-            {/* Desktop Sidebar */}
             <Sidebar categories={categories} />
 
-            {/* Main Content Area */}
-            <div className="flex flex-col flex-1 lg:pl-64">
-              {/* Mobile Header */}
-              <MobileHeader categories={categories} />
-
-              {/* Main Content */}
+            <div className="flex flex-1 flex-col pl-72">
               <main className="flex-1">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+                <div className="mx-auto w-full max-w-[1180px] px-10 py-10">
                   {children}
                 </div>
               </main>

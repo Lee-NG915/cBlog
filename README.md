@@ -1,240 +1,88 @@
-# cBlog - 个人博客网站
+# cBlog
 
-一个基于 Next.js 构建的现代化个人博客系统，支持 Markdown 格式，完全响应式设计，可自动部署到 GitHub Pages。
+基于 Next.js Static Export 的个人博客项目，部署目标是 GitHub Pages。当前重构方向只考虑 PC 端访问，内容包括技术博客、学习日志、生活随记。
 
-## ✨ 功能特点
+## 技术方向
 
-- 📝 **Markdown 支持**：直接在项目中编辑 `.md` 文件即可发布文章
-- 🏷️ **分类管理**：支持多分类，自动统计分类文章数量
-- 🖼️ **封面图片**：支持为每篇文章配置封面图片，提升视觉效果
-- 📱 **响应式设计**：完美适配移动端、平板和桌面端
-- 🚀 **自动部署**：配置 GitHub Actions，推送到 main 分支自动部署
-- ⚡ **性能优化**：静态站点生成，快速加载
-- 🎨 **现代化 UI**：使用 Tailwind CSS 构建美观的界面
+- Next.js App Router + TypeScript
+- 静态站点生成（SSG），构建产物输出到 `out/`
+- Tailwind CSS 构建 PC 端界面
+- Markdown + frontmatter 管理文章内容
+- GitHub Actions 自动部署到 GitHub Pages
 
-## 🚀 快速开始
+详细重构决策见 [docs/refactor-plan.md](./docs/refactor-plan.md)。
 
-### 安装依赖
+## 本地开发
 
 ```bash
-npm install
+pnpm install
+pnpm run dev
 ```
 
-### 本地开发
+访问 [http://localhost:3000](http://localhost:3000)。
+
+## 构建与预览
 
 ```bash
-npm run dev
+pnpm run build
+pnpm run preview
 ```
 
-访问 [http://localhost:3000](http://localhost:3000) 查看效果。
+构建产物会生成到 `out/`。`public/.nojekyll` 会随构建进入产物，保证 GitHub Pages 正常服务 `_next` 静态资源。
 
-### 构建生产版本
+## 内容目录
 
-```bash
-npm run build
+文章按日期组织：
+
+```text
+content/posts/YYYY/MM/DD/article-slug.md
 ```
 
-构建完成后，静态文件将输出到 `out` 目录。
-
-## 📝 如何添加文章
-
-### 文件组织结构
-
-文章应按照**日期**组织在 `content/posts/` 目录下，支持以下格式：
-
-**推荐格式（按年月日组织）**：
-```
-content/posts/
-├── 2024/
-│   ├── 01/
-│   │   ├── 01/
-│   │   │   └── hello-world.md
-│   │   └── 15/
-│   │       └── my-article.md
-```
-
-**简化格式（按年月组织）**：
-```
-content/posts/
-├── 2024/
-│   ├── 01/
-│   │   ├── hello-world.md
-│   │   └── my-article.md
-```
-
-### 创建新文章的步骤
-
-1. **创建目录结构**（如果不存在）：
-   ```bash
-   # 例如：2024年1月15日的文章
-   mkdir -p content/posts/2024/01/15
-   ```
-
-2. **创建文章文件**：
-   ```bash
-   # 文件名使用小写字母、数字和连字符
-   touch content/posts/2024/01/15/my-article.md
-   ```
-
-3. **添加 frontmatter**（在文件开头）：
+推荐 frontmatter：
 
 ```yaml
 ---
 title: 文章标题
-date: 2024-01-15
-category: 技术类
-excerpt: 文章摘要（可选）
-coverCard: /images/covers/tech/my-cover.jpg # 封面图片（可选）
+date: 2026-05-11
+updatedAt: 2026-05-11
+category: 技术博客
+tags:
+  - Next.js
+  - GitHub Pages
+excerpt: 文章摘要
+status: published
+coverImage: /images/example.jpg
 ---
 ```
 
-4. **编写 Markdown 内容**：
-   在 frontmatter 后编写你的文章内容即可
+固定分类：
 
-> 📖 详细规范请参考 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md)
+- 技术博客
+- 学习日志
+- 生活随记
 
-### 封面图片配置
+`status: draft` 的文章不会进入公开页面。
 
-你可以在 frontmatter 中使用 `coverCard` 字段来为文章添加封面图片：
+## 部署
 
-- **coverCard**: 封面图片的 URL（支持外部链接或本地图片路径）
-- 如果不设置 `coverCard`，文章卡片将不显示封面图片
-- 封面图片会在文章卡片顶部显示，鼠标悬停时有缩放效果
-- 建议使用 16:9 或 4:3 比例的图片以获得最佳显示效果
+仓库已配置 `.github/workflows/deploy.yml`。推送到 `main` 后，GitHub Actions 会执行：
 
-#### 使用本地图片
+1. 安装 pnpm 依赖
+2. 按仓库名设置 `BASE_PATH`
+3. 执行 `pnpm run build`
+4. 上传 `out/` 到 GitHub Pages
 
-1. **推荐目录结构**：将图片放在 `public/images/` 目录下
+GitHub 仓库的 Pages Source 需要选择 `GitHub Actions`。
 
-   ```
-   public/images/
-   ├── covers/          # 封面图片
-   │   ├── tech/       # 技术类
-   │   ├── life/       # 日常生活
-   │   ├── study/      # 学习记录
-   │   └── travel/     # 旅游
-   └── posts/          # 文章内容图片
-   ```
+## 项目结构
 
-2. **在 frontmatter 中引用**：
-
-   ```yaml
-   ---
-   title: 我的文章
-   coverCard: /images/covers/tech/nextjs-blog.jpg
-   ---
-   ```
-
-   注意：路径以 `/` 开头，从 `public` 目录开始
-
-3. **在文章内容中使用图片**：
-   ```markdown
-   ![图片描述](/images/posts/2024/my-article/image.jpg)
-   ```
-
-#### 使用外部图片
-
-也可以直接使用外部图片 URL：
-
-```yaml
----
-coverCard: https://images.unsplash.com/photo-xxx
----
+```text
+app/                  Next.js App Router 页面
+components/           PC 端展示组件
+content/posts/        Markdown 文章
+docs/refactor-plan.md 重构方案与分期边界
+lib/posts.ts          文章读取、分类、统计逻辑
+lib/site.ts           站点配置与固定分类
+public/               静态资源
 ```
 
-### 支持的文章分类
-
-- 技术类
-- 日常生活
-- 学习记录
-- 旅游
-
-你也可以在 frontmatter 中指定任何其他分类名称。
-
-## 🚀 部署到 GitHub Pages
-
-### 1. 配置 GitHub Pages
-
-1. 进入你的 GitHub 仓库
-2. 点击 `Settings` -> `Pages`
-3. 在 `Source` 中选择 `GitHub Actions`
-
-### 2. 推送代码
-
-将代码推送到 `main` 分支，GitHub Actions 会自动构建并部署：
-
-```bash
-git add .
-git commit -m "Initial commit"
-git push origin main
-```
-
-### 3. 查看部署状态
-
-在仓库的 `Actions` 标签页可以查看部署进度。部署完成后，你的博客将在以下地址访问：
-
-```
-https://<你的用户名>.github.io/<仓库名>/
-```
-
-## 📁 项目结构
-
-```
-cBlog/
-├── app/                    # Next.js App Router 页面
-│   ├── page.tsx           # 首页
-│   ├── categories/         # 分类页面
-│   ├── posts/             # 文章详情页
-│   └── about/             # 关于页面
-├── components/            # React 组件
-│   ├── Header.tsx         # 导航栏
-│   ├── Footer.tsx         # 页脚
-│   └── PostCard.tsx       # 文章卡片
-├── content/               # 内容目录
-│   └── posts/            # Markdown 文章（按日期组织）
-│       ├── 2024/         # 按年份组织
-│       │   ├── 01/       # 按月份组织
-│       │   │   ├── 01/   # 按日期组织
-│       │   │   │   └── hello-world.md
-│       │   │   └── 15/
-│       │   │       └── my-article.md
-│       │   └── 12/
-│       └── 2025/
-├── lib/                   # 工具函数
-│   ├── posts.ts          # 文章处理逻辑
-│   └── utils.ts          # 工具函数
-├── .github/
-│   └── workflows/        # GitHub Actions 配置
-├── public/               # 静态资源
-│   └── images/          # 图片资源
-│       ├── covers/      # 封面图片
-│       └── posts/       # 文章内容图片
-├── CONTENT_GUIDE.md      # 内容编写规范
-└── README.md            # 项目说明
-```
-
-## 🛠️ 技术栈
-
-- **Next.js 14** - React 框架
-- **TypeScript** - 类型安全
-- **Tailwind CSS** - 样式框架
-- **gray-matter** - Markdown frontmatter 解析
-- **remark** - Markdown 转 HTML
-- **date-fns** - 日期格式化
-
-## 📄 许可证
-
-MIT
-
-## 📚 相关文档
-
-- [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) - 详细的内容编写规范，包括文件组织结构、Frontmatter 规范、图片使用等
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-在提交文章前，请确保：
-- 按照 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) 中的规范组织文件
-- Frontmatter 格式正确
-- 文件名和路径符合规范

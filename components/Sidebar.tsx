@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { userProfile, mainNavItems, socialLinks, projectLinks } from "@/lib/navigation";
-import { getAllCategories } from "@/lib/posts";
+import {
+  userProfile,
+  mainNavItems,
+  socialLinks,
+  projectLinks,
+} from "@/lib/navigation";
 import ThemeToggle from "./ThemeToggle";
 
 // 图标组件
@@ -79,7 +83,7 @@ const MailIcon = () => (
 );
 
 interface SidebarProps {
-  categories: Array<{ name: string; count: number }>;
+  categories: Array<{ name: string; count: number; description?: string }>;
 }
 
 export default function Sidebar({ categories }: SidebarProps) {
@@ -106,12 +110,13 @@ export default function Sidebar({ categories }: SidebarProps) {
   };
 
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:border-r lg:border-gray-200 dark:lg:border-gray-700 bg-white dark:bg-[#242424] transition-colors duration-300">
+    <aside className="fixed inset-y-0 left-0 flex w-72 flex-col border-r border-gray-200 bg-white transition-colors duration-300 dark:border-gray-700 dark:bg-[#242424]">
       <div className="flex flex-col flex-grow overflow-y-auto">
         {/* 用户信息区域 */}
         <div className="flex-shrink-0 px-6 py-6 border-b border-gray-200 dark:border-gray-700">
           <Link href="/" className="flex items-center space-x-3">
             {userProfile.avatar ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={userProfile.avatar}
                 alt={userProfile.nickname || "Avatar"}
@@ -174,7 +179,9 @@ export default function Sidebar({ categories }: SidebarProps) {
                 </h3>
               </div>
               {categories.map((category) => {
-                const categoryHref = `/categories/${encodeURIComponent(category.name)}`;
+                const categoryHref = `/categories/${encodeURIComponent(
+                  category.name
+                )}`;
                 return (
                   <Link
                     key={category.name}
@@ -230,43 +237,43 @@ export default function Sidebar({ categories }: SidebarProps) {
             <div className="flex items-center space-x-4">
               {socialLinks.length > 0 &&
                 socialLinks.map((link) => {
-                if (link.icon === "github") {
+                  if (link.icon === "github") {
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        aria-label={link.label}
+                      >
+                        <GitHubIcon />
+                      </a>
+                    );
+                  }
+                  if (link.icon === "email" || link.icon === "mail") {
+                    return (
+                      <a
+                        key={link.href}
+                        href={`mailto:${link.href}`}
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        aria-label={link.label}
+                      >
+                        <MailIcon />
+                      </a>
+                    );
+                  }
                   return (
                     <a
                       key={link.href}
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-sm"
                       aria-label={link.label}
                     >
-                      <GitHubIcon />
+                      {link.label}
                     </a>
-                  );
-                }
-                if (link.icon === "email" || link.icon === "mail") {
-                  return (
-                    <a
-                      key={link.href}
-                      href={`mailto:${link.href}`}
-                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                      aria-label={link.label}
-                    >
-                      <MailIcon />
-                    </a>
-                  );
-                }
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-sm"
-                    aria-label={link.label}
-                  >
-                    {link.label}
-                  </a>
                   );
                 })}
             </div>
@@ -277,4 +284,3 @@ export default function Sidebar({ categories }: SidebarProps) {
     </aside>
   );
 }
-

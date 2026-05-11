@@ -1,27 +1,24 @@
 export default function AboutPage() {
   return (
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-        关于我
-      </h1>
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-              欢迎来到我的个人博客！这里记录着我的技术学习、日常生活、旅行见闻等各种内容。
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              我会在这里分享：
-            </p>
-            <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
-              <li>技术类文章：编程、开发、工具使用等</li>
-              <li>日常生活：生活感悟、日常记录</li>
-              <li>学习记录：学习笔记、知识总结</li>
-              <li>旅游：旅行见闻、游记分享</li>
-            </ul>
-            <p className="text-gray-700 dark:text-gray-300">
-              希望这些内容能对你有所帮助或启发。如果你有任何问题或建议，欢迎通过
-              GitHub 联系我！
-            </p>
-          </div>
+    <div className="mx-auto max-w-4xl">
+      <header className="mb-8 rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
+        <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
+          About
+        </p>
+        <h1 className="mt-2 text-4xl font-bold text-gray-950 dark:text-gray-50">
+          关于我
+        </h1>
+      </header>
+      <div className="prose max-w-none rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-[#242424]">
+        <p>
+          这里记录我的技术实践、学习过程和生活随记。文章会按“技术博客”“学习日志”“生活随记”三个方向组织，方便长期沉淀和回看。
+        </p>
+        <ul>
+          <li>技术博客：工程实践、问题排查、架构取舍和工具链笔记。</li>
+          <li>学习日志：阶段性学习记录、读书笔记和知识整理。</li>
+          <li>生活随记：日常观察、旅行、兴趣和个人状态记录。</li>
+        </ul>
+      </div>
     </div>
   );
 }

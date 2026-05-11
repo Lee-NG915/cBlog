@@ -29,11 +29,11 @@ export interface UserProfile {
 // 用户信息（预留字段，后续可以配置）
 export const userProfile: UserProfile = {
   id: undefined, // 预留字段
-  name: undefined,
-  nickname: "Color", // 默认昵称，可以在后续配置中修改
+  name: siteConfig.author,
+  nickname: siteConfig.author,
   email: undefined,
   avatar: undefined,
-  bio: undefined,
+  bio: siteConfig.description,
 };
 
 // 主导航项
@@ -42,6 +42,11 @@ export const mainNavItems: NavItem[] = [
     label: "首页",
     href: "/",
     icon: "home",
+  },
+  {
+    label: "分类",
+    href: "/categories",
+    icon: "folder",
   },
   {
     label: "关于我",
@@ -64,4 +69,5 @@ export const socialLinks: SocialLink[] = [
 export const projectLinks: NavItem[] = [
   // 后续可以添加项目链接
 ];
+import { siteConfig } from "./site";
 

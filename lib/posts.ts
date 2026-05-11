@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import { postCategories } from "./site";
 
 // 处理图片路径，添加 basePath
 function processImagePath(imagePath: string | undefined): string | undefined {
@@ -28,9 +29,12 @@ export interface Post {
   slug: string;
   title: string;
   date: string;
+  updatedAt?: string;
   category: string;
+  tags: string[];
   excerpt?: string;
   content: string;
+  status: "published" | "draft";
   readingTime?: number;
   coverImage?: string;
 }
@@ -38,6 +42,16 @@ export interface Post {
 export interface Category {
   name: string;
   count: number;
+  description: string;
+}
+
+export interface PostStats {
+  total: number;
+  published: number;
+  draft: number;
+  categories: Category[];
+  tags: Array<{ name: string; count: number }>;
+  readingMinutes: number;
 }
 
 /**
@@ -120,27 +134,61 @@ export function getAllPosts(): Post[] {
     const pathDate = extractDateFromPath(relativePath);
     const slug = getSlugFromPath(relativePath);
 
-    return {
+    return normalizePost({
       slug,
       title: data.title || slug,
       date: data.date || pathDate || "",
+      updatedAt: data.updatedAt || undefined,
       category: data.category || "未分类",
       excerpt: data.excerpt || "",
       content,
-      readingTime: calculateReadingTime(content),
+      tags: normalizeTags(data.tags),
+      status: data.status === "draft" ? "draft" : "published",
       coverImage: processImagePath(
         data.coverCard || data.coverImage || undefined
       ),
-    } as Post;
+    });
   });
 
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
+  return allPostsData
+    .filter((post) => post.status === "published")
+    .sort((a, b) => {
+      if (a.date < b.date) {
+        return 1;
+      }
       return -1;
-    }
-  });
+    });
+}
+
+export function getAllPostsIncludingDrafts(): Post[] {
+  if (!fs.existsSync(postsDirectory)) {
+    return [];
+  }
+
+  return getAllMarkdownFiles(postsDirectory)
+    .map((relativePath) => {
+      const fullPath = path.join(postsDirectory, relativePath);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const { data, content } = matter(fileContents);
+      const pathDate = extractDateFromPath(relativePath);
+      const slug = getSlugFromPath(relativePath);
+
+      return normalizePost({
+        slug,
+        title: data.title || slug,
+        date: data.date || pathDate || "",
+        updatedAt: data.updatedAt || undefined,
+        category: data.category || "未分类",
+        excerpt: data.excerpt || "",
+        content,
+        tags: normalizeTags(data.tags),
+        status: data.status === "draft" ? "draft" : "published",
+        coverImage: processImagePath(
+          data.coverCard || data.coverImage || undefined
+        ),
+      });
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 // 根据分类获取文章
@@ -159,9 +207,23 @@ export function getAllCategories(): Category[] {
     categoryMap.set(post.category, count + 1);
   });
 
-  return Array.from(categoryMap.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count);
+  const categories = postCategories.map((category) => ({
+    name: category.name,
+    description: category.description,
+    count: categoryMap.get(category.name) || 0,
+  }));
+
+  const customCategories = Array.from(categoryMap.entries())
+    .filter(
+      ([name]) => !postCategories.some((category) => category.name === name)
+    )
+    .map(([name, count]) => ({
+      name,
+      count,
+      description: "未归入固定分类的文章。",
+    }));
+
+  return [...categories, ...customCategories].sort((a, b) => b.count - a.count);
 }
 
 // 根据 slug 获取文章
@@ -184,18 +246,22 @@ export function getPostBySlug(slug: string): Post | null {
   // 从路径提取日期作为默认值
   const pathDate = extractDateFromPath(matchedFile);
 
-  return {
+  const post = normalizePost({
     slug,
     title: data.title || slug,
     date: data.date || pathDate || "",
+    updatedAt: data.updatedAt || undefined,
     category: data.category || "未分类",
     excerpt: data.excerpt || "",
     content,
-    readingTime: calculateReadingTime(content),
+    tags: normalizeTags(data.tags),
+    status: data.status === "draft" ? "draft" : "published",
     coverImage: processImagePath(
       data.coverCard || data.coverImage || undefined
     ),
-  } as Post;
+  });
+
+  return post.status === "published" ? post : null;
 }
 
 // 获取所有文章的 slug
@@ -204,8 +270,33 @@ export function getAllPostSlugs(): string[] {
     return [];
   }
 
-  const markdownFiles = getAllMarkdownFiles(postsDirectory);
-  return markdownFiles.map((filePath) => getSlugFromPath(filePath));
+  return getAllPosts().map((post) => post.slug);
+}
+
+export function getPostStats(): PostStats {
+  const allPosts = getAllPostsIncludingDrafts();
+  const publishedPosts = allPosts.filter((post) => post.status === "published");
+  const tagMap = new Map<string, number>();
+
+  publishedPosts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+    });
+  });
+
+  return {
+    total: allPosts.length,
+    published: publishedPosts.length,
+    draft: allPosts.length - publishedPosts.length,
+    categories: getAllCategories(),
+    tags: Array.from(tagMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count),
+    readingMinutes: publishedPosts.reduce(
+      (total, post) => total + (post.readingTime || 0),
+      0
+    ),
+  };
 }
 
 // 将 Markdown 转换为 HTML
@@ -241,4 +332,26 @@ function calculateReadingTime(content: string): number {
   // 假设阅读速度：中文 300 字/分钟，英文 200 词/分钟
   const readingTime = Math.ceil(totalWords / 250);
   return readingTime || 1;
+}
+
+function normalizeTags(tags: unknown): string[] {
+  if (Array.isArray(tags)) {
+    return tags.map(String).filter(Boolean);
+  }
+
+  if (typeof tags === "string") {
+    return tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function normalizePost(post: Omit<Post, "readingTime">): Post {
+  return {
+    ...post,
+    readingTime: calculateReadingTime(post.content),
+  };
 }

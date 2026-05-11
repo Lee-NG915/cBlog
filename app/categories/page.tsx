@@ -6,40 +6,66 @@ export default function CategoriesPage() {
   const allPosts = getAllPosts();
 
   return (
-    <>
-      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-        文章分类
-      </h1>
+    <div className="space-y-8">
+      <header>
+        <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
+          Taxonomy
+        </p>
+        <h1 className="mt-2 text-4xl font-bold text-gray-950 dark:text-gray-50">
+          文章分类
+        </h1>
+      </header>
 
-        {categories.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              还没有分类，快去创建文章吧！
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category) => {
-              const categoryPosts = allPosts.filter(
-                (post) => post.category === category.name
-              );
-              return (
-                <Link
-                  key={category.name}
-                  href={`/categories/${encodeURIComponent(category.name)}`}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-200 dark:border-gray-700"
-                >
-                  <h2 className="text-xl md:text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">
-                    {category.name}
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {category.count} 篇文章
-                  </p>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-    </>
+      {categories.length === 0 ? (
+        <div className="rounded-lg border border-dashed border-gray-300 bg-white py-16 text-center dark:border-gray-700 dark:bg-[#242424]">
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            还没有分类，快去创建文章吧！
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-6">
+          {categories.map((category) => {
+            const categoryPosts = allPosts.filter(
+              (post) => post.category === category.name
+            );
+
+            return (
+              <Link
+                key={category.name}
+                href={`/categories/${encodeURIComponent(category.name)}`}
+                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md dark:border-gray-700 dark:bg-[#242424] dark:hover:border-primary-700"
+              >
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-950 dark:text-gray-50">
+                      {category.name}
+                    </h2>
+                    <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                      {category.description}
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                    {category.count}
+                  </span>
+                </div>
+                <div className="space-y-3 border-t border-gray-100 pt-5 dark:border-gray-800">
+                  {categoryPosts.slice(0, 3).map((post) => (
+                    <p
+                      key={post.slug}
+                      className="truncate text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      {post.title}
+                    </p>
+                  ))}
+                  {categoryPosts.length === 0 && (
+                    <p className="text-sm text-gray-400">暂无文章</p>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }

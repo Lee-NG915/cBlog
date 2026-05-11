@@ -1,8 +1,14 @@
 ---
 title: 使用 Next.js 搭建个人博客
 date: 2024-01-02
-category: 技术类
-excerpt: 详细介绍如何使用 Next.js 14、TypeScript 和 Markdown 搭建一个现代化的个人博客网站，包括静态站点生成、响应式布局、主题切换等核心功能。
+updatedAt: 2026-05-11
+category: 技术博客
+tags:
+  - Next.js
+  - GitHub Pages
+  - 静态站点
+status: published
+excerpt: 详细介绍如何使用 Next.js 14、TypeScript 和 Markdown 搭建一个部署到 GitHub Pages 的静态个人博客。
 coverCard: https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop
 ---
 
@@ -43,9 +49,7 @@ cBlog/
 │   │   └── [slug]/        # 文章详情页
 │   └── about/             # 关于页面
 ├── components/            # React 组件
-│   ├── Sidebar.tsx        # 桌面端侧边栏
-│   ├── MobileHeader.tsx   # 移动端顶部栏
-│   ├── MobileDrawer.tsx   # 移动端抽屉菜单
+│   ├── Sidebar.tsx        # PC 端侧边栏
 │   ├── PostCard.tsx       # 文章卡片
 │   ├── ThemeProvider.tsx  # 主题提供者
 │   └── ThemeToggle.tsx    # 主题切换按钮
@@ -197,25 +201,18 @@ export default async function PostPage({ params }: PostPageProps) {
 3. 为每篇文章生成静态 HTML 页面
 4. 输出到 `out/` 目录
 
-### 6. 响应式布局设计
+### 6. PC 端布局设计
 
-采用现代化响应式布局：
+当前项目只考虑 PC 端用户，采用固定侧边栏和主内容区：
 
-- **桌面端（≥1024px）**：左侧固定侧边栏 + 主内容区域
-- **移动端（<1024px）**：顶部固定导航栏 + 抽屉菜单 + 主内容区域
+- 左侧固定侧边栏：导航、分类、社交链接、主题切换
+- 右侧主内容区：首页概览、分类列表、文章详情
 
 ```typescript
 // app/layout.tsx
 <div className="flex min-h-screen">
-  {/* Desktop Sidebar */}
   <Sidebar categories={categories} />
-  
-  {/* Main Content Area */}
-  <div className="flex flex-col flex-1 lg:pl-64">
-    {/* Mobile Header */}
-    <MobileHeader categories={categories} />
-    
-    {/* Main Content */}
+  <div className="flex flex-1 flex-col pl-72">
     <main className="flex-1">
       {children}
     </main>
@@ -313,6 +310,6 @@ npm run build
 
 1. **完整的类型安全**：使用 TypeScript，减少运行时错误
 2. **性能优化**：静态站点生成，首屏加载快
-3. **用户体验**：响应式设计、主题切换、平滑动画
+3. **用户体验**：PC 端布局、主题切换、平滑动画
 4. **易于维护**：清晰的文件组织结构，规范的代码风格
 5. **SEO 友好**：所有内容都在 HTML 中，搜索引擎友好

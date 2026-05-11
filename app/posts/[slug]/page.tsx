@@ -27,12 +27,10 @@ export default async function PostPage({ params }: PostPageProps) {
   const content = await markdownToHtml(post.content);
 
   return (
-    <article className="max-w-4xl mx-auto">
-      {/* Back Button */}
+    <article className="mx-auto max-w-4xl">
       <BackButton href="/" label="返回首页" />
 
-      {/* Post Header */}
-      <header className="mb-8">
+      <header className="mb-8 rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
         <div className="flex items-center space-x-4 mb-4">
           <span className="inline-block px-3 py-1 text-sm font-semibold text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 rounded-full">
             {post.category}
@@ -43,21 +41,43 @@ export default async function PostPage({ params }: PostPageProps) {
             </span>
           )}
         </div>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+        <h1 className="mb-4 text-5xl font-bold leading-tight text-gray-950 dark:text-gray-50">
           {post.title}
         </h1>
-        {post.date && (
-          <time className="text-gray-500 dark:text-gray-400">
-            {format(new Date(post.date), "yyyy年MM月dd日", {
-              locale: zhCN,
-            })}
-          </time>
+        <div className="flex items-center gap-5 text-sm text-gray-500 dark:text-gray-400">
+          {post.date && (
+            <time>
+              发布于{" "}
+              {format(new Date(post.date), "yyyy年MM月dd日", {
+                locale: zhCN,
+              })}
+            </time>
+          )}
+          {post.updatedAt && (
+            <time>
+              更新于{" "}
+              {format(new Date(post.updatedAt), "yyyy年MM月dd日", {
+                locale: zhCN,
+              })}
+            </time>
+          )}
+        </div>
+        {post.tags.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </header>
 
-      {/* Post Content */}
       <div
-        className="prose prose-lg dark:prose-invert max-w-none"
+        className="prose max-w-none rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-[#242424]"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     </article>

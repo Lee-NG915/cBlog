@@ -9,10 +9,8 @@
 
   body {
     @apply antialiased;
-    /* 添加平滑的主题切换过渡 */
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* 护眼背景色 */
-    background-color: #fafafa;
+    background-color: #f7f7f4;
   }
 
   body.dark {
@@ -38,15 +36,15 @@
   }
 
   .prose h1 {
-    @apply text-3xl md:text-4xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100;
+    @apply mt-8 mb-4 text-4xl font-bold text-gray-900 dark:text-gray-100;
   }
 
   .prose h2 {
-    @apply text-2xl md:text-3xl font-semibold mt-6 mb-3 text-gray-800 dark:text-gray-200;
+    @apply mt-7 mb-3 text-3xl font-semibold text-gray-800 dark:text-gray-200;
   }
 
   .prose h3 {
-    @apply text-xl md:text-2xl font-semibold mt-4 mb-2 text-gray-800 dark:text-gray-200;
+    @apply mt-5 mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-200;
   }
 
   .prose p {
@@ -74,7 +72,7 @@
   }
 
   .prose pre {
-    @apply bg-gray-900 dark:bg-gray-950 p-4 rounded-lg overflow-x-auto mb-4;
+    @apply mb-5 overflow-x-auto rounded-lg bg-gray-900 p-5 dark:bg-gray-950;
   }
 
   .prose pre code {
