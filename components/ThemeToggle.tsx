@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 
-// 月亮图标（夜晚模式）
 const MoonIcon = () => (
   <svg
     className="w-5 h-5"
@@ -18,7 +17,6 @@ const MoonIcon = () => (
   </svg>
 );
 
-// 太阳图标（白天模式）
 const SunIcon = () => (
   <svg
     className="w-5 h-5"
@@ -42,12 +40,11 @@ export default function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  // 在未挂载时返回占位符，避免服务端渲染错误
   if (!mounted) {
     return (
       <button
         className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted dark:text-gray-300"
-        aria-label="主题切换"
+        aria-label="Toggle theme"
         disabled
       >
         <div className="relative w-5 h-5">
@@ -61,7 +58,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted transition-all duration-200 hover:bg-background-light hover:text-primary-800 active:scale-95 dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-primary-200"
-      aria-label={theme === "light" ? "切换到深色模式" : "切换到浅色模式"}
+      aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
     >
       <div className="relative w-5 h-5">
         <span

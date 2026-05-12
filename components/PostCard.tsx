@@ -10,7 +10,7 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="flex min-h-[360px] flex-col overflow-hidden rounded-3xl border border-line-light bg-surface-light transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800">
+    <article className="flex min-h-[320px] flex-col overflow-hidden rounded-3xl border border-line-light bg-surface-light transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]">
       <Link href={`/posts/${post.slug}`} className="flex flex-col flex-grow">
         {post.coverImage && (
           <div className="relative h-44 w-full overflow-hidden bg-primary-50 dark:bg-primary-900/20">
@@ -31,7 +31,7 @@ export default function PostCard({ post }: PostCardProps) {
             </span>
             <time className="text-sm text-ink-soft dark:text-gray-500">
               {post.date &&
-                format(new Date(post.date), "yyyy年MM月dd日", { locale: zhCN })}
+                format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
             </time>
           </div>
           <h2 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">
@@ -55,9 +55,9 @@ export default function PostCard({ post }: PostCardProps) {
             </div>
           )}
           <div className="mt-auto flex items-center justify-between text-sm text-ink-soft dark:text-gray-500">
-            <span>阅读时间: {post.readingTime || 1} 分钟</span>
+            <span>{post.readingTime || 1} min read</span>
             <span className="text-primary-700 hover:underline dark:text-primary-300">
-              阅读更多 →
+              Read more →
             </span>
           </div>
         </div>

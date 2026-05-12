@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Serif_SC } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -11,9 +11,9 @@ const sans = Inter({
   display: "swap",
 });
 
-const display = Noto_Serif_SC({
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["600", "700", "900"],
+  weight: ["600", "700"],
   variable: "--font-display",
   display: "swap",
 });
@@ -36,7 +36,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="min-h-screen">
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1120px] px-6 py-12">
+            <main className="mx-auto w-full max-w-[1120px] px-4 py-8 sm:px-6 sm:py-12">
               {children}
             </main>
           </div>

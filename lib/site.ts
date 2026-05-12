@@ -1,25 +1,25 @@
 export const siteConfig = {
   name: "Color Blog",
-  title: "Color&apos;s Blog",
-  description: "personal space",
+  title: "Color's Blog",
+  description: "Personal space for product thinking, engineering notes, and long-term learning.",
   author: "Color",
 };
 
 export const postCategories = [
   {
     slug: "technical",
-    name: "工程实践",
-    description: "前端工程、部署流程、工具链和架构取舍的实战记录。",
+    name: "Engineering",
+    description: "Frontend engineering, deployment notes, tooling, and architecture tradeoffs.",
   },
   {
     slug: "learning",
-    name: "产品分析",
-    description: "从数据、用户行为和业务目标中形成可行动的产品判断。",
+    name: "Product",
+    description: "Product judgment shaped by data, user behavior, and business goals.",
   },
   {
     slug: "life",
-    name: "生活观察",
-    description: "非工作语境下的长期观察、阅读、兴趣和个人状态记录。",
+    name: "Life",
+    description: "Personal observations, reading notes, interests, and life outside work.",
   },
 ] as const;
 

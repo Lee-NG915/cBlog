@@ -15,7 +15,7 @@ export default function EssayListItem({ post }: EssayListItemProps) {
     >
       <div className="space-y-2 text-sm text-ink-muted dark:text-gray-400">
         <p>{post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}</p>
-        <p>{post.readingTime || 1} 分钟</p>
+        <p>{post.readingTime || 1} min read</p>
       </div>
 
       <div>

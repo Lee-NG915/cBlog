@@ -34,9 +34,9 @@ export default function ReadingPathCard({
       </p>
 
       <div className="mt-auto border-t border-line-light pt-4 dark:border-line-dark">
-        <p className="text-xs text-ink-soft dark:text-gray-500">最近文章</p>
+        <p className="text-xs text-ink-soft dark:text-gray-500">Latest post</p>
         <p className="mt-1 truncate text-sm font-medium text-ink dark:text-gray-100">
-          {latestPost?.title || "等待新的笔记"}
+          {latestPost?.title || "No posts yet"}
         </p>
       </div>
     </Link>

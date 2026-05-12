@@ -11,22 +11,22 @@ export default function CategoriesPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
           Reading paths
         </p>
-        <h1 className="mt-3 font-display text-5xl font-black tracking-[-0.04em] text-ink dark:text-gray-50">
-          研究路径
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.04em] text-ink dark:text-gray-50 sm:text-6xl">
+          Reading paths
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300">
-          按长期主题组织文章，让产品分析、工程实践和生活观察各自形成可回看的线索。
+          Browse notes by long-running themes across product, engineering, and life.
         </p>
       </header>
 
       {categories.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
           <p className="text-lg text-ink-muted dark:text-gray-400">
-            还没有分类，快去创建文章吧！
+            No paths yet.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => {
             const categoryPosts = allPosts.filter(
               (post) => post.category === category.name
@@ -61,7 +61,7 @@ export default function CategoriesPage() {
                     </p>
                   ))}
                   {categoryPosts.length === 0 && (
-                    <p className="text-sm text-ink-soft dark:text-gray-500">暂无文章</p>
+                    <p className="text-sm text-ink-soft dark:text-gray-500">No posts yet</p>
                   )}
                 </div>
               </Link>

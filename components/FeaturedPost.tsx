@@ -12,9 +12,9 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
   return (
     <Link
       href={`/posts/${post.slug}`}
-      className="group grid min-h-[360px] grid-cols-[0.95fr_1.05fr] overflow-hidden rounded-[2rem] border border-line-light bg-surface-light transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
+      className="group grid overflow-hidden rounded-[2rem] border border-line-light bg-surface-light transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[360px] md:grid-cols-[0.95fr_1.05fr]"
     >
-      <div className="relative min-h-[360px] overflow-hidden bg-ink dark:bg-black">
+      <div className="relative min-h-[220px] overflow-hidden bg-ink dark:bg-black sm:min-h-[300px] md:min-h-[360px]">
         {post.coverImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -45,7 +45,7 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
         </div>
       </div>
 
-      <div className="flex flex-col p-9">
+      <div className="flex flex-col p-6 sm:p-8 md:p-9">
         <div className="mb-6 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-primary-700 dark:text-primary-300">
           <span>Featured note</span>
           <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
@@ -54,7 +54,7 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
           </time>
         </div>
 
-        <h2 className="max-w-2xl font-display text-5xl font-bold leading-[1.12] tracking-[-0.04em] text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+        <h2 className="max-w-2xl font-display text-4xl font-bold leading-[1.12] tracking-[-0.04em] text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-5xl">
           {post.title}
         </h2>
 
@@ -79,7 +79,7 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
             {post.readingTime || 1} min read
           </span>
           <span className="font-medium text-primary-800 transition group-hover:translate-x-1 dark:text-primary-200">
-            进入文章 →
+            Read post →
           </span>
         </div>
       </div>
