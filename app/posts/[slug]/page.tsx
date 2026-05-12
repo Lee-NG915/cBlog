@@ -29,11 +29,11 @@ export default async function PostPage({ params }: PostPageProps) {
   const content = await markdownToHtml(post.content);
 
   return (
-    <article>
+    <article className="min-w-0 overflow-hidden">
       <BackButton href="/" label="Back home" />
 
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,780px)_260px]">
-        <div>
+      <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,780px)_260px]">
+        <div className="min-w-0">
           <header className="mb-10 border-b border-line-light pb-10 dark:border-line-dark">
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
@@ -46,12 +46,12 @@ export default async function PostPage({ params }: PostPageProps) {
               )}
             </div>
 
-            <h1 className="font-display text-5xl font-bold leading-[1.08] tracking-[-0.05em] text-ink dark:text-gray-50 sm:text-6xl">
+            <h1 className="break-words font-display text-5xl font-bold leading-[1.08] tracking-[-0.05em] text-ink dark:text-gray-50 sm:text-6xl">
               {post.title}
             </h1>
 
             {post.excerpt && (
-              <p className="mt-6 text-xl leading-9 text-ink-muted dark:text-gray-300">
+              <p className="mt-6 break-words text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
                 {post.excerpt}
               </p>
             )}
@@ -77,7 +77,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </header>
 
           <div
-            className="prose rounded-3xl border border-line-light bg-surface-light p-8 dark:border-line-dark dark:bg-surface-dark"
+            className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

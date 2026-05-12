@@ -32,6 +32,8 @@
 @layer components {
   .prose {
     @apply max-w-none;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .prose h1 {
@@ -50,6 +52,15 @@
     @apply mb-5 text-ink/90 dark:text-gray-300;
     font-size: 1.0625rem;
     line-height: 1.85;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose p,
+  .prose li {
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .prose ul,
@@ -72,11 +83,14 @@
   }
 
   .prose pre {
-    @apply mb-6 overflow-x-auto rounded-2xl bg-gray-950 p-6 dark:bg-black;
+    @apply mb-6 max-w-full overflow-x-auto rounded-2xl bg-gray-950 p-6 dark:bg-black;
   }
 
   .prose pre code {
     @apply bg-transparent p-0 text-gray-100;
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .prose blockquote {
@@ -84,7 +98,7 @@
   }
 
   .prose table {
-    @apply my-8 block w-full overflow-x-auto rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
+    @apply my-8 block max-w-full overflow-x-auto rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
   }
 
   .prose thead {
