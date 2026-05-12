@@ -1,3 +1,5 @@
+import { siteConfig } from "./site";
+
 // 导航配置
 export interface NavItem {
   label: string;
@@ -44,7 +46,7 @@ export const mainNavItems: NavItem[] = [
     icon: "home",
   },
   {
-    label: "分类",
+    label: "研究路径",
     href: "/categories",
     icon: "folder",
   },
@@ -69,5 +71,3 @@ export const socialLinks: SocialLink[] = [
 export const projectLinks: NavItem[] = [
   // 后续可以添加项目链接
 ];
-import { siteConfig } from "./site";
-

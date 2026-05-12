@@ -1,22 +1,22 @@
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl">
-      <header className="mb-8 rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
-        <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
+      <header className="mb-8 border-b border-line-light pb-8 dark:border-line-dark">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
           About
         </p>
-        <h1 className="mt-2 text-4xl font-bold text-gray-950 dark:text-gray-50">
+        <h1 className="mt-3 text-5xl font-bold tracking-tight text-ink dark:text-gray-50">
           关于我
         </h1>
       </header>
-      <div className="prose max-w-none rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-[#242424]">
+      <div className="prose rounded-3xl border border-line-light bg-surface-light p-8 dark:border-line-dark dark:bg-surface-dark">
         <p>
-          这里记录我的技术实践、学习过程和生活随记。文章会按“技术博客”“学习日志”“生活随记”三个方向组织，方便长期沉淀和回看。
+          这里记录我的产品分析、工程实践和生活观察。文章会按“产品分析”“工程实践”“生活观察”三个方向组织，方便长期沉淀和回看。
         </p>
         <ul>
-          <li>技术博客：工程实践、问题排查、架构取舍和工具链笔记。</li>
-          <li>学习日志：阶段性学习记录、读书笔记和知识整理。</li>
-          <li>生活随记：日常观察、旅行、兴趣和个人状态记录。</li>
+          <li>产品分析：从数据、用户行为和业务目标中形成产品判断。</li>
+          <li>工程实践：前端工程、部署流程、工具链和架构取舍。</li>
+          <li>生活观察：非工作语境下的长期观察、阅读和个人状态。</li>
         </ul>
       </div>
     </div>

@@ -46,7 +46,7 @@ export default function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 dark:text-gray-300"
+        className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted dark:text-gray-300"
         aria-label="主题切换"
         disabled
       >
@@ -60,7 +60,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95"
+      className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted transition-all duration-200 hover:bg-background-light hover:text-primary-800 active:scale-95 dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-primary-200"
       aria-label={theme === "light" ? "切换到深色模式" : "切换到浅色模式"}
     >
       <div className="relative w-5 h-5">

@@ -8,9 +8,8 @@
   }
 
   body {
-    @apply antialiased;
+    @apply bg-background-light text-ink antialiased dark:bg-background-dark dark:text-gray-100;
     transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: #f7f7f4;
   }
 
   body.dark {
@@ -36,22 +35,21 @@
   }
 
   .prose h1 {
-    @apply mt-8 mb-4 text-4xl font-bold text-gray-900 dark:text-gray-100;
+    @apply mb-5 mt-10 text-4xl font-bold tracking-tight text-ink dark:text-gray-100;
   }
 
   .prose h2 {
-    @apply mt-7 mb-3 text-3xl font-semibold text-gray-800 dark:text-gray-200;
+    @apply mb-4 mt-12 border-t border-line-light pt-8 text-2xl font-semibold tracking-tight text-ink dark:border-line-dark dark:text-gray-100;
   }
 
   .prose h3 {
-    @apply mt-5 mb-2 text-2xl font-semibold text-gray-800 dark:text-gray-200;
+    @apply mb-3 mt-8 text-xl font-semibold text-ink dark:text-gray-100;
   }
 
   .prose p {
-    @apply mb-4 leading-7 text-gray-700 dark:text-gray-300;
-    /* 护眼字体大小和行高 */
+    @apply mb-5 text-ink/90 dark:text-gray-300;
     font-size: 1.0625rem;
-    line-height: 1.75;
+    line-height: 1.85;
   }
 
   .prose ul,
@@ -60,19 +58,21 @@
   }
 
   .prose li {
-    @apply mb-2 text-gray-700 dark:text-gray-300;
+    @apply mb-2 text-ink/90 dark:text-gray-300;
+    font-size: 1.0625rem;
+    line-height: 1.75;
   }
 
   .prose a {
-    @apply text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 underline;
+    @apply font-medium text-primary-700 underline decoration-primary-200 underline-offset-4 hover:text-primary-900 dark:text-primary-300 dark:decoration-primary-800 dark:hover:text-primary-100;
   }
 
   .prose code {
-    @apply bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply rounded bg-primary-50 px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-gray-800 dark:text-gray-100;
   }
 
   .prose pre {
-    @apply mb-5 overflow-x-auto rounded-lg bg-gray-900 p-5 dark:bg-gray-950;
+    @apply mb-6 overflow-x-auto rounded-2xl bg-gray-950 p-6 dark:bg-black;
   }
 
   .prose pre code {
@@ -80,20 +80,20 @@
   }
 
   .prose blockquote {
-    @apply border-l-4 border-primary-500 pl-4 italic my-4 text-gray-600 dark:text-gray-400;
+    @apply my-6 border-l-4 border-primary-600 bg-primary-50/70 py-4 pl-5 pr-6 italic text-ink/80 dark:bg-primary-900/20 dark:text-gray-300;
   }
 
   .prose table {
-    @apply my-6 block w-full overflow-x-auto border-collapse text-sm text-gray-700 dark:text-gray-300;
+    @apply my-8 block w-full overflow-x-auto rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
   }
 
   .prose thead {
-    @apply bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100;
+    @apply bg-primary-50 text-ink dark:bg-gray-800 dark:text-gray-100;
   }
 
   .prose th,
   .prose td {
-    @apply whitespace-nowrap border border-gray-200 px-4 py-2.5 text-left align-top dark:border-gray-700;
+    @apply whitespace-nowrap border-b border-r border-line-light px-4 py-3 text-left align-top dark:border-line-dark;
   }
 
   .prose th {
@@ -106,14 +106,14 @@
   }
 
   .prose tbody tr:nth-child(even) {
-    @apply bg-gray-50 dark:bg-gray-800/40;
+    @apply bg-white/60 dark:bg-gray-800/40;
   }
 
   .prose img {
-    @apply rounded-lg my-4 max-w-full h-auto;
+    @apply my-6 h-auto max-w-full rounded-2xl;
   }
 
   .prose hr {
-    @apply my-8 border-gray-300 dark:border-gray-700;
+    @apply my-10 border-line-light dark:border-line-dark;
   }
 }

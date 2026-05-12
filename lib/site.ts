@@ -1,25 +1,25 @@
 export const siteConfig = {
   name: "Color Blog",
-  title: "Color 的个人博客",
-  description: "记录技术实践、学习过程和生活随记。",
+  title: "Color's Field Notes",
+  description: "用产品分析和工程实践，记录问题如何被拆解、验证和落地。",
   author: "Color",
 };
 
 export const postCategories = [
   {
     slug: "technical",
-    name: "技术博客",
-    description: "工程实践、问题排查、架构取舍和工具链笔记。",
+    name: "工程实践",
+    description: "前端工程、部署流程、工具链和架构取舍的实战记录。",
   },
   {
     slug: "learning",
-    name: "学习日志",
-    description: "阶段性学习记录、读书笔记、课程复盘和知识整理。",
+    name: "产品分析",
+    description: "从数据、用户行为和业务目标中形成可行动的产品判断。",
   },
   {
     slug: "life",
-    name: "生活随记",
-    description: "日常观察、旅行、兴趣和个人状态记录。",
+    name: "生活观察",
+    description: "非工作语境下的长期观察、阅读、兴趣和个人状态记录。",
   },
 ] as const;
 

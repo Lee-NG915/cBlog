@@ -3,7 +3,7 @@ title: 使用 Next.js 搭建个人博客
 slug: nextjs-blog-setup
 date: 2024-01-02
 updatedAt: 2026-05-11
-category: 技术博客
+category: 工程实践
 tags:
   - Next.js
   - GitHub Pages

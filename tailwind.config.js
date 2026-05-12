@@ -10,25 +10,33 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#0ea5e9",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
+          50: "#E6F3F1",
+          100: "#CFE9E5",
+          200: "#9DD1C9",
+          300: "#6AB9AD",
+          400: "#3AA194",
+          500: "#178B7E",
+          600: "#0F766E",
+          700: "#0B5F59",
+          800: "#084B47",
+          900: "#053B38",
         },
-        // 护眼主题配色
         background: {
-          light: "#fafafa", // 非常浅的灰白色，护眼
-          dark: "#1a1a1a", // 深色背景
+          light: "#F7F4ED",
+          dark: "#181818",
         },
         surface: {
-          light: "#ffffff",
+          light: "#FFFDF8",
           dark: "#242424",
+        },
+        ink: {
+          DEFAULT: "#1F2933",
+          muted: "#687076",
+          soft: "#8B949E",
+        },
+        line: {
+          light: "#E5DFD3",
+          dark: "#3A3A3A",
         },
       },
       transitionProperty: {

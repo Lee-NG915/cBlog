@@ -8,17 +8,20 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
-          Taxonomy
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
+          Reading paths
         </p>
-        <h1 className="mt-2 text-4xl font-bold text-gray-950 dark:text-gray-50">
-          文章分类
+        <h1 className="mt-3 text-5xl font-bold tracking-tight text-ink dark:text-gray-50">
+          研究路径
         </h1>
+        <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300">
+          按长期主题组织文章，让产品分析、工程实践和生活观察各自形成可回看的线索。
+        </p>
       </header>
 
       {categories.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-gray-300 bg-white py-16 text-center dark:border-gray-700 dark:bg-[#242424]">
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+        <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
+          <p className="text-lg text-ink-muted dark:text-gray-400">
             还没有分类，快去创建文章吧！
           </p>
         </div>
@@ -33,32 +36,32 @@ export default function CategoriesPage() {
               <Link
                 key={category.name}
                 href={`/categories/${encodeURIComponent(category.name)}`}
-                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md dark:border-gray-700 dark:bg-[#242424] dark:hover:border-primary-700"
+                className="rounded-3xl border border-line-light bg-surface-light p-6 transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-950 dark:text-gray-50">
+                    <h2 className="text-2xl font-bold text-ink dark:text-gray-50">
                       {category.name}
                     </h2>
-                    <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                    <p className="mt-2 text-sm leading-6 text-ink-muted dark:text-gray-300">
                       {category.description}
                     </p>
                   </div>
-                  <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                  <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
                     {category.count}
                   </span>
                 </div>
-                <div className="space-y-3 border-t border-gray-100 pt-5 dark:border-gray-800">
+                <div className="space-y-3 border-t border-line-light pt-5 dark:border-line-dark">
                   {categoryPosts.slice(0, 3).map((post) => (
                     <p
                       key={post.slug}
-                      className="truncate text-sm text-gray-600 dark:text-gray-300"
+                      className="truncate text-sm text-ink-muted dark:text-gray-300"
                     >
                       {post.title}
                     </p>
                   ))}
                   {categoryPosts.length === 0 && (
-                    <p className="text-sm text-gray-400">暂无文章</p>
+                    <p className="text-sm text-ink-soft dark:text-gray-500">暂无文章</p>
                   )}
                 </div>
               </Link>

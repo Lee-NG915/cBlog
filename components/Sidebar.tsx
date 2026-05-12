@@ -110,10 +110,10 @@ export default function Sidebar({ categories }: SidebarProps) {
   };
 
   return (
-    <aside className="fixed inset-y-0 left-0 flex w-72 flex-col border-r border-gray-200 bg-white transition-colors duration-300 dark:border-gray-700 dark:bg-[#242424]">
+    <aside className="fixed inset-y-0 left-0 flex w-64 flex-col border-r border-line-light bg-surface-light/85 transition-colors duration-300 dark:border-line-dark dark:bg-surface-dark/90">
       <div className="flex flex-col flex-grow overflow-y-auto">
         {/* 用户信息区域 */}
-        <div className="flex-shrink-0 px-6 py-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex-shrink-0 border-b border-line-light px-6 py-7 dark:border-line-dark">
           <Link href="/" className="flex items-center space-x-3">
             {userProfile.avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -123,14 +123,14 @@ export default function Sidebar({ categories }: SidebarProps) {
                 className="w-12 h-12 rounded-full"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
-                <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-50 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:ring-primary-800">
+                <span className="text-lg font-bold text-primary-800 dark:text-primary-200">
                   {(userProfile.nickname || userProfile.name || "U")[0].toUpperCase()}
                 </span>
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+              <p className="truncate text-sm font-semibold text-ink dark:text-gray-100">
                 {userProfile.nickname || userProfile.name || "Blog"}
               </p>
               {userProfile.email && (
@@ -146,23 +146,23 @@ export default function Sidebar({ categories }: SidebarProps) {
             </div>
           </Link>
           {userProfile.bio && (
-            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-4 text-xs leading-5 text-ink-muted dark:text-gray-400">
               {userProfile.bio}
             </p>
           )}
         </div>
 
         {/* 导航菜单 */}
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        <nav className="flex-1 space-y-1 px-4 py-6">
           {/* 主导航 */}
           {mainNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+              className={`flex items-center rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
                 isActive(item.href)
-                  ? "bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  ? "bg-primary-50 text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
+                  : "text-ink-muted hover:bg-background-light hover:text-ink dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-gray-100"
               }`}
             >
               {getIcon(item.icon)}
@@ -174,8 +174,8 @@ export default function Sidebar({ categories }: SidebarProps) {
           {categories.length > 0 && (
             <>
               <div className="px-4 py-2">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  博客导航
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-500">
+                  研究路径
                 </h3>
               </div>
               {categories.map((category) => {
@@ -186,17 +186,17 @@ export default function Sidebar({ categories }: SidebarProps) {
                   <Link
                     key={category.name}
                     href={categoryHref}
-                    className={`flex items-center justify-between px-4 py-2 text-sm rounded-lg transition-colors ${
+                    className={`flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm transition-colors ${
                       isActive(categoryHref)
-                        ? "bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        ? "bg-primary-50 text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
+                        : "text-ink-muted hover:bg-background-light hover:text-ink dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-gray-100"
                     }`}
                   >
                     <span className="flex items-center">
                       <FolderIcon />
                       <span className="ml-3">{category.name}</span>
                     </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-ink-soft dark:text-gray-500">
                       {category.count}
                     </span>
                   </Link>
@@ -209,7 +209,7 @@ export default function Sidebar({ categories }: SidebarProps) {
           {projectLinks.length > 0 && (
             <>
               <div className="px-4 py-2 mt-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-500">
                   项目
                 </h3>
               </div>
@@ -217,10 +217,10 @@ export default function Sidebar({ categories }: SidebarProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center px-4 py-2 text-sm rounded-lg transition-colors ${
+                  className={`flex items-center rounded-2xl px-4 py-2 text-sm transition-colors ${
                     isActive(item.href)
-                      ? "bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-primary-50 text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
+                      : "text-ink-muted hover:bg-background-light hover:text-ink dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-gray-100"
                   }`}
                 >
                   {getIcon(item.icon)}
@@ -232,7 +232,7 @@ export default function Sidebar({ categories }: SidebarProps) {
         </nav>
 
         {/* 社交链接和主题切换 */}
-        <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex-shrink-0 border-t border-line-light px-6 py-4 dark:border-line-dark">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {socialLinks.length > 0 &&
@@ -244,7 +244,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
                         aria-label={link.label}
                       >
                         <GitHubIcon />
@@ -256,7 +256,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       <a
                         key={link.href}
                         href={`mailto:${link.href}`}
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
                         aria-label={link.label}
                       >
                         <MailIcon />
@@ -269,7 +269,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-sm"
+                    className="text-sm text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
                       aria-label={link.label}
                     >
                       {link.label}

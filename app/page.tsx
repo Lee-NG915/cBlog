@@ -1,126 +1,102 @@
 import Link from "next/link";
+import FeaturedPost from "@/components/FeaturedPost";
 import PostCard from "@/components/PostCard";
-import { getAllCategories, getAllPosts, getPostStats } from "@/lib/posts";
+import { getAllCategories, getAllPosts } from "@/lib/posts";
 import { siteConfig } from "@/lib/site";
 
 export default function Home() {
-  const posts = getAllPosts().slice(0, 9);
+  const posts = getAllPosts();
   const categories = getAllCategories();
-  const stats = getPostStats();
-  const topTags = stats.tags.slice(0, 8);
+  const featuredPost = posts[0];
+  const latestPosts = posts.slice(featuredPost ? 1 : 0, 7);
+  const visiblePosts = latestPosts.length > 0 ? latestPosts : posts;
 
   return (
-    <div className="space-y-10">
-      <section className="grid grid-cols-[1fr_340px] gap-8">
-        <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
-          <p className="mb-4 text-sm font-medium text-primary-600 dark:text-primary-400">
-            Personal knowledge base
-          </p>
-          <h1 className="mb-5 max-w-3xl text-5xl font-bold leading-tight text-gray-950 dark:text-gray-50">
-            {siteConfig.title}
-          </h1>
-          <p className="max-w-2xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-            {siteConfig.description}
-          </p>
-          <div className="mt-8 flex gap-3">
-            {categories.map((category) => (
-              <Link
-                key={category.name}
-                href={`/categories/${encodeURIComponent(category.name)}`}
-                className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-700 transition hover:border-primary-300 hover:text-primary-700 dark:border-gray-700 dark:text-gray-300 dark:hover:border-primary-500 dark:hover:text-primary-300"
-              >
-                {category.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <aside className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
-          <h2 className="mb-5 text-base font-semibold text-gray-900 dark:text-gray-100">
-            内容概览
-          </h2>
-          <dl className="grid grid-cols-2 gap-4">
-            <div>
-              <dt className="text-sm text-gray-500 dark:text-gray-400">文章</dt>
-              <dd className="mt-1 text-3xl font-bold text-gray-950 dark:text-gray-50">
-                {stats.published}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-500 dark:text-gray-400">分类</dt>
-              <dd className="mt-1 text-3xl font-bold text-gray-950 dark:text-gray-50">
-                {categories.length}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-500 dark:text-gray-400">标签</dt>
-              <dd className="mt-1 text-3xl font-bold text-gray-950 dark:text-gray-50">
-                {stats.tags.length}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-500 dark:text-gray-400">阅读</dt>
-              <dd className="mt-1 text-3xl font-bold text-gray-950 dark:text-gray-50">
-                {stats.readingMinutes}
-              </dd>
-            </div>
-          </dl>
-          {topTags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {topTags.map((tag) => (
-                <span
-                  key={tag.name}
-                  className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                >
-                  {tag.name}
-                </span>
-              ))}
-            </div>
-          )}
-        </aside>
-      </section>
-
-      <section className="grid grid-cols-3 gap-6">
-        {categories.map((category) => (
+    <div className="space-y-16">
+      <section className="mx-auto max-w-4xl py-12 text-center">
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.32em] text-primary-700 dark:text-primary-300">
+          Color field notes
+        </p>
+        <h1 className="text-6xl font-bold leading-[1.02] tracking-[-0.04em] text-ink dark:text-gray-50">
+          把产品问题拆成可验证的判断
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink-muted dark:text-gray-300">
+          {siteConfig.description}
+        </p>
+        <div className="mt-8 flex justify-center gap-3">
           <Link
-            key={category.name}
-            href={`/categories/${encodeURIComponent(category.name)}`}
-            className="rounded-lg border border-gray-200 bg-white p-6 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md dark:border-gray-700 dark:bg-[#242424] dark:hover:border-primary-700"
+            href={featuredPost ? `/posts/${featuredPost.slug}` : "/categories"}
+            className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-background-light transition hover:bg-primary-800 dark:bg-gray-100 dark:text-gray-950 dark:hover:bg-primary-200"
           >
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-950 dark:text-gray-50">
-                {category.name}
-              </h2>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {category.count} 篇
-              </span>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
-              {category.description}
-            </p>
+            阅读最新札记
           </Link>
-        ))}
+          <Link
+            href="/categories"
+            className="rounded-full border border-line-light bg-surface-light px-5 py-2.5 text-sm font-medium text-ink transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-200 dark:hover:border-primary-700 dark:hover:text-primary-200"
+          >
+            浏览研究路径
+          </Link>
+        </div>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/"
+            className="rounded-full bg-primary-50 px-4 py-2 text-sm font-medium text-primary-800 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:ring-primary-800"
+          >
+            Featured
+          </Link>
+          {categories.map((category) => (
+            <Link
+              key={category.name}
+              href={`/categories/${encodeURIComponent(category.name)}`}
+              className="rounded-full bg-surface-light px-4 py-2 text-sm text-ink-muted ring-1 ring-line-light transition hover:text-primary-800 hover:ring-primary-200 dark:bg-surface-dark dark:text-gray-300 dark:ring-line-dark dark:hover:text-primary-200 dark:hover:ring-primary-800"
+            >
+              {category.name}
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <section>
-        <div className="mb-6 flex items-end justify-between">
+      {featuredPost && (
+        <section className="space-y-6">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
+                Featured post
+              </p>
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
+                精选文章
+              </h2>
+            </div>
+          </div>
+          <FeaturedPost post={featuredPost} />
+        </section>
+      )}
+
+      <section className="space-y-6">
+        <div className="flex items-end justify-between">
           <div>
-            <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
-              Recently published
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
+              All posts
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-gray-950 dark:text-gray-50">
-              最新文章
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
+              所有文章
             </h2>
           </div>
+          <Link
+            href="/categories"
+            className="text-sm font-medium text-ink-muted transition hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
+          >
+            按路径浏览 →
+          </Link>
         </div>
         {posts.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-gray-300 bg-white py-16 text-center dark:border-gray-700 dark:bg-[#242424]">
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+          <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
+            <p className="text-lg text-ink-muted dark:text-gray-400">
               还没有文章，快去创建第一篇吧！
             </p>
-            <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
+            <p className="mt-2 text-sm text-ink-soft dark:text-gray-500">
               在{" "}
-              <code className="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">
+              <code className="rounded bg-primary-50 px-2 py-1 dark:bg-gray-800">
                 content/posts
               </code>{" "}
               目录下创建 Markdown 文件即可
@@ -128,7 +104,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-6">
-            {posts.map((post) => (
+            {visiblePosts.map((post) => (
               <PostCard key={post.slug} post={post} />
             ))}
           </div>

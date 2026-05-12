@@ -29,22 +29,22 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="space-y-8">
-      <BackButton href="/categories" label="返回分类" />
-      <header className="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-[#242424]">
-        <p className="text-sm font-medium text-primary-600 dark:text-primary-400">
-          Category
+      <BackButton href="/categories" label="返回研究路径" />
+      <header className="border-b border-line-light pb-8 dark:border-line-dark">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
+          Reading path
         </p>
-        <h1 className="mt-2 text-4xl font-bold text-gray-950 dark:text-gray-50">
+        <h1 className="mt-3 text-5xl font-bold tracking-tight text-ink dark:text-gray-50">
           {category}
         </h1>
-        <p className="mt-3 text-gray-600 dark:text-gray-300">
+        <p className="mt-4 text-ink-muted dark:text-gray-300">
           共 {posts.length} 篇文章
         </p>
       </header>
 
         {posts.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-gray-300 bg-white py-16 text-center dark:border-gray-700 dark:bg-[#242424]">
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+          <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
+            <p className="text-lg text-ink-muted dark:text-gray-400">
               该分类下还没有文章
             </p>
           </div>
