@@ -1,5 +1,6 @@
 ---
 title: 使用 Next.js 搭建个人博客
+slug: nextjs-blog-setup
 date: 2024-01-02
 updatedAt: 2026-05-11
 category: 技术博客
@@ -54,15 +55,13 @@ cBlog/
 │   ├── ThemeProvider.tsx  # 主题提供者
 │   └── ThemeToggle.tsx    # 主题切换按钮
 ├── content/               # 内容目录
-│   └── posts/            # Markdown 文章（按日期组织）
-│       ├── 2024/
-│       │   ├── 01/
-│       │   │   ├── 01/
-│       │   │   │   └── hello-world.md
-│       │   │   └── 02/
-│       │   │       └── nextjs-blog-setup.md
-│       │   └── 12/
-│       └── 2025/
+│   └── posts/            # Markdown 文章包
+│       ├── technical/
+│       │   └── 2024/
+│       │       └── nextjs-blog-setup/
+│       │           └── index.md
+│       ├── learning/
+│       └── life/
 ├── lib/                   # 工具函数
 │   ├── posts.ts          # 文章处理逻辑（核心）
 │   ├── navigation.ts     # 导航配置
@@ -94,42 +93,19 @@ const nextConfig = {
 - 无需服务器，可以部署到任何静态托管服务
 - SEO 友好，搜索引擎可以直接抓取内容
 
-### 2. 按日期组织的文件结构
+### 2. 按分类和文章包组织内容
 
-文章按日期组织在 `content/posts/` 目录下，支持递归读取：
+文章按 `分类 slug / 年份 / 文章 slug / index.md` 组织：
 
 ```typescript
-// lib/posts.ts
-/**
- * 递归获取目录下所有 Markdown 文件
- * 支持按日期组织的文件夹结构：YYYY/MM/DD/slug.md 或 YYYY/MM/slug.md
- */
-function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
-  if (!fs.existsSync(dir)) {
-    return fileList;
-  }
-
-  const files = fs.readdirSync(dir);
-  files.forEach((file) => {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-    
-    if (stat.isDirectory()) {
-      getAllMarkdownFiles(filePath, fileList);
-    } else if (file.endsWith(".md")) {
-      const relativePath = path.relative(postsDirectory, filePath);
-      fileList.push(relativePath);
-    }
-  });
-
-  return fileList;
-}
+content/posts/technical/2024/nextjs-blog-setup/index.md
 ```
 
 这种设计的好处：
-- 文件组织清晰，便于管理
-- 自动从路径提取日期信息
-- 支持灵活的文件夹结构
+- 分类在目录层显式可见
+- 年份目录保留归档能力
+- 每篇文章是独立文章包，后续管理后台更容易创建、编辑、删除
+- URL slug 可通过 frontmatter 显式控制
 
 ### 3. Markdown 解析与处理
 

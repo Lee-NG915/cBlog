@@ -32,10 +32,10 @@ pnpm run preview
 
 ## 内容目录
 
-文章按日期组织：
+文章按分类、年份和文章 slug 组织：
 
 ```text
-content/posts/YYYY/MM/DD/article-slug.md
+content/posts/<category-slug>/<year>/<post-slug>/index.md
 ```
 
 推荐 frontmatter：
@@ -43,6 +43,7 @@ content/posts/YYYY/MM/DD/article-slug.md
 ```yaml
 ---
 title: 文章标题
+slug: article-slug
 date: 2026-05-11
 updatedAt: 2026-05-11
 category: 技术博客
@@ -57,11 +58,13 @@ coverImage: /images/example.jpg
 
 固定分类：
 
-- 技术博客
-- 学习日志
-- 生活随记
+- `technical` -> 技术博客
+- `learning` -> 学习日志
+- `life` -> 生活随记
 
 `status: draft` 的文章不会进入公开页面。
+
+详细内容结构见 [docs/content-structure.md](./docs/content-structure.md)。
 
 ## 部署
 
@@ -80,9 +83,9 @@ GitHub 仓库的 Pages Source 需要选择 `GitHub Actions`。
 app/                  Next.js App Router 页面
 components/           PC 端展示组件
 content/posts/        Markdown 文章
+docs/content-structure.md 内容文件结构规范
 docs/refactor-plan.md 重构方案与分期边界
 lib/posts.ts          文章读取、分类、统计逻辑
 lib/site.ts           站点配置与固定分类
 public/               静态资源
 ```
-

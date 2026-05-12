@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
-import { postCategories } from "./site";
+import { getCategoryNameBySlug, postCategories } from "./site";
 
 // 处理图片路径，添加 basePath
 function processImagePath(imagePath: string | undefined): string | undefined {
@@ -57,7 +57,7 @@ export interface PostStats {
 
 /**
  * 递归获取目录下所有 Markdown 文件
- * 支持按日期组织的文件夹结构：YYYY/MM/DD/slug.md 或 YYYY/MM/slug.md
+ * 支持新文章包结构和旧日期结构。
  */
 function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
   if (!fs.existsSync(dir)) {
@@ -85,16 +85,34 @@ function getAllMarkdownFiles(dir: string, fileList: string[] = []): string[] {
 
 /**
  * 从文件路径生成 slug
- * 例如：2024/01/01/hello-world.md -> hello-world
- * 或者：2024/01/hello-world.md -> hello-world
+ * 支持 legacy 结构：2024/01/01/hello-world.md -> hello-world
+ * 支持新结构：technical/2024/hello-world/index.md -> hello-world
  */
-function getSlugFromPath(filePath: string): string {
+function getSlugFromPath(filePath: string, slug?: unknown): string {
+  if (typeof slug === "string" && slug.trim()) {
+    return slug.trim();
+  }
+
   const fileName = path.basename(filePath, ".md");
-  return fileName;
+  if (fileName !== "index") {
+    return fileName;
+  }
+
+  return path.basename(path.dirname(filePath));
+}
+
+function getCategoryFromPath(filePath: string, category?: unknown): string {
+  if (typeof category === "string" && category.trim()) {
+    return category.trim();
+  }
+
+  const [categorySlug] = filePath.split(path.sep);
+  return getCategoryNameBySlug(categorySlug) || "未分类";
 }
 
 /**
  * 从文件路径提取日期（如果路径包含日期信息）
+ * 新结构一般使用 frontmatter.date；旧结构可从路径兜底提取。
  * 例如：2024/01/01/hello-world.md -> 2024-01-01
  * 或者：2024/01/hello-world.md -> 2024-01-01（使用 01 作为日期）
  */
@@ -133,14 +151,14 @@ export function getAllPosts(): Post[] {
 
     // 从路径提取日期作为默认值（如果 frontmatter 中没有日期）
     const pathDate = extractDateFromPath(relativePath);
-    const slug = getSlugFromPath(relativePath);
+    const slug = getSlugFromPath(relativePath, data.slug);
 
     return normalizePost({
       slug,
       title: data.title || slug,
       date: data.date || pathDate || "",
       updatedAt: data.updatedAt || undefined,
-      category: data.category || "未分类",
+      category: getCategoryFromPath(relativePath, data.category),
       excerpt: data.excerpt || "",
       content,
       tags: normalizeTags(data.tags),
@@ -172,14 +190,14 @@ export function getAllPostsIncludingDrafts(): Post[] {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
       const pathDate = extractDateFromPath(relativePath);
-      const slug = getSlugFromPath(relativePath);
+      const slug = getSlugFromPath(relativePath, data.slug);
 
       return normalizePost({
         slug,
         title: data.title || slug,
         date: data.date || pathDate || "",
         updatedAt: data.updatedAt || undefined,
-        category: data.category || "未分类",
+        category: getCategoryFromPath(relativePath, data.category),
         excerpt: data.excerpt || "",
         content,
         tags: normalizeTags(data.tags),
@@ -232,7 +250,10 @@ export function getPostBySlug(slug: string): Post | null {
   // 递归查找匹配的文件
   const markdownFiles = getAllMarkdownFiles(postsDirectory);
   const matchedFile = markdownFiles.find((filePath) => {
-    const fileSlug = getSlugFromPath(filePath);
+    const fullPath = path.join(postsDirectory, filePath);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data } = matter(fileContents);
+    const fileSlug = getSlugFromPath(filePath, data.slug);
     return fileSlug === slug;
   });
 
@@ -252,7 +273,7 @@ export function getPostBySlug(slug: string): Post | null {
     title: data.title || slug,
     date: data.date || pathDate || "",
     updatedAt: data.updatedAt || undefined,
-    category: data.category || "未分类",
+    category: getCategoryFromPath(matchedFile, data.category),
     excerpt: data.excerpt || "",
     content,
     tags: normalizeTags(data.tags),

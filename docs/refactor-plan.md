@@ -66,7 +66,7 @@ coverImage: /images/example.jpg
 ---
 ```
 
-`status: draft` 的文章不进入生产构建。文件仍然建议按日期组织：`content/posts/YYYY/MM/DD/slug.md`。
+`status: draft` 的文章不进入生产构建。文件建议按文章包组织：`content/posts/<category-slug>/<year>/<post-slug>/index.md`，详细规则见 [content-structure.md](./content-structure.md)。
 
 ## 一期范围
 

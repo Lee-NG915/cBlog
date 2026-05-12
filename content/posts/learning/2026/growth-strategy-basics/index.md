@@ -1,3 +1,16 @@
+---
+title: 增长策略基础
+slug: growth-strategy-basics
+date: 2026-05-11
+category: 学习日志
+tags:
+  - GA4
+  - 产品分析
+  - 增长策略
+status: published
+excerpt: 基于 GA4 业务数据拆解收入增长目标，把收入目标转化为关键行为、用户特征和产品动作假设。
+---
+
 # 增长策略基础
 
 **公司目标 G：提升可持续购买收入**
