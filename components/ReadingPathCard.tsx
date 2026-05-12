@@ -20,7 +20,7 @@ export default function ReadingPathCard({
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary-700 dark:text-primary-300">
             Reading path
           </p>
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-ink group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+          <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
             {category.name}
           </h3>
         </div>

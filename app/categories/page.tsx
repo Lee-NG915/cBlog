@@ -11,7 +11,7 @@ export default function CategoriesPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
           Reading paths
         </p>
-        <h1 className="mt-3 text-5xl font-bold tracking-tight text-ink dark:text-gray-50">
+        <h1 className="mt-3 font-display text-5xl font-black tracking-[-0.04em] text-ink dark:text-gray-50">
           研究路径
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300">
@@ -40,7 +40,7 @@ export default function CategoriesPage() {
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-ink dark:text-gray-50">
+                    <h2 className="font-display text-2xl font-bold tracking-tight text-ink dark:text-gray-50">
                       {category.name}
                     </h2>
                     <p className="mt-2 text-sm leading-6 text-ink-muted dark:text-gray-300">

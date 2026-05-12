@@ -54,7 +54,7 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
           </time>
         </div>
 
-        <h2 className="max-w-2xl text-5xl font-bold leading-[1.08] tracking-[-0.03em] text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+        <h2 className="max-w-2xl font-display text-5xl font-bold leading-[1.12] tracking-[-0.04em] text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
           {post.title}
         </h2>
 

@@ -5,7 +5,7 @@ export default function AboutPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
           About
         </p>
-        <h1 className="mt-3 text-5xl font-bold tracking-tight text-ink dark:text-gray-50">
+        <h1 className="mt-3 font-display text-5xl font-black tracking-[-0.04em] text-ink dark:text-gray-50">
           关于我
         </h1>
       </header>

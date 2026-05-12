@@ -8,6 +8,25 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          "var(--font-sans)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          "sans-serif",
+        ],
+        display: [
+          "var(--font-display)",
+          "Songti SC",
+          "STSong",
+          "Noto Serif CJK SC",
+          "serif",
+        ],
+      },
       colors: {
         primary: {
           50: "#E6F3F1",

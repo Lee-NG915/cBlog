@@ -34,7 +34,7 @@ export default function PostCard({ post }: PostCardProps) {
                 format(new Date(post.date), "yyyy年MM月dd日", { locale: zhCN })}
             </time>
           </div>
-          <h2 className="mb-3 text-xl font-bold leading-snug text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">
+          <h2 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">
             {post.title}
           </h2>
           {post.excerpt && (

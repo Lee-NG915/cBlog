@@ -22,7 +22,7 @@ export default function EssayListItem({ post }: EssayListItemProps) {
         <p className="mb-2 text-sm font-medium text-primary-700 dark:text-primary-300">
           {post.category}
         </p>
-        <h3 className="text-2xl font-semibold tracking-tight text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+        <h3 className="font-display text-2xl font-bold tracking-tight text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
           {post.title}
         </h3>
         {post.excerpt && (

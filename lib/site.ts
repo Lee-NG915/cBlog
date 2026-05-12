@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Color Blog",
-  title: "Color's Field Notes",
-  description: "用产品分析和工程实践，记录问题如何被拆解、验证和落地。",
+  title: "Color&apos;s Blog",
+  description: "personal space",
   author: "Color",
 };
 

@@ -14,12 +14,9 @@ export default function Home() {
   return (
     <div className="space-y-16">
       <section className="mx-auto max-w-4xl py-12 text-center">
-        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.32em] text-primary-700 dark:text-primary-300">
-          Color field notes
-        </p>
-        <h1 className="text-6xl font-bold leading-[1.02] tracking-[-0.04em] text-ink dark:text-gray-50">
-          把产品问题拆成可验证的判断
-        </h1>
+        <h2 className="mb-5 font-display text-5xl font-black tracking-[-0.04em] text-ink dark:text-gray-50">
+          Color&apos;s Blog
+        </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-ink-muted dark:text-gray-300">
           {siteConfig.description}
         </p>
@@ -63,7 +60,7 @@ export default function Home() {
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
                 Featured post
               </p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
+              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
                 精选文章
               </h2>
             </div>
@@ -78,7 +75,7 @@ export default function Home() {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
               All posts
             </p>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-ink dark:text-gray-50">
               所有文章
             </h2>
           </div>

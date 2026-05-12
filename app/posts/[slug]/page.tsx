@@ -46,7 +46,7 @@ export default async function PostPage({ params }: PostPageProps) {
               )}
             </div>
 
-            <h1 className="text-6xl font-bold leading-[1.05] tracking-tight text-ink dark:text-gray-50">
+            <h1 className="font-display text-6xl font-black leading-[1.08] tracking-[-0.05em] text-ink dark:text-gray-50">
               {post.title}
             </h1>
 
