@@ -12,34 +12,37 @@ export default function Home() {
   const visiblePosts = latestPosts.length > 0 ? latestPosts : posts;
 
   return (
-    <div className="space-y-12 sm:space-y-16">
-      <section className="mx-auto max-w-4xl py-10 text-center sm:py-12">
-        <h2 className="mb-4 font-display text-5xl font-bold tracking-[-0.04em] text-ink dark:text-gray-50 sm:text-6xl md:text-7xl">
-          Color&apos;s Blog
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">
+    <div className="space-y-10 sm:space-y-14">
+      <section className="mx-auto max-w-4xl pb-8 pt-5 text-center sm:pb-10 sm:pt-8">
+        <p className="mb-4 text-xs font-semibold text-primary-700 dark:text-primary-300">
+          产品 / 工程 / 生活
+        </p>
+        <h1 className="mb-4 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl md:text-7xl">
+          {siteConfig.title}
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300 sm:text-lg sm:leading-8">
           {siteConfig.description}
         </p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3 sm:mt-8">
+        <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link
             href={featuredPost ? `/posts/${featuredPost.slug}` : "/categories"}
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-background-light transition hover:bg-primary-800 dark:bg-gray-100 dark:text-gray-950 dark:hover:bg-primary-200"
           >
-            Read latest
+            阅读最新
           </Link>
           <Link
             href="/categories"
             className="rounded-full border border-line-light bg-surface-light px-5 py-2.5 text-sm font-medium text-ink transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-200 dark:hover:border-primary-700 dark:hover:text-primary-200"
           >
-            Browse paths
+            浏览路径
           </Link>
         </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             href="/"
             className="rounded-full bg-primary-50 px-4 py-2 text-sm font-medium text-primary-800 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:ring-primary-800"
           >
-            Featured
+            精选
           </Link>
           {categories.map((category) => (
             <Link
@@ -57,11 +60,11 @@ export default function Home() {
         <section className="space-y-6">
           <div className="flex items-end justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
-                Featured post
+              <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                精选手记
               </p>
-              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-ink dark:text-gray-50 sm:text-4xl">
-                Featured
+              <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
+                本期精选
               </h2>
             </div>
           </div>
@@ -72,31 +75,31 @@ export default function Home() {
       <section className="space-y-6">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
-              All posts
+            <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+              最新记录
             </p>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-ink dark:text-gray-50 sm:text-4xl">
-              All posts
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
+              全部手记
             </h2>
           </div>
           <Link
             href="/categories"
             className="text-sm font-medium text-ink-muted transition hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
           >
-            Browse by path →
+            按路径浏览 →
           </Link>
         </div>
         {posts.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
             <p className="text-lg text-ink-muted dark:text-gray-400">
-              No posts yet.
+              还没有公开文章。
             </p>
             <p className="mt-2 text-sm text-ink-soft dark:text-gray-500">
-              Create a Markdown file under{" "}
+              在{" "}
               <code className="rounded bg-primary-50 px-2 py-1 dark:bg-gray-800">
                 content/posts
               </code>{" "}
-              .
+              下创建 Markdown 文件即可。
             </p>
           </div>
         ) : (

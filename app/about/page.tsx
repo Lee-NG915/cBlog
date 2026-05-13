@@ -2,21 +2,21 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl">
       <header className="mb-8 border-b border-line-light pb-8 dark:border-line-dark">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
-          About
+        <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+          关于这个站点
         </p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.04em] text-ink dark:text-gray-50 sm:text-6xl">
-          About
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
+          关于
         </h1>
       </header>
       <div className="prose rounded-3xl border border-line-light bg-surface-light p-8 dark:border-line-dark dark:bg-surface-dark">
         <p>
-          This is a personal space for product thinking, engineering notes, and long-term learning.
+          这里记录产品判断、工程实践和长期学习中的可复盘经验。
         </p>
         <ul>
-          <li>Product: product judgment shaped by data, user behavior, and business goals.</li>
-          <li>Engineering: frontend engineering, deployment notes, tooling, and architecture tradeoffs.</li>
-          <li>Life: personal observations, reading notes, interests, and life outside work.</li>
+          <li>产品观察：基于数据、用户行为和业务目标形成的产品判断。</li>
+          <li>工程札记：前端工程、部署实践、工具链和架构取舍。</li>
+          <li>生活手记：日常观察、阅读笔记、兴趣和工作之外的生活记录。</li>
         </ul>
       </div>
     </div>

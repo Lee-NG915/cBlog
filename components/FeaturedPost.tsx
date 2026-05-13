@@ -46,15 +46,15 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
       </div>
 
       <div className="flex flex-col p-6 sm:p-8 md:p-9">
-        <div className="mb-6 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-primary-700 dark:text-primary-300">
-          <span>Featured note</span>
+        <div className="mb-6 flex items-center gap-3 text-xs font-medium text-primary-700 dark:text-primary-300">
+          <span>精选手记</span>
           <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
           <time className="tracking-normal text-ink-muted dark:text-gray-400">
             {post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
           </time>
         </div>
 
-        <h2 className="max-w-2xl font-display text-4xl font-bold leading-[1.12] tracking-[-0.04em] text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-5xl">
+        <h2 className="max-w-2xl font-display text-4xl font-bold leading-[1.12] tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-5xl">
           {post.title}
         </h2>
 
@@ -76,10 +76,10 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
         </div>
         <div className="mt-8 flex items-center justify-between border-t border-line-light pt-5 text-sm dark:border-line-dark">
           <span className="text-ink-muted dark:text-gray-400">
-            {post.readingTime || 1} min read
+            {post.readingTime || 1} 分钟阅读
           </span>
-          <span className="font-medium text-primary-800 transition group-hover:translate-x-1 dark:text-primary-200">
-            Read post →
+        <span className="font-medium text-primary-800 transition group-hover:translate-x-1 dark:text-primary-200">
+            阅读全文 →
           </span>
         </div>
       </div>

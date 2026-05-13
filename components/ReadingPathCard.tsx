@@ -17,10 +17,10 @@ export default function ReadingPathCard({
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary-700 dark:text-primary-300">
-            Reading path
+          <p className="text-xs font-medium text-primary-700 dark:text-primary-300">
+            阅读路径
           </p>
-          <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+          <h3 className="mt-3 font-display text-2xl font-bold tracking-normal text-ink group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
             {category.name}
           </h3>
         </div>
@@ -34,9 +34,9 @@ export default function ReadingPathCard({
       </p>
 
       <div className="mt-auto border-t border-line-light pt-4 dark:border-line-dark">
-        <p className="text-xs text-ink-soft dark:text-gray-500">Latest post</p>
+        <p className="text-xs text-ink-soft dark:text-gray-500">最新手记</p>
         <p className="mt-1 truncate text-sm font-medium text-ink dark:text-gray-100">
-          {latestPost?.title || "No posts yet"}
+          {latestPost?.title || "暂无文章"}
         </p>
       </div>
     </Link>

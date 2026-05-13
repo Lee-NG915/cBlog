@@ -34,7 +34,7 @@ export default function PostCard({ post }: PostCardProps) {
                 format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
             </time>
           </div>
-          <h2 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">
+          <h2 className="mb-3 font-display text-xl font-bold leading-snug tracking-normal text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">
             {post.title}
           </h2>
           {post.excerpt && (
@@ -55,9 +55,9 @@ export default function PostCard({ post }: PostCardProps) {
             </div>
           )}
           <div className="mt-auto flex items-center justify-between text-sm text-ink-soft dark:text-gray-500">
-            <span>{post.readingTime || 1} min read</span>
+            <span>{post.readingTime || 1} 分钟阅读</span>
             <span className="text-primary-700 hover:underline dark:text-primary-300">
-              Read more →
+              继续读 →
             </span>
           </div>
         </div>

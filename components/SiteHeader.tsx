@@ -33,7 +33,7 @@ export default function SiteHeader() {
             href="/categories"
             className="rounded-full bg-primary-700 px-3 py-2 text-xs font-medium text-white transition hover:bg-primary-800 dark:bg-primary-400 dark:text-gray-950 dark:hover:bg-primary-300 sm:px-4 sm:text-sm"
           >
-            Start
+            开始阅读
           </Link>
           <ThemeToggle />
         </div>

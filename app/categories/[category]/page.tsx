@@ -28,23 +28,23 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="space-y-8">
-      <BackButton href="/categories" label="Back to paths" />
+      <BackButton href="/categories" label="返回路径" />
       <header className="border-b border-line-light pb-8 dark:border-line-dark">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
-          Reading path
+        <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+          阅读路径
         </p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.04em] text-ink dark:text-gray-50 sm:text-6xl">
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
           {category}
         </h1>
         <p className="mt-4 text-ink-muted dark:text-gray-300">
-          {posts.length} {posts.length === 1 ? "post" : "posts"}
+          共 {posts.length} 篇手记
         </p>
       </header>
 
         {posts.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
             <p className="text-lg text-ink-muted dark:text-gray-400">
-              No posts in this path yet.
+              这个路径下还没有文章。
             </p>
           </div>
         ) : (

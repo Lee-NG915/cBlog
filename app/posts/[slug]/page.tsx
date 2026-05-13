@@ -30,9 +30,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <article className="min-w-0 overflow-hidden">
-      <BackButton href="/" label="Back home" />
+      <BackButton href="/" label="返回首页" />
 
-      <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,780px)_260px]">
+      <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_260px]">
         <div className="min-w-0">
           <header className="mb-10 border-b border-line-light pb-10 dark:border-line-dark">
             <div className="mb-5 flex flex-wrap items-center gap-3">
@@ -41,12 +41,12 @@ export default async function PostPage({ params }: PostPageProps) {
               </span>
               {post.readingTime && (
                 <span className="text-sm text-ink-muted dark:text-gray-400">
-                  {post.readingTime} min read
+                  {post.readingTime} 分钟阅读
                 </span>
               )}
             </div>
 
-            <h1 className="break-words font-display text-5xl font-bold leading-[1.08] tracking-[-0.05em] text-ink dark:text-gray-50 sm:text-6xl">
+            <h1 className="break-words font-display text-5xl font-bold leading-[1.12] tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
               {post.title}
             </h1>
 
@@ -59,7 +59,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-ink-soft dark:text-gray-500">
               {post.date && (
                 <time>
-                  Published{" "}
+                  发布于{" "}
                   {format(new Date(post.date), "yyyy.MM.dd", {
                     locale: zhCN,
                   })}
@@ -67,7 +67,7 @@ export default async function PostPage({ params }: PostPageProps) {
               )}
               {post.updatedAt && (
                 <time>
-                  Updated{" "}
+                  更新于{" "}
                   {format(new Date(post.updatedAt), "yyyy.MM.dd", {
                     locale: zhCN,
                   })}
@@ -77,32 +77,32 @@ export default async function PostPage({ params }: PostPageProps) {
           </header>
 
           <div
-            className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8"
+            className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>
 
         <aside className="sticky top-10 hidden h-fit space-y-6 lg:block">
           <div className="rounded-3xl border border-line-light bg-surface-light p-6 dark:border-line-dark dark:bg-surface-dark">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-700 dark:text-primary-300">
-              Article note
+            <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+              文章索引
             </p>
             <dl className="mt-5 space-y-4 text-sm">
               <div>
-                <dt className="text-ink-soft dark:text-gray-500">Path</dt>
+                <dt className="text-ink-soft dark:text-gray-500">路径</dt>
                 <dd className="mt-1 font-medium text-ink dark:text-gray-100">
                   {post.category}
                 </dd>
               </div>
               <div>
-                <dt className="text-ink-soft dark:text-gray-500">Reading time</dt>
+                <dt className="text-ink-soft dark:text-gray-500">阅读时间</dt>
                 <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                  {post.readingTime || 1} min
+                  {post.readingTime || 1} 分钟
                 </dd>
               </div>
               {post.date && (
                 <div>
-                  <dt className="text-ink-soft dark:text-gray-500">Published</dt>
+                  <dt className="text-ink-soft dark:text-gray-500">发布日期</dt>
                   <dd className="mt-1 font-medium text-ink dark:text-gray-100">
                     {format(new Date(post.date), "yyyy.MM.dd", {
                       locale: zhCN,
@@ -115,8 +115,8 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {post.tags.length > 0 && (
             <div className="rounded-3xl border border-line-light bg-surface-light p-6 dark:border-line-dark dark:bg-surface-dark">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-700 dark:text-primary-300">
-                Tags
+              <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                标签
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (

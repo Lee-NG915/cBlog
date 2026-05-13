@@ -41,17 +41,17 @@ export const userProfile: UserProfile = {
 // 主导航项
 export const mainNavItems: NavItem[] = [
   {
-    label: "Home",
+    label: "首页",
     href: "/",
     icon: "home",
   },
   {
-    label: "Paths",
+    label: "路径",
     href: "/categories",
     icon: "folder",
   },
   {
-    label: "About",
+    label: "关于",
     href: "/about",
     icon: "user",
   },

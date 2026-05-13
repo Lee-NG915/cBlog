@@ -8,21 +8,21 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-700 dark:text-primary-300">
-          Reading paths
+        <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+          阅读路径
         </p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.04em] text-ink dark:text-gray-50 sm:text-6xl">
-          Reading paths
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
+          阅读路径
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted dark:text-gray-300">
-          Browse notes by long-running themes across product, engineering, and life.
+          按长期主题浏览产品观察、工程札记和生活手记。
         </p>
       </header>
 
       {categories.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
           <p className="text-lg text-ink-muted dark:text-gray-400">
-            No paths yet.
+            还没有路径。
           </p>
         </div>
       ) : (
@@ -40,7 +40,7 @@ export default function CategoriesPage() {
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="font-display text-2xl font-bold tracking-tight text-ink dark:text-gray-50">
+                    <h2 className="font-display text-2xl font-bold tracking-normal text-ink dark:text-gray-50">
                       {category.name}
                     </h2>
                     <p className="mt-2 text-sm leading-6 text-ink-muted dark:text-gray-300">
@@ -61,7 +61,7 @@ export default function CategoriesPage() {
                     </p>
                   ))}
                   {categoryPosts.length === 0 && (
-                    <p className="text-sm text-ink-soft dark:text-gray-500">No posts yet</p>
+                    <p className="text-sm text-ink-soft dark:text-gray-500">暂无文章</p>
                   )}
                 </div>
               </Link>

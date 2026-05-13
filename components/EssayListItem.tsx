@@ -15,14 +15,14 @@ export default function EssayListItem({ post }: EssayListItemProps) {
     >
       <div className="space-y-2 text-sm text-ink-muted dark:text-gray-400">
         <p>{post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}</p>
-        <p>{post.readingTime || 1} min read</p>
+        <p>{post.readingTime || 1} 分钟阅读</p>
       </div>
 
       <div>
         <p className="mb-2 text-sm font-medium text-primary-700 dark:text-primary-300">
           {post.category}
         </p>
-        <h3 className="font-display text-2xl font-bold tracking-tight text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
+        <h3 className="font-display text-2xl font-bold tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
           {post.title}
         </h3>
         {post.excerpt && (

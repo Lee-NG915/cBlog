@@ -15,18 +15,6 @@
   body.dark {
     background-color: #1a1a1a;
   }
-
-  /* 为所有元素添加颜色过渡 - 平滑的主题切换动画 */
-  * {
-    transition-property: color, background-color, border-color, fill, stroke;
-    transition-duration: 0.3s;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* 排除一些不需要过渡的元素 */
-  *, *::before, *::after {
-    transition-property: color, background-color, border-color, fill, stroke, opacity, transform;
-  }
 }
 
 @layer components {
@@ -37,11 +25,11 @@
   }
 
   .prose h1 {
-    @apply mb-5 mt-10 font-display text-4xl font-bold tracking-[-0.04em] text-ink dark:text-gray-100;
+    @apply mb-5 mt-10 font-display text-4xl font-bold tracking-normal text-ink dark:text-gray-100;
   }
 
   .prose h2 {
-    @apply mb-4 mt-12 border-t border-line-light pt-8 font-display text-2xl font-bold tracking-[-0.03em] text-ink dark:border-line-dark dark:text-gray-100;
+    @apply mb-4 mt-12 border-t border-line-light pt-8 font-display text-2xl font-bold tracking-normal text-ink dark:border-line-dark dark:text-gray-100;
   }
 
   .prose h3 {
@@ -79,7 +67,7 @@
   }
 
   .prose code {
-    @apply rounded bg-primary-50 px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-gray-800 dark:text-gray-100;
+    @apply rounded-md bg-primary-50 px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-gray-800 dark:text-gray-100;
   }
 
   .prose pre {
@@ -98,16 +86,19 @@
   }
 
   .prose table {
-    @apply my-8 block max-w-full overflow-x-auto rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
+    @apply my-8 w-full table-auto overflow-hidden rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
+    border-collapse: separate;
+    border-spacing: 0;
   }
 
   .prose thead {
-    @apply bg-primary-50 text-ink dark:bg-gray-800 dark:text-gray-100;
+    @apply bg-primary-50/80 text-ink dark:bg-gray-800 dark:text-gray-100;
   }
 
   .prose th,
   .prose td {
-    @apply whitespace-nowrap border-b border-r border-line-light px-4 py-3 text-left align-top dark:border-line-dark;
+    @apply border-b border-r border-line-light px-4 py-3 text-left align-top dark:border-line-dark;
+    white-space: normal;
   }
 
   .prose th {
