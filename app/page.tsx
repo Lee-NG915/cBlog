@@ -46,8 +46,8 @@ export default function Home() {
           </Link>
           {categories.map((category) => (
             <Link
-              key={category.name}
-              href={`/categories/${encodeURIComponent(category.name)}`}
+              key={category.slug}
+              href={`/categories/${category.slug}`}
               className="rounded-full bg-surface-light px-4 py-2 text-sm text-ink-muted ring-1 ring-line-light transition hover:text-primary-800 hover:ring-primary-200 dark:bg-surface-dark dark:text-gray-300 dark:ring-line-dark dark:hover:text-primary-200 dark:hover:ring-primary-800"
             >
               {category.name}

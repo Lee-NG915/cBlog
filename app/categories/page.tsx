@@ -29,13 +29,13 @@ export default function CategoriesPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => {
             const categoryPosts = allPosts.filter(
-              (post) => post.category === category.name
+              (post) => post.categorySlug === category.slug
             );
 
             return (
               <Link
-                key={category.name}
-                href={`/categories/${encodeURIComponent(category.name)}`}
+                key={category.slug}
+                href={`/categories/${category.slug}`}
                 className="rounded-3xl border border-line-light bg-surface-light p-6 transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
               >
                 <div className="mb-5 flex items-start justify-between gap-4">

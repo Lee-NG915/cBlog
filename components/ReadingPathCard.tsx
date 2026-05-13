@@ -12,7 +12,7 @@ export default function ReadingPathCard({
 }: ReadingPathCardProps) {
   return (
     <Link
-      href={`/categories/${encodeURIComponent(category.name)}`}
+      href={`/categories/${category.slug}`}
       className="group flex min-h-[190px] flex-col rounded-3xl border border-line-light bg-surface-light p-6 transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
     >
       <div className="flex items-start justify-between gap-4">

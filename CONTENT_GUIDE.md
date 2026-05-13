@@ -26,9 +26,13 @@ content/posts/
 
 | 目录 slug | 分类 |
 | --- | --- |
-| `technical` | 技术博客 |
-| `learning` | 学习日志 |
-| `life` | 生活随记 |
+| `technical` | 工程札记 |
+| `learning` | 产品观察 |
+| `life` | 生活手记 |
+
+分类配置位置：`lib/site.ts`。
+
+为了避免 GitHub Pages 上出现中文 URL 编码问题，路由和 frontmatter 都只使用 ASCII 分类 slug。中文只作为展示名称，不进入 URL。
 
 ## Frontmatter
 
@@ -40,7 +44,7 @@ title: 文章标题
 slug: article-slug
 date: 2026-05-11
 updatedAt: 2026-05-12
-category: 技术博客
+category: technical
 tags:
   - Next.js
   - GitHub Pages
@@ -56,7 +60,7 @@ coverImage: /images/posts/technical/2026/article-slug/cover.jpg
 - `slug`：文章 URL 标识，建议使用英文小写、数字和连字符。
 - `date`：发布日期，格式为 `YYYY-MM-DD`。
 - `updatedAt`：更新时间，可选。
-- `category`：技术博客、学习日志、生活随记。
+- `category`：分类 slug，只能使用 `technical`、`learning`、`life`，不要填写中文展示名。
 - `tags`：标签数组，可选。
 - `status`：`published` 或 `draft`，草稿不会进入公开页面。
 - `excerpt`：文章摘要，建议填写。
@@ -107,7 +111,7 @@ content/posts/technical/2026/typescript-notes/index.md
 title: TypeScript 实用笔记
 slug: typescript-notes
 date: 2026-05-12
-category: 技术博客
+category: technical
 tags:
   - TypeScript
 status: draft

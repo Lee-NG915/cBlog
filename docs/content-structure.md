@@ -32,11 +32,13 @@ content/posts/
 
 | 目录 slug | 分类 |
 | --- | --- |
-| `technical` | 技术博客 |
-| `learning` | 学习日志 |
-| `life` | 生活随记 |
+| `technical` | 工程札记 |
+| `learning` | 产品观察 |
+| `life` | 生活手记 |
 
-分类 slug 配置在 `lib/site.ts`。读取逻辑会优先使用 frontmatter 的 `category`，如果没有，就从路径第一段推导分类。
+分类 slug 配置在 `lib/site.ts`。读取逻辑会优先使用 frontmatter 的 `category` slug，如果没有，就从路径第一段推导分类。
+
+规范：URL 和 frontmatter 只能使用 ASCII slug，不能使用中文分类名。中文分类名只在 `lib/site.ts` 的 `name` 字段中配置，用于页面展示。
 
 ## 文章 slug
 
@@ -47,7 +49,7 @@ content/posts/
 title: 增长策略基础
 slug: growth-strategy-basics
 date: 2026-05-11
-category: 学习日志
+category: learning
 ---
 ```
 

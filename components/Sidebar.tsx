@@ -83,7 +83,12 @@ const MailIcon = () => (
 );
 
 interface SidebarProps {
-  categories: Array<{ name: string; count: number; description?: string }>;
+  categories: Array<{
+    slug: string;
+    name: string;
+    count: number;
+    description?: string;
+  }>;
 }
 
 export default function Sidebar({ categories }: SidebarProps) {
@@ -179,12 +184,10 @@ export default function Sidebar({ categories }: SidebarProps) {
                 </h3>
               </div>
               {categories.map((category) => {
-                const categoryHref = `/categories/${encodeURIComponent(
-                  category.name
-                )}`;
+                const categoryHref = `/categories/${category.slug}`;
                 return (
                   <Link
-                    key={category.name}
+                    key={category.slug}
                     href={categoryHref}
                     className={`flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm transition-colors ${
                       isActive(categoryHref)

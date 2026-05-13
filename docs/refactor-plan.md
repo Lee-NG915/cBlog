@@ -45,9 +45,9 @@
 
 文章分类先固定为：
 
-- 技术博客
-- 学习日志
-- 生活随记
+- `technical` -> 工程札记
+- `learning` -> 产品观察
+- `life` -> 生活手记
 
 Frontmatter 建议字段：
 
@@ -56,7 +56,7 @@ Frontmatter 建议字段：
 title: 文章标题
 date: 2026-05-11
 updatedAt: 2026-05-11
-category: 技术博客
+category: technical
 tags:
   - Next.js
   - GitHub Pages
@@ -66,7 +66,7 @@ coverImage: /images/example.jpg
 ---
 ```
 
-`status: draft` 的文章不进入生产构建。文件建议按文章包组织：`content/posts/<category-slug>/<year>/<post-slug>/index.md`，详细规则见 [content-structure.md](./content-structure.md)。
+`status: draft` 的文章不进入生产构建。分类配置在 `lib/site.ts`，路由和 frontmatter 一律使用 ASCII 分类 slug，中文只用于页面展示。文件建议按文章包组织：`content/posts/<category-slug>/<year>/<post-slug>/index.md`，详细规则见 [content-structure.md](./content-structure.md)。
 
 ## 一期范围
 

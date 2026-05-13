@@ -2,7 +2,6 @@ import PostCard from "@/components/PostCard";
 import BackButton from "@/components/BackButton";
 import { getPostsByCategory, getAllCategories } from "@/lib/posts";
 import { notFound } from "next/navigation";
-import { decodePathSegment } from "@/lib/utils";
 
 interface CategoryPageProps {
   params: {
@@ -13,18 +12,20 @@ interface CategoryPageProps {
 export async function generateStaticParams() {
   const categories = getAllCategories();
   return categories.map((category) => ({
-    category: encodeURIComponent(category.name),
+    category: category.slug,
   }));
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = decodePathSegment(params.category);
-  const posts = getPostsByCategory(category);
+  const category = params.category;
   const allCategories = getAllCategories();
+  const currentCategory = allCategories.find((c) => c.slug === category);
 
-  if (!allCategories.find((c) => c.name === category)) {
+  if (!currentCategory) {
     notFound();
   }
+
+  const posts = getPostsByCategory(currentCategory.slug);
 
   return (
     <div className="space-y-8">
@@ -34,7 +35,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           阅读路径
         </p>
         <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
-          {category}
+          {currentCategory.name}
         </h1>
         <p className="mt-4 text-ink-muted dark:text-gray-300">
           共 {posts.length} 篇手记

@@ -332,7 +332,7 @@ PC 端可以增加右侧窄栏：
 ---
 title: 增长策略基础
 date: 2026-05-11
-category: 产品分析
+category: learning
 tags:
   - Growth
   - GA4

@@ -46,7 +46,7 @@ title: 文章标题
 slug: article-slug
 date: 2026-05-11
 updatedAt: 2026-05-11
-category: 技术博客
+category: technical
 tags:
   - Next.js
   - GitHub Pages
@@ -56,11 +56,11 @@ coverImage: /images/example.jpg
 ---
 ```
 
-固定分类：
+固定分类在 `lib/site.ts` 配置。文章 frontmatter 的 `category` 必须填写 ASCII slug，页面展示名由配置决定：
 
-- `technical` -> 技术博客
-- `learning` -> 学习日志
-- `life` -> 生活随记
+- `technical` -> 工程札记
+- `learning` -> 产品观察
+- `life` -> 生活手记
 
 `status: draft` 的文章不会进入公开页面。
 

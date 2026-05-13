@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
-import { getCategoryNameBySlug, postCategories } from "./site";
+import { getCategoryBySlug, postCategories, resolveCategory } from "./site";
 
 // 处理图片路径，添加 basePath
 function processImagePath(imagePath: string | undefined): string | undefined {
@@ -31,6 +31,7 @@ export interface Post {
   title: string;
   date: string;
   updatedAt?: string;
+  categorySlug: string;
   category: string;
   tags: string[];
   excerpt?: string;
@@ -41,6 +42,7 @@ export interface Post {
 }
 
 export interface Category {
+  slug: string;
   name: string;
   count: number;
   description: string;
@@ -101,13 +103,33 @@ function getSlugFromPath(filePath: string, slug?: unknown): string {
   return path.basename(path.dirname(filePath));
 }
 
-function getCategoryFromPath(filePath: string, category?: unknown): string {
+function getCategoryFromPath(
+  filePath: string,
+  category?: unknown
+): Pick<Post, "category" | "categorySlug"> {
   if (typeof category === "string" && category.trim()) {
-    return category.trim();
+    const matchedCategory = resolveCategory(category.trim());
+    if (matchedCategory) {
+      return {
+        category: matchedCategory.name,
+        categorySlug: matchedCategory.slug,
+      };
+    }
   }
 
   const [categorySlug] = filePath.split(path.sep);
-  return getCategoryNameBySlug(categorySlug) || "未分类";
+  const matchedCategory = getCategoryBySlug(categorySlug);
+  if (matchedCategory) {
+    return {
+      category: matchedCategory.name,
+      categorySlug: matchedCategory.slug,
+    };
+  }
+
+  return {
+    category: "未分类",
+    categorySlug: "uncategorized",
+  };
 }
 
 /**
@@ -152,13 +174,14 @@ export function getAllPosts(): Post[] {
     // 从路径提取日期作为默认值（如果 frontmatter 中没有日期）
     const pathDate = extractDateFromPath(relativePath);
     const slug = getSlugFromPath(relativePath, data.slug);
+    const category = getCategoryFromPath(relativePath, data.category);
 
     return normalizePost({
       slug,
       title: data.title || slug,
       date: data.date || pathDate || "",
       updatedAt: data.updatedAt || undefined,
-      category: getCategoryFromPath(relativePath, data.category),
+      ...category,
       excerpt: data.excerpt || "",
       content,
       tags: normalizeTags(data.tags),
@@ -191,13 +214,14 @@ export function getAllPostsIncludingDrafts(): Post[] {
       const { data, content } = matter(fileContents);
       const pathDate = extractDateFromPath(relativePath);
       const slug = getSlugFromPath(relativePath, data.slug);
+      const category = getCategoryFromPath(relativePath, data.category);
 
       return normalizePost({
         slug,
         title: data.title || slug,
         date: data.date || pathDate || "",
         updatedAt: data.updatedAt || undefined,
-        category: getCategoryFromPath(relativePath, data.category),
+        ...category,
         excerpt: data.excerpt || "",
         content,
         tags: normalizeTags(data.tags),
@@ -210,10 +234,10 @@ export function getAllPostsIncludingDrafts(): Post[] {
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-// 根据分类获取文章
-export function getPostsByCategory(category: string): Post[] {
+// 根据分类 slug 获取文章
+export function getPostsByCategory(categorySlug: string): Post[] {
   const allPosts = getAllPosts();
-  return allPosts.filter((post) => post.category === category);
+  return allPosts.filter((post) => post.categorySlug === categorySlug);
 }
 
 // 获取所有分类
@@ -222,25 +246,29 @@ export function getAllCategories(): Category[] {
   const categoryMap = new Map<string, number>();
 
   allPosts.forEach((post) => {
-    const count = categoryMap.get(post.category) || 0;
-    categoryMap.set(post.category, count + 1);
+    const count = categoryMap.get(post.categorySlug) || 0;
+    categoryMap.set(post.categorySlug, count + 1);
   });
 
   const categories = postCategories.map((category) => ({
+    slug: category.slug,
     name: category.name,
     description: category.description,
-    count: categoryMap.get(category.name) || 0,
+    count: categoryMap.get(category.slug) || 0,
   }));
 
-  const customCategories = Array.from(categoryMap.entries())
-    .filter(
-      ([name]) => !postCategories.some((category) => category.name === name)
-    )
-    .map(([name, count]) => ({
-      name,
-      count,
-      description: "未归入固定分类的文章。",
-    }));
+  const uncategorizedCount = categoryMap.get("uncategorized") || 0;
+  const customCategories =
+    uncategorizedCount > 0
+      ? [
+          {
+            slug: "uncategorized",
+            name: "未分类",
+            count: uncategorizedCount,
+            description: "尚未配置到固定阅读路径的文章。",
+          },
+        ]
+      : [];
 
   return [...categories, ...customCategories].sort((a, b) => b.count - a.count);
 }
@@ -267,13 +295,14 @@ export function getPostBySlug(slug: string): Post | null {
 
   // 从路径提取日期作为默认值
   const pathDate = extractDateFromPath(matchedFile);
+  const category = getCategoryFromPath(matchedFile, data.category);
 
   const post = normalizePost({
     slug,
     title: data.title || slug,
     date: data.date || pathDate || "",
     updatedAt: data.updatedAt || undefined,
-    category: getCategoryFromPath(matchedFile, data.category),
+    ...category,
     excerpt: data.excerpt || "",
     content,
     tags: normalizeTags(data.tags),

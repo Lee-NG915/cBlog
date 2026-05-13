@@ -25,7 +25,20 @@ export const postCategories = [
 
 export type PostCategoryName = (typeof postCategories)[number]["name"];
 export type PostCategorySlug = (typeof postCategories)[number]["slug"];
+export type PostCategory = (typeof postCategories)[number];
 
 export function getCategoryNameBySlug(slug: string): string | undefined {
   return postCategories.find((category) => category.slug === slug)?.name;
+}
+
+export function getCategoryBySlug(slug: string): PostCategory | undefined {
+  return postCategories.find((category) => category.slug === slug);
+}
+
+export function getCategoryByName(name: string): PostCategory | undefined {
+  return postCategories.find((category) => category.name === name);
+}
+
+export function resolveCategory(value: string): PostCategory | undefined {
+  return getCategoryBySlug(value) || getCategoryByName(value);
 }

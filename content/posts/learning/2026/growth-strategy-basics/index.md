@@ -2,7 +2,7 @@
 title: 增长策略基础
 slug: growth-strategy-basics
 date: 2026-05-11
-category: 产品观察
+category: learning
 tags:
   - GA4
   - 产品分析
