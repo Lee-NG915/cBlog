@@ -1,5 +1,5 @@
 ---
-title: 《学会提问》读书笔记-2
+title: 《学会提问》前五章阅读心得
 slug: asking-the-right-questions-2
 date: 2026-05-14T17:20:00+08:00
 category: learning
@@ -8,7 +8,7 @@ tags:
   - 必读
   - 人际沟通
 status: published
-excerpt: 阅读本文可以简单了解“批判性思维”的关键概念。
+excerpt: 记录自己目前对批判式思维的理解
 coverCard: /images/covers/study/image.png
 ---
 
