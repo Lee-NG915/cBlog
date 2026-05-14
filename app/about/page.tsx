@@ -1,3 +1,38 @@
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site";
+
+const description = "了解 Color 手记的内容方向：产品观察、工程札记和生活手记。";
+
+export const metadata: Metadata = {
+  title: "关于",
+  description,
+  alternates: {
+    canonical: "/about/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/about/",
+    siteName: siteConfig.title,
+    title: `关于 | ${siteConfig.title}`,
+    description,
+    locale: "zh_CN",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `关于 | ${siteConfig.title}`,
+    description,
+    images: [siteConfig.ogImage],
+  },
+};
+
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl">

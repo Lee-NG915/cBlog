@@ -2,7 +2,7 @@ import Link from "next/link";
 import FeaturedPost from "@/components/FeaturedPost";
 import PostCard from "@/components/PostCard";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
-import { siteConfig } from "@/lib/site";
+import { getSiteUrl, siteConfig } from "@/lib/site";
 
 export default function Home() {
   const posts = getAllPosts();
@@ -10,9 +10,36 @@ export default function Home() {
   const featuredPost = posts[0];
   const latestPosts = posts.slice(featuredPost ? 1 : 0, 7);
   const visiblePosts = latestPosts.length > 0 ? latestPosts : posts;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: siteConfig.title,
+    description: siteConfig.description,
+    url: getSiteUrl("/"),
+    inLanguage: "zh-CN",
+    author: {
+      "@type": "Person",
+      name: siteConfig.author,
+    },
+    blogPost: posts.slice(0, 10).map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.excerpt || siteConfig.description,
+      url: getSiteUrl(`/posts/${post.slug}/`),
+      datePublished: post.date || undefined,
+      dateModified: post.updatedAt || post.date || undefined,
+    })),
+  };
 
   return (
-    <div className="space-y-10 sm:space-y-14">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <div className="space-y-10 sm:space-y-14">
       <section className="mx-auto max-w-4xl pb-8 pt-5 text-center sm:pb-10 sm:pt-8">
         <p className="mb-4 text-xs font-semibold text-primary-700 dark:text-primary-300">
           产品 / 工程 / 生活
@@ -110,6 +137,7 @@ export default function Home() {
           </div>
         )}
       </section>
-    </div>
+      </div>
+    </>
   );
 }

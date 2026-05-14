@@ -19,8 +19,39 @@ const display = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
   description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: siteConfig.author }],
+  creator: siteConfig.author,
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: siteConfig.title,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    locale: "zh_CN",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default function RootLayout({

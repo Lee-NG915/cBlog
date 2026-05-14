@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import PostCard from "@/components/PostCard";
 import BackButton from "@/components/BackButton";
 import { getPostsByCategory, getAllCategories } from "@/lib/posts";
 import { notFound } from "next/navigation";
+import { siteConfig } from "@/lib/site";
 
 interface CategoryPageProps {
   params: {
@@ -14,6 +16,51 @@ export async function generateStaticParams() {
   return categories.map((category) => ({
     category: category.slug,
   }));
+}
+
+export function generateMetadata({ params }: CategoryPageProps): Metadata {
+  const allCategories = getAllCategories();
+  const currentCategory = allCategories.find((c) => c.slug === params.category);
+
+  if (!currentCategory) {
+    return {
+      title: "阅读路径不存在",
+    };
+  }
+
+  const canonicalPath = `/categories/${currentCategory.slug}/`;
+  const title = currentCategory.name;
+  const description = currentCategory.description;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      type: "website",
+      url: canonicalPath,
+      siteName: siteConfig.title,
+      title: `${title} | ${siteConfig.title}`,
+      description,
+      locale: "zh_CN",
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${siteConfig.title}`,
+      description,
+      images: [siteConfig.ogImage],
+    },
+  };
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {

@@ -159,6 +159,18 @@ function extractDateFromPath(filePath: string): string | null {
   return null;
 }
 
+function normalizeDate(date: unknown): string {
+  if (!date) {
+    return "";
+  }
+
+  if (date instanceof Date) {
+    return Number.isNaN(date.getTime()) ? "" : date.toISOString();
+  }
+
+  return String(date).trim();
+}
+
 // 获取所有文章
 export function getAllPosts(): Post[] {
   if (!fs.existsSync(postsDirectory)) {
@@ -179,8 +191,8 @@ export function getAllPosts(): Post[] {
     return normalizePost({
       slug,
       title: data.title || slug,
-      date: data.date || pathDate || "",
-      updatedAt: data.updatedAt || undefined,
+      date: normalizeDate(data.date) || pathDate || "",
+      updatedAt: normalizeDate(data.updatedAt) || undefined,
       ...category,
       excerpt: data.excerpt || "",
       content,
@@ -219,8 +231,8 @@ export function getAllPostsIncludingDrafts(): Post[] {
       return normalizePost({
         slug,
         title: data.title || slug,
-        date: data.date || pathDate || "",
-        updatedAt: data.updatedAt || undefined,
+        date: normalizeDate(data.date) || pathDate || "",
+        updatedAt: normalizeDate(data.updatedAt) || undefined,
         ...category,
         excerpt: data.excerpt || "",
         content,
@@ -300,8 +312,8 @@ export function getPostBySlug(slug: string): Post | null {
   const post = normalizePost({
     slug,
     title: data.title || slug,
-    date: data.date || pathDate || "",
-    updatedAt: data.updatedAt || undefined,
+    date: normalizeDate(data.date) || pathDate || "",
+    updatedAt: normalizeDate(data.updatedAt) || undefined,
     ...category,
     excerpt: data.excerpt || "",
     content,

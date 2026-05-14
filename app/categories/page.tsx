@@ -1,5 +1,37 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
+import { siteConfig } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "阅读路径",
+  description: "按长期主题浏览产品观察、工程札记和生活手记。",
+  alternates: {
+    canonical: "/categories/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/categories/",
+    siteName: siteConfig.title,
+    title: `阅读路径 | ${siteConfig.title}`,
+    description: "按长期主题浏览产品观察、工程札记和生活手记。",
+    locale: "zh_CN",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `阅读路径 | ${siteConfig.title}`,
+    description: "按长期主题浏览产品观察、工程札记和生活手记。",
+    images: [siteConfig.ogImage],
+  },
+};
 
 export default function CategoriesPage() {
   const categories = getAllCategories();
