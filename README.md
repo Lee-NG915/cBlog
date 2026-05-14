@@ -59,7 +59,7 @@ coverImage: /images/example.jpg
 固定分类在 `lib/site.ts` 配置。文章 frontmatter 的 `category` 必须填写 ASCII slug，页面展示名由配置决定：
 
 - `technical` -> 工程札记
-- `learning` -> 产品观察
+- `learning` -> 学习记录
 - `life` -> 生活手记
 
 `status: draft` 的文章不会进入公开页面。

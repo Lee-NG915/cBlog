@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 
-const description = "了解 Color 手记的内容方向：产品观察、工程札记和生活手记。";
+const description = "了解 Color 手记的内容方向：学习记录、工程札记和生活手记。";
 
 export const metadata: Metadata = {
   title: "关于",
@@ -45,11 +45,9 @@ export default function AboutPage() {
         </h1>
       </header>
       <div className="prose rounded-3xl border border-line-light bg-surface-light p-8 dark:border-line-dark dark:bg-surface-dark">
-        <p>
-          这里记录产品判断、工程实践和长期学习中的可复盘经验。
-        </p>
+        <p>这里记录产品判断、工程实践和长期学习中的可复盘经验。</p>
         <ul>
-          <li>产品观察：基于数据、用户行为和业务目标形成的产品判断。</li>
+          <li>学习记录：基于数据、用户行为和业务目标形成的产品判断。</li>
           <li>工程札记：前端工程、部署实践、工具链和架构取舍。</li>
           <li>生活手记：日常观察、阅读笔记、兴趣和工作之外的生活记录。</li>
         </ul>

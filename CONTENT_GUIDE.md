@@ -24,11 +24,11 @@ content/posts/
 
 分类目录：
 
-| 目录 slug | 分类 |
-| --- | --- |
+| 目录 slug   | 分类     |
+| ----------- | -------- |
 | `technical` | 工程札记 |
-| `learning` | 产品观察 |
-| `life` | 生活手记 |
+| `learning`  | 学习记录 |
+| `life`      | 生活手记 |
 
 分类配置位置：`lib/site.ts`。
 

@@ -30,11 +30,11 @@ content/posts/
 
 ## 分类目录
 
-| 目录 slug | 分类 |
-| --- | --- |
+| 目录 slug   | 分类     |
+| ----------- | -------- |
 | `technical` | 工程札记 |
-| `learning` | 产品观察 |
-| `life` | 生活手记 |
+| `learning`  | 学习记录 |
+| `life`      | 生活手记 |
 
 分类 slug 配置在 `lib/site.ts`。读取逻辑会优先使用 frontmatter 的 `category` slug，如果没有，就从路径第一段推导分类。
 

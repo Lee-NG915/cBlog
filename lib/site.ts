@@ -15,7 +15,7 @@ export const postCategories = [
   },
   {
     slug: "learning",
-    name: "产品观察",
+    name: "学习记录",
     description: "基于数据、用户行为和业务目标形成的产品判断。",
   },
   {

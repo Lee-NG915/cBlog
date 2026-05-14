@@ -171,6 +171,22 @@ function normalizeDate(date: unknown): string {
   return String(date).trim();
 }
 
+function comparePostsByDateDesc(a: Post, b: Post): number {
+  const dateComparison = b.date.localeCompare(a.date);
+  if (dateComparison !== 0) {
+    return dateComparison;
+  }
+
+  const updatedAtComparison = (b.updatedAt || "").localeCompare(
+    a.updatedAt || ""
+  );
+  if (updatedAtComparison !== 0) {
+    return updatedAtComparison;
+  }
+
+  return b.slug.localeCompare(a.slug);
+}
+
 // 获取所有文章
 export function getAllPosts(): Post[] {
   if (!fs.existsSync(postsDirectory)) {
@@ -206,12 +222,7 @@ export function getAllPosts(): Post[] {
 
   return allPostsData
     .filter((post) => post.status === "published")
-    .sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      }
-      return -1;
-    });
+    .sort(comparePostsByDateDesc);
 }
 
 export function getAllPostsIncludingDrafts(): Post[] {
@@ -243,7 +254,7 @@ export function getAllPostsIncludingDrafts(): Post[] {
         ),
       });
     })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    .sort(comparePostsByDateDesc);
 }
 
 // 根据分类 slug 获取文章
