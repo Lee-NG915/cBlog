@@ -32,12 +32,12 @@ coverCard: https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=
 
 ```mermaid
 flowchart LR
-  A["Markdown 文章包<br/>content/posts"] --> B["lib/posts.ts<br/>读取、解析、排序"]
-  C["站点配置<br/>lib/site.ts"] --> B
-  B --> D["App Router 页面<br/>首页 / 分类 / 文章"]
-  D --> E["next build<br/>静态导出"]
+  A["Markdown 文章包"] --> B["读取和解析文章"]
+  C["站点配置"] --> B
+  B --> D["App Router 页面"]
+  D --> E["静态导出"]
   E --> F["out/ 静态文件"]
-  F --> G["GitHub Pages<br/>/cBlog 子路径"]
+  F --> G["GitHub Pages 发布"]
 
   classDef source fill:#E6F3F1,stroke:#9DD1C9,color:#1F2933;
   classDef build fill:#FFFDF8,stroke:#E5DFD3,color:#1F2933;
@@ -178,12 +178,12 @@ const nextConfig = {
 
 ```mermaid
 flowchart TB
-  A["本地路由<br/>/posts/nextjs-blog-setup/"] --> B["生产 basePath<br/>BASE_PATH=/cBlog"]
-  B --> C["线上路由<br/>/cBlog/posts/nextjs-blog-setup/"]
-  C --> D["GitHub Pages 文件<br/>out/posts/nextjs-blog-setup/index.html"]
+  A["本地文章路由"] --> B["生产 basePath"]
+  B --> C["线上文章路由"]
+  C --> D["GitHub Pages 静态文件"]
 
-  A2["静态资源<br/>/_next/..."] --> B
-  B --> C2["线上资源<br/>/cBlog/_next/..."]
+  A2["本地静态资源"] --> B
+  B --> C2["线上静态资源"]
 ```
 
 ## 页面设计
@@ -216,15 +216,13 @@ flowchart LR
 
 这样处理的原因是 Mermaid 依赖浏览器环境，直接在服务端 Markdown 转换阶段渲染会让实现复杂很多。现在的方案仍然保持静态导出，只在浏览器端做图例增强。
 
-````mermaid
+```mermaid
 flowchart LR
-  A["```mermaid 代码块"] --> B["remark-html 输出 code"]
-  B --> C["enhanceMermaidBlocks()"]
-  C --> D[".mermaid-diagram 容器"]
-  D --> E["MermaidEnhancer 客户端渲染"]
-  E --> F["SVG 图例"]
-  F --> G["点击展开大图"]
-````
+  A["Mermaid 代码块"] --> B["remark-html 输出"]
+  B --> C["转换为图例容器"]
+  C --> D["客户端渲染 SVG"]
+  D --> E["点击展开大图"]
+```
 
 ## SEO
 
@@ -283,10 +281,10 @@ out/
 flowchart LR
   A["提交代码"] --> B["GitHub Actions"]
   B --> C["安装依赖"]
-  C --> D["BASE_PATH=/cBlog<br/>next build"]
+  C --> D["生产构建"]
   D --> E["上传 out/"]
   E --> F["GitHub Pages 发布"]
-  F --> G["线上访问<br/>lee-ng915.github.io/cBlog"]
+  F --> G["线上访问"]
 ```
 
 ## 目前的取舍

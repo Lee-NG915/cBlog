@@ -47,36 +47,39 @@ export default function MermaidEnhancer() {
         return;
       }
 
-      diagrams.forEach((diagram, index) => {
+      for (const [index, diagram] of diagrams.entries()) {
         if (diagram.dataset.rendered === "true") {
-          return;
+          continue;
         }
 
         const source = decodeURIComponent(diagram.dataset.mermaid || "").trim();
         if (!source) {
-          return;
+          continue;
         }
 
         diagram.dataset.rendered = "true";
 
-        mermaid
-          .render(`mermaid-${Date.now()}-${index}`, source)
-          .then(({ svg }) => {
-            if (isCancelled) {
-              return;
-            }
+        try {
+          await mermaid.parse(source);
+          const { svg } = await mermaid.render(
+            `mermaid-${Date.now()}-${index}`,
+            source
+          );
 
-            diagram.innerHTML = svg;
-            diagram.dataset.svg = encodeURIComponent(svg);
-            diagram.dataset.title = diagram.dataset.title || `图例 ${index + 1}`;
-            diagram.classList.add("is-rendered");
-          })
-          .catch(() => {
-            diagram.innerHTML =
-              '<span class="mermaid-error">图例渲染失败，请检查 Mermaid 语法。</span>';
-            diagram.classList.add("has-error");
-          });
-      });
+          if (isCancelled) {
+            return;
+          }
+
+          diagram.innerHTML = svg;
+          diagram.dataset.svg = encodeURIComponent(svg);
+          diagram.dataset.title = diagram.dataset.title || `图例 ${index + 1}`;
+          diagram.classList.add("is-rendered");
+        } catch {
+          diagram.innerHTML =
+            '<span class="mermaid-error">图例渲染失败，请检查 Mermaid 语法。</span>';
+          diagram.classList.add("has-error");
+        }
+      }
     }
 
     renderDiagrams();
