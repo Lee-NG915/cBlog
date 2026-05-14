@@ -13,7 +13,7 @@ export default function MermaidEnhancer() {
 
   useEffect(() => {
     const diagrams = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(".mermaid-diagram")
+      document.querySelectorAll<HTMLButtonElement>(".mermaid-diagram"),
     );
 
     if (diagrams.length === 0) {
@@ -47,7 +47,7 @@ export default function MermaidEnhancer() {
         return;
       }
 
-      for (const [index, diagram] of diagrams.entries()) {
+      for (const [index, diagram] of Array.from(diagrams.entries())) {
         if (diagram.dataset.rendered === "true") {
           continue;
         }
@@ -63,7 +63,7 @@ export default function MermaidEnhancer() {
           await mermaid.parse(source);
           const { svg } = await mermaid.render(
             `mermaid-${Date.now()}-${index}`,
-            source
+            source,
           );
 
           if (isCancelled) {
@@ -91,7 +91,7 @@ export default function MermaidEnhancer() {
 
   useEffect(() => {
     const diagrams = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(".mermaid-diagram")
+      document.querySelectorAll<HTMLButtonElement>(".mermaid-diagram"),
     );
 
     diagrams.forEach((diagram, index) => {
