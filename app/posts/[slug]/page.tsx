@@ -130,50 +130,59 @@ export default async function PostPage({ params }: PostPageProps) {
       <article className="min-w-0">
         <BackButton href="/" label="返回首页" />
 
+        <header className="mb-10 pb-4">
+          <div className="mb-6 flex flex-wrap items-center gap-3">
+            <Link
+              href={`/categories/${post.categorySlug}`}
+              className="rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
+            >
+              {post.category}
+            </Link>
+            <span className="text-sm text-ink-muted dark:text-gray-400">
+              {post.readingTime || 1} 分钟阅读
+            </span>
+          </div>
+
+          <h1 className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.08] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
+            {post.title}
+          </h1>
+
+          {post.excerpt && (
+            <p className="mt-6 max-w-4xl break-words text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
+              {post.excerpt}
+            </p>
+          )}
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+            {post.date && (
+              <time className="text-sm text-ink-soft dark:text-gray-500">
+                发布于{" "}
+                {format(new Date(post.date), "yyyy.MM.dd", {
+                  locale: zhCN,
+                })}
+              </time>
+            )}
+            {post.updatedAt && (
+              <time className="text-sm text-ink-soft dark:text-gray-500">
+                更新于{" "}
+                {format(new Date(post.updatedAt), "yyyy.MM.dd", {
+                  locale: zhCN,
+                })}
+              </time>
+            )}
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-line-light bg-surface-light px-3 py-1 text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </header>
+
         <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
           <div className="min-w-0">
-            <header className="mb-10 border-b border-line-light pb-10 dark:border-line-dark">
-              <div className="mb-5 flex flex-wrap items-center gap-3">
-                <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
-                  {post.category}
-                </span>
-                {post.readingTime && (
-                  <span className="text-sm text-ink-muted dark:text-gray-400">
-                    {post.readingTime} 分钟阅读
-                  </span>
-                )}
-              </div>
-
-              <h1 className="break-words font-display text-5xl font-bold leading-[1.12] tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
-                {post.title}
-              </h1>
-
-              {post.excerpt && (
-                <p className="mt-6 break-words text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
-                  {post.excerpt}
-                </p>
-              )}
-
-              <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-ink-soft dark:text-gray-500">
-                {post.date && (
-                  <time>
-                    发布于{" "}
-                    {format(new Date(post.date), "yyyy.MM.dd", {
-                      locale: zhCN,
-                    })}
-                  </time>
-                )}
-                {post.updatedAt && (
-                  <time>
-                    更新于{" "}
-                    {format(new Date(post.updatedAt), "yyyy.MM.dd", {
-                      locale: zhCN,
-                    })}
-                  </time>
-                )}
-              </div>
-            </header>
-
             <div
               className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
               dangerouslySetInnerHTML={{ __html: content }}
@@ -182,56 +191,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
           <aside className="hidden min-w-0 lg:block">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
-              <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
-                <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
-                  文章索引
-                </p>
-                <dl className="mt-5 space-y-4 text-sm">
-                  <div>
-                    <dt className="text-ink-soft dark:text-gray-500">路径</dt>
-                    <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                      {post.category}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-ink-soft dark:text-gray-500">阅读时间</dt>
-                    <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                      {post.readingTime || 1} 分钟
-                    </dd>
-                  </div>
-                  {post.date && (
-                    <div>
-                      <dt className="text-ink-soft dark:text-gray-500">
-                        发布日期
-                      </dt>
-                      <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                        {format(new Date(post.date), "yyyy.MM.dd", {
-                          locale: zhCN,
-                        })}
-                      </dd>
-                    </div>
-                  )}
-                </dl>
-              </div>
-
-              {post.tags.length > 0 && (
-                <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
-                  <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
-                    标签
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-line-light px-3 py-1 text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
