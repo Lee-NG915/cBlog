@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import BackButton from "@/components/BackButton";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
-import { getPostBySlug, getAllPostSlugs, markdownToHtml } from "@/lib/posts";
+import {
+  getAllCategories,
+  getAllPosts,
+  getPostBySlug,
+  getAllPostSlugs,
+  markdownToHtml,
+} from "@/lib/posts";
 import { notFound } from "next/navigation";
 import { decodePathSegment } from "@/lib/utils";
 import { getSeoImageUrl, getSiteUrl, siteConfig } from "@/lib/site";
@@ -80,6 +87,14 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const content = await markdownToHtml(post.content);
+  const categories = getAllCategories();
+  const allPosts = getAllPosts();
+  const sidebarCategories = categories.map((category) => ({
+    ...category,
+    posts: allPosts
+      .filter((categoryPost) => categoryPost.categorySlug === category.slug)
+      .slice(0, 4),
+  }));
   const canonicalUrl = getSiteUrl(`/posts/${post.slug}/`);
   const image = getSeoImageUrl(post.coverImage);
   const jsonLd = {
@@ -112,10 +127,10 @@ export default async function PostPage({ params }: PostPageProps) {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <article className="min-w-0 overflow-hidden">
+      <article className="min-w-0">
         <BackButton href="/" label="返回首页" />
 
-        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_260px]">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
           <div className="min-w-0">
             <header className="mb-10 border-b border-line-light pb-10 dark:border-line-dark">
               <div className="mb-5 flex flex-wrap items-center gap-3">
@@ -165,54 +180,123 @@ export default async function PostPage({ params }: PostPageProps) {
             />
           </div>
 
-          <aside className="sticky top-10 hidden h-fit space-y-6 lg:block">
-            <div className="rounded-3xl border border-line-light bg-surface-light p-6 dark:border-line-dark dark:bg-surface-dark">
-              <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
-                文章索引
-              </p>
-              <dl className="mt-5 space-y-4 text-sm">
-                <div>
-                  <dt className="text-ink-soft dark:text-gray-500">路径</dt>
-                  <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                    {post.category}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-ink-soft dark:text-gray-500">阅读时间</dt>
-                  <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                    {post.readingTime || 1} 分钟
-                  </dd>
-                </div>
-                {post.date && (
+          <aside className="hidden min-w-0 lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
+              <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
+                <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                  文章索引
+                </p>
+                <dl className="mt-5 space-y-4 text-sm">
                   <div>
-                    <dt className="text-ink-soft dark:text-gray-500">发布日期</dt>
+                    <dt className="text-ink-soft dark:text-gray-500">路径</dt>
                     <dd className="mt-1 font-medium text-ink dark:text-gray-100">
-                      {format(new Date(post.date), "yyyy.MM.dd", {
-                        locale: zhCN,
-                      })}
+                      {post.category}
                     </dd>
                   </div>
-                )}
-              </dl>
-            </div>
+                  <div>
+                    <dt className="text-ink-soft dark:text-gray-500">阅读时间</dt>
+                    <dd className="mt-1 font-medium text-ink dark:text-gray-100">
+                      {post.readingTime || 1} 分钟
+                    </dd>
+                  </div>
+                  {post.date && (
+                    <div>
+                      <dt className="text-ink-soft dark:text-gray-500">
+                        发布日期
+                      </dt>
+                      <dd className="mt-1 font-medium text-ink dark:text-gray-100">
+                        {format(new Date(post.date), "yyyy.MM.dd", {
+                          locale: zhCN,
+                        })}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
 
-            {post.tags.length > 0 && (
-              <div className="rounded-3xl border border-line-light bg-surface-light p-6 dark:border-line-dark dark:bg-surface-dark">
-                <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
-                  标签
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-line-light px-3 py-1 text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
+              {post.tags.length > 0 && (
+                <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
+                  <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                    标签
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-line-light px-3 py-1 text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                    阅读路径
+                  </p>
+                  <Link
+                    href="/categories"
+                    className="text-xs font-medium text-ink-soft transition hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+                  >
+                    全部
+                  </Link>
+                </div>
+
+                <div className="mt-5 space-y-6">
+                  {sidebarCategories.map((category) => (
+                    <section
+                      key={category.slug}
+                      className="border-t border-line-light pt-5 first:border-t-0 first:pt-0 dark:border-line-dark"
                     >
-                      {tag}
-                    </span>
+                      <Link
+                        href={`/categories/${category.slug}`}
+                        className="group flex items-center justify-between gap-3"
+                      >
+                        <span className="text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
+                          {category.name}
+                        </span>
+                        <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                          {category.count}
+                        </span>
+                      </Link>
+
+                      <div className="mt-3 space-y-2">
+                        {category.posts.length === 0 ? (
+                          <p className="text-xs leading-5 text-ink-soft dark:text-gray-500">
+                            暂无文章
+                          </p>
+                        ) : (
+                          category.posts.map((categoryPost) => {
+                            const isCurrentPost =
+                              categoryPost.slug === post.slug;
+
+                            return (
+                              <Link
+                                key={categoryPost.slug}
+                                href={`/posts/${categoryPost.slug}`}
+                                aria-current={isCurrentPost ? "page" : undefined}
+                                className={`block rounded-2xl px-3 py-2 text-sm leading-5 transition ${
+                                  isCurrentPost
+                                    ? "bg-primary-50 font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
+                                    : "text-ink-muted hover:bg-background-light hover:text-primary-800 dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-primary-200"
+                                }`}
+                              >
+                                <span className="line-clamp-2">
+                                  {categoryPost.title}
+                                </span>
+                              </Link>
+                            );
+                          })
+                        )}
+                      </div>
+                    </section>
                   ))}
                 </div>
               </div>
-            )}
+            </div>
           </aside>
         </div>
       </article>
