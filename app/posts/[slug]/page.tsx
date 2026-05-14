@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
+import MermaidEnhancer from "@/components/MermaidEnhancer";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import {
@@ -187,6 +188,7 @@ export default async function PostPage({ params }: PostPageProps) {
               className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
               dangerouslySetInnerHTML={{ __html: content }}
             />
+            <MermaidEnhancer />
           </div>
 
           <aside className="hidden min-w-0 lg:block">

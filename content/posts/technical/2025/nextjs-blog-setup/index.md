@@ -1,291 +1,305 @@
 ---
 title: 使用 Next.js 搭建个人博客
 slug: nextjs-blog-setup
-date: 2024-01-02
-updatedAt: 2026-05-11
+date: 2026-05-01
+updatedAt: 2026-05-14
 category: technical
 tags:
   - Next.js
   - GitHub Pages
   - 静态站点
+  - Mermaid
 status: published
-excerpt: 详细介绍如何使用 Next.js 14、TypeScript 和 Markdown 搭建一个部署到 GitHub Pages 的静态个人博客。
+excerpt: 记录当前博客如何用 Next.js App Router、Markdown 内容包、静态导出和 GitHub Pages 组成一个可维护的个人知识站点。
 coverCard: https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop
 ---
 
 # 使用 Next.js 搭建个人博客
 
-Next.js 是一个强大的 React 框架，非常适合构建静态博客网站。本文将详细介绍如何使用 Next.js 14 构建一个功能完整、性能优异的个人博客系统。
+这个博客不是一个复杂的内容平台，而是一个长期维护的个人知识站点。它需要满足几个很现实的目标：
 
-## 为什么选择 Next.js？
+- 文章用 Markdown 写，方便迁移和版本管理。
+- 部署仍然使用 GitHub Pages，成本低，维护简单。
+- 页面必须是静态 HTML，方便搜索引擎抓取。
+- 分类、文章 URL 和 SEO 信息要稳定，不能因为中文路径或部署子路径导致 404。
+- 后续可以接管理后台，但一期不依赖后端服务。
 
-1. **静态站点生成（SSG）**：可以生成完全静态的 HTML 文件，无需运行时服务器
-2. **优秀的性能**：自动代码分割和优化，首屏加载速度快
-3. **开发体验好**：热重载、TypeScript 支持、优秀的错误提示
-4. **易于部署**：可以轻松部署到 GitHub Pages、Vercel、Netlify 等平台
-5. **SEO 友好**：所有内容都在 HTML 中，搜索引擎可以直接抓取
+最终选择是：**Next.js App Router + Markdown 内容包 + 静态导出 + GitHub Pages**。
 
-## 项目架构设计
+## 当前架构
 
-### 技术栈
+现在的博客可以理解为三层：内容层、构建层、展示层。内容层只负责文章和分类配置；构建层把 Markdown 转成 HTML 并生成静态页面；展示层负责博客首页、分类页、文章页和 SEO。
 
-- **Next.js 14**：使用最新的 App Router 架构
-- **TypeScript**：提供类型安全，提升开发效率
-- **Tailwind CSS**：实用优先的 CSS 框架，快速构建美观界面
-- **gray-matter**：解析 Markdown 文件的 frontmatter
-- **remark**：将 Markdown 转换为 HTML
-- **date-fns**：日期格式化工具
+```mermaid
+flowchart LR
+  A["Markdown 文章包<br/>content/posts"] --> B["lib/posts.ts<br/>读取、解析、排序"]
+  C["站点配置<br/>lib/site.ts"] --> B
+  B --> D["App Router 页面<br/>首页 / 分类 / 文章"]
+  D --> E["next build<br/>静态导出"]
+  E --> F["out/ 静态文件"]
+  F --> G["GitHub Pages<br/>/cBlog 子路径"]
 
-### 项目结构
-
-```
-cBlog/
-├── app/                    # Next.js App Router 页面
-│   ├── page.tsx           # 首页
-│   ├── layout.tsx         # 根布局（包含侧边栏和主题提供者）
-│   ├── categories/        # 分类相关页面
-│   │   ├── page.tsx       # 分类列表页
-│   │   └── [category]/    # 分类文章列表页
-│   ├── posts/             # 文章相关页面
-│   │   └── [slug]/        # 文章详情页
-│   └── about/             # 关于页面
-├── components/            # React 组件
-│   ├── Sidebar.tsx        # PC 端侧边栏
-│   ├── PostCard.tsx       # 文章卡片
-│   ├── ThemeProvider.tsx  # 主题提供者
-│   └── ThemeToggle.tsx    # 主题切换按钮
-├── content/               # 内容目录
-│   └── posts/            # Markdown 文章包
-│       ├── technical/
-│       │   └── 2024/
-│       │       └── nextjs-blog-setup/
-│       │           └── index.md
-│       ├── learning/
-│       └── life/
-├── lib/                   # 工具函数
-│   ├── posts.ts          # 文章处理逻辑（核心）
-│   ├── navigation.ts     # 导航配置
-│   └── utils.ts          # 通用工具函数
-└── public/               # 静态资源
-    └── images/          # 图片资源
+  classDef source fill:#E6F3F1,stroke:#9DD1C9,color:#1F2933;
+  classDef build fill:#FFFDF8,stroke:#E5DFD3,color:#1F2933;
+  classDef deploy fill:#0F766E,stroke:#0B5F59,color:#FFFFFF;
+  class A,C source;
+  class B,D,E,F build;
+  class G deploy;
 ```
 
-## 核心功能实现
+这个结构的好处是边界清晰：写文章只动 `content/posts`；改分类只动 `lib/site.ts`；改页面体验只动 `app/` 和 `components/`。
 
-### 1. 静态站点生成（SSG）
+## 内容结构
 
-使用 Next.js 的静态导出功能，所有页面在构建时预先生成：
+文章采用“文章包”结构：
 
-```javascript
-// next.config.js
+```text
+content/posts/<category-slug>/<year>/<post-slug>/index.md
+```
+
+例如：
+
+```text
+content/posts/technical/2025/nextjs-blog-setup/index.md
+```
+
+这样组织比把所有 Markdown 平铺在一个目录里更适合长期维护：
+
+- `category-slug` 决定文章所属阅读路径。
+- `year` 保留归档能力。
+- `post-slug` 决定最终文章 URL。
+- 每篇文章未来可以继续放配图、数据文件或附件。
+
+当前分类配置集中在 `lib/site.ts`：
+
+```ts
+export const postCategories = [
+  {
+    slug: "technical",
+    name: "工程札记",
+    description: "前端工程、部署实践、工具链和架构取舍。",
+  },
+  {
+    slug: "learning",
+    name: "学习记录",
+    description: "阶段性学习记录、读书笔记、课程复盘和知识整理。",
+  },
+  {
+    slug: "life",
+    name: "生活手记",
+    description: "日常观察、阅读笔记、兴趣和工作之外的生活记录。",
+  },
+];
+```
+
+这里有一个重要约束：**URL 使用英文 slug，页面展示使用中文名称**。这样可以避免 GitHub Pages 上中文路径编码不一致导致的 404。
+
+## Markdown 到页面的流程
+
+文章页不是运行时去请求接口，而是在构建阶段完成读取和生成。
+
+```mermaid
+sequenceDiagram
+  participant MD as Markdown 文件
+  participant Posts as lib/posts.ts
+  participant Router as App Router
+  participant HTML as 静态 HTML
+
+  MD->>Posts: 读取 index.md
+  Posts->>Posts: 解析 frontmatter
+  Posts->>Posts: 规范日期、分类、标签、阅读时间
+  Posts->>Router: 提供文章数据和 slug
+  Router->>Router: generateStaticParams()
+  Router->>HTML: 生成 /posts/[slug]/index.html
+```
+
+`lib/posts.ts` 负责几件核心事情：
+
+- 递归扫描 `content/posts` 下的 Markdown。
+- 用 `gray-matter` 解析 frontmatter。
+- 根据路径和 frontmatter 解析分类。
+- 过滤草稿，只展示 `published` 文章。
+- 按发布时间和更新时间排序。
+- 计算阅读时间。
+- 将 Markdown 转换为 HTML。
+
+文章 frontmatter 的基本格式如下：
+
+```yaml
+---
+title: 使用 Next.js 搭建个人博客
+slug: nextjs-blog-setup
+date: 2024-01-02
+updatedAt: 2026-05-14
+category: technical
+tags:
+  - Next.js
+  - GitHub Pages
+status: published
+excerpt: 文章摘要
+---
+```
+
+其中 `category` 建议写分类 slug，例如 `technical`，不要写中文分类名。系统目前兼容中文名称，但新文章应该统一使用 slug。
+
+## 路由和 GitHub Pages
+
+这个项目部署在：
+
+```text
+https://lee-ng915.github.io/cBlog/
+```
+
+它不是根路径站点，而是 GitHub Pages 项目页，所以生产环境需要 `/cBlog` 子路径。
+
+当前 `next.config.js` 的核心配置是：
+
+```js
+const isProd = process.env.NODE_ENV === "production";
+const basePath = isProd ? process.env.BASE_PATH || "" : "";
+
 const nextConfig = {
-  output: "export",  // 启用静态导出模式
+  output: "export",
   images: {
-    unoptimized: true,  // 适配静态导出
+    unoptimized: true,
   },
   trailingSlash: true,
-  basePath: basePath,   // 支持 GitHub Pages 子路径
+  basePath: basePath,
+  assetPrefix: basePath,
 };
 ```
 
-**优势**：
-- 生成纯静态 HTML 文件，加载速度极快
-- 无需服务器，可以部署到任何静态托管服务
-- SEO 友好，搜索引擎可以直接抓取内容
+这几个配置对应的问题是：
 
-### 2. 按分类和文章包组织内容
+- `output: "export"`：输出纯静态文件，适合 GitHub Pages。
+- `images.unoptimized: true`：静态导出不能依赖 Next.js 图片优化服务。
+- `trailingSlash: true`：生成目录式 URL，例如 `/posts/nextjs-blog-setup/`。
+- `basePath` 和 `assetPrefix`：让页面和静态资源在 `/cBlog` 下正常访问。
 
-文章按 `分类 slug / 年份 / 文章 slug / index.md` 组织：
+```mermaid
+flowchart TB
+  A["本地路由<br/>/posts/nextjs-blog-setup/"] --> B["生产 basePath<br/>BASE_PATH=/cBlog"]
+  B --> C["线上路由<br/>/cBlog/posts/nextjs-blog-setup/"]
+  C --> D["GitHub Pages 文件<br/>out/posts/nextjs-blog-setup/index.html"]
 
-```typescript
-content/posts/technical/2024/nextjs-blog-setup/index.md
+  A2["静态资源<br/>/_next/..."] --> B
+  B --> C2["线上资源<br/>/cBlog/_next/..."]
 ```
 
-这种设计的好处：
-- 分类在目录层显式可见
-- 年份目录保留归档能力
-- 每篇文章是独立文章包，后续管理后台更容易创建、编辑、删除
-- URL slug 可通过 frontmatter 显式控制
+## 页面设计
 
-### 3. Markdown 解析与处理
+当前页面采用偏编辑型的个人博客设计：
 
-使用 `gray-matter` 解析 frontmatter，`remark` 转换 Markdown：
+- 顶部导航保持轻量，避免传统后台式侧边栏。
+- 首页突出“最近文章”和“阅读路径”。
+- 文章页左侧是正文，右侧是可吸顶的阅读路径导航。
+- 文章标题区域只保留必要信息：分类、阅读时间、摘要、发布日期和标签。
 
-```typescript
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+这种布局适合 PC 端阅读：正文保持稳定宽度，右侧提供快速跳转，但不抢夺正文注意力。
 
-// 读取并解析 Markdown 文件
-const fileContents = fs.readFileSync(fullPath, "utf8");
-const { data, content } = matter(fileContents);
+## Mermaid 图例支持
 
-// 转换为 HTML
-const result = await remark().use(html).process(content);
-const htmlContent = result.toString();
+博客已经支持在 Markdown 中直接写 Mermaid 图：
+
+````markdown
+```mermaid
+flowchart LR
+  A["Markdown"] --> B["HTML"]
+  B --> C["页面渲染"]
+```
+````
+
+渲染逻辑分成两步：
+
+1. 构建阶段：`markdownToHtml()` 将 `language-mermaid` 代码块转换成 `.mermaid-diagram` 容器。
+2. 浏览器端：`MermaidEnhancer` 初始化 Mermaid，渲染 SVG，并给图例绑定点击放大能力。
+
+这样处理的原因是 Mermaid 依赖浏览器环境，直接在服务端 Markdown 转换阶段渲染会让实现复杂很多。现在的方案仍然保持静态导出，只在浏览器端做图例增强。
+
+````mermaid
+flowchart LR
+  A["```mermaid 代码块"] --> B["remark-html 输出 code"]
+  B --> C["enhanceMermaidBlocks()"]
+  C --> D[".mermaid-diagram 容器"]
+  D --> E["MermaidEnhancer 客户端渲染"]
+  E --> F["SVG 图例"]
+  F --> G["点击展开大图"]
+````
+
+## SEO
+
+静态博客最值得先做的是基础 SEO，而不是复杂的增长技巧。当前已经落地：
+
+- 全站 metadata。
+- 首页、分类页、文章页 canonical。
+- 文章页 OpenGraph 和 Twitter Card。
+- sitemap.xml。
+- robots.txt。
+- 文章页 `BlogPosting` JSON-LD。
+- 默认分享图 `/og/default.png`。
+
+由于站点部署在 `/cBlog` 子路径下，SEO URL 必须统一包含：
+
+```text
+https://lee-ng915.github.io/cBlog
 ```
 
-**处理的功能**：
-- 解析 frontmatter（标题、日期、分类、摘要等）
-- 转换 Markdown 为 HTML
-- 处理图片路径（支持 basePath）
-- 计算阅读时间
+例如：
 
-### 4. 自动分类统计
-
-系统会自动扫描所有文章，统计每个分类下的文章数量：
-
-```typescript
-export function getAllCategories(): Category[] {
-  const allPosts = getAllPosts();
-  const categoryMap = new Map<string, number>();
-
-  allPosts.forEach((post) => {
-    const count = categoryMap.get(post.category) || 0;
-    categoryMap.set(post.category, count + 1);
-  });
-
-  return Array.from(categoryMap.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count);
-}
+```text
+https://lee-ng915.github.io/cBlog/posts/nextjs-blog-setup/
+https://lee-ng915.github.io/cBlog/categories/technical/
+https://lee-ng915.github.io/cBlog/sitemap.xml
 ```
 
-### 5. 静态页面生成
+## 构建和部署
 
-使用 `generateStaticParams` 为所有动态路由生成静态页面：
-
-```typescript
-// app/posts/[slug]/page.tsx
-export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
-  return slugs.map((slug) => ({
-    slug,
-  }));
-}
-
-export default async function PostPage({ params }: PostPageProps) {
-  const post = getPostBySlug(params.slug);
-  const content = await markdownToHtml(post.content);
-  // ...
-}
-```
-
-**构建流程**：
-1. 扫描所有 Markdown 文件
-2. 解析 frontmatter 和内容
-3. 为每篇文章生成静态 HTML 页面
-4. 输出到 `out/` 目录
-
-### 6. PC 端布局设计
-
-当前项目只考虑 PC 端用户，采用固定侧边栏和主内容区：
-
-- 左侧固定侧边栏：导航、分类、社交链接、主题切换
-- 右侧主内容区：首页概览、分类列表、文章详情
-
-```typescript
-// app/layout.tsx
-<div className="flex min-h-screen">
-  <Sidebar categories={categories} />
-  <div className="flex flex-1 flex-col pl-72">
-    <main className="flex-1">
-      {children}
-    </main>
-  </div>
-</div>
-```
-
-### 7. 主题切换功能
-
-实现完整的深色/浅色主题切换：
-
-```typescript
-// components/ThemeProvider.tsx
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState<Theme>("light");
-  
-  useEffect(() => {
-    // 从 localStorage 读取或检测系统偏好
-    const savedTheme = localStorage.getItem("theme");
-    // 应用主题...
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    applyTheme(newTheme);
-  };
-}
-```
-
-**特性**：
-- 自动保存用户偏好
-- 支持系统主题检测
-- 平滑的过渡动画
-- 护眼配色方案
-
-### 8. 阅读时间计算
-
-基于中文字符和英文单词数计算阅读时间：
-
-```typescript
-function calculateReadingTime(content: string): number {
-  const chineseCharCount = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
-  const englishWordCount = content
-    .split(/\s+/)
-    .filter((word) => /^[a-zA-Z]+$/.test(word)).length;
-  const totalWords = chineseCharCount + englishWordCount;
-  const readingTime = Math.ceil(totalWords / 250);
-  return readingTime || 1;
-}
-```
-
-## 构建与部署
-
-### 本地开发
+本地开发：
 
 ```bash
-# 安装依赖
-npm install
-
-# 启动开发服务器
 npm run dev
 ```
 
-访问 `http://localhost:3000` 查看效果。
-
-### 构建生产版本
+生产构建时建议模拟 GitHub Pages 子路径：
 
 ```bash
-npm run build
+BASE_PATH=/cBlog npm run build
 ```
 
-构建完成后，静态文件将输出到 `out/` 目录。
+构建成功后会输出：
 
-### 部署到 GitHub Pages
+```text
+out/
+├── index.html
+├── posts/
+├── categories/
+├── sitemap.xml
+└── robots.txt
+```
 
-1. **配置 GitHub Pages**：
-   - 进入仓库设置
-   - 选择 `Settings` -> `Pages`
-   - 在 `Source` 中选择 `GitHub Actions`
+部署链路如下：
 
-2. **推送代码**：
-   ```bash
-   git add .
-   git commit -m "Deploy blog"
-   git push origin main
-   ```
+```mermaid
+flowchart LR
+  A["提交代码"] --> B["GitHub Actions"]
+  B --> C["安装依赖"]
+  C --> D["BASE_PATH=/cBlog<br/>next build"]
+  D --> E["上传 out/"]
+  E --> F["GitHub Pages 发布"]
+  F --> G["线上访问<br/>lee-ng915.github.io/cBlog"]
+```
 
-3. **自动部署**：
-   - GitHub Actions 会自动构建并部署
-   - 在 `Actions` 标签页查看部署进度
+## 目前的取舍
 
-## 项目亮点
+当前阶段没有引入后端服务，主要是因为 GitHub Pages 只适合托管静态文件。文章管理后台可以作为二期能力，但发布结果仍然应该回到 Markdown 或静态内容文件，最后通过构建生成页面。
 
-1. **完整的类型安全**：使用 TypeScript，减少运行时错误
-2. **性能优化**：静态站点生成，首屏加载快
-3. **用户体验**：PC 端布局、主题切换、平滑动画
-4. **易于维护**：清晰的文件组织结构，规范的代码风格
-5. **SEO 友好**：所有内容都在 HTML 中，搜索引擎友好
+现阶段更重要的是把这些基础做稳：
+
+- URL 规范。
+- 内容结构规范。
+- SEO 基础配置。
+- Markdown 能力扩展。
+- 页面阅读体验。
+- GitHub Pages 部署链路。
+
+等文章数量增加后，再考虑管理后台、草稿工作流、搜索、目录自动生成和数据分析会更合适。

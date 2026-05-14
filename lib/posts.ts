@@ -377,6 +377,7 @@ export function getPostStats(): PostStats {
 export async function markdownToHtml(markdown: string): Promise<string> {
   const result = await remark().use(remarkGfm).use(html).process(markdown);
   let htmlContent = result.toString();
+  htmlContent = enhanceMermaidBlocks(htmlContent);
 
   // 处理图片路径，添加 basePath（如果需要）
   const basePath = process.env.BASE_PATH || "";
@@ -394,6 +395,41 @@ export async function markdownToHtml(markdown: string): Promise<string> {
   }
 
   return htmlContent;
+}
+
+function enhanceMermaidBlocks(htmlContent: string): string {
+  return htmlContent.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    (_match, encodedDiagram: string) => {
+      const diagram = decodeHtmlEntities(encodedDiagram).trim();
+      const dataMermaid = encodeURIComponent(diagram);
+
+      return [
+        '<figure class="mermaid-figure">',
+        `<button type="button" class="mermaid-diagram" data-mermaid="${dataMermaid}" data-title="Mermaid 图例" aria-label="展开 Mermaid 图例">`,
+        '<span class="mermaid-placeholder">图例加载中...</span>',
+        "</button>",
+        "<figcaption>点击图例查看大图</figcaption>",
+        "</figure>",
+      ].join("");
+    }
+  );
+}
+
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&#x([0-9a-fA-F]+);/g, (_match, hex: string) =>
+      String.fromCodePoint(Number.parseInt(hex, 16))
+    )
+    .replace(/&#(\d+);/g, (_match, decimal: string) =>
+      String.fromCodePoint(Number.parseInt(decimal, 10))
+    );
 }
 
 // 计算阅读时间（基于中文字符数）
