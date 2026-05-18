@@ -13,20 +13,20 @@ export default function EssayListItem({ post }: EssayListItemProps) {
       href={`/posts/${post.slug}`}
       className="group grid grid-cols-[160px_1fr_auto] items-start gap-6 border-t border-line-light py-6 transition dark:border-line-dark"
     >
-      <div className="space-y-2 text-sm text-ink-muted dark:text-gray-400">
+      <div className="space-y-2 font-sans text-sm text-ink-muted dark:text-gray-400">
         <p>{post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}</p>
         <p>{post.readingTime || 1} 分钟阅读</p>
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-medium text-primary-700 dark:text-primary-300">
+        <p className="mb-2 font-sans text-sm font-semibold text-primary-700 dark:text-primary-300">
           {post.category}
         </p>
         <h3 className="font-display text-2xl font-bold tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
           {post.title}
         </h3>
         {post.excerpt && (
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-ink-muted dark:text-gray-300">
+          <p className="mt-3 max-w-2xl font-sans text-sm leading-6 text-ink-muted dark:text-gray-300">
             {post.excerpt}
           </p>
         )}

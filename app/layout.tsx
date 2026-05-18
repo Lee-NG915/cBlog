@@ -62,12 +62,12 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body
-        className={`${sans.variable} ${display.variable} min-h-screen bg-background-light font-sans text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100`}
+        className={`${sans.variable} ${display.variable} min-h-screen bg-background-light font-serif text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100`}
       >
         <ThemeProvider>
           <div className="min-h-screen">
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1120px] px-4 py-8 sm:px-6 sm:py-12">
+            <main className="mx-auto w-full max-w-[1180px] px-5 py-10 sm:px-7 sm:py-14">
               {children}
             </main>
           </div>

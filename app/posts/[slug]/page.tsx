@@ -135,28 +135,28 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="mb-6 flex flex-wrap items-center gap-3">
             <Link
               href={`/categories/${post.categorySlug}`}
-              className="rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
+              className="rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
             >
               {post.category}
             </Link>
-            <span className="text-sm text-ink-muted dark:text-gray-400">
+            <span className="font-sans text-sm text-ink-muted dark:text-gray-400">
               {post.readingTime || 1} 分钟阅读
             </span>
           </div>
 
-          <h1 className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.08] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.06] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
             {post.title}
           </h1>
 
           {post.excerpt && (
-            <p className="mt-6 max-w-4xl break-words text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
+            <p className="mt-6 max-w-4xl break-words font-sans text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
               {post.excerpt}
             </p>
           )}
 
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
             {post.date && (
-              <time className="text-sm text-ink-soft dark:text-gray-500">
+              <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
                 发布于{" "}
                 {format(new Date(post.date), "yyyy.MM.dd", {
                   locale: zhCN,
@@ -164,7 +164,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </time>
             )}
             {post.updatedAt && (
-              <time className="text-sm text-ink-soft dark:text-gray-500">
+              <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
                 更新于{" "}
                 {format(new Date(post.updatedAt), "yyyy.MM.dd", {
                   locale: zhCN,
@@ -174,7 +174,7 @@ export default async function PostPage({ params }: PostPageProps) {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-line-light bg-surface-light px-3 py-1 text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-400"
+                className="rounded-full border border-line-light bg-surface-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-400"
               >
                 {tag}
               </span>
@@ -185,22 +185,22 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
           <div className="min-w-0">
             <div
-              className="prose min-w-0 overflow-hidden rounded-3xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
+              className="prose min-w-0 overflow-hidden rounded-lg border border-line-light bg-surface-light p-5 shadow-editorial dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
               dangerouslySetInnerHTML={{ __html: content }}
             />
             <MermaidEnhancer />
           </div>
 
-          <aside className="hidden min-w-0 lg:block">
+        <aside className="hidden min-w-0 lg:block">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
-              <div className="rounded-3xl border border-line-light bg-surface-light p-6 shadow-[0_18px_50px_rgba(31,41,51,0.04)] dark:border-line-dark dark:bg-surface-dark">
+              <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300">
                     阅读路径
                   </p>
                   <Link
                     href="/categories"
-                    className="text-xs font-medium text-ink-soft transition hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+                    className="font-sans text-xs font-medium text-ink-soft transition hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
                   >
                     全部
                   </Link>
@@ -216,17 +216,17 @@ export default async function PostPage({ params }: PostPageProps) {
                         href={`/categories/${category.slug}`}
                         className="group flex items-center justify-between gap-3"
                       >
-                        <span className="text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
+                        <span className="font-sans text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
                           {category.name}
                         </span>
-                        <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                        <span className="rounded-full bg-primary-50 px-2.5 py-1 font-sans text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
                           {category.count}
                         </span>
                       </Link>
 
                       <div className="mt-3 space-y-2">
                         {category.posts.length === 0 ? (
-                          <p className="text-xs leading-5 text-ink-soft dark:text-gray-500">
+                          <p className="font-sans text-xs leading-5 text-ink-soft dark:text-gray-500">
                             暂无文章
                           </p>
                         ) : (
@@ -239,7 +239,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                 key={categoryPost.slug}
                                 href={`/posts/${categoryPost.slug}`}
                                 aria-current={isCurrentPost ? "page" : undefined}
-                                className={`block rounded-2xl px-3 py-2 text-sm leading-5 transition ${
+                                className={`block rounded-md px-3 py-2 font-sans text-sm leading-5 transition ${
                                   isCurrentPost
                                     ? "bg-primary-50 font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
                                     : "text-ink-muted hover:bg-background-light hover:text-primary-800 dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-primary-200"

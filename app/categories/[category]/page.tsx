@@ -77,21 +77,21 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="space-y-8">
       <BackButton href="/categories" label="返回路径" />
-      <header className="border-b border-line-light pb-8 dark:border-line-dark">
-        <p className="text-xs font-semibold text-primary-700 dark:text-primary-300">
+      <header>
+        <p className="editorial-label">
           阅读路径
         </p>
         <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
           {currentCategory.name}
         </h1>
-        <p className="mt-4 text-ink-muted dark:text-gray-300">
+        <p className="mt-4 font-sans text-ink-muted dark:text-gray-300">
           共 {posts.length} 篇手记
         </p>
       </header>
 
         {posts.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-line-light bg-surface-light py-16 text-center dark:border-line-dark dark:bg-surface-dark">
-            <p className="text-lg text-ink-muted dark:text-gray-400">
+          <div className="editorial-card py-16 text-center">
+            <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
               这个路径下还没有文章。
             </p>
           </div>

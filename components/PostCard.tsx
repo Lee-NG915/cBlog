@@ -10,10 +10,10 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="flex min-h-[320px] flex-col overflow-hidden rounded-3xl border border-line-light bg-surface-light transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]">
+    <article className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]">
       <Link href={`/posts/${post.slug}`} className="flex flex-col flex-grow">
         {post.coverImage && (
-          <div className="relative h-44 w-full overflow-hidden bg-primary-50 dark:bg-primary-900/20">
+          <div className="relative h-44 w-full overflow-hidden bg-surface-strong dark:bg-primary-900/20">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={getImagePath(post.coverImage)}
@@ -26,10 +26,10 @@ export default function PostCard({ post }: PostCardProps) {
 
         <div className="flex flex-grow flex-col p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+            <span className="inline-block rounded-full bg-primary-50 px-3 py-1 font-sans text-xs font-semibold text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
               {post.category}
             </span>
-            <time className="text-sm text-ink-soft dark:text-gray-500">
+            <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
               {post.date &&
                 format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
             </time>
@@ -38,7 +38,7 @@ export default function PostCard({ post }: PostCardProps) {
             {post.title}
           </h2>
           {post.excerpt && (
-            <p className="mb-4 line-clamp-3 flex-grow text-sm leading-6 text-ink-muted dark:text-gray-400">
+            <p className="mb-4 line-clamp-3 flex-grow font-sans text-sm leading-6 text-ink-muted dark:text-gray-400">
               {post.excerpt}
             </p>
           )}
@@ -47,16 +47,16 @@ export default function PostCard({ post }: PostCardProps) {
               {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-line-light px-2.5 py-1 text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
+                  className="rounded-full border border-line-light px-2.5 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           )}
-          <div className="mt-auto flex items-center justify-between text-sm text-ink-soft dark:text-gray-500">
+          <div className="mt-auto flex items-center justify-between font-sans text-sm text-ink-soft dark:text-gray-500">
             <span>{post.readingTime || 1} 分钟阅读</span>
-            <span className="text-primary-700 hover:underline dark:text-primary-300">
+            <span className="font-semibold text-primary-700 hover:underline dark:text-primary-300">
               继续读 →
             </span>
           </div>

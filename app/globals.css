@@ -9,15 +9,41 @@
 
   body {
     @apply bg-background-light text-ink antialiased dark:bg-background-dark dark:text-gray-100;
+    background-image:
+      linear-gradient(115deg, rgba(192, 139, 44, 0.13), transparent 34%),
+      linear-gradient(315deg, rgba(49, 95, 114, 0.11), transparent 32%),
+      repeating-linear-gradient(
+        0deg,
+        rgba(55, 46, 36, 0.035) 0,
+        rgba(55, 46, 36, 0.035) 1px,
+        transparent 1px,
+        transparent 32px
+      );
+    background-attachment: fixed;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body.dark {
     background-color: #1a1a1a;
+    background-image:
+      linear-gradient(115deg, rgba(185, 88, 50, 0.1), transparent 34%),
+      linear-gradient(315deg, rgba(49, 95, 114, 0.12), transparent 32%);
   }
 }
 
 @layer components {
+  .editorial-card {
+    @apply rounded-lg border border-line-light bg-surface-light shadow-editorial dark:border-line-dark dark:bg-surface-dark;
+  }
+
+  .editorial-label {
+    @apply font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300;
+  }
+
+  .editorial-pill {
+    @apply rounded-full border border-line-light bg-surface-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-400;
+  }
+
   .prose {
     @apply max-w-none;
     overflow-wrap: anywhere;
@@ -29,17 +55,17 @@
   }
 
   .prose h2 {
-    @apply mb-4 mt-12 border-t border-line-light pt-8 font-display text-2xl font-bold tracking-normal text-ink dark:border-line-dark dark:text-gray-100;
+    @apply mb-4 mt-12 border-b border-line-light pb-4 font-display text-3xl font-bold tracking-normal text-ink dark:border-line-dark dark:text-gray-100;
   }
 
   .prose h3 {
-    @apply mb-3 mt-8 font-display text-xl font-bold tracking-tight text-ink dark:text-gray-100;
+    @apply mb-3 mt-8 font-display text-2xl font-bold tracking-normal text-ink dark:text-gray-100;
   }
 
   .prose p {
     @apply mb-5 text-ink/90 dark:text-gray-300;
-    font-size: 1.0625rem;
-    line-height: 1.85;
+    font-size: 1.12rem;
+    line-height: 1.95;
   }
 
   .prose h1,
@@ -58,20 +84,20 @@
 
   .prose li {
     @apply mb-2 text-ink/90 dark:text-gray-300;
-    font-size: 1.0625rem;
-    line-height: 1.75;
+    font-size: 1.1rem;
+    line-height: 1.85;
   }
 
   .prose a {
-    @apply font-medium text-primary-700 underline decoration-primary-200 underline-offset-4 hover:text-primary-900 dark:text-primary-300 dark:decoration-primary-800 dark:hover:text-primary-100;
+    @apply font-medium text-accent-blue underline decoration-primary-200 underline-offset-4 hover:text-primary-700 dark:text-primary-300 dark:decoration-primary-800 dark:hover:text-primary-100;
   }
 
   .prose code {
-    @apply rounded-md bg-primary-50 px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-gray-800 dark:text-gray-100;
+    @apply rounded bg-surface-strong px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-gray-800 dark:text-gray-100;
   }
 
   .prose pre {
-    @apply mb-6 max-w-full overflow-x-auto rounded-2xl bg-gray-950 p-6 dark:bg-black;
+    @apply mb-6 max-w-full overflow-x-auto rounded-lg bg-[#1f1c18] p-6 dark:bg-black;
   }
 
   .prose pre code {
@@ -86,7 +112,7 @@
   }
 
   .prose .mermaid-diagram {
-    @apply block w-full overflow-x-auto rounded-2xl border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800;
+    @apply block w-full overflow-x-auto rounded-lg border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 hover:shadow-editorial-sm dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800;
   }
 
   .prose .mermaid-diagram svg {
@@ -111,7 +137,7 @@
   }
 
   .prose table {
-    @apply my-8 w-full table-auto overflow-hidden rounded-2xl border border-line-light text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
+    @apply my-8 w-full table-auto overflow-hidden rounded-lg border border-line-light font-sans text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
     border-collapse: separate;
     border-spacing: 0;
   }
@@ -140,7 +166,7 @@
   }
 
   .prose img {
-    @apply my-6 h-auto max-w-full rounded-2xl;
+    @apply my-6 h-auto max-w-full rounded-lg;
   }
 
   .prose hr {

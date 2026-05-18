@@ -13,29 +13,29 @@ export default function ReadingPathCard({
   return (
     <Link
       href={`/categories/${category.slug}`}
-      className="group flex min-h-[190px] flex-col rounded-3xl border border-line-light bg-surface-light p-6 transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
+      className="group flex min-h-[190px] flex-col rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-medium text-primary-700 dark:text-primary-300">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300">
             阅读路径
           </p>
           <h3 className="mt-3 font-display text-2xl font-bold tracking-normal text-ink group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200">
             {category.name}
           </h3>
         </div>
-        <span className="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+        <span className="rounded-full bg-primary-50 px-3 py-1 font-sans text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
           {category.count}
         </span>
       </div>
 
-      <p className="mt-4 text-sm leading-6 text-ink-muted dark:text-gray-300">
+      <p className="mt-4 font-sans text-sm leading-6 text-ink-muted dark:text-gray-300">
         {category.description}
       </p>
 
       <div className="mt-auto border-t border-line-light pt-4 dark:border-line-dark">
-        <p className="text-xs text-ink-soft dark:text-gray-500">最新手记</p>
-        <p className="mt-1 truncate text-sm font-medium text-ink dark:text-gray-100">
+        <p className="font-sans text-xs text-ink-soft dark:text-gray-500">最新手记</p>
+        <p className="mt-1 truncate font-sans text-sm font-medium text-ink dark:text-gray-100">
           {latestPost?.title || "暂无文章"}
         </p>
       </div>

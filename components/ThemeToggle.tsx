@@ -43,7 +43,7 @@ export default function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted dark:text-gray-300"
+        className="flex h-10 w-10 items-center justify-center rounded-full text-ink-muted dark:text-gray-300"
         aria-label="Toggle theme"
         disabled
       >
@@ -57,7 +57,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="flex h-10 w-10 items-center justify-center rounded-2xl text-ink-muted transition-all duration-200 hover:bg-background-light hover:text-primary-800 active:scale-95 dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-primary-200"
+      className="flex h-10 w-10 items-center justify-center rounded-full font-sans text-ink-muted transition-all duration-200 hover:bg-surface-strong hover:text-primary-800 active:scale-95 dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-primary-200"
       aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
     >
       <div className="relative w-5 h-5">
@@ -79,4 +79,3 @@ export default function ThemeToggle() {
     </button>
   );
 }
-
