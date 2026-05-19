@@ -52,10 +52,10 @@ export const brandCore = {
       title: "生活碎片也算数",
       body: "散步、半本书、一句对话——不必包装成「精致生活」，真实就好。",
     },
-    {
-      title: "页面别催人点",
-      body: "行距宽一点、动效轻一点，让人愿意停一会儿，而不是急着往下点。",
-    },
+    // {
+    //   title: "",
+    //   body: "行距宽一点、动效轻一点，让人愿意停一会儿，而不是急着往下点。",
+    // },
   ],
 
   contentPillars: [
@@ -75,7 +75,7 @@ export const brandCore = {
       slug: "life",
       name: "生活手记",
       description: "工作以外的小事，阅读、出行、随口想法。",
-      tone: "轻、具体、不用力",
+      tone: "轻、具体、随性",
     },
   ],
 
@@ -175,9 +175,8 @@ export const brandCore = {
         title: "通常会记些什么",
       },
       presentation: {
-        label: "长相",
-        title: "希望看起来怎样",
-        voiceHint: "写界面文案时，词可以从此处挑；尽量少用右边这些。",
+        label: "体验",
+        title: "希望怎么样的阅读效果",
       },
       designSystem: {
         label: "样式",

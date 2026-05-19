@@ -104,9 +104,15 @@ export default function BrandPage() {
                 <table className="w-full min-w-[440px] font-sans text-sm">
                   <thead>
                     <tr className="border-b border-line-light text-left dark:border-line-dark">
-                      <th className="pb-2 pr-4 font-medium text-ink-muted">方面</th>
-                      <th className="pb-2 pr-4 font-medium text-ink-muted">想靠近</th>
-                      <th className="pb-2 font-medium text-ink-muted">尽量别</th>
+                      <th className="pb-2 pr-4 font-medium text-ink-muted">
+                        方面
+                      </th>
+                      <th className="pb-2 pr-4 font-medium text-ink-muted">
+                        想靠近
+                      </th>
+                      <th className="pb-2 font-medium text-ink-muted">
+                        尽量不
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,9 +193,15 @@ export default function BrandPage() {
             </div>
           </section>
 
-          <section id="presentation" className="scroll-mt-28 space-y-5" data-reveal>
+          <section
+            id="presentation"
+            className="scroll-mt-28 space-y-5"
+            data-reveal
+          >
             <div>
-              <p className="editorial-label">{copy.sections.presentation.label}</p>
+              <p className="editorial-label">
+                {copy.sections.presentation.label}
+              </p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-ink dark:text-gray-50">
                 {copy.sections.presentation.title}
               </h2>
@@ -204,32 +216,16 @@ export default function BrandPage() {
                 </li>
               ))}
             </ul>
-            <div className="editorial-card grid gap-6 p-6 sm:grid-cols-2 sm:p-8">
-              <div>
-                <h3 className="font-sans text-sm font-medium text-ink dark:text-gray-100">
-                  可以多用的词
-                </h3>
-                <p className="mt-2 font-sans text-sm leading-7 text-ink-muted dark:text-gray-400">
-                  {brandCore.voice.use.join("、")}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-sans text-sm font-medium text-ink dark:text-gray-100">
-                  尽量少用的词
-                </h3>
-                <p className="mt-2 font-sans text-sm leading-7 text-ink-muted dark:text-gray-400">
-                  {brandCore.voice.avoid.join("、")}
-                </p>
-              </div>
-              <p className="sm:col-span-2 font-sans text-xs leading-6 text-ink-soft dark:text-gray-500">
-                {copy.sections.presentation.voiceHint}
-              </p>
-            </div>
           </section>
-
-          <section id="design-system" className="scroll-mt-28 space-y-5" data-reveal>
+          <section
+            id="design-system"
+            className="scroll-mt-28 space-y-5"
+            data-reveal
+          >
             <div>
-              <p className="editorial-label">{copy.sections.designSystem.label}</p>
+              <p className="editorial-label">
+                {copy.sections.designSystem.label}
+              </p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-ink dark:text-gray-50">
                 {copy.sections.designSystem.title}
               </h2>
@@ -241,9 +237,15 @@ export default function BrandPage() {
               <table className="w-full min-w-[640px] font-sans text-sm">
                 <thead>
                   <tr className="border-b border-line-light text-left dark:border-line-dark">
-                    <th className="pb-3 pr-3 font-medium text-ink-muted">感觉</th>
-                    <th className="pb-3 pr-3 font-medium text-ink-muted">样式名</th>
-                    <th className="pb-3 pr-3 font-medium text-ink-muted">参考</th>
+                    <th className="pb-3 pr-3 font-medium text-ink-muted">
+                      感觉
+                    </th>
+                    <th className="pb-3 pr-3 font-medium text-ink-muted">
+                      样式名
+                    </th>
+                    <th className="pb-3 pr-3 font-medium text-ink-muted">
+                      参考
+                    </th>
                     <th className="pb-3 font-medium text-ink-muted">用在哪</th>
                   </tr>
                 </thead>
