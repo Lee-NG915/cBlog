@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
+import DraftBadge from "@/components/DraftBadge";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
+import { isDraftPreviewEnabled } from "@/lib/posts";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import {
@@ -45,8 +47,11 @@ export async function generateMetadata({
   const image = getSeoImageUrl(post.coverImage);
 
   return {
-    title: post.title,
+    title: post.status === "draft" ? `（草稿）${post.title}` : post.title,
     description,
+    ...(post.status === "draft"
+      ? { robots: { index: false, follow: false } }
+      : {}),
     alternates: {
       canonical: canonicalPath,
     },
@@ -133,6 +138,15 @@ export default async function PostPage({ params }: PostPageProps) {
           <BackButton href="/" label="返回首页" />
         </div>
 
+        {post.status === "draft" && isDraftPreviewEnabled() && (
+          <div
+            className="mb-6 rounded-lg border border-amber-300/70 bg-amber-50/90 px-4 py-3 font-sans text-sm leading-7 text-amber-950 dark:border-amber-800/50 dark:bg-amber-950/40 dark:text-amber-100"
+            data-reveal
+          >
+            本地预览：此文为草稿，只会出现在开发环境，不会部署到线上。
+          </div>
+        )}
+
         <header className="mb-10 pb-4">
           <div className="mb-6 flex flex-wrap items-center gap-3" data-reveal="hero">
             <Link
@@ -141,6 +155,7 @@ export default async function PostPage({ params }: PostPageProps) {
             >
               {post.category}
             </Link>
+            {post.status === "draft" && <DraftBadge />}
             <span className="font-sans text-sm text-ink-muted dark:text-gray-400">
               {post.readingTime || 1} 分钟阅读
             </span>

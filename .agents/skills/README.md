@@ -7,6 +7,7 @@
 | Skill | 路径 | 何时使用 |
 |-------|------|----------|
 | **样式优化** | [style-optimization/SKILL.md](style-optimization/SKILL.md) | 优化 UI/CSS/Tailwind、组件外观、动效、排版；改版时需同步品牌 |
+| **技术文档迁移** | [tech-doc-migration/SKILL.md](tech-doc-migration/SKILL.md) | 将企业内部技术文档迁移为个人博客文章，去企业化、去品牌化、突出个人技术能力 |
 
 ## 品牌相关文件索引
 

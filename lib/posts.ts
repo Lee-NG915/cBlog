@@ -26,6 +26,11 @@ function processImagePath(imagePath: string | undefined): string | undefined {
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
+/** 仅开发环境（npm run dev）展示草稿；生产构建与静态导出仍只发已发布文章 */
+export function isDraftPreviewEnabled(): boolean {
+  return process.env.NODE_ENV === "development";
+}
+
 export interface Post {
   slug: string;
   title: string;
@@ -187,42 +192,13 @@ function comparePostsByDateDesc(a: Post, b: Post): number {
   return b.slug.localeCompare(a.slug);
 }
 
-// 获取所有文章
+// 获取列表展示用文章（开发环境含草稿）
 export function getAllPosts(): Post[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
+  const allPosts = getAllPostsIncludingDrafts();
+  if (isDraftPreviewEnabled()) {
+    return allPosts;
   }
-
-  const markdownFiles = getAllMarkdownFiles(postsDirectory);
-  const allPostsData = markdownFiles.map((relativePath) => {
-    const fullPath = path.join(postsDirectory, relativePath);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
-
-    // 从路径提取日期作为默认值（如果 frontmatter 中没有日期）
-    const pathDate = extractDateFromPath(relativePath);
-    const slug = getSlugFromPath(relativePath, data.slug);
-    const category = getCategoryFromPath(relativePath, data.category);
-
-    return normalizePost({
-      slug,
-      title: data.title || slug,
-      date: normalizeDate(data.date) || pathDate || "",
-      updatedAt: normalizeDate(data.updatedAt) || undefined,
-      ...category,
-      excerpt: data.excerpt || "",
-      content,
-      tags: normalizeTags(data.tags),
-      status: data.status === "draft" ? "draft" : "published",
-      coverImage: processImagePath(
-        data.coverCard || data.coverImage || undefined
-      ),
-    });
-  });
-
-  return allPostsData
-    .filter((post) => post.status === "published")
-    .sort(comparePostsByDateDesc);
+  return allPosts.filter((post) => post.status === "published");
 }
 
 export function getAllPostsIncludingDrafts(): Post[] {
@@ -335,16 +311,24 @@ export function getPostBySlug(slug: string): Post | null {
     ),
   });
 
-  return post.status === "published" ? post : null;
-}
-
-// 获取所有文章的 slug
-export function getAllPostSlugs(): string[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
+  if (post.status === "draft" && !isDraftPreviewEnabled()) {
+    return null;
   }
 
-  return getAllPosts().map((post) => post.slug);
+  return post;
+}
+
+/**
+ * 供 generateStaticParams 使用。
+ * output:export 要求所有动态路由在此列出；开发环境包含草稿以便本地预览。
+ */
+export function getAllPostSlugs(): string[] {
+  const posts = getAllPostsIncludingDrafts();
+  const visible = isDraftPreviewEnabled()
+    ? posts
+    : posts.filter((post) => post.status === "published");
+
+  return visible.map((post) => post.slug);
 }
 
 export function getPostStats(): PostStats {

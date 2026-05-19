@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
+import DraftBadge from "@/components/DraftBadge";
 import { Post } from "@/lib/posts";
 import { getImagePath } from "@/lib/utils";
 
@@ -49,8 +50,9 @@ export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProp
       </div>
 
       <div className="flex flex-col p-6 sm:p-8 md:p-9">
-        <div className="mb-6 flex items-center gap-3 font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
+        <div className="mb-6 flex flex-wrap items-center gap-3 font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
           <span>精选手记</span>
+          {post.status === "draft" && <DraftBadge />}
           <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
           <time className="tracking-normal text-ink-muted dark:text-gray-400">
             {post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}

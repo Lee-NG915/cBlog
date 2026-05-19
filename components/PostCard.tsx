@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
+import DraftBadge from "@/components/DraftBadge";
 import { Post } from "@/lib/posts";
 import { getImagePath } from "@/lib/utils";
 
@@ -30,10 +31,13 @@ export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
         )}
 
         <div className="flex flex-grow flex-col p-6">
-          <div className="flex items-center justify-between mb-2">
-            <span className="inline-block rounded-full bg-primary-50 px-3 py-1 font-sans text-xs font-semibold text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
-              {post.category}
-            </span>
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-block rounded-full bg-primary-50 px-3 py-1 font-sans text-xs font-semibold text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                {post.category}
+              </span>
+              {post.status === "draft" && <DraftBadge />}
+            </div>
             <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
               {post.date &&
                 format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
