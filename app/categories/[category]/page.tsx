@@ -76,11 +76,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="space-y-8">
-      <BackButton href="/categories" label="返回路径" />
-      <header>
-        <p className="editorial-label">
-          阅读路径
-        </p>
+      <div data-reveal="fade">
+        <BackButton href="/categories" label="返回路径" />
+      </div>
+      <header data-reveal="hero">
+        <p className="editorial-label">阅读路径</p>
         <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
           {currentCategory.name}
         </h1>
@@ -89,16 +89,20 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </p>
       </header>
 
-        {posts.length === 0 ? (
-          <div className="editorial-card py-16 text-center">
+      {posts.length === 0 ? (
+          <div className="editorial-card py-16 text-center" data-reveal>
             <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
               这个路径下还没有文章。
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <PostCard key={post.slug} post={post} />
+            {posts.map((post, index) => (
+              <PostCard
+                key={post.slug}
+                post={post}
+                revealDelay={(index % 3) * 90}
+              />
             ))}
           </div>
         )}

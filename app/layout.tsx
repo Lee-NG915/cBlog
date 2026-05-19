@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import RevealController from "@/components/RevealController";
 import { siteConfig } from "@/lib/site";
 
 const sans = Inter({
@@ -61,10 +62,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('reveal-ready')}}catch(e){}",
+          }}
+        />
+      </head>
       <body
         className={`${sans.variable} ${display.variable} min-h-screen bg-background-light font-serif text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100`}
       >
         <ThemeProvider>
+          <RevealController />
           <div className="min-h-screen">
             <SiteHeader />
             <main className="mx-auto w-full max-w-[1180px] px-5 py-10 sm:px-7 sm:py-14">

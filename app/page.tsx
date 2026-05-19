@@ -42,7 +42,10 @@ export default function Home() {
       />
       <div className="space-y-12 sm:space-y-16">
         <section className="grid gap-6 pt-2 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="editorial-card relative overflow-hidden p-7 sm:p-10 lg:p-12">
+          <div
+            className="editorial-card relative overflow-hidden p-7 sm:p-10 lg:p-12"
+            data-reveal="hero"
+          >
             <div className="pointer-events-none absolute -right-20 -top-16 h-56 w-56 rotate-12 border border-line-light opacity-60 dark:border-line-dark" />
             <p className="editorial-label">Product / Engineering / Life</p>
             <h1 className="mt-7 max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
@@ -67,7 +70,7 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="editorial-card p-6 sm:p-7">
+          <aside className="editorial-card p-6 sm:p-7" data-reveal data-reveal-delay="120">
             <p className="editorial-label">Archive</p>
             <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6">
               <div>
@@ -113,7 +116,7 @@ export default function Home() {
           </aside>
         </section>
 
-        <nav className="flex flex-wrap gap-2 font-sans">
+        <nav className="flex flex-wrap gap-2 font-sans" data-reveal data-reveal-delay="160">
           <Link
             href="/"
             className="rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:ring-primary-800"
@@ -133,7 +136,7 @@ export default function Home() {
 
         {featuredPost && (
           <section className="space-y-6">
-            <div className="flex items-end justify-between">
+            <div className="flex items-end justify-between" data-reveal>
               <div>
                 <p className="editorial-label">Featured</p>
                 <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
@@ -141,12 +144,12 @@ export default function Home() {
                 </h2>
               </div>
             </div>
-            <FeaturedPost post={featuredPost} />
+            <FeaturedPost post={featuredPost} revealDelay={100} />
           </section>
         )}
 
         <section className="space-y-6">
-          <div className="flex items-end justify-between">
+          <div className="flex items-end justify-between" data-reveal>
             <div>
               <p className="editorial-label">Recently Published</p>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
@@ -161,7 +164,7 @@ export default function Home() {
             </Link>
           </div>
           {posts.length === 0 ? (
-            <div className="editorial-card py-16 text-center">
+            <div className="editorial-card py-16 text-center" data-reveal>
               <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
                 还没有公开文章。
               </p>
@@ -175,8 +178,12 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {visiblePosts.map((post) => (
-                <PostCard key={post.slug} post={post} />
+              {visiblePosts.map((post, index) => (
+                <PostCard
+                  key={post.slug}
+                  post={post}
+                  revealDelay={(index % 3) * 90}
+                />
               ))}
             </div>
           )}

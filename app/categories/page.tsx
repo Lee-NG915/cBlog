@@ -39,10 +39,8 @@ export default function CategoriesPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <p className="editorial-label">
-          阅读路径
-        </p>
+      <header data-reveal="hero">
+        <p className="editorial-label">阅读路径</p>
         <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
           阅读路径
         </h1>
@@ -52,14 +50,14 @@ export default function CategoriesPage() {
       </header>
 
       {categories.length === 0 ? (
-        <div className="editorial-card py-16 text-center">
+        <div className="editorial-card py-16 text-center" data-reveal>
           <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
             还没有路径。
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((category) => {
+          {categories.map((category, index) => {
             const categoryPosts = allPosts.filter(
               (post) => post.categorySlug === category.slug,
             );
@@ -69,6 +67,8 @@ export default function CategoriesPage() {
                 key={category.slug}
                 href={`/categories/${category.slug}`}
                 className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
+                data-reveal
+                data-reveal-delay={(index % 3) * 90}
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
                   <div>

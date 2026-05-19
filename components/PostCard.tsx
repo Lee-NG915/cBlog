@@ -6,11 +6,16 @@ import { getImagePath } from "@/lib/utils";
 
 interface PostCardProps {
   post: Post;
+  revealDelay?: number;
 }
 
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
   return (
-    <article className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]">
+    <article
+      className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]"
+      data-reveal
+      data-reveal-delay={revealDelay}
+    >
       <Link href={`/posts/${post.slug}`} className="flex flex-col flex-grow">
         {post.coverImage && (
           <div className="relative h-44 w-full overflow-hidden bg-surface-strong dark:bg-primary-900/20">

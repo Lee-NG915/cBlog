@@ -129,10 +129,12 @@ export default async function PostPage({ params }: PostPageProps) {
         }}
       />
       <article className="min-w-0">
-        <BackButton href="/" label="返回首页" />
+        <div data-reveal="fade">
+          <BackButton href="/" label="返回首页" />
+        </div>
 
         <header className="mb-10 pb-4">
-          <div className="mb-6 flex flex-wrap items-center gap-3">
+          <div className="mb-6 flex flex-wrap items-center gap-3" data-reveal="hero">
             <Link
               href={`/categories/${post.categorySlug}`}
               className="rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
@@ -144,17 +146,29 @@ export default async function PostPage({ params }: PostPageProps) {
             </span>
           </div>
 
-          <h1 className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.06] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
+          <h1
+            className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.06] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl"
+            data-reveal="hero"
+            data-reveal-delay="80"
+          >
             {post.title}
           </h1>
 
           {post.excerpt && (
-            <p className="mt-6 max-w-4xl break-words font-sans text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9">
+            <p
+              className="mt-6 max-w-4xl break-words font-sans text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9"
+              data-reveal
+              data-reveal-delay="140"
+            >
               {post.excerpt}
             </p>
           )}
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <div
+            className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3"
+            data-reveal
+            data-reveal-delay="180"
+          >
             {post.date && (
               <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
                 发布于{" "}
@@ -186,12 +200,13 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="min-w-0">
             <div
               className="prose min-w-0 overflow-hidden rounded-lg border border-line-light bg-surface-light p-5 shadow-editorial dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
+              data-reveal
               dangerouslySetInnerHTML={{ __html: content }}
             />
             <MermaidEnhancer />
           </div>
 
-        <aside className="hidden min-w-0 lg:block">
+          <aside className="hidden min-w-0 lg:block" data-reveal data-reveal-delay="140">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
               <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
                 <div className="flex items-center justify-between gap-3">

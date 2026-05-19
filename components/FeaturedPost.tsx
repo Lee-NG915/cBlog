@@ -6,13 +6,16 @@ import { getImagePath } from "@/lib/utils";
 
 interface FeaturedPostProps {
   post: Post;
+  revealDelay?: number;
 }
 
-export default function FeaturedPost({ post }: FeaturedPostProps) {
+export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProps) {
   return (
     <Link
       href={`/posts/${post.slug}`}
       className="group grid overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[360px] md:grid-cols-[0.95fr_1.05fr]"
+      data-reveal
+      data-reveal-delay={revealDelay}
     >
       <div className="relative min-h-[220px] overflow-hidden bg-ink dark:bg-black sm:min-h-[300px] md:min-h-[360px]">
         {post.coverImage ? (
