@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import RevealController from "@/components/RevealController";
 import { siteConfig } from "@/lib/site";
 
-const sans = Inter({
+const sans = Noto_Sans_SC({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const display = Cormorant_Garamond({
+const display = Noto_Serif_SC({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
@@ -71,7 +72,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${sans.variable} ${display.variable} min-h-screen bg-background-light font-serif text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100`}
+        className={`${sans.variable} ${display.variable} min-h-screen bg-background-light font-sans text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100`}
       >
         <ThemeProvider>
           <RevealController />

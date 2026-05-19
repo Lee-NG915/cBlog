@@ -51,6 +51,11 @@ export const mainNavItems: NavItem[] = [
     icon: "folder",
   },
   {
+    label: "关于站",
+    href: "/brand",
+    icon: "sparkles",
+  },
+  {
     label: "关于",
     href: "/about",
     icon: "user",

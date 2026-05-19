@@ -11,9 +11,6 @@ module.exports = {
       fontFamily: {
         sans: [
           "var(--font-sans)",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
           "PingFang SC",
           "Hiragino Sans GB",
           "Microsoft YaHei",
@@ -21,20 +18,16 @@ module.exports = {
         ],
         serif: [
           "var(--font-display)",
-          "Georgia",
-          "Times New Roman",
           "Songti SC",
           "STSong",
-          "Noto Serif CJK SC",
+          "Noto Serif SC",
           "serif",
         ],
         display: [
           "var(--font-display)",
-          "Georgia",
-          "Times New Roman",
           "Songti SC",
           "STSong",
-          "Noto Serif CJK SC",
+          "Noto Serif SC",
           "serif",
         ],
       },

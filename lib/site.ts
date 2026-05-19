@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Color Blog",
   title: "Color 手记",
-  description: "写产品判断、工程实践和长期学习中的可复盘经验。",
+  description: "记录学习中的片段、工程里的取舍，和生活里值得留下的瞬间。",
   author: "Color",
   url: "https://lee-ng915.github.io/cBlog",
   ogImage: "/og/default.png",
@@ -16,7 +16,7 @@ export const postCategories = [
   {
     slug: "learning",
     name: "学习记录",
-    description: "基于数据、用户行为和业务目标形成的产品判断。",
+    description: "正在学什么、如何理解、还有哪些没想通。",
   },
   {
     slug: "life",
