@@ -1,61 +1,49 @@
 /**
  * Color 手记 — 个人品牌核心梳理（单一事实来源）
- * 页面展示、站点文案与设计决策均由此导出。
+ * 对外：/brand 页、站点简介；对内：样式 skill 可读 designSystemMapping。
  */
 
 export const brandCore = {
   name: "Color 手记",
   tagline: "给自己留的一间小书房",
   essence:
-    "这里不是资讯站，更像一本慢慢写的本子：学到哪记到哪，做过什么、生活里的小事，偶尔翻回去看一眼就好。",
+    "这里不是资讯站，更像一本慢慢写的本子：学到哪记到哪，做过什么、生活里的小事，偶尔翻回去看一眼。",
 
   keywords: ["柔和", "舒缓", "学习", "个人记录"] as const,
 
-  personality: [
+  /** 访客页：我是怎样的人 / 这间站的气质 */
+  personalityPublic: [
     {
-      axis: "语气",
-      target: "像写信，不端着",
-      avoid: "公关稿、说明书腔",
+      title: "风格",
+      text: "就像给朋友写信，给自己写日记",
     },
     {
-      axis: "节奏",
-      target: "留白多一点，一次一件事",
-      avoid: "首屏塞满按钮和数字",
+      title: "节奏",
+      text: "留白多一点，一次读一件事",
     },
     {
-      axis: "立场",
-      target: "正在学的人，不是导师",
-      avoid: "「你必须」「干货交付」",
+      title: "立场",
+      text: "正在学的人~",
     },
     {
-      axis: "结构",
-      target: "按主题和时间长出来",
-      avoid: "榜单、数据墙抢视线",
-    },
-    {
-      axis: "画面",
-      target: "纸、墨、淡色，安静",
-      avoid: "强对比封面感、花哨动效",
+      title: "画面",
+      text: "暖色、安静、像纸本",
     },
   ],
 
   pursuits: [
     {
       title: "学习可以没写完",
-      body: "笔记里允许有「还没想通」。记的是此刻的理解，不是装作已经全会了。",
+      body: "记的是此刻的理解，不是装作已经全会了",
     },
     {
       title: "工程文记语境",
-      body: "写下当时为什么这样选、踩过什么坑，过几个月还能接上当时的自己。",
+      body: "不只贴结论，也记当时为什么这样选、踩过什么坑",
     },
     {
       title: "生活碎片也算数",
-      body: "散步、半本书、一句对话——不必包装成「精致生活」，真实就好。",
+      body: "散步、半本书、一句对话",
     },
-    // {
-    //   title: "",
-    //   body: "行距宽一点、动效轻一点，让人愿意停一会儿，而不是急着往下点。",
-    // },
   ],
 
   contentPillars: [
@@ -79,6 +67,15 @@ export const brandCore = {
     },
   ],
 
+  /** 访客页：读起来是什么感觉（不说技术实现） */
+  readingExperience: [
+    "暖一点的底色，眼睛不容易累，像摊开笔记本",
+    "行距宽一些，适合停下来想一会儿，而不是扫一眼就关",
+    "没有紧迫感，不催人一直点下去",
+    "按主题慢慢翻，像翻自己的文件夹，不是刷信息流",
+  ],
+
+  /** 对内：语气与样式 skill 用（不出现在 /brand 访客页） */
   voice: {
     use: ["记", "翻", "回看", "慢慢", "随手", "这一篇", "记录于"],
     avoid: ["精选", "交付", "洞察", "本期", "赋能", "闭环"],
@@ -156,62 +153,50 @@ export const brandCore = {
     },
   ],
 
-  /** 品牌页专用文案（偏说明，不用于全站） */
+  /** /brand 访客页文案 */
   page: {
     intro:
-      "这一页给自己看，也给你看：这个站为什么长这样、写文章时心里在想什么。改样式时可以回来对照。",
+      "你好，我是 Color。这间站是我的私人笔记：学习、工程、生活里值得留一句的内容。",
+    closing:
+      "若你也在找一块能慢慢读、慢慢写的地方，欢迎翻翻文章，不必订阅，也不必点赞。",
     sections: {
       essence: {
-        label: "这间站",
-        title: "是什么",
-        lead: "说到底，就是一个不赶时间的个人本子。",
+        label: "关于",
+        title: "这间站对我来说",
+        lead: "只是把正在经历的学习和生活，留成可以回看的文字。",
       },
       pursuits: {
-        label: "写的时候",
-        title: "心里在想什么",
+        label: "态度",
+        title: "我写的时候在意什么",
+        lead: "不是写作模板，而是我真的这样看待记录这件事。",
       },
       pillars: {
-        label: "栏目",
-        title: "通常会记些什么",
+        label: "内容",
+        title: "你会在这里读到什么",
+        lead: "大致分三类，边界也不严格，有时一篇里什么都有。",
       },
-      presentation: {
-        label: "体验",
-        title: "希望怎么样的阅读效果",
+      experience: {
+        label: "阅读",
+        title: "我希望你读起来感觉怎样",
+        lead: "样式是为阅读服务的，下面是我想营造的气氛，而不是设计说明书。",
       },
-      designSystem: {
-        label: "样式",
-        title: "颜色和组件怎么对应",
-        lead: "左边是读起来是什么感觉，右边是样式里的名字。新页面尽量沿用这一套，少另起炉灶。",
-        checklistTitle: "改样式前扫一眼",
-        checklist: [
-          "文章正文包在 prose 里，别单独写一堆段落样式",
-          "新区块需要入场的话，加 data-reveal；换页后由 RevealController 重新绑一次",
-          "卡片用 editorial-card，悬停改边框色就好，别跳太高",
-          "主按钮优先 accent-sage，正文链接走 prose 默认",
-          "动了语气或定位，记得同步品牌说明和站点简介",
-        ],
-        backLink: "去首页翻翻文章",
-      },
-      showcase: {
-        label: "组件",
-        title: "长什么样（样例）",
-        lead: "下面是项目里现成的组件和皮肤。灰色区域点不了，只是看排版和颜色。",
+      look: {
+        label: "样子",
+        title: "一眼看上去",
+        lead: "配色和版式的大致气质——样例仅作预览，点不进去。",
       },
     },
     toc: [
-      { id: "essence", label: "这间站是什么" },
-      { id: "pursuits", label: "写的时候" },
-      { id: "pillars", label: "记些什么" },
-      { id: "presentation", label: "希望怎样" },
-      { id: "design-system", label: "样式对照" },
-      { id: "inventory", label: "组件列表" },
-      { id: "tokens", label: "颜色字体" },
-      { id: "layout", label: "顶栏动效" },
-      { id: "actions", label: "按钮标签" },
-      { id: "content", label: "卡片列表" },
-      { id: "article", label: "文章页" },
-      { id: "states", label: "空状态" },
+      { id: "essence", label: "这间站" },
+      { id: "pursuits", label: "我在意的事" },
+      { id: "pillars", label: "读什么" },
+      { id: "experience", label: "阅读感受" },
+      { id: "look", label: "长什么样" },
     ],
+    cta: {
+      categories: "按主题翻翻",
+      home: "从最新文章开始",
+    },
   },
 } as const;
 

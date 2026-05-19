@@ -21,11 +21,9 @@
 ## C. 品牌展示页
 
 - [ ] `app/brand/page.tsx` — 叙述与设计系统表无过时描述
-- [ ] `components/brand/BrandComponentShowcase.tsx`
-  - [ ] 组件清单表含新增/重命名组件
-  - [ ] 色板 / 排版样例反映新 token
-  - [ ] 受影响组件样例已更新
-  - [ ] 可点击样例仍包裹在 `ShowcaseSandbox` 内
+- [ ] `components/brand/BrandVisualPreview.tsx`（仅当 /brand 访客页需反映新视觉气质时）
+  - [ ] 配色气质与阅读体验文案仍准确
+  - [ ] 预览样例仍包裹在 `ShowcaseSandbox` 内
 
 ## D. 站点文案（若语气或定位变化）
 

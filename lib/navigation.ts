@@ -51,7 +51,7 @@ export const mainNavItems: NavItem[] = [
     icon: "folder",
   },
   {
-    label: "关于站",
+    label: "关于我",
     href: "/brand",
     icon: "sparkles",
   },

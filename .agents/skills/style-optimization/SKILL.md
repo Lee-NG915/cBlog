@@ -22,7 +22,8 @@ description: >-
 | 3 | `tailwind.config.js` | 色彩、字体、阴影 token |
 | 4 | `app/globals.css` | `editorial-*`、`prose`、`data-reveal`、工具类 |
 | 5 | `app/layout.tsx` | 字体加载（Noto Serif SC / Noto Sans SC） |
-| 6 | `app/brand/page.tsx` + `components/brand/*` | 品牌说明与组件样例合集 |
+| 6 | `app/brand/page.tsx` | 访客向品牌页（个性与认知，非开发规范） |
+| 7 | `components/brand/BrandVisualPreview.tsx` | 访客页视觉预览（可选同步） |
 
 站点品牌页：`/brand` — 改完样式后确认样例仍准确。
 
@@ -86,7 +87,7 @@ description: >-
 
 1. 更新 `lib/brand.ts`（`presentation`、`designSystemMapping`、必要时 `personality`）
 2. 更新 `docs/brand-core.md` 对应章节
-3. 更新 `components/brand/BrandComponentShowcase.tsx` 中受影响样例
+3. 若访客页视觉气质变化，更新 `components/brand/BrandVisualPreview.tsx`（勿把开发清单塞回 /brand）
 4. 若文案语气变化，检查 `lib/site.ts` 与 `app/about/page.tsx`
 
 ### Step 4：验证
@@ -105,7 +106,7 @@ description: >-
 | 调标题字号 | 页面/组件 `font-display` | 仅局部 → 样例可选更新 |
 | 调文章阅读感 | `globals.css` `.prose` | 更新 brand mapping + md |
 | 调首页/卡片 | `app/page.tsx` + `PostCard` 等 | 模式变更 → 同步 + /brand |
-| 新组件样式 | `components/New.tsx` | 加入 BrandComponentShowcase 清单 |
+| 新组件样式 | `components/New.tsx` | 开发侧记录即可，不必写入 /brand 访客页 |
 
 ## 输出要求
 
@@ -119,4 +120,4 @@ description: >-
 ## 附加资源
 
 - 品牌同步清单：[brand-sync-checklist.md](brand-sync-checklist.md)
-- 项目组件与 token 详表：见 `/brand` 页面「组件清单」章节
+- 开发用 token 详表：见 `lib/brand.ts` 的 `designSystemMapping`

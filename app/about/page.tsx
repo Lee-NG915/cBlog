@@ -55,8 +55,8 @@ export default function AboutPage() {
           <li>生活手记：工作以外的小事，不用包装，真实就好。</li>
         </ul>
         <p>
-          这间站为什么长这样、样式怎么对应，写在{" "}
-          <a href="/brand/">关于这间站</a>。
+          想了解我怎么看这间站、希望读者有什么感受，见{" "}
+          <a href="/brand/">关于我</a>。
         </p>
       </div>
     </div>
