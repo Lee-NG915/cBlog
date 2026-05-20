@@ -4,10 +4,9 @@ slug: design-system-cdd-practice
 date: 2026-05-19
 category: technical
 tags:
-  - Design System
-  - Component Library
-  - Storybook
   - CDD
+  - Design System
+  - Storybook
   - Chromatic
 status: draft
 excerpt: 记录我主导设计与推进的企业级电商组件库建设全过程，重点阐述 Storybook 与 Chromatic 如何重塑组件驱动开发工作流，以及多品牌主题渐进式切换的工程实践。
