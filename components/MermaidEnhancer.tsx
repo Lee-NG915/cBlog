@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type ExpandedDiagram = {
   title: string;
@@ -10,6 +11,7 @@ type ExpandedDiagram = {
 export default function MermaidEnhancer() {
   const [expandedDiagram, setExpandedDiagram] =
     useState<ExpandedDiagram | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const diagrams = Array.from(
@@ -87,7 +89,7 @@ export default function MermaidEnhancer() {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const diagrams = Array.from(
@@ -97,7 +99,7 @@ export default function MermaidEnhancer() {
     diagrams.forEach((diagram, index) => {
       diagram.dataset.title = diagram.dataset.title || `图例 ${index + 1}`;
     });
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
