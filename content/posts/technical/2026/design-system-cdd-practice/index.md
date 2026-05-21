@@ -9,6 +9,7 @@ tags:
   - Storybook
   - Visual Regression
 status: published
+coverCard: /images/covers/study/CDD-cover.png
 excerpt: 复盘一次企业级电商组件库建设实践：围绕组件分层、主题架构、构建发布、视觉回归和渐进式迁移，设计系统如何从文档变成可验证、可发布、可复用的工程资产。
 ---
 
