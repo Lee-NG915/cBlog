@@ -1,5 +1,5 @@
 ---
-title: 细分消费场景
+title: 电商产品学习2——细分消费场景
 slug: consumption-scene-segmentation
 date: 2026-05-18T17:20:00+08:00
 category: learning

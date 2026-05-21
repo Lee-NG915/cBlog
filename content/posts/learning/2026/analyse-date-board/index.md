@@ -1,5 +1,5 @@
 ---
-title: 如何分析数据报表
+title: 电商产品学习3——如何分析数据报表
 slug: analyse-date-board
 date: 2026-05-18T17:21:00+08:00
 category: learning

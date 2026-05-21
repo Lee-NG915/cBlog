@@ -1,5 +1,5 @@
 ---
-title: 前端类目和商品管理：从用户场景理解电商增长
+title: 电商产品学习4——前端类目和商品管理：从用户场景理解电商增长
 slug: product-learning-4
 date: 2026-05-21T17:11:00+08:00
 category: learning

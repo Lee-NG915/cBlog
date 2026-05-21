@@ -1,5 +1,5 @@
 ---
-title: 学会构建用户画像
+title: 电商产品学习1——学会构建用户画像
 slug: building-user-profile
 date: 2026-05-14
 category: learning
