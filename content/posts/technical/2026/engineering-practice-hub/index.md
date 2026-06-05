@@ -2,7 +2,7 @@
 title: 工程实践札记索引：我在大型电商前端项目里的思考地图
 slug: engineering-practice-hub
 date: 2026-05-28
-updatedAt: 2026-06-05
+updatedAt: 2026-07-29
 category: technical
 tags:
   - Engineering
@@ -126,7 +126,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 支付技术总方案 | 前端只编排流程，支付能力下沉到 provider 抽象层，避免页面直接绑死某一渠道 | 📂 资料源 | [payment-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-tech-solution.md) |
+| 支付链路架构 | 策略模式 + Server Action 编排，UI 只响应 ActionSchema 指令 | ✅ 已发布 | [电商支付链路架构](/posts/payment-pipeline-architecture/) |
 | 支付架构重构 ADR | 把 initiate / confirm / callback 拆清楚，比在一个 hook 里写完所有逻辑更易测试 | 📂 资料源 | [payment-architecture-adr.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/adr/2026-03-payment-architecture-refactoring.md) |
 | Stripe Payment Element | 卡支付走 Payment Element，Express 支付单独 slot，避免重复入口 | 📂 资料源 | [stripe-payment-element.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-integration-solutions/payment-stripe-payment-element-integration.md) |
 | Stripe Express Checkout | Apple Pay / Google Pay / Link 用独立 Element，和卡支付共用后端 pipeline | 📂 资料源 | [stripe-express-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-integration-solutions/payment-stripe-express-checkout-element-integration.md) |
@@ -157,7 +157,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 追踪事件模型总览 | UI dispatch 领域事件 → listener 编排 → trigger 发渠道，单向链路不可绕过 | 📂 资料源 | [tracking-event-model-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/README.md) |
+| 追踪事件模型总览 | UI dispatch 领域事件 → listener 编排 → trigger 发渠道，单向链路不可绕过 | ✅ 已发布 | [埋点事件契约（Events Book）](/posts/tracking-events-book-contract/) |
 | 事件页模板 | 每个重要事件一份契约：含义、触发时机、字段、测试方案 | 📂 资料源 | [event-model-template.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/event-model.template.md) |
 | Checkout 埋点 | 结账漏斗事件最容易「过早触发」，契约里要写清楚非目标场景 | 📂 资料源 | [tracking-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/checkout.md) |
 | 交易类埋点 | 支付成功 / 失败 / 取消要区分系统行为与用户行为 | 📂 资料源 | [tracking-transaction.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/transaction.md) |
@@ -172,7 +172,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| HTTP 错误处理策略 | 按错误类型分层：用户可恢复 / 需重试 / 需上报，不要混在一个 handler 里 | 📂 资料源 | [http-error-handling-strategy.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/http-error-handling-strategy.md) |
+| HTTP 错误处理策略 | 按错误类型分层：用户可恢复 / 需重试 / 需上报，不要混在一个 handler 里 | ✅ 已发布 | [电商前端 HTTP 错误处理](/posts/http-error-handling-strategy/) |
 | API 错误码使用 | 业务错误码要和 UI 文案、埋点、Sentry tag 对齐，避免三方各写各的 | 📂 资料源 | [api-error-code-usage.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/api-error-code-usage.md) |
 | 回退购物车错误 | 结账失败后的回退路径是高频客诉点，错误提示要 actionable | 📂 资料源 | [back-to-cart-errors.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/back-to-cart-errors.md) |
 
@@ -222,8 +222,9 @@ flowchart TB
 按优先级，我打算这样推进：
 
 1. ~~**先收尾已有草稿**~~：ISR 缓存、交易可观测性、Joy UI 迁移 ADR——✅ 已完成。
-2. **再写高频面试题方向**：埋点契约、支付链路、HTTP 错误处理——都是「能讲清楚为什么」的主题。
-3. **最后补长尾资料**：PLP 方案、延保、Sale Page 等偏业务向的文档，迁移时做场景泛化。
+2. ~~**高频面试题方向**~~：埋点契约、支付链路、HTTP 错误处理——✅ 已完成。
+3. **下一轮（P2）**：迁移计划定稿、PLP 重构、多市场 Feature Flag、API 错误码规范。
+4. **长尾资料**：延保、Sale Page、时区管理等偏业务向文档，迁移时做场景泛化。
 
 每完成一篇，我会回到这里更新状态列。如果你在看某条 📂 资料源，也可以直接告诉我优先整理哪一块。
 

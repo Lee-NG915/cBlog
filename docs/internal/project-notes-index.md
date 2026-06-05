@@ -10,9 +10,9 @@
 
 | 批次 | 主题 | 状态 |
 | --- | --- | --- |
-| P0 | ISR 缓存、交易可观测性、Joy UI 迁移 ADR | ✅ 本次完成 |
-| P1 | 埋点契约、支付链路、HTTP 错误处理 | 📂 下一轮 |
-| P2 | PLP 重构、多市场 Feature Flag、i18n | 📂 排队中 |
+| P0 | ISR 缓存、交易可观测性、Joy UI 迁移 ADR | ✅ 已完成 |
+| P1 | 埋点契约、支付链路、HTTP 错误处理 | ✅ 已完成 |
+| P2 | 迁移计划定稿、API 错误码、PLP 重构 | 📂 下一轮 |
 | P3 | Account 重构、Sale Page、时区管理 | 📂 长尾 |
 
 ---
@@ -70,7 +70,7 @@
 | 主题 | Confluence | 本地软链 | 博客 | 我的角色 |
 | --- | --- | --- | --- | --- |
 | Checkout 技术方案 | [2748448779](https://castlery.atlassian.net/wiki/spaces/EC/pages/2748448779) | — | 📂 | 核心开发 |
-| 支付技术总方案 | — | [payment-tech-solution.md](../engineering-notes/04-transaction-payment/payment-tech-solution.md) | 📂 | 设计与实现 |
+| 支付技术总方案 | — | [payment-tech-solution.md](../engineering-notes/04-transaction-payment/payment-tech-solution.md) | ✅ [payment-pipeline-architecture](/posts/payment-pipeline-architecture/) | 设计与实现 |
 | 支付架构重构 ADR | — | [payment-architecture-adr.md](../engineering-notes/04-transaction-payment/payment-architecture-adr.md) | 📂 | 主导 ADR |
 | Stripe Payment Element | — | [stripe-payment-element.md](../engineering-notes/04-transaction-payment/stripe-payment-element.md) | 📂 | 实现 |
 | Stripe Express Checkout | — | [stripe-express-checkout.md](../engineering-notes/04-transaction-payment/stripe-express-checkout.md) | 📂 | 实现 |
@@ -99,7 +99,7 @@
 
 | 主题 | Confluence | 本地软链 | 博客 | 我的角色 |
 | --- | --- | --- | --- | --- |
-| 追踪事件模型 | — | [tracking-event-model-readme.md](../engineering-notes/06-tracking-data/tracking-event-model-readme.md) | 📂 P1 | 推动 Events Book |
+| 追踪事件模型 | — | [tracking-event-model-readme.md](../engineering-notes/06-tracking-data/tracking-event-model-readme.md) | ✅ [tracking-events-book-contract](/posts/tracking-events-book-contract/) | 推动 Events Book |
 | 事件页模板 | — | [event-model-template.md](../engineering-notes/06-tracking-data/event-model-template.md) | 📂 | 设计 |
 | Checkout 埋点 | — | [tracking-checkout.md](../engineering-notes/06-tracking-data/tracking-checkout.md) | 📂 | 实现 |
 | 交易类埋点 | — | [tracking-transaction.md](../engineering-notes/06-tracking-data/tracking-transaction.md) | 📂 | 实现 |
@@ -114,7 +114,7 @@
 
 | 主题 | Confluence | 本地软链 | 博客 | 我的角色 |
 | --- | --- | --- | --- | --- |
-| HTTP 错误处理策略 | — | [http-error-handling-strategy.md](../engineering-notes/07-error-handling/http-error-handling-strategy.md) | 📂 P1 | 方案设计 |
+| HTTP 错误处理策略 | — | [http-error-handling-strategy.md](../engineering-notes/07-error-handling/http-error-handling-strategy.md) | ✅ [http-error-handling-strategy](/posts/http-error-handling-strategy/) | 方案设计 |
 | API 错误码使用 | — | [api-error-code-usage.md](../engineering-notes/07-error-handling/api-error-code-usage.md) | 📂 | 整理规范 |
 | 回退购物车错误 | — | [back-to-cart-errors.md](../engineering-notes/07-error-handling/back-to-cart-errors.md) | 📂 | 实现 |
 
