@@ -1,0 +1,1 @@
+../../joyboy/docs/web-checkout-spl-payment-tech-design.md

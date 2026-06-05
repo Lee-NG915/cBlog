@@ -1,0 +1,1 @@
+../../joyboy/docs/warranty/implementation-summary.md

@@ -1,0 +1,1 @@
+../../joyboy/docs/search-result-cache.md

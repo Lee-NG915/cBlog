@@ -1,0 +1,1 @@
+../../joyboy/docs/tracking-event-model/pinterest-capi.md

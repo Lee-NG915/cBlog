@@ -1,0 +1,1 @@
+../../joyboy/docs/redux-listener-event-design-pattern.md

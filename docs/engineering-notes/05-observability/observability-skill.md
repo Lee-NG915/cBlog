@@ -1,0 +1,1 @@
+../../joyboy/.agents/skills/observability/SKILL.md

@@ -1,0 +1,1 @@
+../../joyboy/docs/payment-tech-solution.md

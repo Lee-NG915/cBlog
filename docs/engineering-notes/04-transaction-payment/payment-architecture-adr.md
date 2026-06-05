@@ -1,0 +1,1 @@
+../../joyboy/docs/adr/2026-03-payment-architecture-refactoring.md

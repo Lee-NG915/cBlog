@@ -1,0 +1,1380 @@
+- [[#1 执行摘要|1 执行摘要]]
+- [[#2 背景与业务上下文|2 背景与业务上下文]]
+  - [[#2 背景与业务上下文#2.1 名词解释|2.1 名词解释]]
+  - [[#2 背景与业务上下文#2.2 项目背景|2.2 项目背景]]
+  - [[#2 背景与业务上下文#2.3 目标与愿景|2.3 目标与愿景]]
+  - [[#2 背景与业务上下文#2.4 主要挑战|2.4 主要挑战]]
+- [[#3 技术需求与约束|3 技术需求与约束]]
+  - [[#3 技术需求与约束#3.1 功能需求|3.1 功能需求]]
+  - [[#3 技术需求与约束#3.2 非功能需求|3.2 非功能需求]]
+  - [[#3 技术需求与约束#3.3 技术约束|3.3 技术约束]]
+- [[#4 技术选型分析|4 技术选型分析]]
+  - [[#4 技术选型分析#4.1 搜索框架选择|4.1 搜索框架选择]]
+    - [[#4.1 搜索框架选择#方案对比与决策|方案对比与决策]]
+  - [[#4 技术选型分析#4.2 React InstantSearch 集成策略|4.2 React InstantSearch 集成策略]]
+    - [[#4.2 React InstantSearch 集成策略#核心组件实现方式对比|核心组件实现方式对比]]
+    - [[#4.2 React InstantSearch 集成策略#实施建议|实施建议]]
+    - [[#4.2 React InstantSearch 集成策略#性能考量|性能考量]]
+- [[#5 架构概览|5 架构概览]]
+  - [[#5 架构概览#5.1 系统上下文图 (Context)|5.1 系统上下文图 (Context)]]
+  - [[#5 架构概览#5.2 容器图 (Container)|5.2 容器图 (Container)]]
+  - [[#5 架构概览#5.3 数据流设计|5.3 数据流设计]]
+  - [[#5 架构概览#5.4 服务器与客户端组件划分|5.4 服务器与客户端组件划分]]
+  - [[#5 架构概览#5.5 组件图 (Component)|5.5 组件图 (Component)]]
+  - [[#5 架构概览#5.6 代码图 (Code)|5.6 代码图 (Code)]]
+  - [[#5 架构概览#5.7 共享组件设计|5.7 共享组件设计]]
+  - [[#5 架构概览#5.8 实现方案|5.8 实现方案]]
+    - [[#5.8 实现方案#基础架构设计|基础架构设计]]
+    - [[#5.8 实现方案#搜索服务架构与流量管理|搜索服务架构与流量管理]]
+      - [[#搜索服务架构与流量管理#搜索流量预估与资源规划|搜索流量预估与资源规划]]
+- [[#6 组件结构与规范|6 组件结构与规范]]
+  - [[#6 组件结构与规范#6.1 组件目录结构|6.1 组件目录结构]]
+  - [[#6 组件结构与规范#6.2 组件分类规范|6.2 组件分类规范]]
+  - [[#6 组件结构与规范#6.3 组件使用示例|6.3 组件使用示例]]
+- [[#7 路由设计与中间件实现|7 路由设计与中间件实现]]
+  - [[#7 路由设计与中间件实现#7.1 路由规则设计与挑战|7.1 路由规则设计与挑战]]
+  - [[#7 路由设计与中间件实现#7.2 中间件实现|7.2 中间件实现]]
+  - [[#7 路由设计与中间件实现#7.3 页面识别与映射逻辑|7.3 页面识别与映射逻辑]]
+- [[#8 性能与优化策略|8 性能与优化策略]]
+  - [[#8 性能与优化策略#8.1 性能优化|8.1 性能优化]]
+  - [[#8 性能与优化策略#8.2 SEO 优化|8.2 SEO 优化]]
+  - [[#8 性能与优化策略#8.3 用户体验优化|8.3 用户体验优化]]
+- [[#9 事件追踪实现|9 事件追踪实现]]
+  - [[#9 事件追踪实现#9.1 追踪事件类型|9.1 追踪事件类型]]
+  - [[#9 事件追踪实现#9.2 技术实现|9.2 技术实现]]
+    - [[#9.2 技术实现#HTML 数据属性准备|HTML 数据属性准备]]
+    - [[#9.2 技术实现#React InstantSearch 集成|React InstantSearch 集成]]
+    - [[#9.2 技术实现#GTM 集成|GTM 集成]]
+  - [[#9 事件追踪实现#9.3 预期效益|9.3 预期效益]]
+  - [[#9 事件追踪实现#9.4 后续工作|9.4 后续工作]]
+- [[#10 实施计划与时间线|10 实施计划与时间线]]
+- [[#11 风险评估与缓解策略|11 风险评估与缓解策略]]
+- [[#12 总结|12 总结]]
+- [[#13 参考资料|13 参考资料]]
+- [[#14 附录|14 附录]]
+  - [[#14 附录#14.1 Facet 与 Filter 的区别及其在业务中的应用|14.1 Facet 与 Filter 的区别及其在业务中的应用]]
+- [[#15 文档修订历史|15 文档修订历史]]
+
+## 1 执行摘要
+
+本方案旨在重构 Castlery 电商平台的产品列表页(PLP)系统，通过建立基于 Next.js App Router 的新架构来提升性能、用户体验和代码可维护性。方案的核心是创建一个通用的 SearchView 基础组件，让 PLP、CLP 和 SRP 三种不同视图从此组件扩展，实现代码复用的同时满足各场景特定需求。该方案同时考虑了 Web 和 POS 两个端的需求，并整合了 SearchKit 与 React InstantSearch 来提供高性能的搜索体验。预计通过四个阶段实施完成，将显著提升产品浏览和搜索的用户体验，优化性能和 SEO，并为未来扩展提供灵活架构。
+
+## 2 背景与业务上下文
+
+### 2.1 名词解释
+
+在开始详细的架构设计之前，让我先解释一些电商系统中的核心概念：
+
+- **PLP (Product Listing Page)**: 产品列表页，由 CMS 系统中 on-site 团队创建的自定义页面，如新品页(new)、促销页(sales)、AR 体验页等特殊营销页面。
+- **CLP (Category Landing Page)**: 分类着陆页，来自 Knight 系统配置的固定分类页面，如家具分类(living-room, bedroom 等)，通过 Knight 管理系统的分类(taxonomy)模块管理。
+- **SRP (Search Results Page)**: 搜索结果页，显示基于用户搜索查询的产品列表。
+- **InstantSearch**: Algolia 的前端库，提供即时搜索体验，用户输入时可即时看到结果。
+- **(SearchKit)[https://github.com/searchkit/searchkit/tree/main/packages/searchkit]**: Searchkit 通过在 Elasticsearch 之上提供抽象层来简化搜索实现过程。使用 Searchkit，你可以使用 Instantsearch 组件（如搜索框、筛选器和结果展示等）来构建搜索体验，它会自动处理与 Elasticsearch 的所有通信。
+- DY
+- CMS
+- Knight
+
+### 2.2 项目背景
+
+Castlery 电商平台的产品列表页(PLP)系统是用户浏览和发现产品的核心入口，直接影响用户体验和转化率。随着业务的发展，现有系统面临以下挑战：
+
+1. 性能问题：随着产品数量增加，页面加载速度和响应性下降
+2. 平台兼容：需要同时满足 Web 端和 POS 系统的不同需求
+3. 用户体验：筛选和导航体验需要优化
+4. 技术更新：需要采用最新的 Next.js App Router 等技术提高开发效率
+
+本次重构旨在解决上述问题，建立一个现代化、可扩展的产品列表页系统。
+
+### 2.3 目标与愿景
+
+本次重构的目标是建立一个现代化、可扩展的产品列表页系统，通过建立基于 Next.js App Router 的新架构来提升性能、用户体验和代码可维护性。方案的核心是创建一个通用的 SearchView 基础组件，让 PLP、CLP 和 SRP 三种不同视图从此组件扩展，实现代码复用的同时满足各场景特定需求。该方案同时考虑了 Web 和 POS 两个端的需求，并整合了 SearchKit 与 React InstantSearch 来提供高性能的搜索体验。预计通过四个阶段实施完成，将显著提升产品浏览和搜索的用户体验，优化性能和 SEO，并为未来扩展提供灵活架构。
+
+### 2.4 主要挑战
+
+1. 性能问题：
+   - Search API 响应超时问题
+   - DY re-ranking 导致查询性能下降
+   - Facet 样式排序依赖后端接口，影响页面加载
+   - 缺乏有效的缓存机制
+   - 搜索查询可能存在性能瓶颈
+2. 平台兼容：需要同时满足 Web 端和 POS 系统的不同需求
+3. 用户体验：筛选和导航体验需要优化
+4. 技术更新：需要采用最新的 Next.js App Router 等技术提高开发效率，同时重构现有的 Elasticsearch 查询实现，优化 SSR 和 SEO 相关的代码结构，提升代码质量和可维护性。
+
+## 3 技术需求与约束
+
+### 3.1 功能需求
+
+1. 支持基于分类、属性、价格等多条件筛选
+2. 实现多种排序方式（相关性、价格、热度等）
+3. 支持分页加载模式
+4. 提供响应式 UI，适配不同设备
+5. 支持 URL 参数与搜索状态同步
+6. 支持 SEO 优化和结构化数据
+7. 支持 PLP 页面配置化
+
+### 3.2 非功能需求
+
+1. **搜索流量管理与扩展性**
+   - 搜索流量直接打到 Next.js 服务，需要优化架构
+     - 主要优化策略：
+       - 实现组件/页面/接口级缓存
+       - 部署独立的搜索 API 服务
+       - 设置请求限流和监控
+2. 页面加载时间不超过 2 秒（首屏内容）
+3. 首次内容绘制（FCP）不超过 1.2 秒
+4. 搜索响应时间不超过 500ms
+5. 页面可交互时间（TTI）不超过 3 秒
+6. Web Vitals 指标达到"良好"评级
+7. 确保搜索结果的相关性和准确性
+
+### 3.3 技术约束
+
+1. 使用 Next.js App Router 作为基础框架
+2. 采用 TypeScript 进行开发
+3. 使用 Fortress 组件库作为 UI 基础
+4. 使用 Elasticsearch 作为搜索引擎
+5. 遵循公司现有的代码规范和 CI/CD 流程
+
+## 4 技术选型分析
+
+### 4.1 搜索框架选择
+
+| 框架                                                                                                       | 优点                                                                                                                                                                       | 缺点                                                                                                                                                                  | 适用场景                                                                                 |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **[React InstantSearch](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/react/)**   | - 丰富的 UI 组件库<br>- 响应式搜索体验<br>- 完善的文档和社区支持<br>- 内置状态管理<br>- 内置 URL 同步机制<br>- 支持自定义组件开发<br>- 可扩展性强<br>- 内置多语言支持      | - 原生为 Algolia 设计<br>- 需要适配器连接 Elasticsearch<br>- 默认样式需要重写以匹配品牌                                                                               | - 快速开发搜索界面<br>- 需要复杂筛选和分面功能<br>- 重视用户搜索体验<br>- 需要高度交互性 |
+| **[Searchkit v4](https://www.searchkit.co/docs/tutorials/with-nextjs)**                                    | - 专为 Elasticsearch 设计<br>- 轻量级适配层<br>- 无需额外后端服务<br>- 可与 React InstantSearch 无缝集成<br>- 内置 ES 查询优化<br>- 支持地理位置搜索<br>- 支持复杂查询构建 | - 不提供 UI 组件<br>- 需要与 UI 框架配合使用<br>- 文档相对有限<br>- 配置略复杂                                                                                        | - Elasticsearch 项目<br>- 需要高度定制查询<br>- 需要与 InstantSearch 集成                |
+| **[Elastic Search UI](https://www.elastic.co/docs/reference/search-ui/solutions-ecommerce-category-page)** | - 官方支持 Elasticsearch<br>- 完整的 React 组件集<br>- 开箱即用的查询构建<br>- 内置分析功能<br>- 响应式设计                                                                | - 组件定制灵活性较低<br>- 视觉风格与品牌不匹配<br>- 与 Next.js 集成需额外工作<br>- [SSR/NextJS App Router 支持有限](https://github.com/elastic/search-ui/issues/1004) | - 纯 Elasticsearch 项目<br>- 内部管理工具<br>- 快速原型开发<br>- 不需要高度定制 UI       |
+| **自定义实现**                                                                                             | - 完全控制 UI 和行为<br>- 可精确适配业务需求<br>- 与现有技术栈完全兼容<br>- 可定制任何交互模式<br>- 无第三方依赖                                                           | - 开发时间长(8-12 周)<br>- 维护成本高<br>- 需自行处理状态管理<br>- 需自行实现 URL 同步<br>- 边缘情况处理复杂                                                          | - 非常特殊的搜索需求<br>- 有足够的开发资源<br>- 需要完全掌控搜索体验                     |
+
+#### 方案对比与决策
+
+**开发资源需求对比:**
+
+| 方案                               | 开发时间 | 人力需求 | 维护成本 | 学习曲线 |
+| ---------------------------------- | -------- | -------- | -------- | -------- |
+| React InstantSearch + Searchkit v4 | 4-6 周   | 2-3 人   | 低       | 中等     |
+| Elastic Search UI                  | 3-5 周   | 2-3 人   | 中       | 低       |
+| 自定义实现                         | 8-12 周  | 3-5 人   | 高       | 高       |
+
+**功能对比:**
+
+| 功能特性   | React InstantSearch + Searchkit | Elastic Search UI | 自定义实现    |
+| ---------- | ------------------------------- | ----------------- | ------------- |
+| 分面搜索   | ✅ 内置多种分面组件             | ✅ 基础分面支持   | ⚠️ 需自行实现 |
+| 即时搜索   | ✅ 核心功能                     | ✅ 支持           | ⚠️ 需自行实现 |
+| URL 同步   | ✅ 内置多种路由选项             | ⚠️ 基础支持       | ⚠️ 需自行实现 |
+| 排序控制   | ✅ 多种排序组件                 | ✅ 基础支持       | ⚠️ 需自行实现 |
+| 自定义查询 | ✅ 通过 Searchkit 实现          | ⚠️ 有限支持       | ✅ 完全自由   |
+| SSR 支持   | ✅ 良好支持 Next.js             | ⚠️ 有限支持       | ✅ 可完全控制 |
+| 性能优化   | ✅ 经过优化的渲染               | ✅ 基础优化       | ⚠️ 需自行实现 |
+| A/B 测试   | ✅ 支持通过 API                 | ⚠️ 有限支持       | ⚠️ 需额外开发 |
+
+**选择理由:**
+
+我们选择**React InstantSearch + Searchkit v4**组合方案，原因如下:
+
+1. **架构灵活性与可扩展性**:
+
+   - InstantSearch 通过适配器模式支持多种搜索引擎
+   - Searchkit v4 作为适配层，未来可轻松替换为其他实现
+   - ==后端可基于 instantsearch 规范实现 Golang 版本的 instantsearch-adapter，前端无需改动==
+     - https://github.com/searchkit/searchkit/blob/main/packages/searchkit/src/transformRequest.ts
+
+2. **Next.js 集成优势**:
+
+   - 对 App Router 和 SSR 提供完善支持
+   - 服务端和客户端渲染无缝衔接
+   - 符合现代 Next.js 应用架构
+
+3. **开发效率与维护性**:
+
+   - 无需从零开发搜索状态管理
+   - 无需从零开发 URL 同步机制
+   - 预设组件覆盖大部分搜索场景
+   - 开发时间比自定义实现节省 50-70%
+
+4. **丰富的搜索功能**:
+
+   - 分面搜索与过滤
+   - 即时搜索响应
+   - 排序控制
+   - 搜索结果高亮
+   - 无限滚动和分页
+   - 空结果处理
+   - 搜索建议
+
+5. **灵活的定制能力**:
+
+   - 可自定义 InstantSearch 组件外观
+   - 可创建全新的自定义组件
+   - 可通过 Searchkit 自定义 Elasticsearch 查询
+   - 可与 Fortress 组件库无缝集成
+
+6. **生产验证与社区支持**:
+   - InstantSearch 在众多大型电商平台验证
+   - 活跃的社区和持续的版本更新
+   - 完善的文档和丰富的示例
+
+### 4.2 React InstantSearch 集成策略
+
+在确定使用 React InstantSearch + Searchkit v4 后，我们需要决定与 Fortress 组件库的集成方式:
+
+| 集成策略                         | 优点                                                                                      | 缺点                                                                     | 开发成本 | 维护成本 | 视觉一致性 |
+| -------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------- | -------- | ---------- |
+| **定制 InstantSearch 现有组件**  | - 更快的实现速度<br>- 利用现有功能<br>- 更新容易跟进<br>- 更少的代码量                    | - 样式受限<br>- DOM 结构难改<br>- 可能无法完全匹配设计                   | 低-中    | 低       | 中         |
+| **基于 Fortress 创建自定义组件** | - 完全符合设计规范<br>- 完全控制 DOM 结构<br>- 可精确实现设计要求<br>- 与现有组件视觉一致 | - 开发时间更长<br>- 需深入理解底层 API<br>- 需单独维护<br>- 升级风险更高 | 中-高    | 中       | 高         |
+| **混合策略**                     | - 关键组件保持高度定制<br>- 次要组件快速实现<br>- 平衡开发效率和设计需求                  | - 实现复杂度增加<br>- 需要明确组件分类<br>- 需要同时掌握两种实现方式     | 中       | 中       | 中-高      |
+
+#### 核心组件实现方式对比
+
+| 组件类型     | 定制 InstantSearch 组件       | 创建 Fortress 自定义组件           | 推荐方式   |
+| ------------ | ----------------------------- | ---------------------------------- | ---------- |
+| 搜索框       | 样式定制有限，交互逻辑固定    | 可完全自定义外观和交互             | **自定义** |
+| 产品卡片     | 可应用 CSS 覆盖，结构较难改变 | 可完全符合设计规范，支持复杂交互   | **自定义** |
+| 分面过滤器   | 功能完善，样式可调整          | 开发工作量大，但可完全定制样式     | **定制**   |
+| 排序控件     | 简单组件，易于定制            | 开发成本不高，可完全符合设计       | **定制**   |
+| 分页控件     | 功能完善，样式可适应          | 开发工作量中等，可完美匹配设计     | **定制**   |
+| 价格范围滑块 | 交互较复杂，定制难度高        | 开发工作量大，但可实现精确视觉效果 | **自定义** |
+| 结果统计     | 简单组件，轻松定制            | 开发成本低，可完全匹配设计         | **定制**   |
+
+#### 实施建议
+
+基于对搜索需求和用户体验的分析，我们推荐采用**混合策略**:
+
+1. **核心视觉组件采用 Fortress 自定义实现**:
+
+   - 产品卡片组件 (ProductCard)
+   - 搜索框与自动完成 (SearchBox)
+   - 价格范围滑块 (RangeSlider)
+   - 移动端筛选器抽屉 (FiltersDrawer)
+
+2. **功能性组件采用定制 InstantSearch 组件**:
+
+   - 分面列表 (RefinementList)
+   - 排序选择器 (SortBy)
+   - 分页控件 (Pagination)
+   - 当前筛选标签 (CurrentRefinements)
+   - 清除筛选按钮 (ClearRefinements)
+   - 结果统计 (Stats)
+
+3. **实施路径**:
+   - 先使用定制 InstantSearch 组件实现 MVP 版本
+   - 优先替换核心视觉组件为 Fortress 自定义组件
+   - 逐步迭代改进次要组件
+
+这种混合策略能在开发效率和用户体验间取得最佳平衡，确保核心组件完全符合设计要求，同时保持项目按时交付。
+
+#### 性能考量
+
+|              | 定制 InstantSearch 组件 | Fortress 自定义组件 |
+| ------------ | ----------------------- | ------------------- |
+| 初始加载性能 | 较好 (优化过的渲染)     | 取决于实现质量      |
+| 交互响应性   | 良好 (经过优化)         | 需要额外优化        |
+| 代码体积     | 较大 (包含完整库)       | 可能更小 (按需实现) |
+| SSR 支持     | 完善                    | 需要额外工作        |
+
+综上所述，React InstantSearch + Searchkit v4 + Fortress 的混合实现策略是最适合我们项目的技术选型，既保证了搜索体验的专业性，又确保了与品牌设计的一致性，同时平衡了开发效率和用户体验需求。
+
+## 5 架构概览
+
+### 5.1 系统上下文图 (Context)
+
+```mermaid
+C4Context
+    title System Context diagram for PLP Reconstruction
+
+    Person(customer, "Customer", "Online shopper using the web store")
+    Person(salesStaff, "Sales Staff", "Store employees using POS system")
+    Person(webOps, "Web Ops Team", "固定分类配置在Knight系统")
+    Person(onSiteTeam, "On-site Team", "自定义页面配置在CMS")
+
+    System(webSystem, "Web System", "Online shopping platform with PLP, CLP and SRP")
+    System(posSystem, "POS System", "Point of Sale system")
+    System_Ext(knight, "Knight", "E-commerce management system for categories")
+    System_Ext(cms, "CMS (Storyblok)", "Content Management System for custom pages")
+
+    System_Ext(es, "Elasticsearch", "Search and catalog service")
+    System_Ext(dynamicYield, "DynamicYield", "Recommendations and ranking adjustments")
+
+    BiRel(customer, webSystem, "Browses products, applies filters")
+    BiRel(salesStaff, posSystem, "Uses for in-store sales")
+    BiRel(webOps, knight, "管理固定分类(CLP)")
+    BiRel(onSiteTeam, cms, "创建自定义页面(PLP)")
+    BiRel(onSiteTeam, dynamicYield, "Configures recommendations")
+
+    Rel(webSystem, es, "Queries product data")
+    Rel(webSystem, dynamicYield, "Gets recommendations and ranking")
+    Rel(posSystem, webSystem, "Uses shared components")
+    Rel(knight, es, "Syncs product data via scheduled jobs")
+    Rel(cms, webSystem, "Provides page configs (banners, pre-filtered product links, SEO, Q&A)")
+
+    UpdateRelStyle(customer, webSystem, $offsetY="-40", $offsetX="0")
+    UpdateRelStyle(posSystem, webSystem, $offsetY="30", $offsetX="0")
+```
+
+### 5.2 容器图 (Container)
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                      Client Browser                            │
+└───────────────────────────────┬────────────────────────────────┘
+                                │
+┌───────────────────────────────▼────────────────────────────────┐
+│                     Next.js App Router                         │
+│  ┌────────────────────────┐      ┌───────────────────────────┐ │
+│  │     React Components   │      │     Server Components     │ │
+│  │  ┌──────────────────┐  │      │                           │ │
+│  │  │  InstantSearch   │  │      │                           │ │
+│  │  │  ┌────────────┐  │  │      │                           │ │
+│  │  │  │ Searchkit  │  │  │      │                           │ │
+│  │  │  │  Client    │  │  │      │                           │ │
+│  │  │  └────────────┘  │  │      │                           │ │
+│  │  └──────────────────┘  │      │                           │ │
+│  └────────────────────────┘      └───────────────────────────┘ │
+└───────────────────────────────┬────────────────────────────────┘
+                                │
+┌───────────────────────────────▼────────────────────────────────┐
+│                     Next.js API Routes                         │
+│  ┌────────────────────────────────────────────────────────┐    │
+│  │                  Searchkit API                         │    │
+│  └────────────────────────────┬───────────────────────────┘    │
+└───────────────────────────────┬────────────────────────────────┘
+                                │
+┌───────────────────────────────▼────────────────────────────────┐
+│                      Elasticsearch                             │
+└────────────────────────────────────────────────────────────────┘
+```
+
+```mermaid
+C4Container
+    title Container diagram for Web System
+
+    Person(customer, "Customer", "Online shopper using the web store")
+    Person(salesStaff, "Sales Staff", "Store employees using POS system")
+
+    System_Boundary(webSystem, "Web System") {
+        Container(webApp, "Web Application", "Next.js (App Router)", "Online shopping experience")
+        Container(sharedLib, "Shared UI/Logic", "React Components, TS", "Common components and business logic")
+    }
+
+    System_Boundary(posSystem, "POS System") {
+        Container(posApp, "POS Application", "Next.js (App Router)", "In-store sales application")
+    }
+
+    System_Ext(es, "Elasticsearch", "Search and catalog service")
+    System_Ext(knight, "Knight", "E-commerce management system")
+    System_Ext(cms, "CMS (Storyblok)", "Content Management System")
+
+    Rel(customer, webApp, "Uses", "HTTPS")
+    Rel(salesStaff, posApp, "Uses", "HTTPS")
+
+    Rel(webApp, es, "Queries via API", "JSON/HTTPS")
+    Rel(posApp, es, "Queries via API", "JSON/HTTPS")
+
+    Rel(webApp, sharedLib, "Uses", "Import")
+    Rel(posApp, sharedLib, "Uses", "Import")
+
+    Rel(webApp, cms, "Fetches configurations", "JSON/HTTPS")
+    Rel(knight, es, "Configures catalog", "JSON/HTTPS")
+
+    UpdateRelStyle(customer, webApp, $offsetY="-40", $offsetX="0")
+    UpdateRelStyle(salesStaff, posApp, $offsetY="-40", $offsetX="0")
+```
+
+### 5.3 数据流设计
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User as 用户
+    participant Client as 客户端/UI
+    participant State as SearchView状态
+    participant Next as Next.js API/Middleware
+    participant Knight as Knight系统
+    participant CMS as CMS系统
+    participant ES as Elasticsearch
+    participant DY as DynamicYield
+
+    Knight->>ES: 同步产品数据和分类信息
+    User->>Client: 访问URL/触发搜索/筛选/排序
+    Client->>Next: 发送请求
+
+    Next->>Knight: 获取分类信息(确定是否为CLP页面)
+    Knight-->>Next: 返回分类数据
+    Next->>CMS: 获取页面配置(确定是否为PLP页面)
+    CMS-->>Next: 返回页面配置
+
+    Next->>Next: 根据URL和配置确定页面类型和查询参数
+    Next->>ES: 查询产品数据
+    ES-->>Next: 返回原始搜索结果
+    Next->>DY: 发送结果进行排序优化
+    DY-->>Next: 返回重排序后的结果
+    Next-->>Client: 返回最终搜索结果和页面配置
+    Client->>State: 更新搜索状态
+    State->>Client: 触发UI更新
+    Client-->>User: 展示最终结果和页面内容
+```
+
+系统数据流程的核心环节如下：
+
+1. **请求识别与处理**：
+
+   - 用户访问某个 URL 或在前端进行搜索/筛选操作
+   - Next.js 的中间件(Middleware)首先接收请求
+   - 中间件通过 Knight 系统获取分类信息，确定 URL 是否对应已知的 CLP 页面
+   - 同时从 CMS 获取配置信息，确认是否为自定义 PLP 页面
+   - 根据获取的信息确定页面类型(CLP、PLP 或 SRP)和相应的查询参数
+
+2. **数据源与同步**：Knight 系统作为产品数据的主数据源，通过定时任务每天更新 Elasticsearch 中的产品索引，同时也管理着所有分类信息(用于 CLP 页面)。
+3. **搜索与筛选流程**：
+
+   - 确定页面类型和查询参数后，Next.js 向 Elasticsearch 发送查询
+   - 对于需要排序优化的场景，结果会被发送到 DynamicYield 进行智能排序
+   - 优化后的结果与页面配置一起返回给客户端
+   - 客户端更新 SearchView 状态并渲染 UI
+
+4. **页面配置与内容**：CMS 系统提供页面特定配置，如营销 Banner、预设过滤条件等，这些配置会与搜索结果一起在前端进行整合展示。
+
+我们针对不同端使用了不同的索引：
+
+1. **web_product** - 用于 Web 端的产品索引，包含完整的产品信息
+2. **pos_product** - 用于 POS 系统的产品索引，针对门店场景优化
+
+系统中的页面类型由不同团队在不同系统中管理：
+
+- **CLP 页面** - 由 Web Ops 团队在 Knight 系统(https://knight-test.castlery.com.au/spree/admin/taxonomies)中的menu配置的固定分类页面
+- **PLP 页面** - 由 On-site 团队在 CMS 系统中创建的自定义营销页面，如新品页、促销页、AR 体验页等
+
+CMS 系统（Storyblok）主要负责管理 PLP 自定义页面的配置，包括：
+
+1. **页面 URL** - 定义 PLP 页面的路径和 URL 结构
+2. **Banner 内容** - 页面顶部的营销横幅和推广图片
+3. **Q&A 组件** - 产品分类相关的常见问题解答
+4. **过滤逻辑** - 预设的过滤条件和筛选规则
+5. **SEO 元信息** - 页面标题、描述和其他元数据
+
+这种索引分离策略有以下优势：
+
+- 可针对不同端的需求分别优化索引结构
+- 避免一个端的查询影响另一个端的性能
+- 可以为 POS 系统提供额外的门店库存等特定数据
+
+### 5.4 服务器与客户端组件划分
+
+```mermaid
+graph TD
+    subgraph Server["服务器组件"]
+        A[页面布局]
+        B[初始数据获取]
+        C[SEO元数据]
+        D[CMS内容获取]
+    end
+
+    subgraph Client["客户端组件"]
+        E[搜索状态管理]
+        F[筛选器交互]
+        G[排序控制]
+        H[分页控制]
+        I[即时搜索]
+    end
+
+    Server -->|Hydration| Client
+```
+
+### 5.5 组件图 (Component)
+
+```mermaid
+C4Component
+    title Component diagram for Web Application
+
+    Container_Boundary(webApp, "Web Application") {
+        Component(searchView, "SearchView", "React, SearchKit", "Base component for search experiences")
+        Component(plpComponent, "PLP Component", "React", "Product listing for categories")
+        Component(clpComponent, "CLP Component", "React", "Category landing pages")
+        Component(srpComponent, "SRP Component", "React", "Search results experience")
+        Component(facetsComponent, "Facets Component", "React, SearchKit", "Filter UI components")
+        Component(sortingComponent, "Sorting Component", "React, SearchKit", "Sorting controls")
+        Component(paginationComp, "Pagination Component", "React", "Page navigation controls")
+        Component(searchClient, "Search Client", "SearchKit, React-InstantSearch", "API client for ES")
+    }
+
+    System_Ext(es, "Elasticsearch", "Search and catalog service")
+    System_Ext(cms, "CMS (Storyblok)", "Content Management System")
+
+    Rel(plpComponent, searchView, "Extends")
+    Rel(clpComponent, searchView, "Extends")
+    Rel(srpComponent, searchView, "Extends")
+
+    Rel(searchView, facetsComponent, "Includes")
+    Rel(searchView, sortingComponent, "Includes")
+    Rel(searchView, paginationComp, "Includes")
+    Rel(searchView, searchClient, "Uses")
+
+    Rel(searchClient, es, "Queries", "JSON/HTTPS")
+    Rel(clpComponent, cms, "Fetches config", "JSON/HTTPS")
+    Rel(plpComponent, cms, "Fetches config", "JSON/HTTPS")
+
+    UpdateRelStyle(srpComponent, searchView, $offsetY="10", $offsetX="0")
+```
+
+### 5.6 代码图 (Code)
+
+```mermaid
+classDiagram
+    class SearchView {
+        +ElasticsearchClient client
+        +SearchState state
+        +render()
+        +handleFilterChange()
+        +handleSortChange()
+        +handlePageChange()
+    }
+
+    class PLP {
+        +CategoryContext context
+        +render()
+        +fetchCategoryData()
+    }
+
+    class CLP {
+        +CategoryLandingContext context
+        +HeroSection hero
+        +render()
+        +fetchCategoryLandingData()
+    }
+
+    class SRP {
+        +SearchQueryContext context
+        +render()
+        +handleSearchInput()
+    }
+
+    class FacetsComponent {
+        +FacetList facets
+        +FilterState state
+        +render()
+        +toggleFilter()
+        +clearFilters()
+    }
+
+    class ProductGrid {
+        +ProductList products
+        +GridConfiguration config
+        +render()
+    }
+
+    SearchView <|-- PLP
+    SearchView <|-- CLP
+    SearchView <|-- SRP
+    SearchView o-- FacetsComponent
+    SearchView o-- ProductGrid
+```
+
+### 5.7 共享组件设计
+
+我们将设计一系列共享组件，以便在 Web 和 POS 两个端之间复用。这些组件将基于 Fortress 组件库构建，确保 UI 的一致性和品牌符合度。
+
+### 5.8 实现方案
+
+#### 基础架构设计
+
+基于前面的分析，我们设计了以下实现方案：
+
+1. **通用基础组件**：创建 `SearchView` 作为所有产品列表页面的基础组件，提供核心搜索和筛选功能
+2. **多端适配**：为 Web 和 POS 分别实现不同的模板，共享核心逻辑
+3. **服务端渲染**：利用 Next.js 的 App Router 提供 SSR 能力，优化首屏加载和 SEO
+4. **客户端交互**：在客户端使用 React InstantSearch 实现即时搜索交互
+5. **ES 适配层**：使用 SearchKit 作为适配层，将 InstantSearch 请求转换为 Elasticsearch 查询
+6. **响应式 UI**：使用 Fortress 组件库构建自适应界面，适配不同设备
+
+#### 搜索服务架构与流量管理
+
+考虑到搜索接口直接在 Next.js 中实现会带来流量压力问题，我们设计了以下优化架构：
+
+```mermaid
+graph TD
+    A[用户请求] --> B[CDN缓存层]
+    B -->|命中缓存| A
+    B -->|未命中缓存| C[Next.js应用集群]
+    C -->|服务端渲染| D[页面渲染]
+    C -->|搜索请求| E[搜索API路由]
+
+    E -->|横向扩展| F1[NextJS 实例1]
+    E -->|横向扩展| F2[NextJS 实例2]
+    E -->|横向扩展| F3[NextJS 实例3]
+    D -->|横向扩展| F1[NextJS 实例1]
+    D -->|横向扩展| F2[NextJS 实例2]
+    D -->|横向扩展| F3[NextJS 实例3]
+
+    F1 --> G[Redis缓存层]
+    F2 --> G
+    F3 --> G
+
+    G -->|命中缓存| F1
+    G -->|未命中缓存| H[Elasticsearch集群]
+
+    D --> A
+```
+
+##### 搜索流量预估与资源规划
+
+> 预估的 没有很精确的
+
+首先，让我们基于现有数据和合理假设来预估搜索流量并进行资源规划：
+
+**1. 流量预估基础数据：**
+
+| 指标                  | 数值    | 来源/假设                           |
+| --------------------- | ------- | ----------------------------------- |
+| 日均访问用户数        | 1,600   | 基于现有电商平台数据                |
+| 搜索接口平均 QPS      | 20      | 基于实际监控数据                    |
+| 搜索接口峰值 QPS      | 70      | 基于实际监控数据                    |
+| 高峰期倍数            | 5 倍    | 假设促销活动高峰期为日常流量的 5 倍 |
+| 促销活动峰值 QPS 预估 | 350     | 基于日常峰值的 5 倍估算             |
+| 平均会话时长          | 15 分钟 | 典型电商购物会话时长                |
+
+**2. QPS (每秒查询数) 实测数据：**
+
+```
+日常平均QPS: 20
+日常峰值QPS: 70
+
+促销活动预估峰值QPS:
+日常峰值 × 高峰期倍数 = 70 × 5 = 350 QPS
+瞬时峰值(考虑1.5倍波动) ≈ 525 QPS
+```
+
+> https://analytics.google.com/analytics/web/#/p287774504/reports/reportinghub?params=_u..nav%3Dmaui&collectionId=5284225602
+
+**3. 单次搜索请求资源消耗：**
+
+| 资源               | 消耗量      | 说明                                |
+| ------------------ | ----------- | ----------------------------------- |
+| CPU                | ~100ms      | 包括请求处理、ES 查询构建、结果处理 |
+| 内存               | ~50MB       | 包括连接、缓存和临时结果存储        |
+| 网络带宽           | ~100KB/请求 | 平均请求和响应数据量总和            |
+| Elasticsearch 负载 | ~200ms      | ES 处理时间(未考虑缓存)             |
+
+**4. 缓存效率假设：**
+
+| 缓存层       | 命中率 | 说明                   |
+| ------------ | ------ | ---------------------- |
+| CDN 缓存     | 30%    | 热门搜索和分类页面     |
+| Redis 缓存   | 50%    | 常见查询条件组合       |
+| 总体缓存减免 | 65%    | 考虑两层缓存的综合效果 |
+
+**5. 服务器资源规划：**
+
+根据以上实测数据，实际需要处理的最大 QPS 为:
+
+```
+实际最大QPS(日常) = 70 QPS × (1 - 65%) ≈ 25 QPS 直达ES的查询
+实际最大QPS(促销) = 350 QPS × (1 - 65%) ≈ 123 QPS 直达ES的查询
+```
+
+**Next.js 应用服务器:**
+
+```
+单个2vCPU/4GB实例处理能力 ≈ 10-15 QPS
+日常需要实例数量 = 25 ÷ 10 ≈ 3个实例(考虑冗余)
+促销期间需要实例数量 = 123 ÷ 10 ≈ 13个实例(考虑冗余)
+推荐配置: 日常3-4个2vCPU/4GB实例，促销期间扩展到13-15个实例
+```
+
+**Redis 缓存层:**
+
+```
+预估缓存数据量 = 平均结果大小50KB × 不同查询组合数1000 ≈ 50MB
+推荐配置: 2个4GB实例(主从架构)
+```
+
+**Elasticsearch 集群:**
+
+```
+每节点处理能力 ≈ 20-30 QPS(考虑复杂查询)
+日常需要数据节点数量 = 25 ÷ 20 ≈ 2个节点(考虑冗余)
+促销期间需要数据节点数量 = 123 ÷ 20 ≈ 7个节点(考虑冗余)
+推荐配置: 日常2-3个4vCPU/8GB数据节点 + 2个2vCPU/4GB协调节点
+          促销期间扩展到7-8个数据节点 + 3个协调节点
+```
+
+**6. 根据不同场景的弹性扩缩策略:**
+
+| 场景      | Next.js 实例 | ES 节点        | 策略                           |
+| --------- | ------------ | -------------- | ------------------------------ |
+| 日常运营  | 3-4 个       | 2-3 个数据节点 | 保持最小资源配置               |
+| 周末高峰  | 4-6 个       | 3 个数据节点   | 轻度自动扩展 Next.js 实例      |
+| 促销活动  | 10-15 个     | 5-7 个数据节点 | 预先扩容，活动结束后缩容       |
+| 黑五/大促 | 15-20 个     | 7-9 个数据节点 | 预先最大扩容，活动后分阶段缩容 |
+
+**7. 监控及告警阈值:**
+
+| 监控指标     | 警告阈值 | 告警阈值 | 操作              |
+| ------------ | -------- | -------- | ----------------- |
+| API 响应时间 | >300ms   | >500ms   | 检查瓶颈并扩容    |
+| CPU 使用率   | >70%     | >85%     | 自动扩容实例      |
+| ES 查询延迟  | >150ms   | >300ms   | 优化查询或扩容 ES |
+| 缓存命中率   | <40%     | <25%     | 调整缓存策略      |
+| 错误率       | >0.5%    | >2%      | 紧急排查并修复    |
+
+**结论:**
+
+基于实际测量的搜索流量数据，搜索服务确实存在相当的流量压力，需要通过合理的架构设计和资源规划来应对。在日常运营中，3-4 个 Next.js 实例和 2-3 个 ES 数据节点可以满足需求；而在促销活动高峰期，需要显著扩展到 10-15 个 Next.js 实例和 5-7 个 ES 数据节点。通过有效的多层缓存策略，可以将 65%的请求拦截在缓存层，显著减轻后端服务压力。
+
+这一流量规模验证了我们需要一个专门的搜索服务架构，而不是简单地依赖 Next.js API 路由来处理所有搜索请求。推荐采用 Kubernetes 的 HPA(Horizontal Pod Autoscaler)来根据 CPU 和内存使用率自动调整 Next.js 应用实例数量，设置适当的最小和最大实例数，确保系统能够根据实际流量自动扩缩容，既能满足性能需求，又能优化资源成本。
+
+**8. AWS Lambda 方案分析:**
+
+考虑到实际的搜索流量水平较高，AWS Lambda 可能不是最佳的长期解决方案，但仍可作为短期过渡方案：
+
+| 指标             | 数值       | 说明                         |
+| ---------------- | ---------- | ---------------------------- |
+| 平均执行时间     | ~500ms     | 包括冷启动时间和 ES 查询处理 |
+| 内存配置         | 1024MB     | 支持复杂查询构建和结果处理   |
+| 并发数           | 最大 100   | 基于实际峰值 QPS 考虑        |
+| 冷启动问题       | 较小       | 搜索流量稳定，减少冷启动影响 |
+| 每月预估调用次数 | ~5200 万次 | 基于平均 20 QPS 计算         |
+
+**Lambda 成本预估:**
+
+```
+每月调用次数: 52,000,000次 (20 QPS × 86400秒 × 30天)
+平均执行时间: 0.5秒
+内存配置: 1024MB
+预估月度Lambda成本: ~$400-500
+```
+
+**Lambda 方案评估:**
+
+虽然 Lambda 提供了快速部署和自动扩展的优势，但对于这种持续的高流量场景，专用 EC2 或 Kubernetes 集群在长期成本和性能稳定性方面可能更具优势。建议将 Lambda 作为过渡方案，同时规划更长期的专用搜索服务架构。
+
+**核心设计考量：**
+
+1. **搜索服务独立扩展**
+
+   - 将搜索 API 路由部署为独立服务，可单独扩缩容
+   - 使用 Kubernetes 实现自动扩缩容，根据 CPU 和内存使用率调整实例数量
+   - 关键查询参数配置独立环境变量，便于调优
+
+2. **多层缓存策略**
+
+   - CDN 层：缓存热门搜索结果，1-5 分钟过期时间
+   - Redis 层：缓存搜索查询结果，30 秒-2 分钟过期时间
+   - 按查询参数和用户区域分别缓存结果
+   - 对于促销活动，采用更短的缓存时间
+
+3. **流量控制机制**
+
+   - 实现请求速率限制，防止过度请求
+   - 实现熔断机制，在系统过载时保护 Elasticsearch
+   - 设置查询超时机制，防止长时间查询阻塞系统
+
+4. **监控与告警**
+
+   - 监控搜索 API 的 QPS、响应时间、错误率
+   - 监控 Redis 和 Elasticsearch 的性能指标
+   - 设置关键阈值告警，及时发现问题
+
+5. **异常处理策略**
+   - 定义优雅降级方案，在极端情况下返回基本结果
+   - 实现回退机制，当主搜索服务不可用时使用备用索引
+
+**实施分阶段计划：**
+
+1. **阶段一：基础搜索功能在 Next.js 中实现**
+
+   - 实现基本搜索 API 路由
+   - 引入 Redis 缓存层
+   - 实现智能缓存策略
+   - 优化缓存命中率
+   - 部署监控基础设施
+
+2. **阶段二：服务独立化**
+   - 完全由后端提供的搜索 API
+
+通过这种架构设计，我们可以有效应对搜索流量增长带来的挑战，同时保持系统的稳定性和可靠性。
+
+## 6 组件结构与规范
+
+> - instantsearch 相关的组件开发,请参考 https://github.com/typesense/showcase-nextjs-instantsearch-next-app-router-ssr-steam-games-search/tree/master/src/components/instantsearch
+> - CLP 和 PLP 的页面开发请参考 https://github.com/Blazity/enterprise-commerce/tree/main/starters/shopify-algolia/app/(browse)/category
+
+### 6.1 组件目录结构
+
+搜索相关的组件将统一放置在 `@castlery/modules-search-components` 包下，遵循以下目录结构：
+
+```
+libs/modules/search/components/
+├── package.json
+├── src/
+│   ├── lib/
+│   │   ├── instantsearch/           # InstantSearch 相关组件
+│   │   │   ├── Hits.tsx
+│   │   │   ├── RefinementList.tsx
+│   │   │   ├── SortSelector.tsx
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── FilterGroup.tsx
+│   │   │   └── index.ts
+│   │   ├── templates/               # 页面模板
+│   │   │   ├── CategoryLandingPage.tsx
+│   │   │   ├── ProductListingPage.tsx
+│   │   │   ├── SearchResultsPage.tsx
+│   │   │   ├── discover.pos.tsx
+│   │   │   └── index.ts
+│   │   ├── banner/                  # Banner 相关组件
+│   │   │   ├── PromotionBanner.tsx
+│   │   │   ├── CategoryBanner.tsx
+│   │   │   └── index.ts
+│   │   ├── qa/                      # Q&A 相关组件
+│   │   │   ├── QuestionList.tsx
+│   │   │   ├── QuestionForm.tsx
+│   │   │   └── index.ts
+│   │   ├── recommendation/          # 推荐组件
+│   │   │   ├── RelatedProducts.tsx
+│   │   │   ├── FrequentlyBoughtTogether.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts                 # 导出所有组件
+│   └── index.ts                     # 包主入口
+└── index.ts                         # 重导出
+```
+
+### 6.2 组件分类规范
+
+1. **InstantSearch 组件**：
+
+   - 所有与 Algolia InstantSearch 相关的组件均放置在 `instantsearch` 目录下
+   - 不区分标准组件和自定义组件，因为大部分组件都会进行自定义
+
+2. **模板组件**：
+
+   - 所有页面模板放置在 `templates` 目录下
+   - 使用完整名称而非缩写（如 `CategoryLandingPage` 而非 `CLP`）
+   - POS 相关模板使用 `.pos.tsx` 后缀（如 `discover.pos.tsx`）
+
+3. **功能组件**：
+   - 按照功能划分为不同目录（如 `banner`、`qa`、`recommendation` 等）
+   - 每个功能目录都有自己的 `index.ts` 统一导出
+
+### 6.3 组件使用示例
+
+```tsx
+// 导入 InstantSearch 组件
+import { Hits, RefinementList, ProductCard } from '@castlery/modules-search-components/instantsearch';
+
+// 导入模板
+import { ProductListingPage } from '@castlery/modules-search-components/templates';
+
+// 导入其他功能组件
+import { PromotionBanner } from '@castlery/modules-search-components/banner';
+import { RelatedProducts } from '@castlery/modules-search-components/recommendation';
+
+// 使用示例
+const MyPage = () => {
+  return (
+    <ProductListingPage
+      header={<PromotionBanner />}
+      mainContent={<Hits hitComponent={ProductCard} />}
+      sidebar={<RefinementList attribute="category" />}
+      footer={<RelatedProducts />}
+    />
+  );
+};
+```
+
+## 7 路由设计与中间件实现
+
+### 7.1 路由规则设计与挑战
+
+考虑到 CLP 是通过 Knight 系统管理的相对固定且数量较少的分类页面，而 PLP 是通过 CMS 系统创建的更多样化的营销页面，我们采用以下策略：
+
+1. 维护一个"已知 CLP 路径"的白名单，由 Knight 系统分类表确定
+2. 在 middleware 中首先检查路径是否匹配已知 CLP 列表
+3. 如果不匹配，则默认视为 PLP 页面并尝试从 CMS 获取配置
+4. 如果 CMS 也没有对应配置，则返回 404
+
+这种方法的优势是：
+
+- 利用了 CLP 页面相对固定且数量有限的特点
+- 随着营销活动增加，新的 PLP 页面可以灵活创建而无需修改代码
+- 简化了路由逻辑，提高了系统可维护性
+
+我们将设计以下 URL 路由模式:
+
+| 页面类型 | URL 模式                              | 示例                        | 识别方法                         |
+| -------- | ------------------------------------- | --------------------------- | -------------------------------- |
+| CLP      | `/[locale]/[category]/[subcategory?]` | `/us/sofas/all-sofas`       | 与 Knight 系统已知分类白名单匹配 |
+| PLP      | `/[locale]/[customPath]`              | `/us/new`, `/us/sale`       | 默认视为 PLP 并检查 CMS 配置     |
+| SRP      | `/[locale]/search`                    | `/us/search?q=leather+sofa` | 固定路径                         |
+
+### 7.2 中间件实现
+
+```tsx
+// middleware.ts
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+// 已知的CLP分类页面路径(从Knight系统获取)
+const KNOWN_CLP_PATHS = [
+  'sofas/all-sofas',
+  'sofas/3-seater-sofas',
+  'beds/all-bedroom',
+  'beds/bedroom-benches',
+  // 其他Knight分类系统中的分类页面路径
+];
+
+export async function middleware(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+  const pathSegments = pathname.split('/').filter(Boolean);
+
+  // 跳过locale部分(如'us')
+  const locale = pathSegments[0];
+  const actualPath = pathSegments.slice(1).join('/');
+
+  // 1. 首先检查是否为搜索页
+  if (actualPath === 'search') {
+    return NextResponse.rewrite(new URL(`/search-results${search}`, request.url));
+  }
+
+  // 2. 检查是否为已知的CLP分类页面
+  if (KNOWN_CLP_PATHS.includes(actualPath)) {
+    return NextResponse.rewrite(new URL(`/category-landing/${actualPath}${search}`, request.url));
+  }
+
+  // 3. 其余路径视为PLP自定义页面
+  // 注意：这里会在page组件内部进一步验证该路径是否在CMS中存在
+  return NextResponse.rewrite(new URL(`/custom-product-listing/${actualPath}${search}`, request.url));
+
+  // 4. CMS验证失败的情况将在页面组件内部处理并返回404
+}
+
+// 配置需要执行中间件的路径
+export const config = {
+  matcher: [
+    // 匹配所有locale开头的路径
+    '/:locale(us|sg|au)/:path*',
+    // 搜索页
+    '/:locale(us|sg|au)/search',
+  ],
+};
+```
+
+### 7.3 页面识别与映射逻辑
+
+为了准确区分 CLP 和 PLP 页面，我们实现一个更高效的映射逻辑:
+
+```tsx
+// utils/page-type.ts
+
+// 从API获取所有有效的CLP分类页面路径
+export async function getKnownClpPaths() {
+  // 从Knight API获取所有分类页面配置
+  const response = await fetch('/api/knight/categories');
+  const data = await response.json();
+
+  // 提取路径列表
+  return data.map((category) => category.path);
+}
+
+// 检查路径是否在CMS系统中存在
+export async function isCmsPagePath(path) {
+  try {
+    // 从CMS API检查页面是否存在
+    const response = await fetch(`/api/cms/page/${path}`);
+    return response.ok; // 如果API返回成功，说明是有效的CMS页面
+  } catch (error) {
+    return false;
+  }
+}
+
+// 确定页面类型
+export async function determinePageType(path) {
+  // 首先检查是否是已知的CLP分类页面
+  const knownClpPaths = await getKnownClpPaths();
+  if (knownClpPaths.includes(path)) {
+    return {
+      type: 'CLP',
+      path: `/category-landing/${path}`,
+    };
+  }
+
+  // 然后检查是否存在于CMS中作为PLP页面
+  if (await isCmsPagePath(path)) {
+    return {
+      type: 'PLP',
+      path: `/custom-product-listing/${path}`,
+    };
+  }
+
+  // 如果都不是，返回404
+  return {
+    type: '404',
+    path: '/not-found',
+  };
+}
+```
+
+这种页面识别方式与中间件路由策略相呼应，具有以下特点：
+
+1. **清晰的优先级**：先检查是否为已知的 CLP 页面，再处理 PLP 页面
+2. **高效处理**：CLP 页面数量有限，可以快速匹配
+3. **灵活扩展**：新增 PLP 页面只需在 CMS 中创建，无需更改代码或配置
+4. **统一处理**：无论何种情况，都能准确识别页面类型并进行适当路由
+
+在实际实现中，为了优化性能，我们可以考虑：
+
+- 缓存已知的 CLP 路径，定期更新
+- 对 CMS 页面查询结果进行缓存，减少 API 调用
+- 在服务器端预先验证路径，减少客户端重定向
+
+## 8 性能与优化策略
+
+### 8.1 性能优化
+
+1. **首屏加载优化**
+
+   - 使用 App Router 的 Server Components 进行服务器端渲染，减少客户端 JavaScript 体积
+   - 使用 React Suspense 和 Streaming 实现渐进式加载
+   - 使用 `loading.tsx` 和 `error.tsx` 提供更好的加载和错误状态处理
+   - 使用 `generateMetadata` 优化 SEO 和页面元数据
+   - 使用 `generateStaticParams` 预生成静态路由
+   - 使用 Next.js Image 组件进行自动图片优化和响应式加载
+   - 使用 Route Groups 组织路由结构，优化代码分割
+
+2. **搜索性能优化**
+
+   - 使用 Server Actions 处理搜索请求，减少客户端状态管理
+   - 使用 Route Handlers 构建高效的搜索 API 端点
+   - 使用 React Cache 和 `unstable_cache` 实现搜索结果的缓存
+   - 使用 Parallel Routes 实现搜索结果的并行加载
+   - 使用 Intercepting Routes 优化搜索结果的预览体验
+   - 使用 Dynamic Imports 按需加载搜索相关组件
+
+### 8.2 SEO 优化
+
+1. **使用 Next.js 的动态路由生成静态 URL**
+2. **确保 URL 结构符合 SEO 规范**
+3. **为每个页面添加唯一的标题、描述和关键词**
+4. **使用 JSON-LD 格式添加结构化数据**
+5. **使用语义化 HTML 标签**
+6. **确保页面结构清晰，易于爬虫理解**
+7. **使用内部链接增强页面内部结构**
+8. **使用外部链接提高页面权重**
+9. **为每个图片添加 alt 属性**
+10. **使用压缩图片减少加载时间**
+
+### 8.3 用户体验优化
+
+1. **使用响应式设计**
+2. **使用交互优化**
+3. **使用动画效果**
+4. **使用可访问性优化**
+5. **使用错误处理**
+
+## 9 事件追踪实现
+
+> 还没思考好
+
+> https://www.algolia.com/doc/api-reference/widgets/insights/react/ > [Google Tag Manager](https://www.algolia.com/doc/guides/sending-events/connectors/google-tag-manager/) 这个方式是在组件写上属性,然后 GTM 配置 tag 来转换
+>
+> 还有是通过中间件手动 puah 参考 [Integrate Google Analytics in React InstantSearch](https://www.algolia.com/doc/guides/building-search-ui/going-further/integrate-google-analytics/react/)
+>
+> 最后感觉还是会推荐使用 DDIT 的方案来处理
+>
+> 正常来说 如果我们很好的使用 ES,我们应该也是需要把数据发给 ES,比如让 ES 来提供更好的推荐等等, 如何是这种情况的话,我们会使用 https://github.com/searchkit/searchkit/tree/main/packages/searchkit-elastic-behavioral-analytics-plugin 来把事件发送给 ES, 但是这个需要 ES 的版本是 8 以上的
+
+```mermaid
+flowchart TD
+    A[用户] -->|搜索/点击| B[React InstantSearch UI]
+    B -->|事件发生| C[自定义事件中间件]
+    C -->|捕获事件数据| D[GTM数据层]
+    D -->|事件触发| E[GTM触发器]
+    E -->|执行| F[GTM标签]
+    F -->|发送数据| G[分析平台]
+
+    subgraph React组件
+        B
+    end
+
+    subgraph 中间件处理
+        C
+    end
+
+    subgraph 数据追踪
+        D
+        E
+        F
+    end
+
+    subgraph 数据存储与分析
+        G
+    end
+```
+
+为了全面了解用户行为并优化搜索体验，我们将集成 Algolia Insights 事件追踪功能。通过 Google Tag Manager (GTM) 实现，这将使我们能够捕获和分析用户与搜索结果的交互。
+
+### 9.1 追踪事件类型
+
+> 参考: https://www.algolia.com/doc/guides/sending-events/concepts/event-types
+
+我们将实现以下关键事件追踪：
+
+1. **浏览事件(View Events)**
+
+   - 产品展示追踪：用户查看搜索结果中的产品
+   - 筛选器展示追踪：用户查看应用筛选器后的结果
+
+2. **点击事件(Click Events)**
+
+   - 搜索结果点击：用户点击搜索结果中的特定产品
+   - 筛选器点击：用户点击并应用特定筛选条件
+
+3. **转化事件(Conversion Events)**
+   - 加入购物车：用户将产品加入购物车
+   - 完成购买：用户购买产品
+
+### 9.2 技术实现
+
+#### HTML 数据属性准备
+
+我们需要在产品项和筛选器元素上添加必要的数据属性：
+
+```jsx
+// 产品项示例
+<article
+  className="product-item"
+  data-insights-object-id={hit.objectID}
+  data-insights-position={hit.__position}
+  data-insights-query-id={hit.__queryID}
+>
+  <h2>{hit.name}</h2>
+  <p>{hit.description}</p>
+  <button className="view-details-btn">查看详情</button>
+</article>
+
+// 筛选器示例
+<label data-insights-filter="category:Sofa">
+  <input type="checkbox" value="Sofa" />
+  <span>沙发</span>
+</label>
+```
+
+#### React InstantSearch 集成
+
+基于 React InstantSearch 的实现，我们将通过以下方式启用事件追踪：
+
+```jsx
+import { InstantSearch, Configure } from 'react-instantsearch';
+import { history } from 'instantsearch.js/es/lib/routers';
+
+// 初始化 InstantSearch 时启用 insights
+<InstantSearch
+  searchClient={searchClient}
+  indexName="products"
+  insights={true}
+  routing={{
+    router: history(),
+    stateMapping: {
+      stateToRoute(uiState) {
+        // 实现状态到URL的映射
+      },
+      routeToState(routeState) {
+        // 实现URL到状态的映射
+      },
+    },
+  }}
+>
+  <Configure clickAnalytics={true} />
+  {/* 其他搜索组件 */}
+</InstantSearch>;
+```
+
+#### GTM 集成
+
+我们将在项目中设置以下 Google Tag Manager 配置：
+
+1. **变量配置**：创建自定义 JavaScript 变量以获取数据属性
+
+   - Algolia Insights Object IDs
+   - Algolia Insights Positions
+   - Algolia Insights QueryID
+   - Algolia Insights Viewed/Clicked Filters
+
+2. **触发器配置**：
+
+   - 产品浏览触发器
+   - 产品点击触发器
+   - 筛选器点击触发器
+   - 转化事件触发器（加入购物车、购买）
+
+3. **标签配置**：
+   - 初始化标签：连接 Algolia Insights API
+   - 浏览事件标签：发送产品和筛选器浏览事件
+   - 点击事件标签：发送产品点击和筛选器点击事件
+   - 转化事件标签：发送购物车和购买事件
+
+### 9.3 预期效益
+
+通过实现上述事件追踪机制，我们将能够：
+
+1. 获取详细的用户行为数据，了解哪些产品和筛选选项最受欢迎
+2. 分析搜索查询的有效性和转化率
+3. 利用 Algolia 的 AI 功能优化搜索结果排序
+4. 改进产品推荐算法
+5. 支持以数据为驱动的业务决策
+
+### 9.4 后续工作
+
+1. 建立数据分析仪表板，监控关键指标
+2. 基于收集的数据持续优化搜索和筛选体验
+3. 开发 A/B 测试框架，验证优化效果
+
+## 10 实施计划与时间线
+
+1. **阶段一：规划和设计**
+
+   - 需求分析和技术选型
+   - 架构设计和组件划分
+   - 路由设计和中间件实现
+   - 性能和优化策略
+   - 风险评估和缓解策略
+
+2. **阶段二：开发和测试**
+
+   - 基础组件开发
+   - PLP、CLP 和 SRP 的实现
+   - 性能优化和测试
+   - 用户体验优化和测试
+   - 集成测试和回归测试
+
+3. **阶段三：部署和验收**
+
+   - 部署到测试环境
+   - 测试和验收
+   - 修复问题和优化
+   - 部署到生产环境
+
+4. **阶段四：监控和迭代**
+   - 监控系统性能和用户反馈
+   - 持续优化和迭代
+   - 定期更新和扩展功能
+
+## 11 风险评估与缓解策略
+
+1. **技术风险**
+
+   - 风险：技术选型不当可能导致性能问题或功能缺失
+   - 缓解策略：进行充分的技术调研和评估，选择成熟稳定的技术栈
+
+2. **性能风险**
+
+   - 风险：性能优化不足可能导致用户体验下降
+   - 缓解策略：制定性能优化策略，使用 Next.js 的服务器端渲染和静态生成，优化搜索和渲染性能
+
+3. **SEO 风险**
+
+   - 风险：SEO 优化不足可能导致搜索排名下降
+   - 缓解策略：制定 SEO 优化策略，确保静态 URL、元数据优化、页面结构优化、链接优化和图片优化
+
+4. **用户体验风险**
+
+   - 风险：用户体验优化不足可能导致用户流失
+   - 缓解策略：制定用户体验优化策略，使用响应式设计、交互优化、动画效果、可访问性优化和错误处理
+
+5. **安全风险**
+
+   - 风险：安全漏洞可能导致数据泄露或系统被攻击
+   - 缓解策略：使用安全的编码实践，定期更新依赖库，使用 HTTPS 和 SSL 加密数据传输
+
+6. **数据风险**
+
+   - 风险：数据同步不及时可能导致数据不一致
+   - 缓解策略：使用定时任务定期同步数据，确保数据一致性
+
+7. **兼容性风险**
+
+   - 风险：不同设备和浏览器的兼容性问题可能导致用户体验下降
+   - 缓解策略：使用 Fortress 组件库的响应式设计，确保页面在不同设备和浏览器上都能良好展示
+
+8. **扩展性风险**
+   - 风险：系统扩展不足可能导致性能瓶颈
+   - 缓解策略：使用可扩展的技术栈和架构设计，确保系统能够应对未来的扩展需求
+
+## 12 总结
+
+本方案旨在重构 Castlery 电商平台的产品列表页(PLP)系统，通过建立基于 Next.js App Router 的新架构来提升性能、用户体验和代码可维护性。方案的核心是创建一个通用的 SearchView 基础组件，让 PLP、CLP 和 SRP 三种不同视图从此组件扩展，实现代码复用的同时满足各场景特定需求。该方案同时考虑了 Web 和 POS 两个端的需求，并整合了 SearchKit 与 React InstantSearch 来提供高性能的搜索体验。预计通过四个阶段实施完成，将显著提升产品浏览和搜索的用户体验，优化性能和 SEO，并为未来扩展提供灵活架构。
+
+## 13 参考资料
+
+1. [Next.js Documentation](https://nextjs.org/docs)
+2. [React InstantSearch Documentation](https://www.algolia.com/doc/api-client/getting-started/what-is-instantsearch/react/)
+3. [SearchKit Documentation](https://searchkit.co/)
+4. [Fortress Documentation](https://fortress.castlery.com/)
+5. [Elasticsearch Documentation](https://www.elastic.co/guide/index.html)
+6. [存储设计（Ecom-search）](https://castlery.atlassian.net/wiki/spaces/EC/pages/3172335834/Ecom-search)
+7. [Algolia - Faceting 与 Filtering 的区别](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#difference-between-filters-and-facets)
+8. [Algolia - InstantSearch.js 组件展示](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/js/)
+9. [DynamicYield Sorting Optimizer](https://support.dynamicyield.com/hc/en-us/articles/26620658815133-Sorting-Optimizer)
+10. [Algolia Insights with Google Tag Manager](https://www.algolia.com/doc/guides/sending-events/connectors/google-tag-manager/)
+11. [Steam Games SSR search, using Typesense, Next.js App Router and Instantsearch](https://github.com/typesense/showcase-nextjs-instantsearch-next-app-router-ssr-steam-games-search)
+12. [⚡ Next.js storefront for high-performance eCommerce with AI features and one-click deployment](<https://github.com/Blazity/enterprise-commerce/tree/main/starters/shopify-algolia/app/(browse)/category>)
+13. https://docs.aws.amazon.com/opensearch-service/latest/developerguide/search-example.html
+14. https://www.elastic.co/docs/reference/search-ui/tutorials-elasticsearch-production-usage
+
+## 14 附录
+
+### 14.1 Facet 与 Filter 的区别及其在业务中的应用
+
+在产品筛选系统中，Facet 和 Filter 是两个密切相关但有明确区别的概念，对理解系统设计和用户交互至关重要：
+
+- **Facet（面向用户的筛选界面）**:
+  - 是呈现给用户的筛选界面元素
+  - 通常显示各选项的结果数量（例如：色彩：黑色(23)，白色(45)）
+  - 允许用户通过点击来精细化搜索结果
+  - 在电商中常见的 Facet 包括：颜色、价格区间、品牌、尺寸、材质等
+- **Filter（查询约束）**:
+  - 是应用于搜索查询的技术约束
+  - 可以由系统自动添加（如库存状态、地区可见性）
+  - 也可以由用户通过 Facet 界面间接添加
+  - 在电商中常见的隐式 Filter 包括：有库存商品、当前站点可见商品等
+
+这种区分对于 PLP 页面的业务配置和用户交互有直接影响。具体来说，当 On-site 团队在 CMS 中预配置 PLP 页面参数时：
+
+- **预配置 Facet**:
+  - 会显示在用户界面的"当前筛选"(CurrentRefinements)组件中
+  - 可以被用户通过"清除筛选"(Clear Refinements)按钮移除
+  - 为用户提供明确的视觉反馈，表明页面已经应用了特定筛选
+  - 例如：新品页面预设了"新品"Facet，用户可以看到并移除此筛选
+- **预配置 Filter**:
+  - 在后台静默应用，不会在用户界面的 CurrentRefinements 中显示
+  - 不能被用户通过 Clear Refinements 按钮移除
+  - 适用于业务规则必须始终应用的情况
+  - 例如：销售页面预设了"促销商品"Filter，这是页面的核心属性，不应被移除
+
+在系统实现中，Facet 通过 React InstantSearch 组件实现用户界面，而 Filter 则通过 SearchKit 转换为 Elasticsearch 查询条件。这种设计方式既提供了灵活的用户交互，也确保了某些业务规则的强制执行。
+
+例如，在实际的 PLP 页面预配置中：
+
+```jsx
+// CMS配置转换为前端代码示例
+const plpConfig = {
+  // 作为Facet展示，用户可见且可清除
+  facets: [
+    { attribute: 'material', value: 'leather' },
+    { attribute: 'color', value: 'black' },
+  ],
+  // 作为Filter静默应用，用户不可见也不可清除
+  filters: [
+    { attribute: 'on_sale', value: true },
+    { attribute: 'region', value: 'sg' },
+  ],
+};
+```
+
+理解这一区别有助于我们设计更清晰的用户界面和更高效的查询策略，同时也为业务团队提供了更精细的页面配置控制能力。
+
+## 15 文档修订历史
+
+| 版本 | 日期       | 作者     | 描述     |
+| ---- | ---------- | -------- | -------- |
+| 1.0  | 2025-04-16 | Rick Gao | 初始版本 |

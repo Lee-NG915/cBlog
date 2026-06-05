@@ -1,0 +1,1 @@
+../../joyboy/docs/observability/sentry-ownership-rules-setup.md

@@ -1,0 +1,1 @@
+../../joyboy/.agents/skills/vercel-react-best-practices/SKILL.md

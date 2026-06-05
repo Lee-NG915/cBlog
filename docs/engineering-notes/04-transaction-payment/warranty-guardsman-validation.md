@@ -1,0 +1,1 @@
+../../joyboy/docs/warranty/guardsman-validation-design.md

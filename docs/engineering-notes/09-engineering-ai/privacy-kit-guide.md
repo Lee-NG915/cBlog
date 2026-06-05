@@ -1,0 +1,1 @@
+../../joyboy/docs/privacy-kit.guide.md

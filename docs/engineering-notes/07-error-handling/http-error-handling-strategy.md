@@ -1,0 +1,1 @@
+../../joyboy/docs/error-handling/http-error-handling-strategy.md

@@ -1,0 +1,1 @@
+../../joyboy/docs/payment-integration-solutions/stripe-link-ui-customization-constraints.md

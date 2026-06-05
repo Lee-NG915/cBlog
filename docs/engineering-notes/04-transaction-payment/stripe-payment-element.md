@@ -1,0 +1,1 @@
+../../joyboy/docs/payment-integration-solutions/payment-stripe-payment-element-integration.md
