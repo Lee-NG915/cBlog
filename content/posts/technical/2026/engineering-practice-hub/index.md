@@ -86,10 +86,10 @@ flowchart TB
 | --- | --- | --- | --- |
 | 整体架构重构复盘 | Monorepo 按业务域拆分，Component → Service → Domain 单向依赖；多端复用靠域模块而不是复制页面 | ✅ 已发布 | [企业级电商前端平台架构重构](/posts/ecommerce-architecture-redesign/) |
 | 大规模迁移节奏 | 全量切换风险太高，用 Feature Flag + 分批迁移把「上线」拆成可回滚的小步 | 📝 草稿 | [消费者端迁移计划](/posts/ecommerce-migration-plan/) |
-| 架构审查与演进路线 | 定期做架构 review，把「现在能跑」和「以后能扩展」分开评估 | 📂 资料源 | [architecture-review.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/01-architecture/architecture-review.md) |
-| Shared → Composite 迁移 | 跨域组合场景单独建 composite 层，避免 shared 模块变成「万能垃圾场」 | 📂 资料源 | [shared-to-composite-migration.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/01-architecture/shared-to-composite-migration.md) |
-| Redux Listener 事件模式 | 副作用（埋点、日志、跨模块联动）走 listener，UI 只 dispatch 领域事件 | 📂 资料源 | [redux-listener-event-pattern.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/01-architecture/redux-listener-event-pattern.md) |
-| 项目规范（AGENTS） | 把命名、分层、埋点红线写进 AI 可读规范，减少「每次口头对齐」 | 📂 资料源 | [project-agents-spec.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/01-architecture/project-agents-spec.md) |
+| 架构审查与演进路线 | 定期做架构 review，把「现在能跑」和「以后能扩展」分开评估 | 📂 资料源 | [architecture-review.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/architecture-review.md) |
+| Shared → Composite 迁移 | 跨域组合场景单独建 composite 层，避免 shared 模块变成「万能垃圾场」 | 📂 资料源 | [shared-to-composite-migration.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/SHARED_TO_COMPOSITE_MIGRATION.md) |
+| Redux Listener 事件模式 | 副作用（埋点、日志、跨模块联动）走 listener，UI 只 dispatch 领域事件 | 📂 资料源 | [redux-listener-event-pattern.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/redux-listener-event-design-pattern.md) |
+| 项目规范（AGENTS） | 把命名、分层、埋点红线写进 AI 可读规范，减少「每次口头对齐」 | 📂 资料源 | [project-agents-spec.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/AGENTS.md) |
 
 ---
 
@@ -100,11 +100,11 @@ flowchart TB
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
 | ISR + Redis 共享缓存 | 多实例部署下，仅靠 Next.js 本地缓存会不一致；Redis 做跨实例共享是性价比最高的方案 | ✅ 已发布 | [Next.js ISR + Redis 共享缓存](/posts/nextjs-isr-redis-shared-cache/) |
-| PLP 技术方案 | 搜索列表页是流量入口，SearchKit + InstantSearch 的组合在定制性和交付速度之间比较平衡 | 📂 资料源 | [plp-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/plp-tech-solution.md) |
-| PLP 优先于 CLP | 分类页和列表页的 SEO / 投放价值不同，资源分配要有优先级而不是平行推进 | 📂 资料源 | [plp-priority-over-clp.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/plp-priority-over-clp.md) |
-| PDP 数据分桶优化 | 商品详情页接口太重时，按展示区块分桶请求，比一次性拉全量更容易控 LCP | 📂 资料源 | [pdp-data-bucket-optimization.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/pdp-data-bucket-optimization.md) |
-| 搜索结果缓存 | 热门搜索词缓存可以显著降 ES 压力，但要处理好失效和个性化冲突 | 📂 资料源 | [search-result-cache.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/search-result-cache.md) |
-| 本地开发性能 | 大 Monorepo 本地慢会直接影响迭代意愿，值得单独做一轮优化计划 | 📂 资料源 | [local-dev-performance-plan.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/local-dev-performance-plan.md) |
+| PLP 技术方案 | 搜索列表页是流量入口，SearchKit + InstantSearch 的组合在定制性和交付速度之间比较平衡 | 📂 资料源 | [plp-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/PLP技术方案.md) |
+| PLP 优先于 CLP | 分类页和列表页的 SEO / 投放价值不同，资源分配要有优先级而不是平行推进 | 📂 资料源 | [plp-priority-over-clp.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/PRD-PLP-Priority-Over-CLP.md) |
+| PDP 数据分桶优化 | 商品详情页接口太重时，按展示区块分桶请求，比一次性拉全量更容易控 LCP | 📂 资料源 | [pdp-data-bucket-optimization.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/prd-pdp-data-bucket-optimization.md) |
+| 搜索结果缓存 | 热门搜索词缓存可以显著降 ES 压力，但要处理好失效和个性化冲突 | 📂 资料源 | [search-result-cache.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/search-result-cache.md) |
+| 本地开发性能 | 大 Monorepo 本地慢会直接影响迭代意愿，值得单独做一轮优化计划 | 📂 资料源 | [local-dev-performance-plan.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/LOCAL_DEV_PERFORMANCE_PLAN.md) |
 
 ---
 
@@ -116,7 +116,7 @@ flowchart TB
 | --- | --- | --- | --- |
 | 组件库 CDD 实践 | 从设计 token 到 Storybook 到视觉回归，组件库要当产品做而不是当工具库堆 | ✅ 已发布 | [企业级电商组件库建设实践](/posts/design-system-cdd-practice/) |
 | Joy UI → Tailwind 迁移 ADR | 运行时 CSS-in-JS 对 SSR 性能和包体积不友好；Tailwind 让我们更接近「样式即契约」 | ✅ 已发布 | [Joy UI 迁移 ADR](/posts/joyui-to-tailwind-migration-adr/) |
-| 代码格式化规范 | Prettier + ESLint 统一格式，比靠 code review 抓风格便宜得多 | 📂 资料源 | [code-formatting-guide.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/03-design-system/code-formatting-guide.md) |
+| 代码格式化规范 | Prettier + ESLint 统一格式，比靠 code review 抓风格便宜得多 | 📂 资料源 | [code-formatting-guide.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/代码格式化指南.md) |
 
 ---
 
@@ -126,13 +126,13 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 支付技术总方案 | 前端只编排流程，支付能力下沉到 provider 抽象层，避免页面直接绑死某一渠道 | 📂 资料源 | [payment-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/payment-tech-solution.md) |
-| 支付架构重构 ADR | 把 initiate / confirm / callback 拆清楚，比在一个 hook 里写完所有逻辑更易测试 | 📂 资料源 | [payment-architecture-adr.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/payment-architecture-adr.md) |
-| Stripe Payment Element | 卡支付走 Payment Element，Express 支付单独 slot，避免重复入口 | 📂 资料源 | [stripe-payment-element.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/stripe-payment-element.md) |
-| Stripe Express Checkout | Apple Pay / Google Pay / Link 用独立 Element，和卡支付共用后端 pipeline | 📂 资料源 | [stripe-express-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/stripe-express-checkout.md) |
-| Stripe Link UI 约束 | 第三方组件的样式定制有硬边界，提前写进方案比上线后才发现省事 | 📂 资料源 | [stripe-link-ui-constraints.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/stripe-link-ui-constraints.md) |
-| SPL 分期支付 | 区域性支付方式要隔离在 checkout 模块内，不能污染通用支付流程 | 📂 资料源 | [web-checkout-spl-payment.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/web-checkout-spl-payment.md) |
-| 延保（Warranty） | 附加售卖是独立业务域，有自己的校验规则和架构边界 | 📂 资料源 | [warranty-architecture.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/04-transaction-payment/warranty-architecture.md) |
+| 支付技术总方案 | 前端只编排流程，支付能力下沉到 provider 抽象层，避免页面直接绑死某一渠道 | 📂 资料源 | [payment-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-tech-solution.md) |
+| 支付架构重构 ADR | 把 initiate / confirm / callback 拆清楚，比在一个 hook 里写完所有逻辑更易测试 | 📂 资料源 | [payment-architecture-adr.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/adr/2026-03-payment-architecture-refactoring.md) |
+| Stripe Payment Element | 卡支付走 Payment Element，Express 支付单独 slot，避免重复入口 | 📂 资料源 | [stripe-payment-element.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-integration-solutions/payment-stripe-payment-element-integration.md) |
+| Stripe Express Checkout | Apple Pay / Google Pay / Link 用独立 Element，和卡支付共用后端 pipeline | 📂 资料源 | [stripe-express-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-integration-solutions/payment-stripe-express-checkout-element-integration.md) |
+| Stripe Link UI 约束 | 第三方组件的样式定制有硬边界，提前写进方案比上线后才发现省事 | 📂 资料源 | [stripe-link-ui-constraints.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/payment-integration-solutions/stripe-link-ui-customization-constraints.md) |
+| SPL 分期支付 | 区域性支付方式要隔离在 checkout 模块内，不能污染通用支付流程 | 📂 资料源 | [web-checkout-spl-payment.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/web-checkout-spl-payment-tech-design.md) |
+| 延保（Warranty） | 附加售卖是独立业务域，有自己的校验规则和架构边界 | 📂 资料源 | [warranty-architecture.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/warranty/architecture-design.md) |
 
 ---
 
@@ -143,11 +143,11 @@ flowchart TB
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
 | 交易链路可观测性总方案 | 从被动排障升级到主动预警，SLO + Runbook 比堆 dashboard 更重要 | ✅ 已发布 | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/) |
-| 平台实施计划 | 分阶段落地：先统一 traceId，再做告警路由，最后补 SLO | 📂 资料源 | [transaction-observability-implementation.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/transaction-observability-implementation.md) |
-| 第三方回调追踪 | Redirect 类支付最难排障，回调入口必须带可关联的 trace 上下文 | 📂 资料源 | [redirect-provider-callback.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/redirect-provider-callback.md) |
-| Sentry 分桶与路由 | error_bucket 自动分类 + ownership 规则，让 on-call 不用先看 200 条未分类 issue | 📂 资料源 | [sentry-issue-routing.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/sentry-issue-routing.md) |
-| 场景化接入 Skill | 不同场景（Layout / Server Action / Listener）走不同 API，避免 copy-paste 集成 | 📂 资料源 | [observability-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/observability-skill.md) |
-| Runbook | 告警触发后第一步做什么，比告警规则本身更容易被忽略 | 📂 资料源 | [transaction-observability-runbook.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/transaction-observability-runbook.md) |
+| 平台实施计划 | 分阶段落地：先统一 traceId，再做告警路由，最后补 SLO | 📂 资料源 | [transaction-observability-implementation.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/transaction-related/transaction-observability/platform-implementation-plan.md) |
+| 第三方回调追踪 | Redirect 类支付最难排障，回调入口必须带可关联的 trace 上下文 | 📂 资料源 | [redirect-provider-callback.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/transaction-related/transaction-observability/redirect-provider-callback-design.md) |
+| Sentry 分桶与路由 | error_bucket 自动分类 + ownership 规则，让 on-call 不用先看 200 条未分类 issue | 📂 资料源 | [sentry-issue-routing.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/observability/sentry-issue-routing-guide.md) |
+| 场景化接入 Skill | 不同场景（Layout / Server Action / Listener）走不同 API，避免 copy-paste 集成 | 📂 资料源 | [observability-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/observability/SKILL.md) |
+| Runbook | 告警触发后第一步做什么，比告警规则本身更容易被忽略 | 📂 资料源 | [transaction-observability-runbook.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/transaction-related/transaction-observability/runbook.md) |
 
 ---
 
@@ -157,12 +157,12 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 追踪事件模型总览 | UI dispatch 领域事件 → listener 编排 → trigger 发渠道，单向链路不可绕过 | 📂 资料源 | [tracking-event-model-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/tracking-event-model-readme.md) |
-| 事件页模板 | 每个重要事件一份契约：含义、触发时机、字段、测试方案 | 📂 资料源 | [event-model-template.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/event-model-template.md) |
-| Checkout 埋点 | 结账漏斗事件最容易「过早触发」，契约里要写清楚非目标场景 | 📂 资料源 | [tracking-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/tracking-checkout.md) |
-| 交易类埋点 | 支付成功 / 失败 / 取消要区分系统行为与用户行为 | 📂 资料源 | [tracking-transaction.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/tracking-transaction.md) |
-| 多渠道映射 | GA / Meta CAPI / Klaviyo 等各有 payload 差异，trigger 层做转换 | 📂 资料源 | [tracking-facebook-capi.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/tracking-facebook-capi.md) 等 |
-| 埋点变更操作规范 | 新增 / 修改 / 删除事件要走 Diff Report，避免 silent break | 📂 资料源 | [tracking-event-ops-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/06-tracking-data/tracking-event-ops-skill.md) |
+| 追踪事件模型总览 | UI dispatch 领域事件 → listener 编排 → trigger 发渠道，单向链路不可绕过 | 📂 资料源 | [tracking-event-model-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/README.md) |
+| 事件页模板 | 每个重要事件一份契约：含义、触发时机、字段、测试方案 | 📂 资料源 | [event-model-template.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/event-model.template.md) |
+| Checkout 埋点 | 结账漏斗事件最容易「过早触发」，契约里要写清楚非目标场景 | 📂 资料源 | [tracking-checkout.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/checkout.md) |
+| 交易类埋点 | 支付成功 / 失败 / 取消要区分系统行为与用户行为 | 📂 资料源 | [tracking-transaction.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/transaction.md) |
+| 多渠道映射 | GA / Meta CAPI / Klaviyo 等各有 payload 差异，trigger 层做转换 | 📂 资料源 | [tracking-facebook-capi.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/tracking-event-model/facebook-capi.md) 等 |
+| 埋点变更操作规范 | 新增 / 修改 / 删除事件要走 Diff Report，避免 silent break | 📂 资料源 | [tracking-event-ops-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/tracking-event-ops/SKILL.md) |
 
 ---
 
@@ -172,9 +172,9 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| HTTP 错误处理策略 | 按错误类型分层：用户可恢复 / 需重试 / 需上报，不要混在一个 handler 里 | 📂 资料源 | [http-error-handling-strategy.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/07-error-handling/http-error-handling-strategy.md) |
-| API 错误码使用 | 业务错误码要和 UI 文案、埋点、Sentry tag 对齐，避免三方各写各的 | 📂 资料源 | [api-error-code-usage.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/07-error-handling/api-error-code-usage.md) |
-| 回退购物车错误 | 结账失败后的回退路径是高频客诉点，错误提示要 actionable | 📂 资料源 | [back-to-cart-errors.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/07-error-handling/back-to-cart-errors.md) |
+| HTTP 错误处理策略 | 按错误类型分层：用户可恢复 / 需重试 / 需上报，不要混在一个 handler 里 | 📂 资料源 | [http-error-handling-strategy.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/http-error-handling-strategy.md) |
+| API 错误码使用 | 业务错误码要和 UI 文案、埋点、Sentry tag 对齐，避免三方各写各的 | 📂 资料源 | [api-error-code-usage.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/api-error-code-usage.md) |
+| 回退购物车错误 | 结账失败后的回退路径是高频客诉点，错误提示要 actionable | 📂 资料源 | [back-to-cart-errors.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/error-handling/back-to-cart-errors.md) |
 
 ---
 
@@ -184,9 +184,9 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| PLP 排序与点击反馈 | 排序策略变更要能通过埋点验证效果，不能只看 CTR 单指标 | 📂 资料源 | [plp-ranking-click-engagement.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/08-search-product/plp-ranking-click-engagement.md) |
-| Sale Page 方案 | 促销页是运营高频场景，模板化比每次开发新页面划算 | 📂 资料源 | [salepage-prd.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/08-search-product/salepage-prd.md) |
-| 三方服务集成总览 | 先画清楚依赖关系，再决定哪些走 BFF、哪些走客户端 SDK | 📂 资料源 | [third-party-integrations.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/08-search-product/third-party-integrations.md) |
+| PLP 排序与点击反馈 | 排序策略变更要能通过埋点验证效果，不能只看 CTR 单指标 | 📂 资料源 | [plp-ranking-click-engagement.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/PRD-DY-PLP-Ranking-Click-Engagement.md) |
+| Sale Page 方案 | 促销页是运营高频场景，模板化比每次开发新页面划算 | 📂 资料源 | [salepage-prd.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/salepage-prd.md) |
+| 三方服务集成总览 | 先画清楚依赖关系，再决定哪些走 BFF、哪些走客户端 SDK | 📂 资料源 | [third-party-integrations.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/third-party-services-integrations-overview.md) |
 
 ---
 
@@ -196,11 +196,11 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| Skills 体系 | 社区 skill 优先，团队专属规范才自建；源文件 + 软链双轨兼容 Cursor 和 Claude Code | 📂 资料源 | [skills-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/09-engineering-ai/skills-readme.md) |
-| React 最佳实践 Skill | Vercel 的 50+ 条规则按场景分类，适合 code review 和 AI 生成代码时做约束 | 📂 资料源 | [vercel-react-best-practices-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/09-engineering-ai/vercel-react-best-practices-skill.md) |
-| Sentry Issue 修复 Skill | 线上 issue 处理有固定流程：复现 → 分桶 → 修复 → 验证 | 📂 资料源 | [sentry-fix-issues-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/09-engineering-ai/sentry-fix-issues-skill.md) |
-| PR 提交规范 | 分支名关联任务、PR 模板固定章节，减少 reviewer 的信息搜集成本 | 📂 资料源 | [submit-pr-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/09-engineering-ai/submit-pr-skill.md) |
-| 本地 HTTPS 开发 | CMS 预览、支付回调等场景必须要 HTTPS 本地环境 | 📂 资料源 | [local-https-setup.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/09-engineering-ai/local-https-setup.md) |
+| Skills 体系 | 社区 skill 优先，团队专属规范才自建；源文件 + 软链双轨兼容 Cursor 和 Claude Code | 📂 资料源 | [skills-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/README.md) |
+| React 最佳实践 Skill | Vercel 的 50+ 条规则按场景分类，适合 code review 和 AI 生成代码时做约束 | 📂 资料源 | [vercel-react-best-practices-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/vercel-react-best-practices/SKILL.md) |
+| Sentry Issue 修复 Skill | 线上 issue 处理有固定流程：复现 → 分桶 → 修复 → 验证 | 📂 资料源 | [sentry-fix-issues-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/sentry-fix-issues/SKILL.md) |
+| PR 提交规范 | 分支名关联任务、PR 模板固定章节，减少 reviewer 的信息搜集成本 | 📂 资料源 | [submit-pr-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/submit-pr/SKILL.md) |
+| 本地 HTTPS 开发 | CMS 预览、支付回调等场景必须要 HTTPS 本地环境 | 📂 资料源 | [local-https-setup.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/local-https-setup.md) |
 
 ---
 
@@ -210,10 +210,10 @@ flowchart TB
 
 | 主题 | 场景 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 购物车埋点边界重构 | listener 越界读取 store 补字段，导致埋点逻辑和业务逻辑耦合 | 📂 资料源 | [cart-tracking-listener-refactor.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/10-issue-retrospective/cart-tracking-listener-refactor.md) |
-| 价格展示 Server Function 报错 | RSC 边界下服务端函数渲染异常 | 📂 资料源 | [price-display-render-error.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/10-issue-retrospective/price-display-render-error.md) |
-| 错误码清理 | 历史遗留错误码冗余，影响告警和用户体验 | 📂 资料源 | [ec-error-codes-cleanup.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/10-issue-retrospective/ec-error-codes-cleanup.md) |
-| Web 1WF 修复报告 | 一次线上故障的完整修复记录 | 📂 资料源 | [web-1wf-fix-report.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/10-issue-retrospective/web-1wf-fix-report.md) |
+| 购物车埋点边界重构 | listener 越界读取 store 补字段，导致埋点逻辑和业务逻辑耦合 | 📂 资料源 | [cart-tracking-listener-refactor.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/issues/cart-tracking-listener-boundary-refactor.md) |
+| 价格展示 Server Function 报错 | RSC 边界下服务端函数渲染异常 | 📂 资料源 | [price-display-render-error.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/issues/fix-price-display-server-function-render-error.md) |
+| 错误码清理 | 历史遗留错误码冗余，影响告警和用户体验 | 📂 资料源 | [ec-error-codes-cleanup.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/issues/ec-error-codes-cleanup.md) |
+| Web 1WF 修复报告 | 一次线上故障的完整修复记录 | 📂 资料源 | [web-1wf-fix-report.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/docs/JOYBOY-WEB-1WF-fix-report.md) |
 
 ---
 
