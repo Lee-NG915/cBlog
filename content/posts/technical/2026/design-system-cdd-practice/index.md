@@ -1,7 +1,8 @@
 ---
 title: 企业级电商组件库建设实践：从设计系统到工程化交付
 slug: design-system-cdd-practice
-date: 2026-05-19
+date: 2026-03-09
+updatedAt: 2026-03-22
 category: technical
 tags:
   - Design System

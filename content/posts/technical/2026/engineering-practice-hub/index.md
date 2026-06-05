@@ -1,7 +1,7 @@
 ---
 title: 工程实践札记索引：我在大型电商前端项目里的思考地图
 slug: engineering-practice-hub
-date: 2026-06-05
+date: 2026-05-28
 updatedAt: 2026-06-05
 category: technical
 tags:
@@ -99,7 +99,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| ISR + Redis 共享缓存 | 多实例部署下，仅靠 Next.js 本地缓存会不一致；Redis 做跨实例共享是性价比最高的方案 | 📝 草稿 | [Next.js ISR + Redis 共享缓存](/posts/nextjs-isr-redis-shared-cache/) |
+| ISR + Redis 共享缓存 | 多实例部署下，仅靠 Next.js 本地缓存会不一致；Redis 做跨实例共享是性价比最高的方案 | ✅ 已发布 | [Next.js ISR + Redis 共享缓存](/posts/nextjs-isr-redis-shared-cache/) |
 | PLP 技术方案 | 搜索列表页是流量入口，SearchKit + InstantSearch 的组合在定制性和交付速度之间比较平衡 | 📂 资料源 | [plp-tech-solution.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/plp-tech-solution.md) |
 | PLP 优先于 CLP | 分类页和列表页的 SEO / 投放价值不同，资源分配要有优先级而不是平行推进 | 📂 资料源 | [plp-priority-over-clp.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/plp-priority-over-clp.md) |
 | PDP 数据分桶优化 | 商品详情页接口太重时，按展示区块分桶请求，比一次性拉全量更容易控 LCP | 📂 资料源 | [pdp-data-bucket-optimization.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/02-rendering-performance/pdp-data-bucket-optimization.md) |
@@ -115,7 +115,7 @@ flowchart TB
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
 | 组件库 CDD 实践 | 从设计 token 到 Storybook 到视觉回归，组件库要当产品做而不是当工具库堆 | ✅ 已发布 | [企业级电商组件库建设实践](/posts/design-system-cdd-practice/) |
-| Joy UI → Tailwind 迁移 ADR | 运行时 CSS-in-JS 对 SSR 性能和包体积不友好；Tailwind 让我们更接近「样式即契约」 | 📝 草稿 | [Joy UI 迁移 ADR](/posts/joyui-to-tailwind-migration-adr/) |
+| Joy UI → Tailwind 迁移 ADR | 运行时 CSS-in-JS 对 SSR 性能和包体积不友好；Tailwind 让我们更接近「样式即契约」 | ✅ 已发布 | [Joy UI 迁移 ADR](/posts/joyui-to-tailwind-migration-adr/) |
 | 代码格式化规范 | Prettier + ESLint 统一格式，比靠 code review 抓风格便宜得多 | 📂 资料源 | [code-formatting-guide.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/03-design-system/code-formatting-guide.md) |
 
 ---
@@ -142,7 +142,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
-| 交易链路可观测性总方案 | 从被动排障升级到主动预警，SLO + Runbook 比堆 dashboard 更重要 | 📝 草稿 | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/) |
+| 交易链路可观测性总方案 | 从被动排障升级到主动预警，SLO + Runbook 比堆 dashboard 更重要 | ✅ 已发布 | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/) |
 | 平台实施计划 | 分阶段落地：先统一 traceId，再做告警路由，最后补 SLO | 📂 资料源 | [transaction-observability-implementation.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/transaction-observability-implementation.md) |
 | 第三方回调追踪 | Redirect 类支付最难排障，回调入口必须带可关联的 trace 上下文 | 📂 资料源 | [redirect-provider-callback.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/redirect-provider-callback.md) |
 | Sentry 分桶与路由 | error_bucket 自动分类 + ownership 规则，让 on-call 不用先看 200 条未分类 issue | 📂 资料源 | [sentry-issue-routing.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/engineering-notes/05-observability/sentry-issue-routing.md) |
@@ -221,8 +221,8 @@ flowchart TB
 
 按优先级，我打算这样推进：
 
-1. **先收尾已有草稿**：ISR 缓存、交易可观测性、Joy UI 迁移 ADR——这三篇离发布最近。
-2. **再写高频面试题方向**：架构重构、埋点契约、支付链路——都是「能讲清楚为什么」的主题。
+1. ~~**先收尾已有草稿**~~：ISR 缓存、交易可观测性、Joy UI 迁移 ADR——✅ 已完成。
+2. **再写高频面试题方向**：埋点契约、支付链路、HTTP 错误处理——都是「能讲清楚为什么」的主题。
 3. **最后补长尾资料**：PLP 方案、延保、Sale Page 等偏业务向的文档，迁移时做场景泛化。
 
 每完成一篇，我会回到这里更新状态列。如果你在看某条 📂 资料源，也可以直接告诉我优先整理哪一块。

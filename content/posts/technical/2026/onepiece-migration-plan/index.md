@@ -1,7 +1,8 @@
 ---
 title: 消费者端电商平台大规模迁移计划：节奏、风险与多服务协同
 slug: ecommerce-migration-plan
-date: 2026-05-19
+date: 2026-04-14
+updatedAt: 2026-04-21
 category: technical
 tags:
   - Migration

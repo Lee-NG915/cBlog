@@ -1,7 +1,8 @@
 ---
 title: 企业级电商前端平台架构重构：从七年 legacy 到多端复用
 slug: ecommerce-architecture-redesign
-date: 2026-05-19
+date: 2026-02-18
+updatedAt: 2026-03-02
 category: technical
 tags:
   - Architecture
