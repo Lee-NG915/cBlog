@@ -94,7 +94,7 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const content = await markdownToHtml(post.content);
-  const showKnowledgeGraph = post.slug === "joyboy-knowledge-map";
+  const showKnowledgeGraph = post.slug === "ecommerce-knowledge-map";
   const categories = getAllCategories();
   const allPosts = getAllPosts();
   const sidebarCategories = categories.map((category) => ({

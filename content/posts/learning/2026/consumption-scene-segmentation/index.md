@@ -55,7 +55,7 @@ coverCard: /images/covers/study/date-analyse-cover.png
 - 户外布置
 - ...
 
-这就是 Castlery 更应该经营的“场景”。
+这就是家具电商更应该经营的“场景”。
 
 ## 商品/货物
 
@@ -83,7 +83,7 @@ coverCard: /images/covers/study/date-analyse-cover.png
 2. 用场景重做前台组织，而不是只靠类目树。
    - 例如首页、导航、PLP、推荐位、内容专题页都可以场景化。
 3. 把营销、搜索、推荐也按场景组织。
-   - 文章里专门批评了“拿后台类目直接做 C 端运营”的方式，这一点对 Castlery 很适用。
+   - 文章里专门批评了“拿后台类目直接做 C 端运营”的方式，这一点对家具电商很适用。
 
 # 总结
 

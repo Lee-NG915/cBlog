@@ -32,7 +32,7 @@ Sentry 能告诉我「某个组件抛了 TypeError」，但回答不了：
 
 - 这笔失败是 Stripe 超时还是库存不足？
 - 同一订单的第 2 次支付尝试和第 1 次有什么关系？
-- 上线 v1.68 后，GrabPay 成功率掉了 15%，是代码问题还是渠道波动？
+- 某次发版后，某跳转支付渠道成功率掉了 15%，是代码问题还是渠道波动？
 
 ### 跨端追踪断裂
 
@@ -40,7 +40,7 @@ Sentry 能告诉我「某个组件抛了 TypeError」，但回答不了：
 
 ### Redirect 支付的盲区
 
-Stripe 卡支付是页面内闭环，但东南亚市场大量用 GrabPay、ZipPay 等跳转支付。用户被带到第三方页面，付完跳回来——这段路径在普通错误监控里几乎是黑的。
+Stripe 卡支付是页面内闭环，但东南亚市场大量用钱包类跳转支付。用户被带到第三方页面，付完跳回来——这段路径在普通错误监控里几乎是黑的。
 
 ---
 
@@ -161,7 +161,7 @@ Browser (traceId + sentry-trace + baggage + traceparent)
 
 ## Redirect 支付的 Callback 闭环
 
-GrabPay、ZipPay 等跳转支付的排障难度最高。我单独设计了 callback route 的观测闭环：
+钱包类跳转支付的排障难度最高。我单独设计了 callback route 的观测闭环：
 
 ```mermaid
 sequenceDiagram
@@ -241,7 +241,7 @@ Payment Capture SLO 配了双窗口 Burn Rate：
 - 字段字典、Sentry helper、前端上报 helper
 - `traceId` / `attemptId` 生成与全链路透传
 - payment action / service / strategy 主链路接入
-- GrabPay、ZipPay redirect callback 闭环
+- 跳转支付 redirect callback 闭环
 - Sentry 规则采样（交易链路高采样，失败全量保留）
 
 ### 待完成（平台侧 + 联调）
