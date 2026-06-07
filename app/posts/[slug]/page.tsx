@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
 import DraftBadge from "@/components/DraftBadge";
+import KnowledgeGraphExplorer from "@/components/KnowledgeGraphExplorer";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
 import { isDraftPreviewEnabled } from "@/lib/posts";
 import { format } from "date-fns";
@@ -93,6 +94,7 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const content = await markdownToHtml(post.content);
+  const showKnowledgeGraph = post.slug === "joyboy-knowledge-map";
   const categories = getAllCategories();
   const allPosts = getAllPosts();
   const sidebarCategories = categories.map((category) => ({
@@ -211,16 +213,32 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         </header>
 
-        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
+        <div
+          className={
+            showKnowledgeGraph
+              ? "min-w-0 space-y-10"
+              : "grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12"
+          }
+        >
           <div className="min-w-0">
+            {showKnowledgeGraph && (
+              <div data-reveal>
+                <KnowledgeGraphExplorer />
+              </div>
+            )}
             <div
-              className="prose min-w-0 overflow-hidden rounded-lg border border-line-light bg-surface-light p-5 shadow-editorial dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
+              className={`prose min-w-0 overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial dark:border-line-dark dark:bg-surface-dark ${
+                showKnowledgeGraph
+                  ? "p-6 sm:p-8 lg:p-10"
+                  : "p-5 sm:p-8 lg:p-9"
+              }`}
               data-reveal
               dangerouslySetInnerHTML={{ __html: content }}
             />
             <MermaidEnhancer />
           </div>
 
+          {!showKnowledgeGraph && (
           <aside className="hidden min-w-0 lg:block" data-reveal data-reveal-delay="140">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
               <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
@@ -289,6 +307,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             </div>
           </aside>
+          )}
         </div>
       </article>
     </>

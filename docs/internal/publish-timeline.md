@@ -28,7 +28,11 @@
 | HTTP 错误处理策略 | http-error-handling-strategy | 2026-07-03 | 2026-07-10 |
 | 支付链路编排 | payment-pipeline-architecture | 2026-07-22 | 2026-07-29 |
 
-## P2 候选排期（预估）
+## P2 进行中 / 候选排期
+
+| 主题 | slug | 首发 date | 修订 updatedAt | 层级 |
+| --- | --- | --- | --- | --- |
+| 交互式知识图谱 | joyboy-knowledge-map | 2026-08-08 | 2026-08-12 | 索引 |
 
 | 主题 | 建议 date | 层级 |
 | --- | --- | --- |

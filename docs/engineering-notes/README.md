@@ -19,6 +19,14 @@
 | [09-engineering-ai](./09-engineering-ai/) | 工程规范与 AI 协作 | Agent Skills、PR 规范、本地 HTTPS |
 | [10-issue-retrospective](./10-issue-retrospective/) | 问题复盘 | 线上问题修复、边界重构记录 |
 
+## 与 Confluence 导出的关系
+
+- **Confluence 全量镜像**：[docs/confluence-export/](../confluence-export/) — 从 [设计文档汇总](https://castlery.atlassian.net/wiki/spaces/EC/pages/2583822375) MCP 拉取的 76 篇文档
+- **可视化关联图**：[knowledge-graph.md](../confluence-export/knowledge-graph.md)
+- **可点击索引**：[INDEX.md](../confluence-export/INDEX.md)
+
+`engineering-notes` 软链适合 IDE 内快速跳转 Joyboy 仓库文档；`confluence-export` 适合系统了解 Confluence 设计文档全貌。
+
 ## 与博客的关系
 
 - **在线阅读**：见博客文章 [工程实践札记索引](/posts/engineering-practice-hub/)
