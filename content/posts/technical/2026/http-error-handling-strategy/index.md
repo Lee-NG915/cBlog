@@ -1,8 +1,8 @@
 ---
 title: 电商前端 HTTP 错误处理：基础设施层与业务层怎么分工
 slug: http-error-handling-strategy
-date: 2026-07-03
-updatedAt: 2026-07-10
+date: 2026-05-30
+updatedAt: 2026-06-04
 category: technical
 tags:
   - Error Handling

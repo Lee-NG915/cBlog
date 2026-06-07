@@ -1,8 +1,8 @@
 ---
 title: 埋点事件契约（Events Book）：让产品语言和代码实现对齐
 slug: tracking-events-book-contract
-date: 2026-06-18
-updatedAt: 2026-06-25
+date: 2026-05-26
+updatedAt: 2026-06-02
 category: technical
 tags:
   - Tracking

@@ -1,8 +1,8 @@
 ---
 title: 电商前端工程知识图谱：从架构到实现的交互地图
 slug: joyboy-knowledge-map
-date: 2026-08-08
-updatedAt: 2026-08-12
+date: 2026-06-04
+updatedAt: 2026-06-05
 category: technical
 tags:
   - Knowledge Graph

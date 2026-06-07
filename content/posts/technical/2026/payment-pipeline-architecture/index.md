@@ -1,8 +1,8 @@
 ---
 title: 电商支付链路架构：策略模式 + Server Action 编排实践
 slug: payment-pipeline-architecture
-date: 2026-07-22
-updatedAt: 2026-07-29
+date: 2026-06-03
+updatedAt: 2026-06-05
 category: technical
 tags:
   - Payment
