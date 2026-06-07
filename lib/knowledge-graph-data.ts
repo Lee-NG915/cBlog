@@ -28,6 +28,15 @@ export interface KnowledgeNode {
   relatedIds: string[];
 }
 
+export interface ReadingTrack {
+  id: string;
+  role: "前端基础" | "迁移专项" | "业务链路";
+  title: string;
+  summary: string;
+  outcome: string;
+  nodeIds: string[];
+}
+
 export interface DomainMeta {
   id: KnowledgeDomain;
   label: string;
@@ -320,6 +329,38 @@ export const READING_PATH: Array<{
   { step: 3, nodeId: "dom-transaction", role: "业务链路" },
   { step: 4, nodeId: "impl-observability", role: "业务链路" },
   { step: 5, nodeId: "impl-tracking", role: "业务链路" },
+];
+
+export const READING_TRACKS: ReadingTrack[] = [
+  {
+    id: "frontend-foundation",
+    role: "前端基础",
+    title: "先补全架构与组件心智模型",
+    summary: "适合刚接触项目，先建立客户端边界、组件体系和样式迁移的完整视角。",
+    outcome: "看完后能快速定位模块归属，理解为什么样式和组件要先统一再扩展业务。",
+    nodeIds: ["arch-client", "mod-design", "impl-tailwind"],
+  },
+  {
+    id: "migration-special",
+    role: "迁移专项",
+    title: "先看迁移机制与切换节奏",
+    summary: "适合接手遗留系统重构、灰度切换或多版本并存的演进工作。",
+    outcome: "看完后能说明迁移为什么要拆批次、如何回滚、如何降低跨团队协作成本。",
+    nodeIds: ["arch-client", "mod-migration", "impl-migration-plan"],
+  },
+  {
+    id: "business-transaction",
+    role: "业务链路",
+    title: "先吃透交易主链路",
+    summary: "适合要快速进入结账、支付、埋点和可观测性问题排查的同学。",
+    outcome: "看完后能把支付流程、埋点契约和异常处理放进同一条交易闭环里理解。",
+    nodeIds: [
+      "arch-client",
+      "dom-transaction",
+      "impl-observability",
+      "impl-tracking",
+    ],
+  },
 ];
 
 export function getNodeById(id: string): KnowledgeNode | undefined {

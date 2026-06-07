@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   DOMAIN_EDGES,
   DOMAIN_META,
   KNOWLEDGE_NODES,
   LAYER_META,
   READING_PATH,
+  READING_TRACKS,
   type KnowledgeDomain,
   type KnowledgeLayer,
   type KnowledgeNode,
@@ -155,7 +156,7 @@ export default function KnowledgeGraphExplorer() {
     "all",
   );
   const [selectedId, setSelectedId] = useState<string>("arch-multimarket");
-  const [pathRole, setPathRole] = useState<string>("all");
+  const [pathRole, setPathRole] = useState<string>("前端基础");
 
   const selectedNode = useMemo(
     () => getNodeById(selectedId) ?? KNOWLEDGE_NODES[0],
@@ -172,8 +173,16 @@ export default function KnowledgeGraphExplorer() {
     return KNOWLEDGE_NODES.filter((n) => n.domain === activeDomain);
   }, [activeDomain]);
 
+  const nodesByLayer = useMemo(
+    () =>
+      LAYER_ORDER.map((layer) => ({
+        layer,
+        nodes: filteredNodes.filter((node) => node.layer === layer),
+      })).filter((group) => group.nodes.length > 0),
+    [filteredNodes],
+  );
+
   const pathSteps = useMemo(() => {
-    const roles = ["all", "前端基础", "迁移专项", "业务链路"];
     return READING_PATH.filter(
       (step) => pathRole === "all" || step.role === pathRole || !step.role,
     ).map((step) => ({
@@ -183,12 +192,77 @@ export default function KnowledgeGraphExplorer() {
   }, [pathRole]);
 
   const pathRoles = ["all", "前端基础", "迁移专项", "业务链路"];
+  const activeTrack =
+    READING_TRACKS.find((track) => track.role === pathRole) ?? READING_TRACKS[0];
+  const migratedNoteCount = KNOWLEDGE_NODES.filter((node) => node.blogSlug).length;
+  const overviewItems = [
+    { label: "结构层级", value: String(LAYER_ORDER.length), note: "从架构到实现" },
+    { label: "主题域", value: String(DOMAIN_META.length), note: "覆盖横向能力与业务域" },
+    { label: "已整理笔记", value: String(migratedNoteCount), note: "可直接跳转阅读" },
+    { label: "推荐路线", value: String(READING_TRACKS.length), note: "按目标快速进入" },
+  ];
+
+  useEffect(() => {
+    if (view !== "path") return;
+
+    const fallbackNodeId =
+      pathRole === "all"
+        ? READING_TRACKS[0]?.nodeIds[0]
+        : activeTrack?.nodeIds[0];
+
+    if (!fallbackNodeId) return;
+
+    const isSelectedInCurrentPath = pathSteps.some(
+      (step) => step.node?.id === selectedId,
+    );
+
+    if (!isSelectedInCurrentPath) {
+      setSelectedId(fallbackNodeId);
+    }
+  }, [activeTrack, pathRole, pathSteps, selectedId, view]);
 
   return (
     <section
       className="not-prose mb-12 space-y-8"
       aria-label="工程实践知识图谱"
     >
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {overviewItems.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-2xl border border-line-light bg-surface-light p-5 shadow-sm dark:border-line-dark dark:bg-surface-dark"
+          >
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft dark:text-gray-500">
+              {item.label}
+            </p>
+            <p className="mt-3 font-display text-3xl font-semibold text-ink dark:text-gray-50">
+              {item.value}
+            </p>
+            <p className="mt-2 font-sans text-sm leading-6 text-ink-muted dark:text-gray-400">
+              {item.note}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="rounded-2xl border border-line-light bg-background-light/70 p-5 dark:border-line-dark dark:bg-background-dark/40 sm:p-6">
+        <div className="grid gap-4 lg:grid-cols-4">
+          {LAYER_ORDER.map((layer, index) => (
+            <div key={layer} className="relative rounded-2xl border border-line-light bg-surface-light p-4 dark:border-line-dark dark:bg-surface-dark">
+              <span className="font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
+                Step {index + 1}
+              </span>
+              <p className="mt-2 font-sans text-sm font-semibold text-ink dark:text-gray-100">
+                {LAYER_META[layer].label}
+              </p>
+              <p className="mt-2 font-sans text-xs leading-5 text-ink-muted dark:text-gray-400">
+                {LAYER_META[layer].description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="inline-flex rounded-full border border-line-light bg-surface-light p-1 dark:border-line-dark dark:bg-surface-dark">
           {(
@@ -214,52 +288,54 @@ export default function KnowledgeGraphExplorer() {
         </div>
 
         <p className="font-sans text-xs text-ink-soft dark:text-gray-500">
-          点击节点查看摘要与关联 · 基于 76 篇设计文档归纳
+          点击节点查看摘要与关联 · 先看结构，再选方向，最后进入工程笔记
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2.5">
-        <button
-          type="button"
-          onClick={() => setActiveDomain("all")}
-          className={`rounded-full px-4 py-2 font-sans text-sm transition ${
-            activeDomain === "all"
-              ? "bg-primary-100 font-semibold text-primary-800 dark:bg-primary-900/40 dark:text-primary-200"
-              : "border border-line-light text-ink-muted hover:border-primary-200 dark:border-line-dark dark:text-gray-400"
-          }`}
-        >
-          全部
-        </button>
-        {DOMAIN_META.map((domain) => (
+      {view !== "path" && (
+        <div className="flex flex-wrap gap-2.5">
           <button
-            key={domain.id}
             type="button"
-            onClick={() => {
-              setActiveDomain(domain.id);
-              setView("layers");
-            }}
+            onClick={() => setActiveDomain("all")}
             className={`rounded-full px-4 py-2 font-sans text-sm transition ${
-              activeDomain === domain.id
-                ? "font-semibold text-white"
+              activeDomain === "all"
+                ? "bg-primary-100 font-semibold text-primary-800 dark:bg-primary-900/40 dark:text-primary-200"
                 : "border border-line-light text-ink-muted hover:border-primary-200 dark:border-line-dark dark:text-gray-400"
             }`}
-            style={
-              activeDomain === domain.id
-                ? { backgroundColor: domain.color }
-                : undefined
-            }
           >
-            {domain.label}
-            <span className="ml-1 opacity-70">{domain.docCount}</span>
+            全部
           </button>
-        ))}
-      </div>
+          {DOMAIN_META.map((domain) => (
+            <button
+              key={domain.id}
+              type="button"
+              onClick={() => {
+                setActiveDomain(domain.id);
+                setView("layers");
+              }}
+              className={`rounded-full px-4 py-2 font-sans text-sm transition ${
+                activeDomain === domain.id
+                  ? "font-semibold text-white"
+                  : "border border-line-light text-ink-muted hover:border-primary-200 dark:border-line-dark dark:text-gray-400"
+              }`}
+              style={
+                activeDomain === domain.id
+                  ? { backgroundColor: domain.color }
+                  : undefined
+              }
+            >
+              {domain.label}
+              <span className="ml-1 opacity-70">{domain.docCount}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {view === "layers" && (
         <div className="space-y-8">
           <div className="rounded-2xl border border-line-light bg-background-light/60 p-6 dark:border-line-dark dark:bg-background-dark/40 sm:p-8">
             <div className="space-y-10">
-              {LAYER_ORDER.map((layer) => (
+              {nodesByLayer.map(({ layer, nodes }) => (
                 <div key={layer}>
                   <div className="mb-5 border-b border-line-light pb-4 dark:border-line-dark">
                     <p className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-primary-700 dark:text-primary-300">
@@ -270,24 +346,18 @@ export default function KnowledgeGraphExplorer() {
                     </p>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {KNOWLEDGE_NODES.filter((n) => n.layer === layer).map(
-                      (node) => (
-                        <NodeCard
-                          key={node.id}
-                          node={node}
-                          selected={selectedId === node.id}
-                          dimmed={
-                            activeDomain !== "all" &&
-                            node.domain !== activeDomain
-                          }
-                          highlighted={
-                            highlightedIds.has(node.id) &&
-                            selectedId !== node.id
-                          }
-                          onSelect={setSelectedId}
-                        />
-                      ),
-                    )}
+                    {nodes.map((node) => (
+                      <NodeCard
+                        key={node.id}
+                        node={node}
+                        selected={selectedId === node.id}
+                        dimmed={false}
+                        highlighted={
+                          highlightedIds.has(node.id) && selectedId !== node.id
+                        }
+                        onSelect={setSelectedId}
+                      />
+                    ))}
                   </div>
                 </div>
               ))}
@@ -431,25 +501,70 @@ export default function KnowledgeGraphExplorer() {
 
       {view === "path" && (
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="rounded-2xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-6">
-            <div className="mb-5 flex flex-wrap gap-2">
-              {pathRoles.map((role) => (
-                <button
-                  key={role}
-                  type="button"
-                  onClick={() => setPathRole(role)}
-                  className={`rounded-full px-3 py-1.5 font-sans text-xs transition ${
-                    pathRole === role
-                      ? "bg-accent-blue text-white"
-                      : "border border-line-light text-ink-muted dark:border-line-dark dark:text-gray-400"
-                  }`}
-                >
-                  {role === "all" ? "全部路径" : role}
-                </button>
-              ))}
+          <div className="space-y-6">
+            <div className="grid gap-4 lg:grid-cols-3">
+              {READING_TRACKS.map((track) => {
+                const active = pathRole === track.role;
+                return (
+                  <button
+                    key={track.id}
+                    type="button"
+                    onClick={() => {
+                      setPathRole(track.role);
+                      setSelectedId(track.nodeIds[0]);
+                    }}
+                    className={`rounded-2xl border p-5 text-left transition sm:p-6 ${
+                      active
+                        ? "border-primary-400 bg-primary-50/80 shadow-md dark:border-primary-700 dark:bg-primary-950/40"
+                        : "border-line-light bg-surface-light hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark"
+                    }`}
+                  >
+                    <span className="rounded-full bg-accent-blue/10 px-2.5 py-1 font-sans text-[11px] font-semibold text-accent-blue">
+                      {track.role}
+                    </span>
+                    <p className="mt-4 font-sans text-base font-semibold leading-6 text-ink dark:text-gray-100">
+                      {track.title}
+                    </p>
+                    <p className="mt-2 font-sans text-sm leading-7 text-ink-muted dark:text-gray-400">
+                      {track.summary}
+                    </p>
+                    <p className="mt-4 font-sans text-xs leading-6 text-ink-soft dark:text-gray-500">
+                      读完收获：{track.outcome}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
 
-            <ol className="relative space-y-0 border-l-2 border-primary-200 pl-6 dark:border-primary-800">
+            <div className="rounded-2xl border border-line-light bg-surface-light p-5 dark:border-line-dark dark:bg-surface-dark sm:p-6">
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-primary-700 dark:text-primary-300">
+                    当前路线
+                  </p>
+                  <p className="mt-2 font-sans text-base font-semibold text-ink dark:text-gray-100">
+                    {activeTrack.title}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {pathRoles.map((role) => (
+                    <button
+                      key={role}
+                      type="button"
+                      onClick={() => setPathRole(role)}
+                      className={`rounded-full px-3 py-1.5 font-sans text-xs transition ${
+                        pathRole === role
+                          ? "bg-accent-blue text-white"
+                          : "border border-line-light text-ink-muted dark:border-line-dark dark:text-gray-400"
+                      }`}
+                    >
+                      {role === "all" ? "全部路径" : role}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <ol className="relative space-y-0 border-l-2 border-primary-200 pl-6 dark:border-primary-800">
               {pathSteps.map((step, index) => {
                 if (!step.node) return null;
                 return (
@@ -480,7 +595,8 @@ export default function KnowledgeGraphExplorer() {
                   </li>
                 );
               })}
-            </ol>
+              </ol>
+            </div>
           </div>
 
           <DetailPanel
