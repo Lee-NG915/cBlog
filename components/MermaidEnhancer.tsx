@@ -109,7 +109,6 @@ export default function MermaidEnhancer() {
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: "strict",
-        useMaxWidth: false,
         theme: "base",
         themeVariables: {
           background: "#FFFDF8",
