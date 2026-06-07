@@ -31,7 +31,7 @@
 
 - **在线阅读**：见博客文章 [工程实践札记索引](/posts/engineering-practice-hub/)
 - **本地深挖**：从本目录软链进入原始资料，再逐步迁移为去企业化的个人笔记
-- **内部索引**（不公开，仅本地）：`docs/internal/project-notes-index.md` — 含 Confluence 页面映射与迁移状态
+- **内部索引**（仅本地，已加入 `.gitignore`）：迁移状态与原始资料映射，不进入公开仓库
 - **迁移规范**：遵循 `.agents/skills/tech-doc-migration/SKILL.md`
 
 ## 维护约定

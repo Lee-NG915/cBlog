@@ -2,7 +2,7 @@
 title: 交易链路可观测性建设：从故障定位到实时预警
 slug: transaction-observability-tech-plan
 date: 2026-05-15
-updatedAt: 2026-05-24
+updatedAt: 2026-06-07
 category: technical
 tags:
   - Observability
@@ -195,62 +195,17 @@ sequenceDiagram
 
 ### 核心 SLO
 
-| SLO | 定义 | 目标 |
-| --- | --- | --- |
-| Checkout Submit | `create_order success` / `create_order all` | ≥ 99.5% / 30d |
-| Payment Initiate | `payment_initiate success` / all | ≥ 99.0% / 30d |
-| Payment Capture | `payment_capture success` / all | ≥ 98.5% / 30d |
+我为交易链路定义了三步 SLO，分别覆盖下单、支付发起、支付捕获。每一步都用「成功数 / 总数」衡量，窗口期 30 天——口径和 15 阶段模型对齐，避免 Dashboard 和告警各说各话。
 
-### 告警规则
+### 告警设计原则
 
-| 告警 | 触发条件 | 级别 |
-| --- | --- | --- |
-| `payment_capture_failure_rate` | 5 分钟 failure rate > 8% | Critical |
-| `payment_capture_failure_rate` | 5 分钟 failure rate > 5% | Warning |
-| `payment_initiate_failure_rate` | 5 分钟 failure rate > 5% | Critical |
-| `create_order_failure_rate` | 5 分钟 failure rate > 2% | Warning |
-| `provider_timeout_spike` | 15 分钟 timeout rate > 3% | Warning |
+- **按阶段设阈值**：capture 失败比 initiate 失败更紧急，阈值分开设
+- **双窗口 Burn Rate**：短窗口抓突发，长窗口抓持续恶化，减少误报和漏报
+- **按支付商下钻**：同一告警能区分是代码问题还是渠道波动
 
-### Burn Rate Alert
+Dashboard 我规划了四个视角：交易总览、支付商钻取、发布回归对比、市场健康度。发布后 30 分钟看回归对比，是上线流程的固定动作。
 
-Payment Capture SLO 配了双窗口 Burn Rate：
-
-| 级别 | 短窗口（1h） | 长窗口（6h） |
-| --- | --- | --- |
-| Critical | burn rate > 14 | burn rate > 7 |
-| Warning | burn rate > 6 | burn rate > 3 |
-
-短窗口抓突发，长窗口抓持续恶化——避免单次抖动误报，也避免慢性泄漏漏报。
-
-### Dashboard 体系
-
-| Dashboard | 用途 |
-| --- | --- |
-| Transaction Overview | KPI、漏斗、错误分布、延迟 |
-| Provider Drilldown | 按支付商看 initiate / capture / timeout |
-| Release Regression | 版本对比，发布后 30 分钟看回归 |
-| Region Health | 按市场看渠道差异 |
-
----
-
-## 落地进展
-
-### 已完成（我负责设计与主链路接入）
-
-- 删除旧版 monitoring 模块，新建 `transaction-observability` 统一封装
-- 字段字典、Sentry helper、前端上报 helper
-- `traceId` / `attemptId` 生成与全链路透传
-- payment action / service / strategy 主链路接入
-- 跳转支付 redirect callback 闭环
-- Sentry 规则采样（交易链路高采样，失败全量保留）
-
-### 待完成（平台侧 + 联调）
-
-- Grafana Dashboard 四件套搭建
-- Monitor 和 SLO 配置
-- Burn Rate Alert 上线
-- UAT 场景全覆盖验证
-- Runbook 桌面演练
+平台级分桶、ESLint 门禁和 Harness 范式见 [前端可观测性平台](/posts/observability-platform-harness/)。
 
 ---
 
@@ -279,11 +234,12 @@ Payment Capture SLO 配了双窗口 Burn Rate：
 3. **平台分工**让 Sentry 和 Grafana 各做擅长的事
 4. **Callback 闭环**补上跳转支付的黑盒
 
-这套体系上线后，排查单笔交易失败的平均时间从 30-60 分钟降到了 10 分钟以内（有 `traceId` 的情况）。下一步是把 Dashboard 和 SLO 配齐，从「能查」升级到「能预警」。
+主链路上线后，有 `traceId` 的 case 排查时间从 30–60 分钟降到 10 分钟以内。从「能查」到「能预警」，靠的是 SLO 和 Burn Rate 告警与 Runbook 配套——这和平台层门禁是同一套 Harness 思路。
 
 ---
 
 ## 关联阅读
 
+- [前端可观测性平台](/posts/observability-platform-harness/)
 - [工程实践札记索引](/posts/engineering-practice-hub/)
 - [企业级电商前端平台架构重构](/posts/ecommerce-architecture-redesign/)

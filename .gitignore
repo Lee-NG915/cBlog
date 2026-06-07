@@ -34,3 +34,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# internal reference docs (not for public blog)
+/docs/joyboy/
+/docs/confluence-export/
+/docs/internal/
+

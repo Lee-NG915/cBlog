@@ -2,7 +2,7 @@
 title: 工程实践札记索引：我在大型电商前端项目里的思考地图
 slug: engineering-practice-hub
 date: 2026-05-28
-updatedAt: 2026-06-05
+updatedAt: 2026-06-07
 category: technical
 tags:
   - Engineering
@@ -85,7 +85,7 @@ flowchart TB
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
 | 整体架构重构复盘 | Monorepo 按业务域拆分，Component → Service → Domain 单向依赖；多端复用靠域模块而不是复制页面 | ✅ 已发布 | [企业级电商前端平台架构重构](/posts/ecommerce-architecture-redesign/) |
-| 大规模迁移节奏 | 全量切换风险太高，用 Feature Flag + 分批迁移把「上线」拆成可回滚的小步 | 📝 草稿 | [消费者端迁移计划](/posts/ecommerce-migration-plan/) |
+| 大规模迁移节奏 | 全量切换风险太高，用路由级灰度 + 分批迁移把「上线」拆成可回滚的小步 | ✅ 已发布 | [大型电商前端迁移](/posts/ecommerce-migration-plan/) |
 | 架构审查与演进路线 | 定期做架构 review，把「现在能跑」和「以后能扩展」分开评估 | 📂 整理中 | — |
 | Shared → Composite 迁移 | 跨域组合场景单独建 composite 层，避免 shared 模块变成「万能垃圾场」 | 📂 整理中 | — |
 | Redux Listener 事件模式 | 副作用（埋点、日志、跨模块联动）走 listener，UI 只 dispatch 领域事件 | 📂 整理中 | — |
@@ -143,9 +143,9 @@ flowchart TB
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
 | 交易链路可观测性总方案 | 从被动排障升级到主动预警，SLO + Runbook 比堆 dashboard 更重要 | ✅ 已发布 | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/) |
-| 平台实施计划 | 分阶段落地：先统一 traceId，再做告警路由，最后补 SLO | 📂 整理中 | — |
+| 可观测性平台 Harness | 分桶、ESLint 门禁、八组件范式——让报错能找对人 | ✅ 已发布 | [前端可观测性平台](/posts/observability-platform-harness/) |
+| Edge Middleware 鉴权 | 登录守卫从客户端迁到服务端预判，消除首屏闪烁 | ✅ 已发布 | [Edge Middleware 登录鉴权](/posts/edge-middleware-auth-design/) |
 | 第三方回调追踪 | Redirect 类支付最难排障，回调入口必须带可关联的 trace 上下文 | 📂 整理中 | — |
-| Sentry 分桶与路由 | error_bucket 自动分类 + ownership 规则，让 on-call 不用先看 200 条未分类 issue | 📂 整理中 | — |
 | 场景化接入 Skill | 不同场景（Layout / Server Action / Listener）走不同 API，避免 copy-paste 集成 | 📂 整理中 | — |
 | Runbook | 告警触发后第一步做什么，比告警规则本身更容易被忽略 | 📂 整理中 | — |
 
@@ -224,7 +224,7 @@ flowchart TB
 
 1. ~~**先收尾已有草稿**~~：ISR 缓存、交易可观测性、Joy UI 迁移 ADR——✅ 已完成。
 2. ~~**高频面试题方向**~~：埋点契约、支付链路、HTTP 错误处理——✅ 已完成。
-3. **下一轮（P2）**：迁移计划定稿、PLP 重构、多市场 Feature Flag、API 错误码规范。
+3. **下一轮（P2）**：PLP 重构、多市场 Feature Flag、API 错误码规范、AI 工程化定稿。
 4. **长尾资料**：延保、Sale Page、时区管理等偏业务向文档，迁移时做场景泛化。
 
 每完成一篇，我会回到这里更新状态列。

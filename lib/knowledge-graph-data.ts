@@ -294,7 +294,7 @@ export const KNOWLEDGE_NODES: KnowledgeNode[] = [
     label: "月度迁移节奏",
     layer: "implementation",
     domain: "migration",
-    summary: "分月迁移计划、风险窗口与服务协同。",
+    summary: "路由级灰度、回滚窗口与质量兜底，把全量切换拆成可回滚小步。",
     blogSlug: "ecommerce-migration-plan",
     relatedIds: ["mod-migration"],
   },
