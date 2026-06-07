@@ -227,7 +227,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             )}
             <div
-              className={`prose min-w-0 overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial dark:border-line-dark dark:bg-surface-dark ${
+              className={`prose min-w-0 rounded-lg border border-line-light bg-surface-light shadow-editorial dark:border-line-dark dark:bg-surface-dark ${
                 showKnowledgeGraph
                   ? "p-6 sm:p-8 lg:p-10"
                   : "p-5 sm:p-8 lg:p-9"

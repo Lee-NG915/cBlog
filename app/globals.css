@@ -156,15 +156,15 @@
   }
 
   .prose .mermaid-figure {
-    @apply my-8;
+    @apply my-8 min-w-0;
   }
 
   .prose .mermaid-diagram {
-    @apply block w-full overflow-x-auto rounded-lg border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 hover:shadow-editorial-sm dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800;
+    @apply block w-full min-w-0 cursor-pointer rounded-lg border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 hover:shadow-editorial-sm dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800;
   }
 
   .prose .mermaid-diagram svg {
-    @apply mx-auto h-auto max-w-full;
+    @apply mx-auto block h-auto w-full max-w-full;
   }
 
   .prose .mermaid-placeholder,

@@ -198,6 +198,7 @@ flowchart TB
 
 | 主题 | 我的判断 | 笔记状态 | 链接 |
 | --- | --- | --- | --- |
+| **AI 工程化体系总览** | AGENTS.md 宪法 + Skills/Rules + Cursor/Claude 双轨 + Harness 八组件；规范进 Git、硬约束下沉 ESLint/Hook | 📝 草稿 | [AI 工程化落地](/posts/ai-engineering-harness-practice/) |
 | Skills 体系 | 社区 skill 优先，团队专属规范才自建；源文件 + 软链双轨兼容 Cursor 和 Claude Code | 📂 资料源 | [skills-readme.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/README.md) |
 | React 最佳实践 Skill | Vercel 的 50+ 条规则按场景分类，适合 code review 和 AI 生成代码时做约束 | 📂 资料源 | [vercel-react-best-practices-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/vercel-react-best-practices/SKILL.md) |
 | Sentry Issue 修复 Skill | 线上 issue 处理有固定流程：复现 → 分桶 → 修复 → 验证 | 📂 资料源 | [sentry-fix-issues-skill.md](https://github.com/Lee-NG915/cBlog/blob/main/docs/joyboy/.agents/skills/sentry-fix-issues/SKILL.md) |

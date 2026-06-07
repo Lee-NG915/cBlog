@@ -33,6 +33,7 @@
 | Edge Middleware 鉴权 | edge-middleware-auth-design | 2026-06-02 | 2026-06-05 | 方向 |
 | 可观测性平台 Harness | observability-platform-harness | 2026-06-03 | 2026-06-05 | 方向 |
 | 多时区管理 | ecommerce-timezone-management | 2026-06-04 | 2026-06-05 | 方向 |
+| AI 工程化落地 | ai-engineering-harness-practice | 2026-06-05 | 2026-06-05 | 方向 |
 
 ## 待发（尚未撰写，无 date）
 

@@ -398,9 +398,9 @@ function enhanceMermaidBlocks(htmlContent: string): string {
 
       return [
         '<figure class="mermaid-figure">',
-        `<button type="button" class="mermaid-diagram" data-mermaid="${dataMermaid}" data-title="Mermaid 图例" aria-label="展开 Mermaid 图例">`,
+        `<div role="button" tabindex="0" class="mermaid-diagram" data-mermaid="${dataMermaid}" data-title="Mermaid 图例" aria-label="展开 Mermaid 图例">`,
         '<span class="mermaid-placeholder">图例加载中...</span>',
-        "</button>",
+        "</div>",
         "<figcaption>点击图例查看大图</figcaption>",
         "</figure>",
       ].join("");
