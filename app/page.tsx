@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FeaturedPost from "@/components/FeaturedPost";
-import PostCard from "@/components/PostCard";
-import { getAllCategories, getAllPosts, getPostStats } from "@/lib/posts";
+import InfinitePostList from "@/components/InfinitePostList";
+import { getAllCategories, getAllPosts, getPostStats, toPostSummary } from "@/lib/posts";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 
 export default function Home() {
@@ -9,8 +9,9 @@ export default function Home() {
   const categories = getAllCategories();
   const stats = getPostStats();
   const featuredPost = posts[0];
-  const latestPosts = posts.slice(featuredPost ? 1 : 0, 7);
-  const visiblePosts = latestPosts.length > 0 ? latestPosts : posts;
+  const listPosts = posts
+    .slice(featuredPost ? 1 : 0)
+    .map(toPostSummary);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -177,15 +178,7 @@ export default function Home() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {visiblePosts.map((post, index) => (
-                <PostCard
-                  key={post.slug}
-                  post={post}
-                  revealDelay={(index % 3) * 90}
-                />
-              ))}
-            </div>
+            <InfinitePostList posts={listPosts} />
           )}
         </section>
       </div>

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import DraftBadge from "@/components/DraftBadge";
-import { Post } from "@/lib/posts";
+import type { PostSummary } from "@/lib/posts";
 import { getImagePath } from "@/lib/utils";
 
 interface PostCardProps {
-  post: Post;
+  post: PostSummary;
   revealDelay?: number;
 }
 

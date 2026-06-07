@@ -46,6 +46,14 @@ export interface Post {
   coverImage?: string;
 }
 
+/** 列表展示用，不含正文，便于传给客户端组件 */
+export type PostSummary = Omit<Post, "content">;
+
+export function toPostSummary(post: Post): PostSummary {
+  const { content: _content, ...summary } = post;
+  return summary;
+}
+
 export interface Category {
   slug: string;
   name: string;
