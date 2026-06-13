@@ -10,24 +10,26 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          "var(--font-sans)",
           "PingFang SC",
           "Hiragino Sans GB",
           "Microsoft YaHei",
+          "Noto Sans SC",
+          "Source Han Sans SC",
+          "system-ui",
           "sans-serif",
         ],
         serif: [
-          "var(--font-display)",
           "Songti SC",
           "STSong",
           "Noto Serif SC",
+          "Source Han Serif SC",
           "serif",
         ],
         display: [
-          "var(--font-display)",
           "Songti SC",
           "STSong",
           "Noto Serif SC",
+          "Source Han Serif SC",
           "serif",
         ],
       },
@@ -61,8 +63,8 @@ module.exports = {
         },
         ink: {
           DEFAULT: "#22201D",
-          muted: "#6E665D",
-          soft: "#988E82",
+          muted: "#5F574E",
+          soft: "#83796E",
         },
         line: {
           light: "#DED2C1",

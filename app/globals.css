@@ -89,7 +89,23 @@
   }
 
   .editorial-pill {
-    @apply rounded-full border border-line-light bg-surface-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-400;
+    @apply rounded-full border border-line-light bg-surface-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-300;
+  }
+
+  .reading-progress-shell {
+    @apply pointer-events-none fixed inset-x-0 top-0 z-30 h-1 bg-transparent;
+  }
+
+  .reading-progress-bar {
+    @apply block h-full origin-left rounded-r-full bg-accent-sage shadow-editorial-sm;
+  }
+
+  .toc-link {
+    @apply block rounded-md px-3 py-2 font-sans text-sm leading-6 text-ink-muted transition hover:bg-background-light hover:text-primary-800 dark:text-gray-300 dark:hover:bg-background-dark dark:hover:text-primary-200;
+  }
+
+  .toc-link-active {
+    @apply bg-primary-50 font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200;
   }
 
   .prose {
@@ -169,7 +185,7 @@
 
   .prose .mermaid-placeholder,
   .prose .mermaid-error {
-    @apply block text-center text-sm text-ink-soft dark:text-gray-500;
+    @apply block text-center text-sm text-ink-soft dark:text-gray-400;
   }
 
   .prose .mermaid-error {
@@ -177,7 +193,7 @@
   }
 
   .prose .mermaid-figure figcaption {
-    @apply mt-3 text-center text-xs text-ink-soft dark:text-gray-500;
+    @apply mt-3 text-center text-xs text-ink-soft dark:text-gray-400;
   }
 
   .prose blockquote {
