@@ -60,6 +60,12 @@ export const brandCore = {
       tone: "带一点现场感",
     },
     {
+      slug: "interview",
+      name: "面试札记",
+      description: "求职复盘、怎么讲项目、面试前翻一眼的笔记。",
+      tone: "像在排练怎么开口",
+    },
+    {
       slug: "life",
       name: "生活手记",
       description: "工作以外的小事，阅读、出行、随口想法。",
@@ -87,6 +93,7 @@ export const brandCore = {
     "标题用衬线，导航和标签用无衬线，分清就好",
     "往下滚时内容轻轻浮上来，别弹来弹去",
     "卡片边框淡淡的，鼠标移上去改改颜色就行",
+    "长文有目录和一条轻进度线，方便回看，不打断阅读",
     "按主题翻文章，不搞信息流那套",
   ],
 
@@ -100,7 +107,7 @@ export const brandCore = {
     {
       brand: "墨色字",
       token: "ink / ink-muted / ink-soft",
-      value: "#22201D 及衍生",
+      value: "#22201D / #5F574E / #83796E",
       usage: "正文、日期、次要说明",
     },
     {
@@ -134,6 +141,18 @@ export const brandCore = {
       usage: "区块进入视口时淡入",
     },
     {
+      brand: "阅读进度",
+      token: "reading-progress-*",
+      value: "顶部 1px 鼠尾草色进度线",
+      usage: "长文阅读反馈",
+    },
+    {
+      brand: "目录导航",
+      token: "toc-link / toc-link-active",
+      value: "柔和背景高亮 + 当前章节强调",
+      usage: "文章页目录",
+    },
+    {
       brand: "长文排版",
       token: "prose",
       value: "行高约 1.95",
@@ -141,14 +160,14 @@ export const brandCore = {
     },
     {
       brand: "标题字体",
-      token: "font-display / Noto Serif SC",
-      value: "400–700",
+      token: "font-display / Songti SC stack",
+      value: "宋体中文栈优先，Noto 作后备",
       usage: "标题、卡片题名",
     },
     {
       brand: "界面字体",
-      token: "font-sans / Noto Sans SC",
-      value: "400–600",
+      token: "font-sans / PingFang SC stack",
+      value: "系统无衬线中文栈优先，Noto 作后备",
       usage: "导航、按钮、标签",
     },
   ],

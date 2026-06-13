@@ -4,6 +4,8 @@ import BackButton from "@/components/BackButton";
 import DraftBadge from "@/components/DraftBadge";
 import KnowledgeGraphExplorer from "@/components/KnowledgeGraphExplorer";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
+import PostReadingProgress from "@/components/PostReadingProgress";
+import PostTableOfContents from "@/components/PostTableOfContents";
 import { isDraftPreviewEnabled } from "@/lib/posts";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
@@ -12,6 +14,7 @@ import {
   getAllPosts,
   getPostBySlug,
   getAllPostSlugs,
+  getPostHeadings,
   markdownToHtml,
 } from "@/lib/posts";
 import { notFound } from "next/navigation";
@@ -93,7 +96,9 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  const content = await markdownToHtml(post.content);
+  const headings = getPostHeadings(post.content);
+  const content = await markdownToHtml(post.content, headings);
+  const hasMermaidDiagrams = content.includes("mermaid-diagram");
   const showKnowledgeGraph = post.slug === "ecommerce-knowledge-map";
   const categories = getAllCategories();
   const allPosts = getAllPosts();
@@ -129,6 +134,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <>
+      <PostReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -187,7 +193,7 @@ export default async function PostPage({ params }: PostPageProps) {
             data-reveal-delay="180"
           >
             {post.date && (
-              <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
+              <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
                 发布于{" "}
                 {format(new Date(post.date), "yyyy.MM.dd", {
                   locale: zhCN,
@@ -195,7 +201,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </time>
             )}
             {post.updatedAt && (
-              <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
+              <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
                 更新于{" "}
                 {format(new Date(post.updatedAt), "yyyy.MM.dd", {
                   locale: zhCN,
@@ -220,7 +226,13 @@ export default async function PostPage({ params }: PostPageProps) {
               : "grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12"
           }
         >
-          <div className="min-w-0">
+          <div className="min-w-0 space-y-6">
+            {showKnowledgeGraph && headings.length > 0 && (
+              <div className="max-w-3xl" data-reveal>
+                <PostTableOfContents headings={headings} title="阅读地图" />
+              </div>
+            )}
+
             {showKnowledgeGraph && (
               <div data-reveal>
                 <KnowledgeGraphExplorer />
@@ -233,18 +245,23 @@ export default async function PostPage({ params }: PostPageProps) {
                   : "p-5 sm:p-8 lg:p-9"
               }`}
               data-reveal
+              data-post-body
               dangerouslySetInnerHTML={{ __html: content }}
             />
-            <MermaidEnhancer />
+            {hasMermaidDiagrams && <MermaidEnhancer />}
           </div>
 
           {!showKnowledgeGraph && (
           <aside className="hidden min-w-0 lg:block" data-reveal data-reveal-delay="140">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
+              {headings.length > 0 && (
+                <PostTableOfContents headings={headings} title="文章目录" />
+              )}
+
               <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300">
-                    阅读路径
+                    同主题继续
                   </p>
                   <Link
                     href="/categories"

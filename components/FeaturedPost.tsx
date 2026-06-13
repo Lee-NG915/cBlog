@@ -14,7 +14,7 @@ export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProp
   return (
     <Link
       href={`/posts/${post.slug}`}
-      className="group grid overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial transition hover:-translate-y-0.5 hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[360px] md:grid-cols-[0.95fr_1.05fr]"
+      className="group grid overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial transition hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[360px] md:grid-cols-[0.95fr_1.05fr]"
       data-reveal
       data-reveal-delay={revealDelay}
     >
@@ -51,20 +51,20 @@ export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProp
 
       <div className="flex flex-col p-6 sm:p-8 md:p-9">
         <div className="mb-6 flex flex-wrap items-center gap-3 font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
-          <span>精选手记</span>
-          {post.status === "draft" && <DraftBadge />}
-          <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
-          <time className="tracking-normal text-ink-muted dark:text-gray-400">
-            {post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
-          </time>
-        </div>
+            <span>推荐阅读</span>
+            {post.status === "draft" && <DraftBadge />}
+            <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
+            <time className="tracking-normal text-ink-muted dark:text-gray-300">
+              {post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
+            </time>
+          </div>
 
         <h2 className="max-w-2xl font-display text-4xl font-bold leading-[1.12] tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-5xl">
           {post.title}
         </h2>
 
         {post.excerpt && (
-          <p className="mt-5 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-300">
+          <p className="mt-5 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-200">
             {post.excerpt}
           </p>
         )}
@@ -73,14 +73,14 @@ export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProp
           {post.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-line-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
+              className="rounded-full border border-line-light px-3 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:text-gray-300"
             >
               {tag}
             </span>
           ))}
         </div>
         <div className="mt-8 flex items-center justify-between border-t border-line-light pt-5 font-sans text-sm dark:border-line-dark">
-          <span className="text-ink-muted dark:text-gray-400">
+          <span className="text-ink-muted dark:text-gray-300">
             {post.readingTime || 1} 分钟阅读
           </span>
           <span className="font-semibold text-primary-800 transition group-hover:translate-x-1 dark:text-primary-200">

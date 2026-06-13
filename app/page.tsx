@@ -7,6 +7,7 @@ import { getSiteUrl, siteConfig } from "@/lib/site";
 export default function Home() {
   const posts = getAllPosts();
   const categories = getAllCategories();
+  const activeCategories = categories.filter((category) => category.count > 0);
   const stats = getPostStats();
   const featuredPost = posts[0];
   const listPosts = posts
@@ -48,7 +49,7 @@ export default function Home() {
             data-reveal="hero"
           >
             <div className="pointer-events-none absolute -right-20 -top-16 h-56 w-56 rotate-12 border border-line-light opacity-60 dark:border-line-dark" />
-            <p className="editorial-label">Product / Engineering / Life</p>
+            <p className="editorial-label">工程 / 学习 / 生活</p>
             <h1 className="mt-7 max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
               {siteConfig.title}
             </h1>
@@ -72,7 +73,7 @@ export default function Home() {
           </div>
 
           <aside className="editorial-card p-6 sm:p-7" data-reveal data-reveal-delay="120">
-            <p className="editorial-label">Archive</p>
+            <p className="editorial-label">站点概览</p>
             <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6">
               <div>
                 <p className="font-sans text-xs text-ink-soft dark:text-gray-500">
@@ -87,7 +88,7 @@ export default function Home() {
                   阅读路径
                 </p>
                 <p className="mt-2 font-sans text-3xl font-semibold text-ink dark:text-gray-100">
-                  {categories.length}
+                  {activeCategories.length}
                 </p>
               </div>
               <div>
@@ -122,9 +123,9 @@ export default function Home() {
             href="/"
             className="rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:ring-primary-800"
           >
-            精选
+            先看这里
           </Link>
-          {categories.map((category) => (
+          {activeCategories.map((category) => (
             <Link
               key={category.slug}
               href={`/categories/${category.slug}`}
@@ -139,9 +140,9 @@ export default function Home() {
           <section className="space-y-6">
             <div className="flex items-end justify-between" data-reveal>
               <div>
-                <p className="editorial-label">Featured</p>
+                <p className="editorial-label">推荐入口</p>
                 <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
-                  本期精选
+                  先读这篇
                 </h2>
               </div>
             </div>
@@ -152,7 +153,7 @@ export default function Home() {
         <section className="space-y-6">
           <div className="flex items-end justify-between" data-reveal>
             <div>
-              <p className="editorial-label">Recently Published</p>
+              <p className="editorial-label">最近更新</p>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-4xl">
                 全部手记
               </h2>

@@ -13,7 +13,7 @@ interface PostCardProps {
 export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
   return (
     <article
-      className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]"
+      className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial-sm transition-all duration-300 hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 sm:min-h-[360px]"
       data-reveal
       data-reveal-delay={revealDelay}
     >
@@ -38,7 +38,7 @@ export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
               </span>
               {post.status === "draft" && <DraftBadge />}
             </div>
-            <time className="font-sans text-sm text-ink-soft dark:text-gray-500">
+            <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
               {post.date &&
                 format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
             </time>
@@ -47,7 +47,7 @@ export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
             {post.title}
           </h2>
           {post.excerpt && (
-            <p className="mb-4 line-clamp-3 flex-grow font-sans text-sm leading-6 text-ink-muted dark:text-gray-400">
+            <p className="mb-4 line-clamp-3 flex-grow font-sans text-sm leading-6 text-ink-muted dark:text-gray-300">
               {post.excerpt}
             </p>
           )}
@@ -56,14 +56,14 @@ export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
               {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-line-light px-2.5 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:text-gray-400"
+                  className="rounded-full border border-line-light px-2.5 py-1 font-sans text-xs text-ink-muted dark:border-line-dark dark:text-gray-300"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           )}
-          <div className="mt-auto flex items-center justify-between font-sans text-sm text-ink-soft dark:text-gray-500">
+          <div className="mt-auto flex items-center justify-between font-sans text-sm text-ink-soft dark:text-gray-400">
             <span>{post.readingTime || 1} 分钟阅读</span>
             <span className="font-semibold text-primary-700 hover:underline dark:text-primary-300">
               继续读 →
