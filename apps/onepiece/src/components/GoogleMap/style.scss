@@ -1,0 +1,20 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.static) {
+  position: relative;
+
+  &__wrapper {
+    position: relative;
+    background-color: $color-grey-image;
+  }
+
+  &__marker {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 0);
+    width: 24px;
+    display: block;
+  }
+}

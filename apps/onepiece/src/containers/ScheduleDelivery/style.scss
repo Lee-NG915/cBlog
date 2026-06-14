@@ -1,0 +1,526 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+@import '../../sass/schedule';
+
+:local(.scheduleDelivery) {
+  position: relative;
+  @include mobile {
+    padding: 50px 0;
+  }
+  @include shared {
+    padding: 32px 0;
+  }
+
+  & > h1 {
+    line-height: 1;
+    text-align: center;
+    font-family: $font-family-aime;
+    color: $color-maroon-velvet-500;
+    font-weight: 500;
+
+    @include mobile {
+      text-align: center;
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+    }
+    @include shared {
+      margin-bottom: 86px;
+      font-size: 1.625rem;
+    }
+  }
+
+  &__placeholder {
+    height: 300px;
+  }
+
+  &__row {
+    display: flex;
+    border-bottom: 1px solid $color-neutral-mono-300;
+    @include mobile {
+      flex-direction: column;
+    }
+    @include shared {
+      flex-direction: row;
+    }
+
+    &--small {
+      @include mobile {
+        font-size: 0.875rem;
+        padding: 20px $mobile-padding;
+      }
+      @include shared {
+        padding: 48px 32px;
+        font-size: 1.125rem;
+      }
+    }
+
+    &--large {
+      font-size: 1rem;
+      @include mobile {
+        padding: 30px $mobile-padding;
+      }
+      @include shared {
+        padding: 40px 32px;
+      }
+    }
+  }
+
+  &__field {
+    text-transform: uppercase;
+    font-family: $font-family-sans-serif;
+    color: $color-maroon-velvet-500;
+    @include mobile {
+      & + & {
+        margin-top: 5px;
+      }
+    }
+    @include shared {
+      flex: 0 1 33%;
+    }
+    & > label {
+      margin-right: 5px;
+
+      margin-bottom: 0;
+    }
+    // & > span {
+    //   // color: $color-grey;
+    // }
+  }
+
+  &__largeField {
+    @include mobile {
+      & + & {
+        @include mobile {
+          margin-top: 30px;
+        }
+      }
+    }
+    @include shared {
+      & + & {
+        margin-top: 0;
+      }
+    }
+    @include shared {
+      flex: 0 1 33%;
+    }
+    & > label {
+      text-transform: uppercase;
+      font-family: $font-family-sans-serif;
+      color: #000;
+
+      @include shared {
+        font-size: 1.125rem;
+        margin-bottom: 24px;
+      }
+      @include mobile {
+        margin-bottom: 15px;
+        font-size: 1rem;
+      }
+    }
+    & > div {
+      color: $color-maroon-velvet-500;
+      font-size: 1rem;
+      font-family: $font-family-aime;
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__container {
+    & + & {
+      border-top: 1px solid $color-neutral-mono-300;
+    }
+    @include mobile {
+      padding: 30px $mobile-padding;
+    }
+    @include shared {
+      padding: 40px 32px;
+    }
+    & > h2 {
+      text-align: center;
+      font-family: $font-family-aime;
+      color: $color-maroon-velvet-500;
+      font-weight: 400;
+
+      @include mobile {
+        margin-bottom: 30px;
+        font-size: 1.125rem;
+      }
+      @include shared {
+        margin-bottom: 40px;
+        font-size: 1.875rem;
+      }
+    }
+  }
+
+  &__services {
+    &:empty {
+      display: none;
+    }
+    @include mobile {
+      display: block;
+    }
+    @include shared {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+    }
+  }
+
+  &__last {
+    font-family: $font-family-aime;
+    @include shared {
+      margin-top: 30px;
+      font-size: 1rem;
+    }
+    @include mobile {
+      margin-top: 20px;
+      font-size: 0.875rem;
+    }
+    color: $color-maroon-velvet-400;
+    &__disposal,
+    &__carry_up {
+      & > span {
+        color: $color-maroon-velvet-500;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__service {
+    @include mobile {
+      & + & {
+        margin-top: 20px;
+      }
+    }
+    @include shared {
+      flex: 0 1 400px;
+      & + & {
+        margin-left: 30px;
+        margin-top: 0;
+      }
+    }
+  }
+
+  &__notice {
+    font-family: $font-family-aime;
+    color: $color-maroon-velvet-500;
+    font-weight: 400;
+    a {
+      text-decoration: underline;
+      @include link-style($color-burnt-orange-500, $color-burnt-orange-600, underline);
+    }
+
+    & > p:last-child {
+      margin-bottom: 0;
+    }
+
+    @include mobile {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+    @include shared {
+      font-size: 1.125rem;
+      line-height: 1.2;
+    }
+  }
+
+  &__global_notice {
+    font-family: $font-family-aime;
+    color: $color-maroon-velvet-400;
+
+    font-weight: 400;
+    margin-top: 40px;
+
+    @include mobile {
+      font-size: 0.875rem;
+      line-height: 1.2;
+    }
+    @include shared {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    & > a {
+      text-decoration: underline;
+      font-family: $font-family-aime;
+      @include link-style($color-burnt-orange-500, $color-burnt-orange-600, underline);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    padding: 50px 0;
+    gap: 10px;
+    & > .btn {
+      font-family: $font-family-sans-serif;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 8px;
+      font-size: 1.125rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: 0px 24px;
+    }
+    & > .btn-grey {
+      @include button-variant(
+        $color-maroon-velvet-500,
+        $color-neutral-warm-linen-200,
+        $color-maroon-velvet-500,
+        $color-neutral-warm-linen-500,
+        $color-maroon-velvet-400,
+        $color-maroon-velvet-500
+      );
+    }
+    & > .btn-primary {
+      @include button-variant(
+        $color-neutral-warm-linen-500,
+        $color-burnt-orange-500,
+        $color-burnt-orange-500,
+        $color-neutral-warm-linen-500,
+        $color-burnt-orange-600,
+        $color-burnt-orange-500
+      );
+    }
+
+    @include mobile {
+      flex-direction: column;
+      .btn {
+        margin-bottom: 10px;
+      }
+    }
+    @include shared {
+      flex-direction: row;
+      .btn {
+        min-width: 150px;
+        margin-bottom: 0;
+        margin-right: 30px;
+      }
+    }
+  }
+
+  &__error {
+    border-top: 1px solid $color-neutral-mono-300;
+    padding: 50px 0 100px;
+    font-family: $font-family-aime;
+    color: $color-maroon-velvet-500;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    font-weight: 400;
+
+    a {
+      text-decoration: underline;
+      font-family: $font-family-aime;
+      @include link-style($color-burnt-orange-500, $color-burnt-orange-600, underline);
+    }
+
+    & > p:last-child {
+      margin-bottom: 0;
+    }
+    @include mobile {
+      @include media-breakpoint-down(md) {
+        text-align: center;
+      }
+    }
+  }
+
+  &__instructions {
+    & > textarea {
+      width: 100%;
+      display: block;
+      border-color: $color-neutral-mono-500;
+      padding: 10px;
+      outline: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      border-radius: 6px;
+      font-family: $font-family-aime;
+      color: $color-maroon-velvet-500;
+    }
+
+    & > p {
+      font-family: $font-family-aime;
+      color: $color-maroon-velvet-400;
+      margin-top: 10px;
+      margin-bottom: 0;
+
+      @include mobile {
+        font-size: 0.8rem;
+      }
+      @include shared {
+        font-size: 0.9rem;
+      }
+    }
+
+    a {
+      @include link-style($color-burnt-orange-500, $color-burnt-orange-600, underline);
+    }
+  }
+
+  &__mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: $color-neutral-warm-linen-200-80;
+    z-index: 99;
+
+    @include media-breakpoint-down(xs) {
+      right: -$mobile-padding;
+    }
+  }
+
+  &__checkboxes {
+    @include mobile {
+      margin-top: 20px;
+    }
+    @include shared {
+      margin-top: 40px;
+    }
+  }
+
+  &__checkbox {
+    @include mobile {
+      @include media-breakpoint-down(sm) {
+        font-size: 0.9rem;
+      }
+    }
+    font-family: $font-family-aime;
+    font-size: 1.125rem;
+    margin-bottom: 8px;
+    position: relative;
+    left: 32px;
+    &:hover {
+      cursor: pointer;
+    }
+    & > input[type='checkbox'] {
+      display: none;
+    }
+    & > span {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        left: -1.75rem;
+        width: 20px;
+        height: 20px;
+        border: 2px solid $color-primary;
+        border-radius: 3px;
+        transition: all 0.2s;
+        box-shadow: 0 0 0 2px #fff inset;
+        background-color: transparent;
+        &:hover {
+          border: $color-primary;
+        }
+      }
+    }
+    input[type='checkbox']:checked + span::before {
+      background-color: $color-primary;
+      border-color: $color-primary;
+    }
+  }
+
+  &__earlier {
+    padding-left: 1.75rem;
+    font-size: 0.875rem;
+    color: $color-neutral-mono-500;
+    font-family: $font-family-aime;
+    & > p {
+      margin: 0;
+      color: $color-green-3;
+    }
+    &__green {
+      display: flex;
+      align-items: center;
+      & > img {
+        width: 13px;
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+:local(.slots) {
+  &__mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: $color-neutral-warm-linen-200-80;
+
+    @include media-breakpoint-down(xs) {
+      right: -$mobile-padding;
+    }
+  }
+
+  &__empty {
+    height: 200px;
+  }
+
+  &__hint {
+    padding: 10px 5px;
+    position: relative;
+    top: 3px;
+    & > svg {
+      margin-top: 1px;
+      margin-left: 4px;
+      @include mobile {
+        width: 1rem;
+        height: 1rem;
+        @include media-breakpoint-down(sm) {
+          width: 0.9rem;
+          height: 0.9rem;
+        }
+      }
+      @include shared {
+        width: 1rem;
+        height: 1rem;
+      }
+      fill: #666;
+    }
+
+    @include above {
+      & > svg {
+        fill: #888;
+      }
+    }
+  }
+
+  &__instructions {
+    margin-top: 10px;
+
+    & > textarea {
+      width: 100%;
+      display: block;
+      border-color: #ddd;
+      padding: 10px;
+      outline: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      border-radius: 6px;
+    }
+
+    & > p {
+      color: $color-maroon-velvet-400;
+      margin-top: 10px;
+      margin-bottom: 0;
+
+      @include mobile {
+        font-size: 0.8rem;
+      }
+      @include shared {
+        font-size: 0.9rem;
+      }
+    }
+
+    a {
+      @include link-style($color-primary, $color-primary, underline);
+    }
+  }
+}

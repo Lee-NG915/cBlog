@@ -1,0 +1,512 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+@mixin fade-transition($property) {
+  transition: $property 0.4s ease;
+}
+
+:local(.home) {
+  &__banner {
+    margin-bottom: 15px;
+    @include tablet {
+      margin-bottom: 30px;
+    }
+    @include shared {
+      margin-bottom: 40px;
+    }
+  }
+  &__divider1 {
+    @include border('top');
+    margin-top: 80px;
+    margin-bottom: 80px;
+    @include shared {
+      margin-top: 120px;
+      margin-bottom: 120px;
+    }
+  }
+  &__bottom {
+    @include border('top');
+    margin-top: 80px;
+    padding-top: 60px;
+    margin-bottom: 60px;
+    @include shared {
+      margin-top: 120px;
+      padding-top: 25px;
+      margin-bottom: 30px;
+    }
+  }
+}
+:local(.category) {
+  @include flex($justify: flex-start, $wrap: wrap);
+  @include border('top');
+  @include border('left');
+  h2 {
+    margin: 0;
+    line-height: 1.1;
+    font-weight: normal;
+    font-size: 24px;
+    margin: 20px 18px;
+    @include shared {
+      font-size: 40px;
+      margin: 0;
+    }
+  }
+
+  &__borderItem {
+    @include border('right');
+    @include border('bottom');
+    position: relative;
+  }
+  & &__proportion-1 {
+    @include shared {
+      & > div {
+        &:first-child {
+          width: 32.13%;
+        }
+        &:last-child {
+          width: 67.87%;
+        }
+      }
+    }
+  }
+  & &__proportion-2 {
+    @include shared {
+      & > div {
+        &:first-child {
+          width: 67.87%;
+        }
+        &:last-child {
+          width: 32.13%;
+        }
+      }
+    }
+  }
+  &__smallLeft {
+    @include border('bottom');
+    @include shared {
+      border-bottom: none;
+    }
+    position: relative;
+  }
+  &__basePicture {
+    opacity: 1;
+    @include fade-transition(opacity);
+    &--hover {
+      opacity: 0;
+    }
+  }
+  &__hoverPicture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    @include fade-transition(opacity);
+    &--hover {
+      opacity: 1;
+    }
+  }
+  &__smallRight {
+    position: relative;
+    height: 100%;
+    & > h2 {
+      @include shared {
+        position: absolute;
+        left: 27px;
+        bottom: 22px;
+      }
+    }
+    &--hover {
+      color: $color-light-neutral;
+    }
+  }
+
+  &__textBox {
+    display: flex;
+    flex-direction: column;
+    & > div:first-child {
+      flex: 1;
+      @include flex;
+      & > h2 {
+        flex: 1;
+        @include shared {
+          text-align: center;
+          padding: 0 65px;
+        }
+      }
+    }
+  }
+  &__arrowBtn {
+    @include flex($justify: space-between);
+    height: 60px;
+    @include border('top');
+    color: $color-dark-accent;
+    font-size: 14px;
+    padding: 0 20px;
+
+    @include shared {
+      height: 70px;
+      font-size: 16px;
+      padding: 0 30px;
+    }
+    & > span {
+      display: inline-block;
+      width: 75%;
+      @include shared {
+        width: 85%;
+      }
+    }
+    @include fade-transition(all);
+    &--hover {
+      color: $color-light-neutral;
+      background-color: $color-primary;
+      svg {
+        fill: $color-light-neutral;
+        stroke: $color-light-neutral;
+      }
+    }
+  }
+}
+:local(.usp) {
+  width: 100%;
+  @include flex($justify: space-between);
+  padding: 60px 20px;
+  margin-top: 30px;
+  @include shared {
+    padding: 140px 135px;
+    margin-top: 40px;
+  }
+  color: $color-light-accent;
+  background-color: $color-complimentary;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &__item {
+    @include flex($direction: column);
+    flex-basis: 130px;
+    flex-shrink: 0;
+    @include shared {
+      flex-basis: auto;
+      flex-shrink: 1;
+    }
+  }
+
+  &__content {
+    text-align: center;
+    & > div {
+      line-height: 1.1;
+      font-weight: bold;
+      margin-top: 30px;
+      text-transform: uppercase;
+      font-size: 26px;
+      margin-bottom: 10px;
+      letter-spacing: 1.8px;
+      white-space: pre-line;
+      font-family: $font-title;
+      @include small {
+        font-size: 18px;
+        margin-bottom: 6px;
+        letter-spacing: 1.6px;
+      }
+    }
+
+    & > p {
+      font-size: 16px;
+      margin-bottom: 0;
+      @include small {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__item + &__item {
+    margin-left: 25px;
+    @include shared {
+      margin-left: 0px;
+    }
+  }
+}
+:local(.recommend) {
+  text-align: center;
+  margin-top: 80px;
+  @include shared {
+    margin-top: 120px;
+  }
+  &__header {
+    & > h2 {
+      padding: 0 30px;
+      line-height: 1.1;
+      font-weight: normal;
+      font-size: 24px;
+      margin-bottom: 30px;
+      @include shared {
+        font-size: 50px;
+      }
+    }
+  }
+  & &__btnDesktop {
+    margin-bottom: 40px;
+  }
+  & &__btnMobile {
+    margin-top: 40px;
+  }
+}
+$indicatorWidth: 50px;
+:local(.social) {
+  margin-bottom: 50px;
+  @include flex($direction: column);
+
+  &__introduce {
+    position: relative;
+    height: 185px;
+    overflow: hidden;
+    h2 {
+      line-height: 1;
+      font-weight: normal;
+      font-size: 24px;
+      margin: 0;
+    }
+    & > p {
+      font-size: 14px;
+      width: 78%;
+      margin-left: 22%;
+      margin-top: 5%;
+      padding-right: 5px;
+    }
+  }
+
+  &__decorator {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    @include border('bottom');
+    box-sizing: border-box;
+    padding-bottom: 8px;
+    & > h2 {
+      flex: 1;
+      padding-left: 50px;
+    }
+    & + h2 {
+      width: 100%;
+      @include border('bottom');
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: calc(-100% + 80px);
+      text-align: right;
+      padding-right: 50px;
+      transform-origin: calc(100% - 40px) 100%;
+      transform: rotate(-90deg);
+      padding-bottom: 8px;
+    }
+  }
+  &__icon {
+    & > svg {
+      margin-bottom: -2px;
+      fill: $color-primary;
+    }
+
+    & > span {
+      margin-left: 10px;
+    }
+    a {
+      color: $color-primary !important;
+    }
+  }
+  &__galleryWrapper {
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
+  }
+  &__gallery {
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    // hidden scrollbar
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > div {
+      display: inline-block;
+      width: 270px;
+      overflow: hidden;
+      & + div {
+        margin-left: 20px;
+      }
+    }
+  }
+  &__track {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    cursor: pointer;
+    height: 9px;
+    width: 100%;
+    &::after {
+      content: '';
+      @include border('top');
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 4px;
+      z-index: -1;
+    }
+  }
+  &__indicator {
+    width: $indicatorWidth;
+    height: 100%;
+    background-color: $color-primary;
+  }
+}
+
+:local(.story) {
+  margin: 80px 0;
+  @include shared {
+    margin: 120px 0;
+  }
+  &__bannerLeft {
+    font-size: 0;
+    position: relative;
+  }
+  &__bannerRight {
+    @include flex;
+    @include shared {
+      padding-top: 54.86%;
+      position: relative;
+    }
+  }
+  &__bannerDesc {
+    height: 100%;
+    padding: 40px 0 0;
+    @include shared {
+      @include flex($direction: column, $justify: center);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      width: 100%;
+      max-width: 980px;
+      padding: 70px 0;
+    }
+    text-align: center;
+    & > h2 {
+      @include heading3;
+      color: $color-dark-neutral;
+      margin-bottom: 30px;
+      @include shared {
+        color: $color-light-neutral;
+        margin-bottom: 50px;
+      }
+    }
+    & > div {
+      margin-bottom: 50px;
+      @include shared {
+        margin-bottom: 80px;
+      }
+      & > h3 {
+        line-height: 1.3;
+        font-family: $font-title;
+        font-weight: normal;
+        padding: 0 25px;
+        @include heading1;
+        @include shared {
+          color: $color-light-neutral;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+:local(.seoContent) {
+  h2 {
+    font-size: 18px;
+    font-weight: normal;
+    font-family: $font-base !important;
+    margin-bottom: 20px;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: normal;
+    font-family: $font-base !important;
+    margin-bottom: 5px;
+  }
+  a {
+    color: $color-primary;
+  }
+  &__item {
+    border-top: 1px solid $color-dark-accent;
+    padding: 30px 0;
+  }
+  &__title {
+    font-weight: normal;
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+@include shared {
+  :local(.social) {
+    flex-direction: row;
+    align-items: flex-start;
+    &__introduce {
+      width: 380px;
+      height: 445px;
+      margin: 0;
+      h2 {
+        font-size: 50px;
+      }
+      & > p {
+        font-size: 18px;
+        width: 62%;
+        margin-right: 8%;
+        margin-bottom: 15%;
+      }
+      @include flex($direction: column, $justify: space-between, $align: flex-end);
+    }
+
+    &__decorator {
+      padding-bottom: 10px;
+      & > h2 {
+        padding-left: 79px;
+      }
+      & + h2 {
+        width: 455px;
+        left: -346px;
+        text-align: right;
+        padding-right: 79px;
+        transform-origin: 400.5px 100%;
+        transform: rotate(-90deg);
+        padding-bottom: 10px;
+      }
+    }
+    &__galleryWrapper {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      margin-top: 61px;
+      margin-left: 25px;
+    }
+    &__gallery {
+      width: 100%;
+      margin-bottom: 10px;
+      padding-bottom: 28px;
+      & > div {
+        width: 400px;
+        & + div {
+          margin-left: 20px;
+        }
+      }
+    }
+    &__track {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+---
+deployment:
+  - region: us-east-1
+    cluster: us-prod
+    namespace: prod
+    bucket: knight-us-prod

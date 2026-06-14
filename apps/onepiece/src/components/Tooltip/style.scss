@@ -1,0 +1,101 @@
+@import '../../sass/mixins';
+
+$placements: 'top', 'right', 'bottom', 'left';
+
+@mixin arrow($placement: bottom, $color: #333) {
+  @if ($placement==top) {
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @if ($placement==right) {
+    top: -5px;
+    left: 150%;
+  }
+
+  @if ($placement==bottom) {
+    top: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @if ($placement==left) {
+    top: -5px;
+    right: 150%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent;
+
+    @if ($placement==top) {
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-top-color: $color;
+    }
+
+    @if ($placement==right) {
+      top: 50%;
+      right: 100%;
+      margin-top: -5px;
+      border-right-color: $color;
+    }
+
+    @if ($placement==bottom) {
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-bottom-color: $color;
+    }
+
+    @if ($placement==left) {
+      top: 50%;
+      left: 100%;
+      margin-top: -5px;
+      border-left-color: $color;
+    }
+  }
+}
+
+:local(.tooltip) {
+  position: relative;
+
+  @include desktop {
+    &:hover &__title {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    width: 145px;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: normal;
+    padding: 5px 9px;
+    position: absolute;
+    z-index: 1;
+    transition: opacity 0.3s;
+    opacity: 0;
+
+    @each $place in $placements {
+      &.#{$place} {
+        @include arrow($placement: $place);
+      }
+    }
+
+    &.is-shown {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

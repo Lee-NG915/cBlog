@@ -1,0 +1,166 @@
+'use client';
+
+import { EMAIL_REGEX, enableO2O } from '@castlery/config';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  Input,
+  NiceModal,
+  Stack,
+  Typography,
+  useBreakpoints,
+} from '@castlery/fortress';
+import { Error } from '@castlery/fortress/Icons';
+import { ArrowRight } from '@castlery/fortress/Icons';
+import { useResetPasswordEmailMutation } from '@castlery/modules-user-domain';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+interface ResetPasswordProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export const ResetPasswordModal = (props: ResetPasswordProps) => {
+  const { open, onClose } = props;
+  const { mobile } = useBreakpoints();
+  const [resetPasswordEmail, { isLoading }] = useResetPasswordEmailMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    reset,
+    setError,
+  } = useForm<{ email: string }>({
+    mode: 'onBlur',
+  });
+  const [sentEmail, setSentEmail] = useState('');
+
+  const queryParams = useSearchParams();
+
+  const fromEmail = useMemo(() => queryParams.get('from_email'), [queryParams]);
+  const email = useMemo(() => queryParams.get('email'), [queryParams]);
+
+  const onSubmit = useCallback(
+    async (data: { email: string }) => {
+      try {
+        const isFromPosEmail = enableO2O && fromEmail === 'true' && email === data?.email;
+        await resetPasswordEmail({ email: data.email, from_email: isFromPosEmail }).unwrap();
+        setSentEmail(data.email);
+      } catch (error: any) {
+        let errMsg = '';
+        if (error?.status === 429) {
+          errMsg = 'Too many requests have been made. Please try again later.';
+        } else {
+          errMsg = error?.data?.errors?.[0]?.detail || 'Something went wrong, please try again later.';
+        }
+        setError('email', {
+          type: 'api',
+          message: errMsg,
+        });
+      }
+    },
+    [fromEmail, email, resetPasswordEmail, setSentEmail, setError]
+  );
+
+  useEffect(() => {
+    if (!open) {
+      reset();
+      setSentEmail('');
+    }
+  }, [open, reset]);
+
+  return (
+    <NiceModal
+      open={open}
+      onClose={onClose}
+      warning={!sentEmail ? true : false}
+      success={sentEmail ? true : false}
+      showDefaultFooter={false}
+      title={sentEmail ? 'We’ve emailed you a reset link' : 'Reset Password'}
+      desc={
+        sentEmail ? (
+          <Typography level="body2">
+            A link to reset your password has been sent to <strong>{sentEmail}</strong>
+          </Typography>
+        ) : (
+          'Enter the email address associated with your account, and we will email you a link to reset your password.'
+        )
+      }
+    >
+      {!sentEmail ? (
+        <Stack mt={mobile ? 5 : 4}>
+          {!mobile && <Typography level="body1">Email</Typography>}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl
+            //   sx={{ mb: 2 }}
+            >
+              <Input
+                id="reset-password-email"
+                aria-label="Email"
+                aria-invalid={!!errors['email']}
+                autoCorrect="off"
+                autoComplete="email"
+                placeholder={mobile ? 'Email' : 'Enter Email Address'}
+                type="email"
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: {
+                    value: EMAIL_REGEX,
+                    message: 'Please provide a valid email address',
+                  },
+                })}
+                error={!!errors.email}
+                sx={{
+                  input: {
+                    '&:-internal-autofill-selected': {
+                      boxShadow: '0 0 0 30px var(--fortress-palette-brand-warmLinen-200) inset',
+                    },
+                  },
+                }}
+                //   sx={{ px: 4, py: 4 }}
+                endDecorator={
+                  <IconButton
+                    data-selenium="sign_up"
+                    variant="primary"
+                    size="sm"
+                    loading={isSubmitting}
+                    disabled={isSubmitting || !isValid}
+                    type="submit"
+                  >
+                    <ArrowRight />
+                  </IconButton>
+                }
+              />
+              {errors.email && (
+                <Box sx={{ '& div': { position: 'relative', bottom: 0 } }} mt={1}>
+                  <FormHelperText sx={{ color: 'danger.500', mt: 1, position: 'relative' }}>
+                    <Error />
+                    <Typography level="caption2" sx={{ ml: 1 }}>
+                      {errors.email.message}
+                    </Typography>
+                  </FormHelperText>
+                </Box>
+              )}
+            </FormControl>
+          </form>
+        </Stack>
+      ) : (
+        <Button
+          sx={{
+            mt: mobile ? 5 : 6,
+            width: '100%',
+          }}
+          variant="primary"
+          onClick={onClose}
+        >
+          Back to Login
+        </Button>
+      )}
+    </NiceModal>
+  );
+};

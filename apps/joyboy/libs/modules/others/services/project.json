@@ -1,0 +1,30 @@
+{
+  "name": "modules-others-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/others/services/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/others/services",
+        "main": "libs/modules/others/services/src/index.ts",
+        "tsConfig": "libs/modules/others/services/tsconfig.lib.json",
+        "assets": ["libs/modules/others/services/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/others/services/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:services", "scope:others"]
+}

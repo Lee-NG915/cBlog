@@ -1,0 +1,76 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.imageSection) {
+  text-align: center;
+  display: grid;
+  @include mobile {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+    color: #fff;
+  }
+  @include shared {
+    color: $color-dark-neutral;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+  }
+
+  &__image {
+    @include shared {
+      display: block;
+    }
+    @include mobile {
+      display: none;
+    }
+  }
+  &__mobileImage {
+    @include shared {
+      display: none;
+    }
+    @include mobile {
+      display: block;
+    }
+  }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include shared {
+      font-size: 1.125rem;
+      padding: 30px;
+    }
+    @include mobile {
+      font-size: 1rem;
+      padding: 40px 20px;
+    }
+  }
+
+  &__desc {
+    margin-bottom: 20px;
+  }
+  &__author {
+    font-style: italic;
+    margin-bottom: 30px;
+    @include shared {
+      color: $color-grey;
+    }
+    @include mobile {
+      color: #fff;
+    }
+  }
+
+  &__button {
+    font-weight: 600;
+    @include shared {
+      font-size: 1.125rem;
+      @include button-variant($color-dark-neutral, #ded2c1, #ded2c1);
+      width: 220px;
+    }
+    @include mobile {
+      font-size: 1rem;
+      @include button-variant(#fff, transparent, #fff);
+      width: 180px;
+    }
+  }
+}

@@ -1,0 +1,264 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.bottomUpFade) {
+  @keyframes slide-top {
+    0% {
+      transform: translateY(100%);
+      opacity: 0.7;
+    }
+
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @include modal;
+
+  @include mobile {
+    &__bg {
+      opacity: 1;
+      transition: opacity 0.35s;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    &__container {
+      position: fixed; //absolute;
+      height: 100%;
+      left: 0;
+      width: 100%;
+      transform: translate(0, 0);
+      animation: slide-top 0.35s linear; //  The transition fails when the modal contains Slick
+    }
+
+    &__close {
+      background-color: transparent;
+      position: absolute;
+      top: -$mobile-padding;
+      right: $mobile-padding;
+      border-radius: 0;
+      padding: 10px;
+      border: 1px solid #fff;
+      transform: translate(0, -100%);
+      opacity: 1;
+      transition: opacity 0.35s;
+      & > svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        fill: #fff;
+      }
+    }
+
+    &.is-enter,
+    &.is-exit.is-exit-active {
+      :local(.bottomUpFade) {
+        &__bg {
+          opacity: 0;
+        }
+
+        &__container {
+          transform: translateY(100%);
+          transition: transform 0.35s linear;
+        }
+
+        &__close {
+          opacity: 0;
+        }
+      }
+    }
+
+    &.is-enter.is-enter-active {
+      :local(.bottomUpFade) {
+        &__bg {
+          opacity: 1;
+        }
+
+        &__container {
+          transform: translate(0, 0);
+        }
+
+        &__close {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  @include desktop {
+    @include flex-center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    &__bg {
+      display: none;
+    }
+
+    &__container {
+      position: relative;
+      background-color: #fff;
+      z-index: 2;
+    }
+
+    &__close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 10px;
+      border: none;
+
+      & > svg {
+        width: 15px;
+        height: 15px;
+        fill: #666;
+        display: block;
+      }
+
+      @include above {
+        & > svg {
+          fill: #333;
+        }
+      }
+    }
+
+    &__newClose {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: transparent;
+      padding: 0;
+      z-index: 2;
+      border: none;
+      outline: none;
+
+      &:focus,
+      &:active {
+        outline: none;
+      }
+
+      & > svg {
+        height: 15px;
+        width: 15px;
+        transition: transform 0.3s ease-in-out;
+        &:hover {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}
+
+:local(.bottomUp) {
+  @include modal;
+  transform: translate(0, 0);
+  transition: transform 0.4s;
+
+  &.is-enter,
+  &.is-exit.is-exit-active {
+    transform: translate(0, 100%);
+  }
+
+  &.is-enter.is-enter-active {
+    transform: translate(0, 0);
+  }
+}
+
+:local(.fade) {
+  @include flex-center;
+  opacity: 1;
+  height: 100%;
+  transition: opacity 0.15s linear;
+
+  &__container {
+    transform: translate(0, 0);
+    transition: transform 0.3s ease-out;
+  }
+
+  &.is-enter,
+  &.is-exit.is-exit-active {
+    opacity: 0;
+
+    :local(.fade)__container {
+      transform: translate(0, -15%);
+    }
+  }
+
+  &.is-enter.is-enter-active {
+    opacity: 1;
+
+    :local(.fade)__container {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+:local(.side) {
+  // modal stuck at incorrect place on safari
+  // overflow: hidden !important;
+
+  &__mask {
+    position: relative;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    font-size: 0;
+
+    &.is-hide {
+      background-color: transparent;
+    }
+  }
+
+  &__container {
+    background-color: $color-warm-linen-200;
+
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    transform: translateX(0);
+    transition: transform 0.2s;
+    z-index: 20; // ensure above mask
+
+    &--left {
+      left: 0;
+    }
+
+    &--right {
+      right: 0;
+    }
+  }
+
+  &.is-enter,
+  &.is-exit.is-exit-active {
+    :local(.side) {
+      &__mask {
+        opacity: 0;
+      }
+      &__container--left {
+        transform: translateX(-100%);
+      }
+      &__container--right {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  &.is-enter.is-enter-active {
+    :local(.side) {
+      &__mask {
+        opacity: 0.5;
+      }
+      &__container {
+        transform: translateX(0);
+      }
+    }
+  }
+}

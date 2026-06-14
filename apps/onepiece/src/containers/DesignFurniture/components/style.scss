@@ -1,0 +1,15 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.hulla) {
+  &__loading {
+    position: relative;
+    // height: 500px;
+    height: calc(100vh - 150px);
+
+    svg.circular > .path {
+      stroke: #dbbdaf;
+      stroke-width: 3px;
+    }
+  }
+}

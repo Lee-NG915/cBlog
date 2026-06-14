@@ -1,0 +1,247 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.bar) {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  width: 100%;
+  z-index: 1;
+  transform: translate(0, 100%);
+  transition: 0.2s;
+  visibility: hidden;
+
+  & > .btn {
+    position: absolute;
+    right: 50px;
+    bottom: 100%;
+    background-color: $color-primary;
+    border-radius: 0;
+
+    & > svg {
+      width: 15px;
+      height: 15px;
+      fill: #fff;
+      display: block;
+    }
+  }
+
+  &.is-shown {
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+}
+
+:local(.modal) {
+  @include flex-center;
+
+  &__container {
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+:local(.sidebar) {
+  position: fixed;
+  background-color: $color-terracotta-500;
+  z-index: 999;
+  right: 0;
+
+  &:empty {
+    display: none;
+  }
+
+  & > .btn {
+    width: 100%;
+    height: 70px;
+
+    background-color: transparent;
+    // border: 1px solid $color-dark-accent;
+    border-right-width: 0;
+
+    border-radius: 0;
+    position: relative;
+    color: $color-dark-accent;
+    & + .btn {
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, 0);
+        width: 60%;
+        border-top: 1px solid $color-dark-accent;
+      }
+    }
+  }
+
+  @include mobile {
+    width: 56px;
+    bottom: 110px;
+
+    & > .btn {
+      padding: 8px 5px;
+      border: none;
+      &.whatsapp {
+        padding: 6px 10px;
+      }
+    }
+  }
+  @include shared {
+    width: 56px;
+    bottom: 80px;
+    border: none;
+
+    & > .btn {
+      padding: 8px 5px;
+      &.whatsapp {
+        padding: 10px;
+      }
+    }
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    & > span {
+      // white-space: normal;
+      // text-align: center;
+      // line-height: 1;
+      @include body2V2;
+      color: $color-warm-linen-500;
+    }
+
+    @include mobile {
+      & > svg {
+        // width: 18px;
+        // height: 18px;
+        fill: $color-warm-linen-500;
+        &.whatsapp_icon {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+    @include shared {
+      & > svg {
+        width: 28px;
+        height: 28px;
+        fill: $color-warm-linen-500;
+        // stroke: $color-warm-linen-500;
+
+        &.whatsapp_icon {
+          width: 45px;
+          height: 45px;
+        }
+      }
+    }
+  }
+
+  &__WhatsApp {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > span {
+      white-space: normal;
+      text-align: center;
+      line-height: 1;
+      font-size: 0.75rem;
+    }
+
+    @include mobile {
+      & > img {
+        width: 28px;
+        height: 28px;
+      }
+      & > span {
+        font-size: 0.5rem;
+        margin-top: 3px;
+      }
+    }
+    @include shared {
+      & > img {
+        width: 40px;
+        height: 40px;
+      }
+      & > span {
+        font-size: 0.75rem;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  &__unread {
+    position: absolute;
+    background: $color-primary;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    @include shared {
+      font-size: 10px;
+      height: 10px;
+      width: 10px;
+      top: 10px;
+      left: 14px;
+    }
+    @include mobile {
+      font-size: 9px;
+      height: 10px;
+      width: 10px;
+      top: 3px;
+      left: 5px;
+    }
+  }
+}
+
+:local(.review) {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  background-color: $color-grey-bg;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 6px 12px;
+
+  @include link-style($color-dark-neutral, $color-dark-neutral);
+
+  & > h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+
+  & > div {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 0.8;
+
+    & > div {
+      text-align: left;
+    }
+
+    & > span {
+      font-size: 0.7rem;
+      margin-right: 5px;
+      font-weight: 600;
+    }
+  }
+
+  & > img {
+    width: 110px;
+  }
+}

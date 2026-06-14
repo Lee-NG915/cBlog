@@ -1,0 +1,21 @@
+{
+  "name": "@castlery/seo",
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "schema-dts": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/lodash.merge": "^4.6.9"
+  }
+}

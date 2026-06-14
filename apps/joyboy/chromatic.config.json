@@ -1,0 +1,9 @@
+{
+  "onlyChanged": true,
+  "projectId": "Project:66825548b1273c22ce4c899b",
+  "projectToken": "chpt_68cd5d09d39021f",
+  "storybookConfigDir": "libs/fortress/.storybook",
+  "storybookBuildDir": "dist/storybook/fortress",
+  "zip": true,
+  "exitOnceUploaded": true
+}

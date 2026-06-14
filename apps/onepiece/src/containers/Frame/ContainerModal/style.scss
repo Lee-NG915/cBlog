@@ -1,0 +1,60 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.container) {
+  @include flex-center;
+
+  &__container {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    @include mobile {
+      width: 90%;
+      max-width: 400px;
+    }
+    @include desktop {
+      width: 800px;
+    }
+  }
+
+  &.is-chope &__container {
+    width: 500px;
+    height: 80%;
+
+    @include mobile {
+      width: 96%;
+      height: 90%;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    padding: 15px;
+    background-color: transparent;
+    border: none;
+    right: 0;
+    top: 0;
+
+    & > svg {
+      display: block;
+    }
+
+    @include mobile {
+      & > svg {
+        fill: #fff;
+        width: 16px;
+        height: 16px;
+      }
+    }
+    @include desktop {
+      & > svg {
+        width: 14px;
+        height: 14px;
+        fill: #666;
+      }
+    }
+  }
+}

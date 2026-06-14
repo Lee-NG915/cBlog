@@ -1,0 +1,33 @@
+{
+  "name": "modules-user-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/user/components/src",
+  "projectType": "library",
+  "tags": ["type:components", "scope:user"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/user/components",
+        "tsConfig": "libs/modules/user/components/tsconfig.lib.json",
+        "project": "libs/modules/user/components/package.json",
+        "entryFile": "libs/modules/user/components/src/index.ts",
+        "external": ["react", "react-dom", "@emotion/react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/modules/user/components/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

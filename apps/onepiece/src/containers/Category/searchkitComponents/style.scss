@@ -1,0 +1,99 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.nohit) {
+  margin: 10px 0;
+  padding: 0 10px;
+  @include mobile {
+    & {
+      margin: 20px 0;
+    }
+  }
+}
+
+:local(.recommend) {
+  height: auto;
+  @include desktop {
+    padding-top: 45px;
+    margin-top: 45px;
+  }
+  @include mobile {
+    margin-top: 30px;
+    padding-top: 40px;
+    margin-bottom: 30px;
+  }
+
+  & > div {
+    & > div:nth-of-type(2) {
+      display: none;
+    }
+  }
+}
+
+:local(.quickship) {
+  &__row {
+    max-width: 230px;
+    @include flex($justify: flex-start, $wrap: wrap);
+  }
+  &__text {
+    font-weight: 600;
+    color: $color-black-font;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  &__label {
+    border: none;
+    color: $color-primary;
+    font-weight: 600;
+    line-height: 1;
+    background-color: transparent;
+    padding: 1px 0;
+    margin: 4px 0;
+    border-bottom: 1px solid $color-primary;
+  }
+  &__form {
+    height: 40px;
+    transition: height 0.2s ease-in-out, opacity 0.1s ease-in-out;
+    margin-top: 20px;
+    opacity: 1;
+    &.is-collapsed {
+      margin-top: 0;
+      visibility: hidden;
+      height: 0;
+      opacity: 0;
+    }
+  }
+
+  &__search {
+    height: 40px;
+    @include flex($justify: flex-start, $wrap: wrap);
+    input {
+      height: 100%;
+      @include mobile {
+        width: calc(100% - 126px);
+      }
+      @include desktop {
+        width: calc(100% - 50px);
+      }
+      border: 1px solid $color-dark-accent;
+      border-right: none;
+      outline: none;
+      background-color: transparent;
+      padding: 0 20px;
+      font-size: 14px;
+      &:focus {
+        border-color: $color-primary;
+        & ~ button {
+          border-left-color: $color-primary;
+        }
+      }
+    }
+  }
+  &__error {
+    width: 100%;
+    padding-top: 2px;
+    font-size: 14px;
+    line-height: 1.1;
+    color: $color-primary;
+  }
+}

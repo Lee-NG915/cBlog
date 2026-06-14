@@ -1,0 +1,463 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.product) {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+
+  @include mobile {
+    .slick-slide {
+      font-size: 0;
+    }
+    .slick-dots {
+      li {
+        width: 14px;
+        button:before {
+          position: absolute;
+          content: '';
+          width: 6px;
+          height: 6px;
+          opacity: 0.5;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          background-color: #ccc;
+        }
+        &.slick-active {
+          button:before {
+            opacity: 1;
+            background-color: $color-complimentary;
+          }
+        }
+      }
+    }
+    .slick-list {
+      // margin: 0 -7px;
+      & .slick-slide > div {
+        padding: 2px;
+      }
+    }
+  }
+  @include desktop {
+    border: 1px solid transparent;
+    &.can-hover {
+      transition: border-color 0.4s ease-in-out;
+      &:hover {
+        border-color: $color-light-accent;
+      }
+    }
+    &__mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding-top: 100%;
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+      &--hover {
+        opacity: 1;
+        visibility: visible;
+      }
+      .lazyload-placeholder {
+        padding-top: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+    &__lifeImage {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    &__like {
+      position: absolute;
+      z-index: 3;
+      top: 15px;
+      right: 15px;
+      background-color: #fff;
+      border: 1px solid $color-dark-accent;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 0;
+      overflow: hidden;
+      > button {
+        border: none;
+        font-size: 0;
+        padding: 10px;
+        & > svg {
+          width: 22px;
+          height: 22px;
+          stroke: $color-dark-accent;
+        }
+      }
+    }
+    &__leadTime {
+      position: absolute;
+      z-index: 9;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+      font-size: 0.875rem;
+      color: $color-light-accent;
+      background-color: $color-primary;
+      justify-content: center;
+      display: flex;
+      padding: 10px 0;
+    }
+  }
+  &__base {
+    &--hover {
+      & :local(.product)__baseImage {
+        opacity: 0;
+      }
+    }
+  }
+  &__tag {
+    position: absolute;
+    @include mobile {
+      top: 5px;
+      left: 7px;
+    }
+    @include desktop {
+      top: 20px;
+      left: 20px;
+    }
+    z-index: 9;
+    display: flex;
+    & > sup {
+      color: #fff;
+      background-color: $color-complimentary;
+      padding: 2px 8px;
+      margin-left: 0;
+      font-size: 12px;
+      line-height: 1.5;
+      position: static; //clear float upward in sup element
+      top: 0;
+    }
+  }
+  &__tagPDP {
+    top: 5px;
+  }
+  &__baseImage {
+    display: block;
+    @include desktop {
+      padding: 20px 20px 0;
+    }
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+    .lazyload-placeholder {
+      padding-top: 66%;
+    }
+  }
+
+  &__bottom {
+    @include mobile {
+      padding-top: 10px;
+    }
+    @include desktop {
+      // height: 170px;
+      padding: 15px 20px 20px;
+    }
+  }
+
+  &__name {
+    display: block;
+    line-height: 1.25;
+    text-align: center;
+    position: relative;
+    margin: 0;
+
+    & > &.is-disabled {
+      @include link-style($color-dark-neutral, $color-dark-neutral);
+    }
+
+    @include mobile {
+      margin-top: 10px;
+      font-size: 16px;
+      @include media-breakpoint-up(md) {
+        font-size: 18px;
+      }
+    }
+    @include desktop {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  }
+
+  &__shortDesc {
+    margin-top: 8px;
+    // width: 100%;
+    // overflow: hidden;
+    line-height: 1.2;
+    color: #767676;
+    text-align: center;
+    @include mobile {
+      font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    @include desktop {
+      font-size: 14px;
+    }
+  }
+
+  &__price {
+    text-align: center;
+    color: $color-dark-neutral;
+    position: relative;
+    margin-top: 8px;
+    line-height: 1;
+    font-size: 16px;
+    @include shared {
+      font-size: 18px;
+    }
+    &.is-sale {
+      color: $color-primary;
+    }
+
+    & > span {
+      &:first-of-type {
+        color: $color-primary;
+      }
+      &:last-of-type {
+        color: $color-complimentary;
+        margin-left: 10px;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  &__info {
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 0.875rem;
+    position: relative;
+    line-height: 1.3;
+    color: #c3c3c3;
+
+    &--red {
+      color: $color-primary;
+    }
+
+    & + & {
+      @include mobile {
+        margin-top: 4px;
+        @include media-breakpoint-up(md) {
+          margin-top: 5px;
+        }
+      }
+      @include desktop {
+        margin-top: 10px;
+      }
+    }
+
+    @include mobile {
+      margin-top: 10px;
+      @include media-breakpoint-up(md) {
+        margin-top: 10px;
+      }
+    }
+    @include desktop {
+      margin-top: 10px;
+    }
+  }
+
+  &__color {
+    display: flex;
+    justify-content: center;
+    margin: 22px 0 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+
+    &__tone {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: transparent;
+      padding: 1px;
+      border: 1px solid transparent;
+      overflow: hidden;
+      margin: 1px;
+      cursor: pointer;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      &.is-selected {
+        border-color: $color-dark-neutral;
+      }
+    }
+
+    &__more {
+      margin-left: 4px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+:local(.simpleProduct) {
+  position: relative;
+  z-index: 1;
+
+  @include mobile {
+    .slick-slide {
+      font-size: 0;
+    }
+    .slick-dots {
+      li {
+        width: 14px;
+        button:before {
+          position: absolute;
+          content: '';
+          width: 6px;
+          height: 6px;
+          opacity: 0.5;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          background-color: #ccc;
+        }
+        &.slick-active {
+          button:before {
+            opacity: 1;
+            background-color: $color-complimentary;
+          }
+        }
+      }
+    }
+    .slick-list {
+      & .slick-slide > div {
+        padding: 2px;
+      }
+    }
+  }
+
+  @include desktop {
+    &__mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding-top: 100%;
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+      &--hover {
+        opacity: 1;
+        visibility: visible;
+      }
+      .lazyload-placeholder {
+        padding-top: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+    &__lifeImage {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    &__like {
+      position: absolute;
+      z-index: 3;
+      top: 15px;
+      right: 15px;
+      background-color: #fff;
+      border: 1px solid $color-dark-accent;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 0;
+      overflow: hidden;
+      > button {
+        border: none;
+        font-size: 0;
+        padding: 10px;
+        & > svg {
+          width: 22px;
+          height: 22px;
+          stroke: $color-dark-accent;
+        }
+      }
+    }
+    &__leadTime {
+      position: absolute;
+      z-index: 9;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+      font-size: 0.875rem;
+      color: $color-light-accent;
+      background-color: $color-primary;
+      justify-content: center;
+      display: flex;
+      padding: 10px 0;
+    }
+  }
+
+  &__base {
+    &--hover {
+      & :local(.product)__baseImage {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__baseImage {
+    display: block;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  &__color {
+    &__tone {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: transparent;
+      padding: 2px;
+      border: 1px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      &.is-selected {
+        border-color: $color-dark-neutral;
+      }
+    }
+  }
+}

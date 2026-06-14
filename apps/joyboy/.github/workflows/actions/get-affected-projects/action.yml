@@ -1,0 +1,104 @@
+name: Get Affected Projects
+
+inputs:
+  main-branch:
+    description: 'The base branch for nx affected'
+    required: false
+    type: string
+  last-successful-event:
+    description: 'The last successful event'
+    required: false
+    type: string
+  workflow-id:
+    description: 'The workflow id e.g. release-please.yaml'
+    required: false
+    type: string
+
+outputs:
+  affected_projects:
+    description: 'The affected projects'
+    value: ${{ steps.get-affected-projects.outputs.affected_projects }}
+  affected_projects_version:
+    description: 'The affected projects with version'
+    value: ${{ steps.get-affected-projects-version.outputs.result }}
+  affected_apps:
+    description: 'The affected apps'
+    value: ${{ steps.get-affected-apps.outputs.affected_apps }}
+runs:
+  using: 'composite'
+  steps:
+    - uses: nrwl/nx-set-shas@v4
+      id: setSHAs
+      with:
+        main-branch-name: ${{ inputs.main-branch || github.ref_name }}
+        last-successful-event: ${{ inputs.last-successful-event || 'push' }}
+        workflow-id: ${{ inputs.workflow-id || '' }}
+
+    - name: get affected projects
+      id: get-affected-projects
+      shell: bash
+      run: |
+        pnpm nx show projects --affected --exclude=*-e2e -t build --json > affected-projects.json
+        echo "affected_projects=$(pnpm nx show projects --affected -t build --json true)" >> $GITHUB_OUTPUT
+
+    - name: get affected applications
+      id: get-affected-apps
+      shell: bash
+      run: |
+        pnpm nx show projects --affected -t build --type app --json > affected-projects.json
+        echo "affected_apps=$(pnpm nx show projects --affected -t build --type app --json true)" >> $GITHUB_OUTPUT
+
+    - name: summary
+      shell: bash
+      run: |
+        echo "### Affected applications " >> $GITHUB_STEP_SUMMARY
+        echo "- Affected apps: ${{ toJSON(steps.get-affected-apps.outputs.affected_apps) }}" >> $GITHUB_STEP_SUMMARY
+
+    - name: get affected apps version
+      uses: actions/github-script@v7
+      id: get-affected-projects-by-json
+      with:
+        script: |
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('affected-projects.json', 'utf8'));
+          console.log(manifest);
+          if(!manifest || !manifest.length) {
+            return [];
+          }
+          return JSON.stringify(manifest);
+        # result-encoding: string
+
+    - name: check affected projects
+      shell: bash
+      run: |
+        echo ${{ steps.get-affected-projects-by-json.outputs.result }}
+
+    - name: get affected apps version
+      uses: actions/github-script@v7
+      id: get-affected-projects-version
+      env:
+        AFFECTED_PROJECTS: ${{ steps.get-affected-projects.outputs.affected_projects }}
+      with:
+        # .release-please-mainfest.json => {"apps/onepiece-next": "1.1.0","apps/pos-next": "1.1.0"}
+        # AFFECTED_PROJECTS => ['onepiece-next', 'pos-next']
+        script: |
+          console.log(process.env.AFFECTED_PROJECTS);
+          const affectedProjects = JSON.parse(process.env.AFFECTED_PROJECTS);
+          if(!affectedProjects || !affectedProjects.length) {
+            return {};
+          }
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('release-please/release-please-manifest.json', 'utf8'));
+          const affectedProjectsWithVersion = {};
+          for (const project of affectedProjects) {
+            affectedProjectsWithVersion[project] = manifest['apps/' + project];
+          }
+          return affectedProjectsWithVersion;
+        # result-encoding: string
+
+    - name: summary
+      shell: bash
+      run: |
+        echo "### Affected list " >> $GITHUB_STEP_SUMMARY
+        echo "- Affected apps: ${{ toJSON(steps.get-affected-apps.outputs.affected_apps) }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Affected projects: ${{ toJSON(steps.get-affected-projects.outputs.affected_projects) }}" >> $GITHUB_STEP_SUMMARY

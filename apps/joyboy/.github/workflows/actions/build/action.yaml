@@ -1,0 +1,66 @@
+name: Build Affected Application
+
+inputs:
+  app-env:
+    description: 'Environment to deploy to'
+    required: true
+    type: string
+  secret-name:
+    description: 'Name of the secret to use'
+    required: false
+    type: string
+  projects:
+    description: 'List of projects to build'
+    required: false
+    type: string
+
+runs:
+  using: 'composite'
+  steps:
+    # - name: Install Playwright Browsers
+    #   shell: bash
+    #   run: npx playwright install --with-deps
+
+    # This line is needed for nx affected to work when CI is running on a PR
+    # - run: git branch --track main origin/main
+    # - run: pnpm nx affected -t lint test build --parallel=3
+    - name: Reset Nx workspace state
+      shell: bash
+      run: pnpm nx reset
+
+    - name: Build projects
+      id: build
+      run: |
+        pnpm nx run-many -t build -p "${{inputs.projects}}" --skip-nx-cache --verbose 2>&1
+      shell: bash
+      env:
+        APP_ENV: ${{ inputs.app-env }}
+        NODE_ENV: 'production'
+        CI_ENV: 'true'
+        SECRET_NAME: ${{ inputs.secret-name }}
+        NODE_OPTIONS: '--max-old-space-size=6144'
+
+    # - run: pnpm nx affected -t e2e --parallel=1
+    #   shell: bash
+
+    # - name: E2E tests
+    #   uses: cypress-io/github-action@v6
+    #   with:
+    #     install: false
+    #     command: pnpm nx affected -t e2e --parallel=1
+
+    - name: check
+      shell: bash
+      run: |
+        ls -la dist/
+
+    # - name: Uploading artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: ${{inputs.app-env}}-build-results
+    #     path: |
+    #       dist/
+    #       !dist/**/.next/cache
+    #       !dist/**/.playwright
+    #       !dist/**/node_modules
+    #     retention-days: 7

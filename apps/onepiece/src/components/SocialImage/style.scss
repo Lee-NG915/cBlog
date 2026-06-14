@@ -1,0 +1,419 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.socialImage) {
+  position: relative;
+  cursor: pointer;
+
+  &__mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    & > div {
+      text-align: center;
+      color: #fff;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+      display: inline-block;
+    }
+
+    span {
+      color: #fff;
+      display: block;
+      text-align: center;
+      text-transform: uppercase;
+    }
+  }
+
+  &__mask {
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    span {
+      font-size: 0.8rem;
+    }
+  }
+
+  @include desktop {
+    &:hover &__mask {
+      opacity: 1;
+    }
+  }
+}
+
+:local(.socialImageModal) {
+  @include mobile {
+    background-color: #fff;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  @include desktop {
+    display: flex;
+    width: 800px;
+    min-height: 600px;
+    padding-right: 300px;
+    background-color: #000;
+    position: relative;
+    align-items: center;
+
+    @media (min-width: 1680px) {
+      width: 1000px;
+      min-height: 700px;
+    }
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__content {
+    font-size: 0.875rem;
+
+    @include mobile {
+      padding: 15px $mobile-padding;
+    }
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 24px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    &__ig-handle {
+      display: flex;
+      align-items: center;
+      color: $color-dark-neutral;
+      font-weight: bold;
+      margin-bottom: 15px;
+      & > svg {
+        width: 20px;
+        height: 20px;
+        fill: $color-dark-neutral;
+      }
+      & > span {
+        @include desktop {
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        @include mobile {
+          margin-left: 7px;
+          padding-left: 7px;
+        }
+        border-left: 1px solid #888;
+      }
+    }
+
+    &__text {
+      color: $color-dark-neutral;
+      @include desktop {
+        overflow-y: auto;
+        word-break: break-word;
+        flex: 1 1 auto;
+        @include scroll-bar;
+        -webkit-overflow-scrolling: touch;
+      }
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__product {
+    @include mobile {
+      margin-top: 15px;
+    }
+    @include desktop {
+      margin-top: 30px;
+      flex: 0 0 auto;
+    }
+
+    &__loading {
+      height: 200px;
+      position: relative;
+    }
+
+    &__slick {
+      margin: 0;
+
+      & > .slick-slider > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+          left: auto;
+          top: 0;
+          padding: 4px 8px;
+          border: 1px solid #333;
+          width: auto;
+          height: auto;
+          transition: 0.2s;
+
+          & > svg {
+            width: 12px;
+            height: 12px;
+            fill: #333;
+            display: block;
+            stroke: #333;
+            stroke-width: 30px;
+          }
+
+          &:not(.slick-disabled) {
+            @include above {
+              background-color: #333;
+              opacity: 1 !important;
+
+              & > svg {
+                fill: #fff;
+                stroke: #fff;
+              }
+            }
+          }
+
+          &.slick-disabled {
+            display: block !important;
+            opacity: 0.5 !important;
+            cursor: default;
+          }
+        }
+
+        .slick-prev {
+          right: 10px;
+          transform: translate(-100%, -100%);
+        }
+
+        .slick-next {
+          right: 0;
+          transform: translate(0, -100%);
+        }
+      }
+
+      & > .slick-slider:hover > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+        }
+      }
+
+      &.is-onepage > .slick-slider > {
+        .slick-next,
+        .slick-prev {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+:local(.newSocialImageModal) {
+  color: #000;
+  margin: 70px auto 0;
+
+  @include mobile {
+    width: 100%;
+    padding: 0 20px;
+    overflow: auto;
+    height: 80vh;
+    padding-bottom: 150px;
+    border-radius: 1.5em 1.5em 0 0;
+
+    @include media-breakpoint-up(sm) {
+      width: 90%;
+    }
+    @include media-breakpoint-up(md) {
+      width: 600px;
+    }
+  }
+  @include shared {
+    width: 600px;
+  }
+  @include mobile {
+    background-color: #fff;
+  }
+  @include desktop {
+    display: flex;
+    width: 800px;
+    min-height: 500px;
+    padding-right: 300px;
+    background-color: #000;
+    position: relative;
+    align-items: center;
+
+    @media (min-width: 1680px) {
+      width: 1000px;
+      min-height: 700px;
+    }
+  }
+
+  &__header {
+    background-color: #fff;
+    padding: 1rem 0 1rem;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    font-weight: 600;
+    z-index: 2;
+  }
+
+  &__image {
+    padding: 0 0 1rem;
+    border-color: #000;
+  }
+
+  &__content {
+    font-size: 0.875rem;
+
+    @include mobile {
+      padding: 5px 0 $mobile-padding 0;
+    }
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 24px;
+      position: sticky;
+      // right: 0;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    &__ig-handle {
+      display: flex;
+      align-items: center;
+      color: $color-dark-neutral;
+      font-weight: bold;
+      & > svg {
+        width: 20px;
+        height: 20px;
+        fill: $color-dark-neutral;
+      }
+      & > span {
+        @include desktop {
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        @include mobile {
+          margin-left: 7px;
+          padding-left: 7px;
+        }
+        border-left: 1px solid #888;
+      }
+    }
+
+    &__text {
+      @include desktop {
+        overflow-y: auto;
+        word-break: break-word;
+        flex: 1 1 auto;
+        @include scroll-bar;
+        -webkit-overflow-scrolling: touch;
+      }
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__product {
+    @include mobile {
+      margin-top: 15px;
+    }
+    @include desktop {
+      margin-top: 30px;
+      flex: 0 0 auto;
+    }
+
+    &__loading {
+      height: 200px;
+      position: relative;
+    }
+
+    &__slick {
+      margin: 0;
+
+      & > .slick-slider > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+          left: auto;
+          top: 0;
+          padding: 4px 8px;
+          border: 1px solid #333;
+          width: auto;
+          height: auto;
+          transition: 0.2s;
+
+          & > svg {
+            width: 12px;
+            height: 12px;
+            fill: #333;
+            display: block;
+            stroke: #333;
+            stroke-width: 30px;
+          }
+
+          &:not(.slick-disabled) {
+            @include above {
+              background-color: #333;
+              opacity: 1 !important;
+
+              & > svg {
+                fill: #fff;
+                stroke: #fff;
+              }
+            }
+          }
+
+          &.slick-disabled {
+            display: block !important;
+            opacity: 0.5 !important;
+            cursor: default;
+          }
+        }
+
+        .slick-prev {
+          right: 10px;
+          transform: translate(-100%, -100%);
+        }
+
+        .slick-next {
+          right: 0;
+          transform: translate(0, -100%);
+        }
+      }
+
+      & > .slick-slider:hover > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+        }
+      }
+
+      &.is-onepage > .slick-slider > {
+        .slick-next,
+        .slick-prev {
+          display: none !important;
+        }
+      }
+    }
+  }
+}

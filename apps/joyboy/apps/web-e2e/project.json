@@ -1,0 +1,48 @@
+{
+  "name": "web-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["web"],
+  "// targets": "to see all targets run: nx show project web-e2e --web",
+  "targets": {
+    "e2e:checkout-layout": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/web-e2e"],
+      "options": {
+        "config": "apps/web-e2e/playwright.checkout-layout.config.ts"
+      }
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 6007,
+        "configDir": "apps/web-e2e/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/web-e2e",
+        "configDir": "apps/web-e2e/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps/web-e2e/.storybook --url=http://localhost:6007"
+      }
+    }
+  }
+}

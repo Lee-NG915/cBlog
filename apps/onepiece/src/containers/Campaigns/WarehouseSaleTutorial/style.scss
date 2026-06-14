@@ -1,0 +1,84 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.wrapper) {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 50px 30px;
+  text-align: center;
+
+  & > h1 {
+    font-size: 1.8rem;
+    position: relative;
+    margin-bottom: 80px;
+    line-height: 1.4;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 80px;
+      border-bottom: 1px solid #888;
+      bottom: -30px;
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+  }
+}
+
+:local(.step) {
+  margin-bottom: 50px;
+
+  & > p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  & > div {
+    width: 300px;
+    margin: 0 auto;
+    & + div {
+      margin-top: 20px;
+    }
+  }
+}
+
+:local(.note) {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  position: relative;
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 250px;
+    border-bottom: 1px solid #888;
+    top: -50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  & > h2 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  & > ul {
+    text-align: left;
+    padding-left: 1em;
+    color: #666;
+  }
+
+  a {
+    text-decoration: underline;
+    @include link-style(#666, $color-primary, underline);
+  }
+}
+
+:local(.search) {
+  & > .btn {
+    width: 200px;
+  }
+}

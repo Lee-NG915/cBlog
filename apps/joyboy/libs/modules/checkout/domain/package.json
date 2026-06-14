@@ -1,0 +1,9 @@
+{
+  "name": "@castlery/modules-checkout-domain",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "dependencies": {},
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}

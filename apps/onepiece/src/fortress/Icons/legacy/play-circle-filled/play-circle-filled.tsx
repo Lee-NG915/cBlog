@@ -1,0 +1,29 @@
+import React from 'react';
+import SvgIcon, { SvgIconProps } from '@mui/joy/SvgIcon';
+
+export type PlayCircleFilledProps = SvgIconProps;
+
+/**
+ * - sm
+ *   - 0.875 rem 14 px
+ * - md (defalut)
+ *   - 1 rem 16 px
+ * - lg
+ *   - 1.125 rem 18 px
+ * - xl
+ *   - 1.25 rem 20 px
+ * - xl2 (big)
+ *   - 1.5 rem 24 px
+ * @param props
+ * @returns
+ */
+export function PlayCircleFilled(props: PlayCircleFilledProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 15.575L15.575 12L10 8.425V15.575ZM12 21C10.75 21 9.57933 20.7627 8.488 20.288C7.396 19.8127 6.446 19.1707 5.638 18.362C4.82933 17.554 4.18733 16.604 3.712 15.512C3.23733 14.4207 3 13.25 3 12C3 10.75 3.23733 9.579 3.712 8.487C4.18733 7.39567 4.82933 6.44567 5.638 5.637C6.446 4.829 7.396 4.18733 8.488 3.712C9.57933 3.23733 10.75 3 12 3C13.25 3 14.421 3.23733 15.513 3.712C16.6043 4.18733 17.5543 4.829 18.363 5.637C19.171 6.44567 19.8127 7.39567 20.288 8.487C20.7627 9.579 21 10.75 21 12C21 13.25 20.7627 14.4207 20.288 15.512C19.8127 16.604 19.171 17.554 18.363 18.362C17.5543 19.1707 16.6043 19.8127 15.513 20.288C14.421 20.7627 13.25 21 12 21Z" />
+    </SvgIcon>
+  );
+}
+
+// https://www.zhangxinxu.com/sp/svgo/
+// https://jakearchibald.github.io/svgomg/

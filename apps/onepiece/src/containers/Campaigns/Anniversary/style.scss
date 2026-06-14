@@ -1,0 +1,170 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.intro) {
+  text-align: center;
+
+  @include mobile {
+    font-size: 0.9rem;
+    margin: 3em 0;
+
+    @include media-breakpoint-up(sm) {
+      margin: 4em 0;
+    }
+  }
+  @include shared {
+    font-size: 1rem;
+    margin: 4.5em 0;
+  }
+
+  & > h1 {
+    margin-bottom: 1.1em;
+    line-height: 1.2;
+
+    @include mobile {
+      font-size: 1.7em;
+      width: 10em;
+      margin-left: auto;
+      margin-right: auto;
+
+      @include media-breakpoint-up(sm) {
+        width: 100%;
+      }
+    }
+    @include shared {
+      font-size: 2.25em;
+    }
+  }
+
+  & > p {
+    &:first-of-type {
+      color: #666;
+      font-size: 1.25em;
+      margin: 0 auto;
+
+      @include mobile {
+        width: 100%;
+        padding: 0 30px;
+      }
+      @include shared {
+        width: 58%;
+        padding: 0;
+      }
+    }
+
+    &:nth-of-type(2) {
+      font-size: 1.25em;
+      font-weight: bold;
+      margin-bottom: 1.8em;
+    }
+
+    &:nth-of-type(3) {
+      font-size: 1.125em;
+      color: #666;
+    }
+  }
+
+  & > hr {
+    width: 80px;
+    margin: 2.5em auto;
+    border: none;
+    border-top: 1px solid #888;
+  }
+
+  & > button {
+    width: 250px;
+    margin-bottom: 1.2em;
+  }
+}
+
+:local(.studios) {
+  display: flex;
+
+  @include mobile {
+    padding: 0 $mobile-padding;
+    margin-bottom: 3em;
+
+    @include media-breakpoint-up(sm) {
+      margin-bottom: 4em;
+    }
+
+    @include media-breakpoint-up(md) {
+      padding: 0;
+    }
+  }
+  @include shared {
+    margin-bottom: 5em;
+  }
+
+  &__item {
+    flex: 1;
+    text-align: center;
+
+    @include mobile {
+      font-size: 0.8rem;
+
+      @include media-breakpoint-up(sm) {
+        font-size: 0.9rem;
+      }
+    }
+    @include shared {
+      font-size: 1rem;
+    }
+
+    & + & {
+      @include mobile {
+        margin-left: $mobile-padding;
+
+        @include media-breakpoint-up(sm) {
+          margin-left: 30px;
+        }
+      }
+      @include shared {
+        margin-left: 3em;
+
+        @include media-breakpoint-up(xl) {
+          margin-left: 5em;
+        }
+      }
+    }
+
+    & > div {
+      border-radius: 6px;
+
+      @include mobile {
+        margin-bottom: 2em;
+      }
+      @include shared {
+        margin-bottom: 3em;
+      }
+    }
+
+    & > h3 {
+      font-size: 1.25em;
+
+      @include mobile {
+        margin-bottom: 0.6em;
+      }
+      @include shared {
+        margin-bottom: 1em;
+      }
+    }
+
+    & > p {
+      font-size: 1.125em;
+      color: #666;
+
+      @include mobile {
+        margin-bottom: 0.7em;
+      }
+      @include shared {
+        margin-bottom: 1.2em;
+      }
+    }
+
+    & > a {
+      font-size: 1.125em;
+      font-weight: bold;
+    }
+  }
+}

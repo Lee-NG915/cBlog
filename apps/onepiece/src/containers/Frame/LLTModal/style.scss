@@ -1,0 +1,459 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.longLeadTimePopup) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+
+  @include mobile {
+    width: 100%;
+
+    @include media-breakpoint-up(sm) {
+      padding: 0;
+    }
+  }
+
+  &__container {
+    text-align: center;
+
+    @include mobile {
+      margin-top: 15px;
+      padding: 15px 20px 0;
+      width: 100%;
+      text-align: left;
+    }
+    @include desktop {
+      margin: 0;
+      padding: 20px 20px 0;
+      width: 620px;
+    }
+    box-shadow: 0 0 0;
+    background-color: #fff;
+    position: relative;
+  }
+
+  &__box {
+    @include border;
+    position: relative;
+
+    @include desktop {
+      padding: 50px 35px;
+    }
+
+    @include mobile {
+      border: none;
+      padding-bottom: 70px;
+    }
+  }
+
+  &__title {
+    line-height: 1.1;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 0;
+    @include mobile {
+      @include heading2;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    @include desktop {
+      font-size: 40px;
+      & > br {
+        display: unset;
+      }
+    }
+  }
+
+  &__intro {
+    margin-top: 20px;
+    font-size: 14px;
+
+    @include desktop {
+      margin: 30px 0;
+      font-size: 16px;
+    }
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  &__action {
+    color: $color-dark-accent;
+    @include flex($justify: space-between);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    @include border(top);
+    &:hover {
+      background-color: $color-primary;
+      color: $color-light-neutral;
+      & > svg {
+        stroke: $color-light-neutral;
+      }
+    }
+    @include mobile {
+      font-size: 14px;
+      line-height: 20px;
+      padding: 0 15px;
+      @include border;
+    }
+  }
+
+  &__link {
+    color: $color-grey;
+    display: block;
+    font-size: 14px;
+    margin-top: 22px;
+    margin-bottom: 5px;
+    @include desktop {
+      margin-top: 32px;
+      margin-bottom: 10px;
+    }
+    &:hover {
+      color: $color-dark-accent;
+    }
+  }
+
+  & &__close {
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    z-index: 2;
+  }
+
+  &__button {
+    color: $color-grey;
+    font-size: 14px;
+    margin: 30px 0;
+    text-transform: capitalize;
+    outline: none !important;
+    border: none;
+    display: inline-flex;
+    background-color: transparent;
+    align-items: center;
+    padding: 0 4px;
+    transition: color 0.2s;
+
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+    }
+
+    @include desktop {
+      &:hover {
+        color: $color-primary;
+        text-decoration: none;
+      }
+
+      &:hover &-arrow {
+        stroke: $color-primary;
+      }
+    }
+
+    &-arrow-wrapper {
+      padding-left: 8px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    &-arrow {
+      @include mobile {
+        width: 10px;
+        height: 10px;
+      }
+      @include desktop {
+        width: 12px;
+        height: 12px;
+      }
+      stroke: $color-grey;
+      transition: transform 0.2s;
+    }
+
+    &-arrow-up {
+      transform: rotate(360deg);
+    }
+
+    &.is-down {
+      color: $color-primary;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    &-arrow-down {
+      transform: rotate(180deg);
+      stroke: $color-primary;
+    }
+  }
+
+  &__emailWrapper {
+    background-color: #f4f1e8;
+    text-align: left;
+    padding: 20px;
+    width: 100%;
+    flex: 1;
+
+    &.is-center {
+      text-align: center;
+
+      @include desktop {
+        padding: 30px 56px;
+      }
+    }
+
+    @include desktop {
+      margin: 0;
+      padding: 30px 40px;
+      width: 620px;
+    }
+
+    p {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 22px;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__back {
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: underline;
+    color: $color-dark-accent;
+
+    &:hover {
+      color: $color-dark-accent;
+    }
+  }
+
+  &__form {
+    & > div {
+      font-size: 12px;
+      line-height: 20px;
+      margin-top: 10px;
+    }
+  }
+}
+
+:local(.lltNotifyPage) {
+  margin: 0 auto;
+
+  @include mobile {
+    width: 100%;
+    padding: 0 $mobile-padding;
+
+    @include media-breakpoint-up(sm) {
+      padding: 0;
+    }
+  }
+  @include desktop {
+    background-color: #fff;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  &__container {
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+
+    @include mobile {
+      padding: 30px $mobile-padding;
+
+      @include media-breakpoint-up(sm) {
+        padding: 30px;
+      }
+    }
+    @include desktop {
+      border-radius: 0;
+      box-shadow: none;
+      border-top: 0;
+      padding: 32px 50px 40px;
+    }
+  }
+
+  &__close {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+
+    & > svg {
+      display: block;
+      fill: $color-dark-accent;
+      stroke: $color-dark-accent;
+      stroke-width: 1.5;
+
+      @include mobile {
+        width: 15px;
+        height: 15px;
+      }
+      @include desktop {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    @include mobile {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    @include desktop {
+      position: fixed;
+      right: 25px;
+      top: 32px;
+      z-index: 2;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  h3 {
+    @include heading2;
+    margin-bottom: 20px;
+    text-align: left;
+
+    @include shared {
+      text-align: center;
+      margin-bottom: 39px;
+    }
+  }
+
+  &__prompt {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 22px;
+
+    @include shared {
+      line-height: 20px;
+    }
+
+    &-center {
+      @include shared {
+        text-align: center;
+      }
+    }
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  &__link {
+    color: $color-grey;
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: underline;
+    color: $color-dark-accent;
+    margin-top: 30px;
+    font-weight: 500;
+
+    @include shared {
+      margin-top: 20px;
+    }
+
+    &:hover {
+      color: $color-dark-accent;
+    }
+  }
+}
+
+:local(.lltEmailForm) {
+  &__input {
+    & > div {
+      height: 50px;
+      @include flex($justify: flex-start);
+      & > input {
+        height: 100%;
+        flex: 1;
+        border: 1px solid $color-dark-accent;
+        outline: none;
+        background-color: #ffffff;
+        color: $color-dark-neutral;
+        padding: 0 15px;
+        font-size: 14px;
+        overflow: auto;
+
+        &::-webkit-input-placeholder {
+          color: #888888;
+        }
+        &:-moz-placeholder {
+          /* Firefox 18- */
+          color: #888888;
+        }
+        &::-moz-placeholder {
+          /* Firefox 19+ */
+          color: #888888;
+        }
+        &:-ms-input-placeholder {
+          color: #888888;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        & > input {
+          border-color: $color-dark-accent;
+        }
+        & > button {
+          background-color: darken($color-dark-accent, 8%);
+        }
+      }
+
+      & > button {
+        width: 114px;
+        font-size: 14px;
+        line-height: 20px;
+        background-color: $color-dark-accent;
+
+        @include shared {
+          width: 149px;
+        }
+      }
+    }
+
+    & > p {
+      color: $color-dark-accent;
+    }
+  }
+
+  &__terms {
+    font-size: 12px;
+    line-height: 20px;
+    color: #888888;
+    margin-top: 11px;
+
+    @include shared {
+      font-size: 14px;
+      line-height: 22px;
+      margin-top: 6px;
+    }
+  }
+
+  &__termLink {
+    color: #888888;
+    text-decoration: underline;
+
+    &:hover {
+      color: $color-dark-accent;
+    }
+  }
+}

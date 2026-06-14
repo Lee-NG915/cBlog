@@ -1,0 +1,386 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+:local(.banner) {
+  position: relative;
+}
+
+:local(.header) {
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include shared {
+    top: 20%;
+  }
+  @include mobile {
+    top: 25%;
+  }
+  & > p {
+    white-space: nowrap;
+    text-transform: uppercase;
+    margin: 0;
+    @include mobile {
+      font-size: 1rem;
+    }
+    @include shared {
+      font-size: 1.5rem;
+    }
+  }
+
+  & > h1 {
+    white-space: nowrap;
+    font-weight: 600;
+    margin: 0;
+    @include mobile {
+      font-size: 1.5rem;
+    }
+    @include shared {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+:local(.section) {
+  @include mobile {
+    margin-bottom: 50px;
+  }
+
+  @include shared {
+    margin-bottom: 80px;
+  }
+
+  & > p {
+    color: #666;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+:local(.intro) {
+  position: relative;
+  background-color: #fff;
+
+  @include mobile {
+    padding: 50px 20px 0;
+
+    @include media-breakpoint-up(sm) {
+      padding: 50px 100px 0;
+    }
+
+    @include media-breakpoint-up(md) {
+      margin: -50px auto 0px;
+      width: 85%;
+    }
+  }
+  @include shared {
+    padding: 80px 100px 0;
+    margin: -100px auto 0px;
+    width: 920px;
+  }
+
+  &__detail {
+    @include shared {
+      padding: 0 50px;
+      display: flex;
+    }
+
+    &__date {
+      @include mobile {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      @include shared {
+        flex: 0 0 auto;
+        text-align: left;
+        margin-bottom: 0;
+        padding-right: 90px;
+      }
+
+      & > p {
+        font-weight: bold;
+        &:first-of-type {
+          @include mobile {
+            font-size: 2.25rem;
+            margin: 0;
+          }
+
+          @include shared {
+            font-size: 2.625rem;
+            line-height: 1;
+            margin-bottom: 30px;
+          }
+        }
+
+        &:last-of-type {
+          font-size: 1.25rem;
+          @include mobile {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    &__location {
+      @include mobile {
+        text-align: center;
+        margin: 0;
+      }
+
+      @include shared {
+        text-align: left;
+        flex: 1 1 auto;
+        padding-left: 90px;
+        border-left: 1px solid #ddd;
+      }
+
+      & > a {
+        text-decoration: underline;
+        font-weight: 600;
+        @include link-style($color-primary, darken($color-primary, 10%), underline);
+        color: #666;
+      }
+    }
+
+    &__studio {
+      margin-bottom: 2rem;
+      & > h3 {
+        font-size: 1.25rem;
+      }
+
+      & > h4 {
+        font-size: 1.125rem;
+        color: #666;
+        margin-bottom: 0;
+      }
+
+      & > p {
+        color: #666;
+      }
+    }
+  }
+
+  &__action {
+    text-align: center;
+
+    @include mobile {
+      margin-bottom: 50px;
+    }
+    @include shared {
+      margin-bottom: 80px;
+    }
+
+    & > .btn {
+      width: 210px;
+      font-size: 1.125rem;
+      font-weight: bold;
+      @include button-variant(
+        #fff,
+        $brand-primary,
+        $brand-primary,
+        #fff,
+        darken($brand-primary, 10%),
+        darken($brand-primary, 10%)
+      );
+    }
+  }
+}
+
+:local(.gallery) {
+  text-align: center;
+  @include mobile {
+    margin-bottom: 50px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0;
+    }
+  }
+  @include shared {
+    margin-bottom: 80px;
+  }
+
+  & > h4 {
+    line-height: 1.5;
+    margin-bottom: 40px;
+    @include shared {
+      font-size: 1.375rem;
+    }
+    @include mobile {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__features {
+    display: flex;
+    @include mobile {
+      flex-direction: column;
+    }
+    @include shared {
+      justify-content: space-between;
+    }
+  }
+
+  &__feature {
+    @include shared {
+      flex: 0 1 343px;
+    }
+
+    @include mobile {
+      position: relative;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__label {
+    font-size: 1.125rem;
+    font-weight: bold;
+    @include shared {
+      margin-top: 20px;
+    }
+    @include mobile {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+    }
+  }
+}
+
+:local(.prizes) {
+  max-width: 1135px;
+  @include shared {
+    margin: 80px auto;
+  }
+  @include mobile {
+    margin: 50px auto;
+  }
+  text-align: center;
+  &__title {
+    line-height: 1.5;
+    margin-bottom: 40px;
+    @include shared {
+      font-size: 1.375rem;
+    }
+    @include mobile {
+      font-size: 1.25rem;
+    }
+  }
+  &__container {
+    display: flex;
+    @include shared {
+      justify-content: space-between;
+    }
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  &__prize {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    @include mobile {
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__prize-title {
+    @include shared {
+      border-top: 198px solid#c7ab8f;
+      border-right: 79px solid transparent;
+      width: 212px;
+    }
+    @include mobile {
+      border-top: 120px solid#c7ab8f;
+      border-right: 70px solid transparent;
+      width: 190px;
+    }
+  }
+
+  &__prize-info {
+    @include shared {
+      border-bottom: 198px solid #3e4850;
+      border-left: 79px solid transparent;
+      width: 212px;
+      margin-left: -79px;
+    }
+    @include mobile {
+      border-bottom: 120px solid #3e4850;
+      border-left: 70px solid transparent;
+      width: 255px;
+      margin-left: -70px;
+    }
+  }
+
+  &__prize-name {
+    position: absolute;
+    top: 50%;
+    font-weight: bold;
+    @include shared {
+      font-size: 2.125rem;
+      left: 15%;
+      transform: translate(-15%, -50%);
+    }
+    @include mobile {
+      font-size: 1.25rem;
+      left: 10%;
+      transform: translate(-10%, -50%);
+    }
+  }
+
+  &__prize-detail {
+    position: absolute;
+    top: 50%;
+    right: 15%;
+    transform: translate(15%, -50%);
+  }
+
+  &__prize-desc {
+    font-weight: bold;
+    @include shared {
+      font-size: 1.6875rem;
+    }
+    @include mobile {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__prize-quantity {
+    @include shared {
+      font-size: 1.25rem;
+    }
+    @include mobile {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__hint {
+    font-size: 1.25rem;
+    margin: 50px 0;
+  }
+  &__notification {
+    font-size: 1.125rem;
+    color: #666;
+  }
+
+  &__action {
+    margin-bottom: 20px;
+    & > .btn {
+      width: 210px;
+      font-size: 1.125rem;
+      font-weight: bold;
+      @include button-variant(
+        #fff,
+        $brand-primary,
+        $brand-primary,
+        #fff,
+        darken($brand-primary, 10%),
+        darken($brand-primary, 10%)
+      );
+    }
+  }
+}

@@ -1,0 +1,250 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.modal) {
+  @include flex-center;
+  height: 100%;
+
+  &__container {
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    @include mobile {
+      width: 90%;
+      max-width: 400px;
+    }
+    @include desktop {
+      width: 800px;
+    }
+  }
+}
+
+:local(.content) {
+  position: relative;
+
+  @include desktop {
+    display: flex;
+    & > div {
+      width: 50%;
+    }
+  }
+
+  &__image {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    & > h3 {
+      font-family: $font-title;
+      font-weight: normal;
+      line-height: 1.2;
+      margin-bottom: 30px;
+    }
+
+    & > p {
+      color: #666;
+      line-height: 1.2;
+      margin-bottom: 30px;
+    }
+
+    @include mobile {
+      padding: 30px;
+      & > h3 {
+        font-size: 24px;
+      }
+    }
+    @include desktop {
+      padding: 40px;
+      & > h3 {
+        font-size: 28px;
+      }
+    }
+  }
+
+  &__no-spam {
+    font-style: italic;
+    font-size: 0.75rem;
+    color: $color-grey-light;
+  }
+
+  &__close {
+    position: absolute;
+    padding: 15px;
+    background-color: transparent;
+    border: none;
+    right: 0;
+    top: 0;
+
+    & > svg {
+      display: block;
+    }
+
+    @include mobile {
+      & > svg {
+        fill: #fff;
+        width: 18px;
+        height: 18px;
+      }
+    }
+    @include desktop {
+      & > svg {
+        width: 15px;
+        height: 15px;
+        fill: #666;
+        display: block;
+      }
+    }
+  }
+}
+
+:local(.form) {
+  &__submit {
+    position: relative;
+
+    & > input:disabled {
+      cursor: wait;
+    }
+
+    @include mobile {
+      margin-top: 15px;
+    }
+    @include desktop {
+      margin-top: 30px;
+    }
+  }
+
+  &__error {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $color-primary;
+    text-align: left;
+  }
+}
+
+:local(.success) {
+  padding: 30px;
+  text-align: center;
+
+  & > svg {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+    fill: $color-primary;
+  }
+
+  & > h3 {
+    font-family: $font-title;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  & > hr {
+    width: 30px;
+    border: none;
+    border-top: 1px solid #888;
+    margin: 10px auto;
+  }
+
+  & > p {
+    color: #666;
+    margin: 0;
+  }
+
+  & > .btn {
+    margin-top: 30px;
+  }
+}
+
+:local(.banner) {
+  @include mobile {
+    display: block;
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
+  }
+  background-color: $color-primary;
+  color: #fff;
+
+  &__close {
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    & > svg {
+      display: block;
+    }
+
+    @include mobile {
+      & > svg {
+        fill: #fff;
+        width: 10px;
+        height: 10px;
+      }
+    }
+  }
+
+  &__form {
+    padding: 15px;
+    padding-top: 10px;
+
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &-floatInput {
+      width: 65%;
+      & > input {
+        color: #fff;
+        border-bottom: 1px solid #fff;
+        &:focus {
+          border-color: #fff;
+        }
+      }
+      & > svg {
+        fill: #fff;
+      }
+      & > label {
+        color: #fff;
+      }
+      &.has-error > input {
+        border-color: #fff;
+      }
+      & > div {
+        color: #fff;
+      }
+    }
+
+    &-submit {
+      position: relative;
+
+      & > input:disabled {
+        cursor: wait;
+      }
+      & > input {
+        min-width: 105px;
+      }
+    }
+
+    &-error {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #fff;
+      text-align: left;
+    }
+  }
+}

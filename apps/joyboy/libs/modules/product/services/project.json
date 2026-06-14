@@ -1,0 +1,30 @@
+{
+  "name": "modules-product-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/product/services/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/product/services",
+        "main": "libs/modules/product/services/src/index.ts",
+        "tsConfig": "libs/modules/product/services/tsconfig.lib.json",
+        "assets": ["libs/modules/product/services/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/product/services/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:services", "scope:product"]
+}

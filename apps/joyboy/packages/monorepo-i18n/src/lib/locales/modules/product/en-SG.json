@@ -1,0 +1,12 @@
+{
+  "productLineItemInfo": {
+    "customizedTip": "Note: Cancellations or Returns are not applicable for this customised item.",
+    "customizedCTA": "More info here",
+    "clearanceTip": "Note: Cancellations or Returns are not applicable for this clearance item.",
+    "warrantyTip": "Extended Warranty: {durationMonths} Months / ${warrantyOfferPrice}",
+    "warrantyTipWithoutPrice": "Extended Warranty: {durationMonths} Months",
+    "priceQtyRawFree": "Free | Qty: {qty}",
+    "priceQtyRaw": "Price: {price} | Qty: {qty}",
+    "quantity": "Quantity: {qty}"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "name": "pos-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pos-e2e/src",
+  "targets": {
+    "bddgen": {
+      "command": "bddgen",
+      "outputs": ["{workspaceRoot}/dist/.features-gen/apps/pos-e2e"],
+      "cwd": "{projectRoot}",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "configurations": {
+        "export": {
+          "command": "bddgen export"
+        },
+        "env": {
+          "command": "bddgen env"
+        }
+      }
+    },
+    "bddgen:watch": {
+      "executor": "nx:run-commands",
+      "cwd": "{projectRoot}",
+      "options": {
+        "commands": ["npx nx watch --projects=pos-e2e -- npx nx run pos-e2e:bddgen --exit-zero --watch-message"],
+        "config": "{projectRoot}"
+      }
+    },
+    "e2e:ui": {
+      "executor": "@nx/playwright:playwright",
+      "dependsOn": ["bddgen"],
+      // "outputs": ["{workspaceRoot}/dist/.playwright/apps/pos-e2e"],
+      "outputs": ["{projectRoot}/product"],
+      "options": {
+        "config": "{projectRoot}",
+        "ui": true
+      }
+    },
+    "e2e:show-report": {
+      "executor": "@nx/playwright:playwright",
+      "dependsOn": ["bddgen"],
+      // "outputs": ["{workspaceRoot}/dist/.playwright/apps/pos-e2e"],
+      "outputs": ["{projectRoot}/product"],
+      "options": {
+        "config": "{projectRoot}"
+        // "reporter": "html"
+        // "show-report": true
+      }
+    },
+
+    // "e2e:watch": {
+    //   "executor": "nx:run-commands",
+    //   "cwd": "{projectRoot}",
+    //   "options": {
+    //     "commands": ["npx nx run pos-e2e:e2e", "npx nx run pos-e2e:bddgen:watch"]
+    //   }
+    // },
+
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 6008,
+        "configDir": "apps/pos-e2e/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/pos-e2e",
+        "configDir": "apps/pos-e2e/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps/pos-e2e/.storybook --url=http://localhost:6008"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["pos"]
+}

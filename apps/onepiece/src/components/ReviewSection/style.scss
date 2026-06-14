@@ -1,0 +1,124 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+:local(.reviewSection) {
+  position: relative;
+  &__leftBox {
+    @include flex($direction: column, $justify: flex-end, $align: flex-start);
+  }
+  &__rightBox {
+    @include flex($direction: column);
+    @include shared {
+      margin: 20px 50px 0;
+      position: relative;
+    }
+    & > div {
+      width: 100%;
+    }
+  }
+
+  &__content {
+    @include mobile {
+      margin: 20px 0;
+    }
+    & > p {
+      text-align: left;
+      max-width: 440px;
+      font-size: 14px;
+      font-weight: normal;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      @include shared {
+        font-size: 22px;
+        font-weight: 300;
+        margin-top: 20px;
+        margin-bottom: 65px;
+        max-height: 105px;
+        overflow: auto;
+      }
+      @include media-breakpoint-up(xsl) {
+        max-height: 162px;
+      }
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  &__author {
+    font-size: 16px;
+    color: $color-dark-accent;
+    margin-left: 30px;
+    vertical-align: bottom;
+  }
+
+  &__header {
+    @include border('top');
+    @include border('bottom');
+
+    @include shared {
+      position: absolute;
+      width: 100%;
+    }
+    & > h2 {
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 38px;
+
+      @include shared {
+        font-size: 40px;
+        line-height: 70px;
+      }
+      margin: 0;
+      white-space: pre-line;
+      &::after {
+        content: '';
+        @include border('top');
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 38px;
+        @include shared {
+          top: 70px;
+        }
+      }
+    }
+  }
+
+  &__controller {
+    position: relative;
+    @include shared {
+      margin-left: 50%;
+    }
+    & > div {
+      color: $color-dark-accent;
+      @include flex;
+      margin-top: 20px;
+      @include shared {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 10px;
+      }
+      & > span {
+        text-align: center;
+        width: 48px;
+      }
+    }
+  }
+
+  &__viewBtn {
+    text-align: center;
+    margin: 40px auto 80px;
+    @include shared {
+      margin: 105px auto 140px;
+    }
+  }
+  &__loading {
+    width: 100%;
+    height: 400px;
+    position: relative;
+  }
+  .slick-active {
+    z-index: 999;
+  }
+}

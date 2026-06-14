@@ -1,0 +1,33 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.banner) {
+  position: relative;
+
+  &__image {
+    position: relative;
+
+    &.is-loading:before {
+      display: none;
+    }
+
+    &.has-mask:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &__slick {
+    padding-bottom: 30px;
+
+    .slick-dots {
+      bottom: -5px;
+    }
+  }
+}

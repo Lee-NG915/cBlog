@@ -1,0 +1,109 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+dist
+tmp
+.tmp
+/out-tsc
+*.tsbuildinfo
+*/libs/fortress/__snapshots__
+/libs/fortress/__snapshots__
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Cursor
+.cursor/
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+.agents/skills/alert-harness/logs/
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.nx/cache
+.nx/workspace-data
+
+
+# Next.js
+.next
+
+# playwright
+**/test-results/
+**/playwright-report/
+**/playwright/.cache/
+**/playwright/.auth/
+
+# Cucumber
+**/.features-gen/**/*.spec.js
+**/.features-gen/**/*.spec.ts
+
+apps/pos-e2e/reports/**
+
+affected-projects.json
+
+storybook-static
+
+# local env files
+**/**/.env.local
+# **/**/.env
+build-storybook.log
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# agents
+openspec
+AGENTS.md
+.agents/workflow/
+
+# claude
+.claude/
+CLAUDE.md
+
+# team-tasks
+.team-tasks/
+# private files
+.private/
+
+# self created workflows
+.agents/workflow/*
+
+# Claude private skills
+.claude/skills/api-change-check/**
+.claude/skills/feature-kickoff/**
+.claude/skills/multi-market-guard/**
+# Claude Code worktrees plan
+.claude/worktrees/
+.claude/plan/
+.claude/settings.local.json
+.claude/evals/*.log
+
+# Auto-generated E2E fix-verification tests (created by /alert-harness, deleted after run)
+apps/web-e2e/src/sentry/generated/

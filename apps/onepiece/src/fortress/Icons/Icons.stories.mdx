@@ -1,0 +1,24 @@
+{/* Iconography.mdx */}
+
+import { Meta, Title, IconGallery, IconItem } from '@storybook/blocks';
+
+import * as Icons from './index';
+
+<Meta title="fortress / Icon " />
+
+# Iconography
+
+<IconGallery>
+
+{Object.entries(Icons).map(([name,ItemCom]) => {
+{
+return (<IconItem name={`${name}`}>
+
+<ItemCom />
+</IconItem>
+)
+
+}
+})}
+
+</IconGallery>

@@ -1,0 +1,30 @@
+name: Summary
+
+inputs:
+  app-name:
+    description: The name of the app
+    type: string
+    required: true
+  app-version:
+    description: The version of the app
+    type: string
+    required: true
+  image-tag:
+    description: The tag of the image
+    type: string
+    required: true
+  app-env:
+    description: The environment of the app
+    type: string
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: summary
+      shell: bash
+      run: |
+        echo "### ${{inputs.app-name}} Build info " >> $GITHUB_STEP_SUMMARY
+        echo "- App version: ${{ inputs.app-version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Image tag: ${{ inputs.image-tag }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Argo cd: [![App Status](https://argocd.cslr.io/api/badge?name=joyboy-${{inputs.app-name}}-${{inputs.app-env}}&revision=true)](https://argocd.cslr.io/applications/joyboy-${{inputs.app-name}}-${{inputs.app-env}})" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,21 @@
+import React from 'react';
+
+export interface <%=componentName %>Props {
+  /**
+    * @title Title
+    * @type string
+    * @description The title of the component
+   */
+  title?: string;
+}
+
+
+export const <%=componentName %> = ({ title }: <%=componentName %>Props) => {
+  return (
+    <>
+      <div>title：{title || '<%=componentName %>'}</div>
+      <div>content：Hello World!</div>
+    </>
+  );
+};
+

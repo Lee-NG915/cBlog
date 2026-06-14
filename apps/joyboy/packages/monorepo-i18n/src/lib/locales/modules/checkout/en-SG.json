@@ -1,0 +1,261 @@
+{
+  "title": "Checkout",
+  "checkoutPageHeader": {
+    "helpGuide": "Need help? WhatsApp +65 8241 0030",
+    "accessTime": "Mon - Sun: 10:00am - 9:00pm",
+    "link": "https://wa.me/6582410030"
+  },
+  "checkoutFooter": {
+    "secureCheckout": "Secure Checkout. All transactions are encrypted.",
+    "copyright": "{year} Castlery. All rights reserved.",
+    "helpTip": "Need any help on checkout?",
+    "helpContent": "WhatsApp +65 8241 0030",
+    "shortCopyright": "{year} Castlery.",
+    "shortSecureCheckout": "Secure Checkout."
+  },
+  "checkoutPages": {
+    "buttons": {
+      "continue": "Continue",
+      "back": "Back"
+    },
+    "modals": {
+      "error": "Oops! ",
+      "errorContent": "Something went wrong,Please try again later.",
+      "errorConfirmText": "Got it"
+    }
+  },
+  "checkoutStepsBar": {
+    "steps": ["Shipping Address", "Shipping Method", "Payment"]
+  },
+  "addressSectionTitle": "SHIPPING ADDRESS",
+  "checkoutAddress": {
+    "title": "Where should we send your order?",
+    "editAddress": "Edit Address",
+    "orderSummary": {
+      "title": "Order Summary"
+    },
+    "button": {
+      "cancel": "Cancel",
+      "continue": "Continue"
+    },
+    "errorPrompt": {
+      "title": "Oops!",
+      "content": "There is something wrong. Please check and try again.",
+      "confirmText": "Got it"
+    }
+  },
+  "shippingPreference": {
+    "title": "How would you like your items to be shipped?",
+    "description": "Some items have different availability dates. Ship them as they're ready or wait and combine for a single shipment.",
+    "options": {
+      "asap": {
+        "title": "Ship items as soon as they're ready",
+        "description": "(Faster delivery in multiple shipments)"
+      },
+      "together": {
+        "title": "Ship everything together",
+        "description": "(Wait for all items in single shipment)"
+      }
+    }
+  },
+  "assemblyPreference": {
+    "title": "Do you want your items assembled?",
+    "description": "We provide free assembly for items that require it, except for Accessories. Select \"No\" to receive unassembled items at your doorstep.",
+    "options": {
+      "FREE_ASSEMBLY": "Yes",
+      "CONTACTLESS_DELIVERY": "No"
+    }
+  },
+  "ecoFriendly": {
+    "tip": "Your order supports ECO Delivery"
+  },
+  "shippingMethod": {
+    "title": "Please select your delivery services",
+    "shipment": {
+      "title": "SHIPMENT {shipmentIndex}",
+      "itemsCount": {
+        "one": "{itemsCount} ITEM",
+        "other": "{itemsCount} ITEMS"
+      },
+      "estimatedDelivery": "Estimated Delivery:",
+      "requestForPreferredDeliveryPeriod": "Request for Preferred Delivery Period",
+      "subjectToAvailability": "Subject to availability of delivery slots. Add-on charges apply for peak hour delivery slots on Saturday. Extra fees charged separately upon confirmation of delivery slot.",
+      "warehouseName": "from {warehouseName}",
+      "activeCarryUpDescription": "{numberOfStories} Storeys, {numberOfItems} Items",
+      "servicePriceHint": "From {price} onwards"
+    },
+    "addService": "Add Service",
+    "upgradeService": "Upgrade Service",
+    "updateService": "Update",
+    "shippingService": {
+      "serviceFeeLabel": "Shipping",
+      "servicesLabel": "Services"
+    }
+  },
+  "disposalService": {
+    "title": "Add Disposal Service",
+    "description": "Based on your delivery order, you can add {capabilityDescription}.",
+    "capabilityDescription": "{capability} {serviceProductName}",
+    "priceTip": "{price} per item",
+    "notes": {
+      "title": "*Note: Disposal service applies only to like-for-like items in the same product category (e.g. Disposal of your old sofa during the delivery of your new sofa). Please ensure that each item to be disposed:",
+      "conditions": [
+        "Can be dismantled with ease and fit in the lift",
+        "Must be free from terminates, bed bugs or other living organisms",
+        "Is not heavier than 80kg"
+      ],
+      "explanation": "Castlery reserves the right to reject any unfit disposal item upon checking during collection and shall refund full sum of disposal fee within 14 business days.",
+      "help": "If you are unsure of the type of disposal service you need to purchase beforehand, please contact our customer hotline at 3138 1999."
+    },
+    "confirm": "Confirm"
+  },
+  "carryUpService": {
+    "title": "Add carry-up service",
+    "description": "Carry Upstairs Service is mandatory for delivery to any location above ground floor without direct lift access.",
+    "priceTip": "{price} per item, per storey",
+    "numberOfStoreys": "No.of storeys without lift access",
+    "numberOfItems": "No.of items",
+    "notes": {
+      "title": "*Note: This service is limited to a maximum of 3 storeys / flights of stairs and the weight per item must not exceed 80kg each.",
+      "conditions": [
+        "Carry Upstairs Service includes carrying furniture up any flight of stairs within apartments or landed property.",
+        "Carry Upstairs Service is required only for furniture items and does not need to be added on for accessory items."
+      ]
+    },
+    "confirm": "Confirm"
+  },
+  "shippingServices": {
+    "title": "Choose your service",
+    "buttons": {
+      "select": "Select",
+      "selected": "Selected"
+    },
+    "standardService": {
+      "name": "Standard",
+      "type": "standard_service",
+      "supported": [
+        "Delivered to your building lobby or first dry-area of your house.",
+        "Delivered via courier with signature required."
+      ],
+      "unsupported": ["No unpacking, assembly or rubbish removal."]
+    },
+    "roomOfChoiceService": {
+      "name": "Room of Choice",
+      "type": "room_of_choice",
+      "tag": "Most Popular",
+      "supported": [
+        "Delivered to your room of choice, including up to two flights of stairs.",
+        "Delivered via courier with signature required."
+      ],
+      "unsupported": ["No unpacking, assembly or rubbish removal."]
+    },
+    "whiteGloveService": {
+      "name": "White Glove",
+      "type": "white_glove",
+      "supported": [
+        "Delivered to your room of choice, including up to two flights of stairs.",
+        "Delivered via courier with signature required.",
+        "Unpacking, assembly and rubbish removal. (excl. existing furniture)"
+      ],
+      "unsupported": []
+    }
+  },
+  "deliveryRequests": {
+    "title": "Do you have any other delivery requests?",
+    "placeholder": "Please specific your requests.",
+    "notesTitle": "Note:",
+    "notes": [
+      "Product package(s) might not fit into some lifts. Please compare package dimensions with your lift size before purchasing.",
+      "Please note that delivery times are estimates and subject to change based on the availability of delivery slots."
+    ]
+  },
+  "checkoutPayment": {
+    "paymentWallets": {
+      "title": "Payment Method",
+      "secureAndEncrypted": "Secure & Encrypted",
+      "placeOrder": "Place your order",
+      "makePayment": "Make Payment",
+      "orderExpired": {
+        "title": "Order expired",
+        "description": "Oops, your order has expired. You can continue shopping or re-add items to your cart from the Order History page.",
+        "continueShopping": "Continue shopping",
+        "viewOrderHistory": "View order history"
+      },
+      "orderCanceled": {
+        "title": "Order Canceled",
+        "descriptionPrefix": "Oops, your order was cancelled during the payment process. Please",
+        "contactUs": "contact us",
+        "descriptionSuffix": "for refund.",
+        "viewMyOrder": "View my order"
+      },
+      "errors": {
+        "providerNotSelected": "Payment method provider is not selected",
+        "orderDataMissing": "Order information is incomplete, please try again",
+        "paymentValidationFailed": "Payment method validation failed, please check your details",
+        "orderConditionCheckFailed": "Please review and accept the order conditions before proceeding",
+        "processPaymentFailed": "Failed to process payment, please try again",
+        "stripeHandlerNotInitialized": "Payment form is not ready, please refresh and try again",
+        "createOrderFailed": "Failed to create order, please try again",
+        "orderAlreadyPaid": "This order has already been paid. Please view your order details or contact support if you need assistance.",
+        "stripeInitializedFailed": "Payment service is not ready, please refresh and try again",
+        "elementsInitializedFailed": "Payment form is not ready, please refresh and try again",
+        "clientSecretNotProvided": "Payment session is not ready, please try again",
+        "paymentElementSubmitFailed": "Failed to submit payment details, please try again",
+        "paymentConfirmFailed": "Payment confirmation failed, please try again"
+      }
+    },
+    "2c2pPaymentMethods": {
+      "installmentPlans": "Please select your instalment plans:",
+      "priceBreakdown": "{breakdown} x {months}months",
+      "interestRate": "{interestRate}% interest",
+      "installmentDuration": "Please select your instalment duration:"
+    },
+    "affirmPayment": {
+      "rules": [
+        {
+          "title": "Pay Over Time",
+          "description": "Rates are between 10–30% APR. A down payment may be required."
+        },
+        {
+          "title": "Flexible Monthly Payment",
+          "description": "Get a real-time decision with just 5 pieces of info."
+        },
+        {
+          "title": "See if you are eligible",
+          "description": "Checking your eligibility won't affect your credit."
+        }
+      ]
+    },
+    "stripePayment": {},
+    "expressPayment": {},
+    "afterPayPayment": {
+      "rulesDescription": "4 interest-free payments of {amount}",
+      "description": "Click on the ‘Place your order’ button and you will be redirected to Afterpay to process your order."
+    },
+    "zipPayPayment": {
+      "ruleLessThanThreshold": "from $10 per week",
+      "ruleMoreThanThreshold": "{amount} weekly for 12 months, $9.95 monthly fees apply",
+      "description": "Click on the 'Place your order' button and you will be redirected to Zip to process your order."
+    },
+    "paypalPayment": {
+      "description": "Click on PayPal button below to place your order."
+    },
+    "grabPayPayment": {
+      "description": "Clicking 'Place Your Order' button below will take you to GrabPay payment page."
+    },
+    "termsAndConditions": {
+      "title": "Terms & Conditions",
+      "description": "By clicking the Place Your Order button, I accept Castlery's <1>refund</1> and <2>delivery</2> policy. Your order is on hold until payment is completed. You won't be able to make changes, but you can restart the checkout process if needed.",
+      "dialogMessage": "Please accept <1>refund</1> and <2>delivery</2> policy before placing the order.",
+      "dialogClose": "Close",
+      "dialogAcceptAndContinue": "Accept and Continue Placing Order"
+    }
+  },
+  "checkoutPaymentCallback": {
+    "pendingPaymentError": {
+      "title": "Oops, your payment may still be processing",
+      "description": "Please check order details for the latest order status.",
+      "viewOrderDetails": "View order details"
+    }
+  }
+}

@@ -1,0 +1,430 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+@mixin celebrateHome-text($fontStyle: normal, $smallFontSize: 0.875rem, $bigFontSize: 1rem) {
+  color: #666;
+  font-style: $fontStyle;
+  margin: auto;
+  text-align: center;
+  @include mobile {
+    font-size: $smallFontSize;
+  }
+  @include shared {
+    font-size: $bigFontSize;
+    max-width: 883px;
+  }
+  strong {
+    color: #424242;
+  }
+}
+
+:local(.celebrateHome) {
+  @include mobile {
+    padding-bottom: 80px;
+  }
+  @include shared {
+    padding-bottom: 120px;
+  }
+  &__container {
+    margin: auto;
+    @include mobile {
+      padding-left: $mobile-padding;
+      padding-right: $mobile-padding;
+    }
+  }
+  &__banner {
+    position: relative;
+  }
+
+  &__title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transform: translateY(-50%);
+    color: #fff;
+    @include mobile {
+      top: 50%;
+      font-size: 1.5rem;
+      white-space: pre-line;
+    }
+    @include shared {
+      top: 40%;
+      font-size: 2.5rem;
+      white-space: normal;
+    }
+  }
+
+  &__intro {
+    position: relative;
+    background-color: #fff;
+    @include celebrateHome-text($smallFontSize: 1rem, $bigFontSize: 1.125rem);
+    @include mobile {
+      padding: 50px $mobile-padding 0;
+    }
+    @include shared {
+      padding: 60px 50px 0;
+      margin-top: -80px;
+    }
+  }
+
+  &__detail {
+    @include celebrateHome-text($smallFontSize: 1rem, $bigFontSize: 1.125rem);
+    padding-top: 24px;
+    @include mobile {
+      padding-left: $mobile-padding;
+      padding-right: $mobile-padding;
+    }
+    @include shared {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+  }
+
+  &__form {
+    margin: auto;
+    @include mobile {
+      & > form {
+        margin: 50px auto 0;
+      }
+
+      .row > div:nth-of-type(2) {
+        &.col-md-6 {
+          margin-top: 15px;
+        }
+      }
+
+      .row + .row {
+        margin-top: 15px;
+      }
+
+      @include media-breakpoint-up(md) {
+        & > form {
+          margin: 50px auto 0;
+        }
+
+        .row > div:nth-of-type(2) {
+          &.col-md-6 {
+            margin-top: 0;
+          }
+        }
+
+        .row + .row {
+          margin-top: 30px;
+        }
+      }
+    }
+    @include shared {
+      max-width: 900px;
+      & > form {
+        margin: 50px auto 0;
+      }
+
+      .row + .row {
+        margin-top: 30px;
+      }
+    }
+
+    & > h2 {
+      text-align: center;
+      @include mobile {
+        font-size: 1.5rem;
+        margin: 80px 0 30px;
+      }
+      @include shared {
+        font-size: 2.25rem;
+        margin: 80px 0 50px;
+        max-width: 883px;
+      }
+    }
+    &__desc {
+      text-align: center;
+      color: #666;
+
+      @include shared {
+        font-size: 1.125rem;
+        padding: 0 60px;
+        max-width: 883px;
+      }
+      a {
+        @include link-style($color-primary, darken($color-primary, 10%), underline);
+      }
+    }
+    &__note {
+      @include celebrateHome-text($fontStyle: italic);
+      @include mobile {
+        padding: 30px $mobile-padding 50px;
+      }
+      @include shared {
+        padding: 50px 60px 80px;
+      }
+    }
+
+    &__submit {
+      position: relative;
+      text-align: center;
+      & > .btn {
+        font-weight: 600;
+        padding-top: 9px;
+        padding-bottom: 9px;
+        @include mobile {
+          width: 100%;
+          max-width: 320px;
+        }
+        @include desktop {
+          width: 250px;
+          &:disabled {
+            cursor: wait;
+          }
+        }
+      }
+    }
+
+    &__uploads {
+      @include shared {
+        margin-top: 45px;
+        margin-bottom: 60px;
+      }
+      @include mobile {
+        margin-top: 35px;
+        margin-bottom: 50px;
+      }
+      &__intro {
+        color: $color-grey;
+        font-weight: 600;
+        margin-bottom: 30px;
+        @include mobile {
+          text-align: left;
+        }
+        @include shared {
+          max-width: 883px;
+        }
+      }
+      &__container {
+        display: grid;
+        @include mobile {
+          justify-content: center;
+          grid-template-columns: repeat(3, minmax(80px, 120px));
+          grid-gap: 0 20px;
+          @include media-breakpoint-up(md) {
+            justify-content: left;
+          }
+        }
+        @include shared {
+          justify-content: start;
+          grid-template-columns: repeat(3, 150px);
+          grid-gap: 0 30px;
+        }
+      }
+    }
+
+    &__upload {
+      &__image {
+        padding-top: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        border-radius: 3px;
+
+        & > .btn {
+          position: absolute;
+          right: 0;
+          top: 0;
+          border: none;
+          border-radius: 50%;
+          background-color: #ddd;
+          transform: translate(50%, -50%);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+          & > svg {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+            stroke: #fff;
+            stroke-width: 5px;
+            display: block;
+          }
+
+          @include above {
+            background-color: #ccc;
+          }
+
+          @include mobile {
+            padding: 4px;
+          }
+          @include shared {
+            padding: 8px;
+          }
+        }
+      }
+    }
+
+    &__dropzone {
+      width: 100%;
+      border: 1px dashed #c7c7c7;
+      border-radius: 3px;
+      cursor: pointer;
+      padding-top: 100%;
+      position: relative;
+      overflow: hidden; /*prevent file input being out of box*/
+      &__container {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        transform: translate(0, -50%);
+        text-align: center;
+      }
+      &__img {
+        display: block;
+        margin: 0 auto;
+        @include shared {
+          width: 48px;
+          height: 48px;
+        }
+        @include mobile {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      &__text {
+        margin-bottom: 0;
+        margin-top: 5px;
+        font-weight: 600;
+        color: $color-grey;
+        padding: 0 $mobile-padding;
+        @include mobile {
+          font-size: 0.875rem;
+        }
+        @include shared {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &__recaptch {
+      @include mobile {
+        margin-bottom: 30px;
+      }
+      @include shared {
+        margin-bottom: 50px;
+      }
+      & > div {
+        margin: 0 auto;
+      }
+    }
+
+    .terms_conditions {
+      @include link-style($color-primary, darken($color-primary, 10%), underline);
+    }
+  }
+
+  &__thank {
+    text-align: center;
+    max-width: 883px;
+    margin: auto;
+    & > h2 {
+      @include mobile {
+        font-size: 1.5rem;
+        margin: 80px 0 50px;
+        white-space: pre-line;
+      }
+      @include shared {
+        font-size: 2.5rem;
+        margin: 80px 0 30px;
+        white-space: normal;
+      }
+    }
+    &__content {
+      color: #666;
+      @include mobile {
+        font-size: 1rem;
+        padding: 0 $mobile-padding;
+      }
+      @include shared {
+        font-size: 1.125rem;
+        padding: 0 20px;
+      }
+      a {
+        @include link-style($color-primary, darken($color-primary, 10%), underline);
+      }
+      strong {
+        color: #424242;
+      }
+    }
+    &__note {
+      @include celebrateHome-text($fontStyle: italic);
+      @include mobile {
+        padding: 50px $mobile-padding 80px;
+      }
+      @include shared {
+        padding: 50px 60px 120px;
+      }
+    }
+  }
+
+  &__card {
+    width: 100%;
+    &__banner {
+      @include mobile {
+        margin-bottom: 80px;
+      }
+      @include shared {
+        margin-bottom: 120px;
+      }
+    }
+  }
+
+  &__announcement {
+    text-align: center;
+    margin-top: 80px;
+    &__box {
+      background-color: #e7dfdc78;
+      margin: auto;
+      @include mobile {
+        width: 100%;
+        padding: 50px $mobile-padding 50px;
+      }
+      @include shared {
+        width: 940px;
+        padding: 50px 78px 60px;
+      }
+      & > h2 {
+        @include mobile {
+          font-size: 1.5rem;
+          white-space: pre-line;
+        }
+        @include shared {
+          font-size: 2.5rem;
+          white-space: normal;
+        }
+      }
+    }
+    &__content {
+      color: #666;
+      @include mobile {
+        font-size: 1rem;
+        padding: 0 $mobile-padding;
+      }
+      @include shared {
+        font-size: 1.125rem;
+        padding: 0 60px;
+      }
+      a {
+        @include link-style($color-primary, darken($color-primary, 10%), underline);
+      }
+      strong {
+        color: #424242;
+      }
+    }
+    &__note {
+      @include celebrateHome-text($smallFontSize: 1rem, $bigFontSize: 1.125rem);
+      @include mobile {
+        padding: 80px $mobile-padding 50px;
+      }
+      @include shared {
+        padding: 120px 0 80px;
+      }
+    }
+  }
+}

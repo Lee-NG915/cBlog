@@ -1,0 +1,89 @@
+{
+  "title": "User",
+  "submitReview": {
+    "banner": [
+      {
+        "credits": 30,
+        "name": "Text Review",
+        "description": "Published reviews with text, without images."
+      },
+      {
+        "credits": 75,
+        "name": "Image Review",
+        "description": "Published reviews with text and images of purchased product(s)."
+      }
+    ]
+  },
+  "reviewCredits": {
+    "noCredits": {
+      "creditNumber": 0,
+      "description": "Write more than 50 characters to be eligible for reward!"
+    },
+    "textCredits": {
+      "creditNumber": 30,
+      "description": "Add images of your purchase to earn more rewards!"
+    },
+    "imageCredits": {
+      "creditNumber": 75,
+      "description": "Great job! The more details you add, the more useful your review."
+    }
+  },
+  "accountAddress": {
+    "formTitle": "Add new address",
+    "listTitle": "My Addresses",
+    "saveButton": "Save Address",
+    "deleteConfirmTitle": "Are you sure you want to permanently delete this address?",
+    "confirm": "Confirm"
+  },
+  "editProfileOption": {
+    "housingType": ["Condominium apartment", "Row house", "Semi-detached house", "Detached house", "Others"],
+    "homeSize": [
+      "Less than 600 sqft",
+      "600 sqft to 999 sqft",
+      "1,000 sqft to 1,499 sqft",
+      "1,500 sqft to 1,999 sqft",
+      "2,000 sqft to 2,999 sqft",
+      "3,000 sqft to 4,999 sqft",
+      "5,000 sqft to 7,999 sqft",
+      "8,000 sqft and above",
+      "I am not sure"
+    ],
+    "annualHouseholdIncome": [
+      "Below CAD 45,000",
+      "CAD 45,000 to CAD 49,999",
+      "CAD 50,000 to CAD 74,999",
+      "CAD 75,000 to CAD 99,999",
+      "CAD 100,000 to CAD 149,999",
+      "CAD 150,000 to CAD 199,999",
+      "CAD 200,000 to CAD 249,999",
+      "CAD 250,000 to CAD 299,999",
+      "CAD 300,000 to CAD 399,999",
+      "CAD 400,000 to CAD 499,999",
+      "CAD 500,000 and above",
+      "Prefer not to disclose"
+    ],
+    "homeOwnership": [
+      "I rent this home",
+      "I live with someone who rents the home",
+      "I own this home",
+      "I live with someone who owns the home"
+    ],
+    "householdSize": ["Just myself", "2", "3", "4", "5", "6", "7", "8", "9", "10 or more"],
+    "householdStructure": [
+      "Spouse/partner",
+      "Child/children aged 7 and below",
+      "Child/children aged 8+",
+      "Parent/s",
+      "Grandparent/s",
+      "Other relative/s",
+      "Friend/s",
+      "Housemate/s",
+      "Pet/s",
+      "Other"
+    ]
+  },
+  "webUserAddress": {
+    "addNewAddressButton": "Add new address",
+    "searchAddressTitle": "Search for your location"
+  }
+}

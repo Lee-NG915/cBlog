@@ -1,0 +1,225 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.button) {
+  font-size: 1rem;
+  box-sizing: border-box;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  cursor: pointer;
+  outline: none !important;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  transition-property: border-color, background-color, color;
+  transition-duration: 0.2s;
+  border: none;
+  overflow-y: hidden;
+  &__content {
+    display: inline-block;
+    & > span {
+      line-height: 1.5;
+      vertical-align: middle;
+    }
+    & > svg {
+      vertical-align: middle;
+      margin-top: -1px;
+    }
+    &-hidden {
+      visibility: hidden;
+    }
+  }
+
+  & &__loading {
+    height: 100%;
+  }
+
+  @each $key, $value in $colors {
+    &--color-#{$key} {
+      color: $value;
+      svg {
+        fill: $value;
+        stroke: $value;
+      }
+      &:hover {
+        color: $value;
+      }
+      &:active {
+        color: $value;
+      }
+      &:focus {
+        color: $value;
+      }
+    }
+    &--background-#{$key} {
+      background-color: $value;
+    }
+    &--border-#{$key} {
+      border: 1px solid $value;
+    }
+  }
+  // ensure hover class could overlay the above
+  @each $key, $value in $colors {
+    &--hoverContent-#{$key} {
+      color: $value;
+      svg {
+        fill: $value;
+        stroke: $value;
+      }
+    }
+    &--hoverBg-#{$key} {
+      background-color: $value;
+    }
+    &--hoverBorder-#{$key} {
+      border-color: $value;
+    }
+  }
+
+  @each $key, $value in $colors {
+    &--hover-#{$key} {
+      background-color: darken($value, 8%);
+      border-color: darken($value, 8%);
+      color: $color-light-neutral;
+      svg {
+        fill: $color-light-neutral;
+        stroke: $color-light-neutral;
+      }
+    }
+  }
+
+  &--medium {
+    padding: 0 16px;
+    height: 40px;
+    line-height: 40px;
+  }
+  &--small {
+    padding: 0 14px;
+    height: 30px;
+    line-height: 30px;
+  }
+  &--round {
+    border-radius: 25px;
+    &:local(.button)-medium {
+      border-radius: 20px;
+    }
+    &:local(.button)-small {
+      border-radius: 15px;
+    }
+  }
+
+  &--circle {
+    border-radius: 50%;
+    min-width: 50px;
+    &:local(.button)-medium {
+      min-width: 40px;
+    }
+    &:local(.button)-small {
+      min-width: 30px;
+    }
+  }
+
+  &-icon-only {
+    padding: 0;
+  }
+  &:local(.button)--disabled {
+    cursor: not-allowed;
+    pointer-events: auto;
+    background-color: #d2d2d2;
+    border-color: #d2d2d2;
+    color: #9e9e9e;
+    svg {
+      fill: #9e9e9e;
+      stroke: #9e9e9e;
+    }
+  }
+}
+
+:local(.arrow) {
+  height: 58px;
+
+  & > div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+:local(.ghostArrow) {
+  &--hover-0 {
+    color: $color-primary;
+    svg {
+      fill: $color-primary;
+      stroke: $color-primary;
+    }
+    &:hover {
+      color: $color-primary;
+    }
+    &:active {
+      color: $color-primary;
+    }
+    &:focus {
+      color: $color-primary;
+    }
+  }
+  &--hover-1 {
+    color: #fff;
+    svg {
+      fill: #fff;
+      stroke: #fff;
+    }
+    background-color: $color-primary;
+    &:hover {
+      color: #fff;
+    }
+    &:active {
+      color: #fff;
+    }
+    &:focus {
+      color: #fff;
+    }
+  }
+  &:local(.ghostArrow)--disabled {
+    cursor: not-allowed;
+    pointer-events: auto;
+    border-color: #d2d2d2;
+    color: #9e9e9e;
+    background-color: #d2d2d2;
+    svg {
+      fill: #9e9e9e;
+      stroke: #9e9e9e;
+    }
+  }
+}
+
+:local(.close) {
+  &--hover {
+    svg {
+      fill: $color-primary;
+      stroke: $color-primary;
+    }
+  }
+}
+
+:local(.outline) {
+  &--hover {
+    color: $color-primary;
+    &:hover {
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+    &:active {
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+    &:focus {
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+    svg {
+      fill: $color-primary;
+      stroke: $color-primary;
+    }
+  }
+}

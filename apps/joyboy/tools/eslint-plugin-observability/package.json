@@ -1,0 +1,11 @@
+{
+  "name": "eslint-plugin-observability",
+  "version": "2.2.0",
+  "description": "ESLint rules for Sentry observability compliance",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "test": "node tests/rules.test.js && node tests/config-integrity.test.js"
+  }
+}

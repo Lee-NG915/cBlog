@@ -1,0 +1,10 @@
+{
+  "extends": [".eslintrc.base.json"],
+  "overrides": [
+    {
+      "files": "*.json",
+      "parser": "jsonc-eslint-parser",
+      "rules": {}
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.tag) {
+  font-weight: 600;
+  margin-left: 0.4rem;
+  font-size: 70%;
+  top: -0.45em;
+
+  &.small {
+    font-family: $font-base;
+    font-size: 1rem;
+  }
+
+  &--sale {
+    color: $color-primary;
+  }
+
+  &--new {
+    color: $color-primary;
+  }
+}

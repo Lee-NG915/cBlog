@@ -1,0 +1,9 @@
+{
+  "name": "fortress-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/fortress-client/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:shared-components", "type:base-components"],
+  "// targets": "to see all targets run: nx show project fortress-client --web",
+  "targets": {}
+}

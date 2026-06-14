@@ -1,0 +1,496 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.reviewSubmission) {
+  @include mobile {
+    @include media-breakpoint-up(md) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &__banner {
+    & > h1 {
+      white-space: nowrap;
+      position: absolute;
+      color: #fff;
+      margin-bottom: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      @include mobile {
+        font-size: 1.5rem;
+      }
+      @include shared {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  &__intro {
+    position: relative;
+    color: $color-grey;
+    background-color: #fff;
+    text-align: center;
+    & > p > strong {
+      color: $color-dark-neutral;
+    }
+    @include mobile {
+      font-size: 1rem;
+      padding: 50px 22px 30px;
+    }
+    @include shared {
+      padding: 64px 56px;
+      font-size: 1.125rem;
+      max-width: 883px;
+      margin: -80px auto 0;
+      @include media-breakpoint-down(xl) {
+        padding: 36px 36px 30px;
+      }
+    }
+  }
+
+  &__coupons {
+    @include mobile {
+      @include media-breakpoint-up(md) {
+        justify-content: center;
+        display: flex;
+      }
+    }
+    @include desktop {
+      display: flex;
+      max-width: map-get($container-max-widths, xl);
+      margin: 0 auto;
+      justify-content: center;
+    }
+  }
+
+  &__coupon-wrapper {
+    @include mobile {
+      margin: 0 auto;
+      max-width: 300px;
+
+      @include media-breakpoint-up(md) {
+        flex: 0 1 340px;
+        max-width: none;
+        margin: 0 20px;
+      }
+
+      @include media-breakpoint-up(lg) {
+        margin: 0 25px;
+      }
+    }
+    @include desktop {
+      flex: 0 1 340px;
+      margin: 0 25px;
+    }
+  }
+
+  &__coupon {
+    text-align: center;
+    font-weight: bold;
+    color: $color-primary;
+    font-size: 3.75rem;
+
+    &.ten-voucher {
+      background-color: rgba(242, 242, 242, 0.3);
+    }
+    &.thirty-voucher {
+      background-color: rgba(242, 242, 242, 0.5);
+    }
+    &.fifty-voucher {
+      background-color: #f2f2f2;
+    }
+    height: 180px;
+    border: 1px dashed rgba(102, 102, 102, 0.5);
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    & > p {
+      margin-top: -5px;
+      margin-bottom: 0;
+      & > span {
+        margin-top: -20px;
+        display: block;
+        font-size: 1.125rem;
+      }
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px dashed rgba(102, 102, 102, 0.5);
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+      background-color: #fff;
+      top: 50%;
+      z-index: 2;
+    }
+
+    &:before {
+      left: 0;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &:after {
+      right: 0;
+      transform: translate(50%, -50%) rotate(-135deg);
+    }
+  }
+
+  &__giveaway {
+    font-size: 0.875rem;
+    background-color: $color-primary;
+    padding: 15px 15px;
+    color: $color-light-neutral;
+    & > a {
+      color: $color-light-neutral;
+      text-decoration: underline;
+    }
+  }
+
+  &__coupon-title {
+    margin: 30px 0 0;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    @include desktop {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__coupon-description {
+    text-align: center;
+    color: $color-grey;
+    font-size: 1rem;
+    @include shared {
+      font-size: 1.125rem;
+      margin-top: 20px;
+    }
+    @include mobile {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__quick-tip {
+    max-width: map-get($container-max-widths, xl);
+    display: block;
+    text-align: center;
+    border-top: 1px solid $color-grey-bg;
+    border-bottom: 1px solid $color-grey-bg;
+    & > strong {
+      color: $color-primary;
+    }
+    @include mobile {
+      font-size: 1rem;
+      padding: 30px 0;
+      margin: 30px 22px;
+    }
+    @include shared {
+      font-size: 1.125rem;
+      padding: 50px 145px;
+      margin: 80px auto;
+    }
+  }
+
+  &__loading {
+    height: 500px;
+    position: relative;
+  }
+
+  &__error {
+    padding: 50px 0;
+    color: #666;
+    text-align: center;
+
+    & > a {
+      @include link-style($color-primary, lighten($color-primary, 10%));
+    }
+  }
+}
+
+:local(.reviewItem) {
+  &.first {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 50px;
+  }
+  border-top: 1px solid $color-grey-bg;
+
+  @include shared {
+    max-width: map-get($container-max-widths, lg);
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+  @include mobile {
+    margin: 0 22px;
+    padding-top: 20px;
+  }
+
+  &__container {
+    @include mobile {
+      padding: 20px 0 30px;
+
+      & > div + div {
+        margin-top: 30px;
+      }
+    }
+
+    @include shared {
+      display: flex;
+      align-items: center;
+      padding: 30px 0 50px;
+
+      & > div {
+        &:first-of-type {
+          width: 280px;
+          flex: 0 0 auto;
+
+          @include media-breakpoint-up(xl) {
+            width: 300px;
+          }
+        }
+
+        &:last-of-type {
+          flex: 1 1 auto;
+          margin-top: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+  &__title {
+    margin-bottom: 0;
+    text-align: center;
+    @include mobile {
+      font-size: 1.375rem;
+    }
+    @include shared {
+      font-size: 1.625rem;
+    }
+  }
+}
+
+:local(.item) {
+  @include mobile {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  &__options > p {
+    margin-bottom: 0;
+    color: #888;
+  }
+
+  &__price {
+    &__sale {
+      & > span {
+        &:first-of-type {
+          color: $color-primary;
+        }
+        &:last-of-type {
+          color: #bbb;
+          margin-left: 10px;
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    display: flex;
+    align-items: center;
+
+    &__image {
+      width: 120px;
+      flex: 0 0 auto;
+    }
+
+    &__content {
+      flex: 1 1 auto;
+      margin-left: 5px;
+    }
+
+    &__name {
+      line-height: 1;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    &__options {
+      margin: 5px 0;
+
+      & > p {
+        font-size: 0.7rem;
+        line-height: 1;
+      }
+    }
+
+    &__price {
+      line-height: 1.4;
+      font-size: 0.9rem;
+    }
+  }
+
+  @include shared {
+    display: block;
+    text-align: center;
+
+    &__image {
+      width: 100%;
+    }
+
+    &__content {
+      margin: 0;
+    }
+
+    &__name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    &__options {
+      margin: 5px 0 7px;
+
+      & > p {
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+    }
+
+    &__price {
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+:local(.coupon) {
+  display: flex;
+  align-items: center;
+
+  @include mobile {
+    margin-bottom: 10px;
+  }
+  @include shared {
+    margin-left: 56px;
+    margin-bottom: 20px;
+  }
+
+  &__icon {
+    position: relative;
+    flex: 0 0 auto;
+
+    & > svg {
+      fill: #ddd;
+      display: block;
+    }
+
+    & > span {
+      position: absolute;
+      left: 44%;
+      top: 50%;
+      // transform: translate(-50%, -50%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &.has-color > svg {
+      fill: url(#coupon-gradient);
+    }
+
+    @include mobile {
+      & > svg {
+        width: 50px;
+        height: 50px;
+      }
+
+      & > span {
+        font-size: 1rem;
+      }
+    }
+
+    @include shared {
+      & > svg {
+        width: 60px;
+        height: 60px;
+      }
+
+      & > span {
+        font-size: 1.125rem;
+      }
+    }
+
+    &.use-credit {
+      @include mobile {
+        & > svg {
+          width: 72px;
+          height: 72px;
+        }
+
+        & > span {
+          font-size: 0.9rem;
+
+          & > span {
+            font-size: 0.72rem;
+          }
+        }
+      }
+      @include shared {
+        & > svg {
+          width: 82px;
+          height: 82px;
+        }
+
+        & > span {
+          font-size: 1rem;
+
+          & > span {
+            font-size: 0.825rem;
+          }
+        }
+      }
+    }
+  }
+
+  &__text {
+    border-left: 1px solid #ddd;
+    flex: 1 1 auto;
+    color: #aaa;
+    line-height: 1.2;
+
+    @include mobile {
+      margin-left: 15px;
+      padding-left: 15px;
+      font-size: 0.9rem;
+    }
+    @include shared {
+      margin-left: 30px;
+      padding-left: 30px;
+      font-size: 1rem;
+    }
+  }
+}
+
+:local(.variantForm) {
+  @include shared {
+    padding-left: 56px;
+    border-left: 1px solid $color-grey-bg;
+  }
+}
+
+:local(.terms) {
+  background-color: $color-grey-bg;
+  padding: 30px 22px;
+}

@@ -1,0 +1,50 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+:local(.carousel) {
+  @include desktop {
+    width: 90%;
+    margin: 0 auto;
+    .slick-prev {
+      transform: translateX(-60px);
+      opacity: 0.7;
+    }
+    .slick-next {
+      transform: translateX(60px);
+      opacity: 0.7;
+    }
+    .slick-prev:hover,
+    .slick-next:hover {
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      .slick-prev,
+      .slick-next {
+        opacity: 1;
+      }
+    }
+  }
+
+  .slick-dots {
+    height: fit-content;
+    li {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .slick-active {
+      div {
+        background: #fff;
+      }
+    }
+  }
+  &__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: transparent;
+    border: 3px solid #fff;
+    box-sizing: content-box;
+    margin-right: 5px;
+  }
+}

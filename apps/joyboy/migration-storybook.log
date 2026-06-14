@@ -1,0 +1,126 @@
+🔎 checking possible migrations..
+Unable to find .eslintrc config file, skipping
+
+⚠️  failed to check fix remove-argtypes-regex
+
+SyntaxError: Identifier 'mswLoader' has already been declared. (8:9)
+    at constructor (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:64007:15)
+    at Wc.raise (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:66255:54)
+    at Tb.declareName (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:68753:46)
+    at Wc.declareNameFromIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69040:18)
+    at Wc.checkIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69037:97)
+    at Wc.checkLVal (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69004:14)
+    at Wc.finishImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73109:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73207:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:70638:13)
+    at Wc.parseNamedImportSpecifiers (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73190:22)
+
+🔎 found a 'autodocsTrue' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                    │
+│   We've changed the configuration of autodocs (previous docsPage), so now the value:               │
+│     - docs.autodocs: true -- means automatically create docs for every CSF file                    │
+│     - docs.autodocs: 'tag' -- means only create autodocs for CSF files with the 'autodocs' tag     │
+│     - docs.autodocs: false -- means never create autodocs                                          │
+│                                                                                                    │
+│   Based on your prior configuration,  we can set the `docs.autodocs` to keep your old behaviour:   │
+│                                                                                                    │
+│   docs: { autodocs: true }                                                                         │
+│                                                                                                    │
+│   More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes      │
+│                                                                                                    │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'autodocsTrue' migration on your project? › (Y/n)✔ Do you want to run the 'autodocsTrue' migration on your project? … yes
+✅ Setting 'docs.autodocs' to true in main.js
+✅ ran autodocsTrue migration
+
+🔎 found a 'webpack5-compiler-setup' migration:
+╭ Migration notification ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                       │
+│   Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js        │
+│   itself:                                                                                                             │
+│                                                                                                                       │
+│   - If you have a .babelrc (or babel.config.js) file in your project, Storybook will use Babel as the compiler.       │
+│   - If you have a .babelrc (or babel.config.js) file in your project and you have set                                 │
+│   experimental.forceSwcTransforms = true in your next.config.js file,                                                 │
+│   Storybook will use SWC as the compiler.                                                                             │
+│   - If you don't have a .babelrc (or babel.config.js) file in your project, Storybook will use SWC as the compiler.   │
+│                                                                                                                       │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to continue? › (Y/n)✔ Do you want to continue? … yes
+
+🔎 found a 'autodocs-tags' migration:
+╭ Automigration detected ───────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                   │
+│   The docs.autodocs setting in apps/pos-e2e/.storybook/main.ts is deprecated.                                     │
+│                                                                                                                   │
+│   Learn more: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated   │
+│                                                                                                                   │
+│   Remove docs.autodocs and update apps/pos-e2e/.storybook/preview.tsx?                                            │
+│                                                                                                                   │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'autodocs-tags' migration on your project? › (Y/n)✔ Do you want to run the 'autodocs-tags' migration on your project? … yes
+✅ Adding "autodocs" tag to apps/pos-e2e/.storybook/preview.tsx
+❌ error when running autodocs-tags migration
+SyntaxError: Identifier 'mswLoader' has already been declared. (8:9)
+    at constructor (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:64007:15)
+    at Wc.raise (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:66255:54)
+    at Tb.declareName (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:68753:46)
+    at Wc.declareNameFromIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69040:18)
+    at Wc.checkIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69037:97)
+    at Wc.checkLVal (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69004:14)
+    at Wc.finishImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73109:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73207:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:70638:13)
+    at Wc.parseNamedImportSpecifiers (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73190:22) {
+  code: 'BABEL_PARSER_SYNTAX_ERROR',
+  reasonCode: 'VarRedeclaration',
+  loc: Position { line: 8, column: 9, index: 328 },
+  pos: 328
+}
+
+
+⚠️  failed to check fix initial-globals
+
+SyntaxError: Identifier 'mswLoader' has already been declared. (8:9)
+    at constructor (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:64007:15)
+    at Wc.raise (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:66255:54)
+    at Tb.declareName (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:68753:46)
+    at Wc.declareNameFromIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69040:18)
+    at Wc.checkIdentifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69037:97)
+    at Wc.checkLVal (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:69004:14)
+    at Wc.finishImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73109:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73207:19)
+    at Wc.parseImportSpecifier (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:70638:13)
+    at Wc.parseNamedImportSpecifiers (/Users/jasperzhang/Library/Caches/pnpm/dlx/ot57jel3bax34b7b3wo2lsrupy/194926c046c-938e/node_modules/.pnpm/@storybook+core@8.2.8/node_modules/@storybook/core/dist/csf-tools/index.cjs:73190:22)
+
+╭ Migration check ran with failures ────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                       │
+│   Successful migrations:                                                                                              │
+│                                                                                                                       │
+│   autodocsTrue                                                                                                        │
+│                                                                                                                       │
+│   Failed migrations:                                                                                                  │
+│                                                                                                                       │
+│   remove-argtypes-regex:                                                                                              │
+│   Identifier 'mswLoader' has already been declared. (8:9)                                                             │
+│   autodocs-tags:                                                                                                      │
+│   Identifier 'mswLoader' has already been declared. (8:9)                                                             │
+│   initial-globals:                                                                                                    │
+│   Identifier 'mswLoader' has already been declared. (8:9)                                                             │
+│                                                                                                                       │
+│   You can find the full logs in /Users/jasperzhang/Desktop/project/joyboy/migration-storybook.log                     │
+│                                                                                                                       │
+│   ─────────────────────────────────────────────────                                                                   │
+│                                                                                                                       │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook automigrate'                     │
+│                                                                                                                       │
+│   The automigrations try to migrate common patterns in your project, but might not contain everything needed to       │
+│   migrate to the latest version of Storybook.                                                                         │
+│                                                                                                                       │
+│   Please check the changelog and migration guide for manual migrations and more information:                          │
+│   https://storybook.js.org/docs/8.0/migration-guide                                                                   │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                                             │
+│                                                                                                                       │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

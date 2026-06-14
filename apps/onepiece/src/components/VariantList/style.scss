@@ -1,0 +1,109 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.list) {
+  @include mobile {
+    padding: 0;
+  }
+}
+
+:local(.item) {
+  text-align: center;
+  position: relative;
+  font-family: 'Aime' !important;
+  @include mobile {
+    padding: 30px $mobile-padding / 2 0;
+
+    @include media-breakpoint-up(sm) {
+      padding: 30px 10px 0;
+    }
+  }
+  @include desktop {
+    padding: 30px 5px 0;
+    @include media-breakpoint-up(xl) {
+      padding: 30px 10px 0;
+    }
+  }
+
+  &__image {
+    position: relative;
+  }
+
+  &__imageLink {
+    @include above {
+      & + :local(.item)__name {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__name {
+    margin-top: 10px;
+    line-height: 1.5;
+    display: block;
+    font-size: 16px;
+    @include shared {
+      font-size: 18px;
+    }
+  }
+
+  &__skus {
+    color: $color-dark-accent;
+    font-family: 'Aime' !important;
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__price {
+    margin: 10px 0 0;
+    color: $color-dark-neutral;
+
+    font-size: 16px;
+    @include shared {
+      font-size: 18px;
+    }
+
+    &__sale {
+      & > span {
+        &:first-of-type {
+          color: $color-primary;
+        }
+        &:last-of-type {
+          color: $color-complimentary;
+          margin-left: 8px;
+          text-decoration: line-through;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+  &__qty {
+    color: $color-primary;
+    line-height: 1.2;
+    margin-top: 10px;
+
+    @include mobile {
+      font-size: 0.8rem;
+    }
+    @include desktop {
+      font-size: 0.9rem;
+    }
+  }
+  &__tag {
+    position: absolute;
+    display: flex;
+    top: 0;
+    & > sup {
+      color: #fff;
+      background-color: $color-complimentary;
+      padding: 4px 8px;
+      margin-left: 0;
+      font-size: 12px;
+      line-height: 1.5;
+      position: static; //clear float upward in sup element
+      top: 0;
+    }
+  }
+}

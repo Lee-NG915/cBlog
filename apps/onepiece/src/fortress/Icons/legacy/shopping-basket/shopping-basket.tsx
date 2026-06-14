@@ -1,0 +1,14 @@
+import React from 'react';
+import Icons, { SvgIconProps as IconsProps } from '@mui/joy/SvgIcon';
+
+export type ShoppingBasketProps = IconsProps;
+
+// https://www.zhangxinxu.com/sp/svgo/
+
+export function ShoppingBasket(props: ShoppingBasketProps) {
+  return (
+    <Icons {...props}>
+      <path d="M5.346 20.05a.895.895 0 0 1-.55-.188.849.849 0 0 1-.325-.487l-2.45-8.65a.462.462 0 0 1 .113-.463.619.619 0 0 1 .487-.212h4.975l3.85-5.825a.593.593 0 0 1 .188-.163.482.482 0 0 1 .237-.062c.067 0 .138.02.213.062a.595.595 0 0 1 .187.163l3.825 5.825h4.975c.2 0 .363.07.488.212a.463.463 0 0 1 .112.463l-2.5 8.65a.936.936 0 0 1-.375.487 1.041 1.041 0 0 1-.6.188H5.346Zm0-1h13l2.2-8h-17.4l2.2 8Zm6.5-3c.267 0 .5-.1.7-.3.2-.2.3-.433.3-.7 0-.267-.1-.5-.3-.7a.96.96 0 0 0-.7-.3c-.266 0-.5.1-.7.3-.2.2-.3.433-.3.7 0 .267.1.5.3.7.2.2.434.3.7.3Zm-3.025-6h6.05l-3.025-4.625-3.025 4.625Z" />
+    </Icons>
+  );
+}

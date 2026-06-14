@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: */wishlist$
+Disallow: */checkout/
+Disallow: */account/
+sitemap: https://www.castlery.com/sg/sitemap.xml
+sitemap: https://www.castlery.com/us/sitemap.xml
+sitemap: https://www.castlery.com/au/sitemap.xml
+sitemap: https://www.castlery.com/ca/sitemap.xml
+sitemap: https://www.castlery.com/uk/sitemap.xml

@@ -1,0 +1,171 @@
+@import 'react-datepicker/dist/react-datepicker.css';
+
+.react-datepicker__header {
+  background-color: transparent;
+  border-bottom: 0;
+  border-top-left-radius: 0;
+  padding: 0;
+}
+
+.react-datepicker-popper {
+  z-index: 99;
+}
+
+.react-datepicker__children-container {
+  padding: 0;
+}
+
+.react-datepicker__input-container {
+  display: block;
+}
+
+.react-datepicker__day--today,
+.react-datepicker__month-text--today,
+.react-datepicker__quarter-text--today,
+.react-datepicker__year-text--today {
+  font-weight: var(--fortress-fontWeight-md);
+}
+
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover,
+.react-datepicker__day:hover {
+  background: transparent;
+  font-weight: 600;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__year-text--keyboard-selected,
+.react-datepicker__year-text--selected,
+.react-datepicker__month-text--selected,
+.react-datepicker__day--selected {
+  border-radius: 0 !important;
+  background: var(--fortress-palette-primary-10);
+
+  & > div:not(.highlight-days-picker--day) {
+    color: var(--fortress-palette-primary-700) !important;
+  }
+}
+
+/* 区分picker类型 的样式--------- start*/
+.dp__castlery_calendar .react-datepicker__month-container {
+  float: none;
+}
+
+.dp__castlery_calendar .react-datepicker__month,
+.react-datepicker__year,
+.react-datepicker__day {
+  margin: 0;
+}
+
+.dp__castlery_calendar .react-datepicker__month-text,
+.react-datepicker__year-text {
+  width: auto !important;
+  margin: 0 !important;
+
+  & > div {
+    color: var(--fortress-palette-brand-charcoal-800);
+
+    &:hover {
+      color: var(--fortress-palette-primary-700);
+    }
+  }
+}
+
+.react-datepicker__day {
+  width: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+
+  &:not(.react-datepicker__day--disabled) {
+    & > div {
+      color: var(--fortress-palette-brand-charcoal-800);
+
+      &:hover {
+        color: var(--fortress-palette-primary-700);
+      }
+    }
+  }
+  &.react-datepicker__day--highlighted {
+    background: var(--fortress-palette-primary-400) !important;
+  }
+}
+
+.dp__castlery_calendar .react-datepicker__month-wrapper,
+.dp__castlery_calendar .react-datepicker__year-wrapper {
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dp__castlery_calendar .react-datepicker__day-names,
+.react-datepicker__week {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.dp__castlery_calendar .react-datepicker__day-names {
+  margin: 16px auto;
+  font-family: MinervaModern, 'Helvetica Neue', Arial, sans-serif;
+}
+
+@media (max-width: 540px) {
+  .react-datepicker-popper {
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto;
+  }
+
+  .react-datepicker-popper,
+  .dp__castlery_calendar .react-datepicker__month-container {
+    width: calc(100vw - 32px);
+    max-width: 358px;
+  }
+
+  .dp__castlery_calendar .react-datepicker__month-text,
+  .react-datepicker__year-text {
+    margin-bottom: 8px !important;
+  }
+}
+
+/* desktop,tablet */
+@media (min-width: 540px) {
+  .react-datepicker-popper,
+  .dp__castlery_calendar .react-datepicker__month-container {
+    width: 450px;
+    max-width: 500px;
+  }
+
+  .dp__castlery_calendar .react-datepicker__month-text,
+  .react-datepicker__year-text {
+    margin-bottom: 32px !important;
+  }
+}
+
+.react-datepicker__children-container {
+  width: auto;
+}
+
+.highlight-days-picker .react-datepicker__day--keyboard-selected {
+  background: transparent;
+
+  & > div {
+    cursor: pointer;
+    color: black !important;
+  }
+}
+
+.highlight-days-picker .react-datepicker__day--disabled {
+  background: transparent;
+
+  & > div {
+    cursor: not-allowed;
+    color: #ccc !important;
+  }
+}
+
+.disabled-weekends-picker .react-datepicker__day--weekend {
+  background: transparent !important;
+}

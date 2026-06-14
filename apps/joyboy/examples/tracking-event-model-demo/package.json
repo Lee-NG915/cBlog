@@ -1,0 +1,19 @@
+{
+  "name": "tracking-event-model-demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Walkthrough demo for the Tracking Events Book methodology (add_to_cart + order_purchased).",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0",
+    "zod": "^3.23.0"
+  },
+  "optionalDevDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}

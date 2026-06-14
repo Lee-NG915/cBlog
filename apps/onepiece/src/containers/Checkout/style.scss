@@ -1,0 +1,1914 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+$button-width: 200px;
+
+:local(.wrapper) {
+  min-height: 100vh;
+  background-color: $color-warm-linen-200;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.account) {
+  background-color: $color-warm-linen-200;
+  flex: 1 1 auto;
+
+  &__registration {
+    position: relative;
+
+    @include desktop {
+      padding: 100px 0 120px;
+    }
+    @include mobile {
+      padding: 15px 0 60px;
+      @include media-breakpoint-up(sm) {
+        padding: 50px 0 60px;
+      }
+    }
+  }
+
+  &__form {
+    & > h2 {
+      font-family: $font-title;
+      font-size: 40px;
+      letter-spacing: 1.11px;
+      line-height: 30px;
+      @include desktop {
+        text-align: center;
+        margin-bottom: 30px;
+        color: $color-dark-neutral;
+        &:after {
+          display: none;
+        }
+      }
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+
+  &__placeholder {
+    height: 500px;
+    position: relative;
+  }
+}
+
+:local(.summary) {
+  @include desktop {
+    flex: 0 0 auto;
+    width: 360px;
+    background-color: $color-warm-linen-200;
+    margin: 70px 0 35px 35px;
+
+    @include media-breakpoint-up(xl) {
+      width: 400px;
+    }
+
+    &__title {
+      font-family: $font-title;
+      text-transform: capitalize;
+      font-size: 30px;
+      line-height: 32px;
+      color: $color-dark-neutral;
+      margin-bottom: 40px;
+    }
+  }
+
+  @include mobile {
+    @media (min-width: 577px) {
+      border-bottom: 1px solid $color-mono-300;
+    }
+
+    &__wrapper {
+      padding: 0 $mobile-padding;
+      border-bottom: 1px solid $color-mono-300;
+
+      @media (min-width: 577px) {
+        border-bottom: none;
+      }
+    }
+
+    & > .btn {
+      width: 100%;
+    }
+
+    &__header {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & > div:first-of-type {
+        font-weight: 600;
+
+        & > span {
+          font-weight: normal;
+          font-size: 0.9rem;
+          color: #666;
+        }
+      }
+
+      & > div:last-of-type > div {
+        display: inline-block;
+        margin-left: 5px;
+
+        & > svg {
+          display: block;
+          width: 12px;
+          height: 12px;
+          fill: $color-dark-neutral;
+          transition: transform 0.2s;
+        }
+      }
+    }
+
+    &.is-expanded &__header > div:last-of-type > div {
+      perspective: 500px;
+
+      & > svg {
+        transform: rotateX(180deg);
+      }
+    }
+
+    &__summary > div {
+      padding: 0;
+
+      & > * {
+        padding: 10px 0;
+      }
+    }
+  }
+
+  &__warning {
+    &-container {
+      font-size: 0.875rem;
+      color: $color-grey;
+      background-color: $color-yellow;
+      @include mobile {
+        margin: $mobile-padding;
+        padding: 15px;
+      }
+      @include desktop {
+        margin-bottom: $mobile-padding;
+        padding: 15px;
+      }
+
+      &-title {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+:local(.title) {
+  flex: 0 0 auto;
+  & h1 {
+    font-weight: normal;
+    margin: 0;
+    margin-bottom: 20px;
+    font-family: $font-title;
+    line-height: 32px;
+    letter-spacing: 0.83px;
+
+    @include mobile {
+      text-align: center;
+      padding: 50px 0 30px;
+      font-size: 24px;
+    }
+    @include shared {
+      text-align: left;
+      padding: 70px 0 40px;
+      font-size: 30px;
+    }
+  }
+
+  &-schedule {
+    border-bottom: 1px solid $color-dark-accent;
+    font-weight: normal;
+    margin: 0;
+    font-family: $font-title;
+    line-height: 32px;
+    letter-spacing: 0.83px;
+
+    @include mobile {
+      text-align: center;
+      padding: 50px 0 30px;
+      font-size: 24px;
+    }
+    @include shared {
+      text-align: left;
+      padding: 70px 0 40px;
+      font-size: 30px;
+    }
+    @include desktop {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__secondary {
+    // font-family: $font-title;
+    // font-size: 24px;
+    // line-height: 32px;
+    @include h3V2;
+    margin-bottom: 10px;
+  }
+}
+
+:local(.btns) {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  @include mobile {
+    flex-direction: column-reverse;
+    &__prev {
+      margin-top: 10px;
+      svg {
+        display: none;
+        width: 24px;
+        height: 20px;
+      }
+    }
+  }
+  @include shared {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  & &__prev {
+    width: 100%;
+    padding: 0;
+
+    @include shared {
+      width: 200px;
+      height: 58px;
+      line-height: 58px;
+
+      svg {
+        display: block;
+      }
+    }
+
+    & > div {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // min-width: 200px;
+
+      @include mobile {
+        justify-content: center;
+      }
+    }
+
+    $color: $color-maroon-velvet-500;
+    $background: transparent;
+    $border: $color-maroon-velvet-500;
+
+    $hover-color: $color-warm-linen-500;
+    $hover-background: $color-maroon-velvet-400;
+    $hover-border: $color-maroon-velvet-400;
+
+    $focus-color: $color-warm-linen-500;
+    $focus-background: $color-maroon-velvet-400;
+    $focus-border: $color-maroon-velvet-400;
+
+    $active-color: $color-warm-linen-500;
+    $active-background: $color-maroon-velvet-500;
+    $active-border: $color-maroon-velvet-500;
+
+    $disabled-color: $color-mono-500;
+    $disabled-background: transparent;
+    $disabled-border: $color-mono-500;
+
+    border-radius: 8px;
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    text-align: center;
+    /* mobile/subheaders/auto/S2 */
+    font-family: 'SanomatSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+    @include desktop {
+      @include hover {
+        color: $hover-color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+      }
+
+      &:focus,
+      &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+      }
+    }
+
+    // isolate :active from others to avoid :active:hover state changes
+    &:active {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+    }
+
+    @include desktop {
+      &.disabled,
+      &:disabled {
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+        @include hover {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      &:active {
+        color: $disabled-color;
+        background-color: $disabled-background;
+        border-color: $disabled-border;
+      }
+    }
+  }
+
+  &__next {
+    @include shared {
+      width: 192px;
+    }
+  }
+}
+
+:local(.paypalButtonsContainer) {
+  @include desktop {
+    float: right;
+    &__paypalButtons,
+    &__paypalMessage {
+      width: 248px;
+    }
+  }
+}
+
+// other pages
+
+:local(.shipping) {
+  position: relative;
+
+  &__title {
+    // font-family: $font-title;
+    // font-size: 24px;
+    // line-height: 32px;
+    @include h3V2;
+    margin-bottom: 20px;
+  }
+
+  &__loading {
+    position: relative;
+    height: 300px;
+  }
+
+  &__formSubmit {
+    @include shared {
+      width: 200px !important;
+    }
+  }
+
+  &__next {
+    height: 58px;
+
+    @include mobile {
+      width: 100%;
+    }
+    @include shared {
+      width: 192px;
+    }
+    &.is-payment {
+      &__button {
+        $color: $color-warm-linen-500;
+        $background: $color-burnt-orange-500;
+        $border: $color-burnt-orange-500;
+
+        $hover-color: $color-warm-linen-500;
+        $hover-background: $color-burnt-orange-600;
+        $hover-border: $color-burnt-orange-600;
+
+        $focus-color: $color-warm-linen-500;
+        $focus-background: $color-burnt-orange-600;
+        $focus-border: $color-burnt-orange-600;
+
+        $active-color: $color-warm-linen-500;
+        $active-background: $color-burnt-orange-800;
+        $active-border: $color-burnt-orange-800;
+
+        $disabled-color: $color-mono-500;
+        $disabled-background: $color-mono-200;
+        $disabled-border: $color-mono-200;
+
+        border-radius: 8px;
+        color: $color;
+        background-color: $background !important;
+        border-color: $border;
+
+        text-align: center;
+        /* mobile/subheaders/auto/S2 */
+        font-family: 'SanomatSans';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+
+        @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+        @include desktop {
+          @include hover {
+            color: $hover-color;
+            background-color: $hover-background;
+            border-color: $hover-border;
+          }
+
+          &:focus,
+          &.focus {
+            color: $focus-color;
+            background-color: $focus-background;
+            border-color: $focus-border;
+          }
+        }
+
+        // isolate :active from others to avoid :active:hover state changes
+        &:active {
+          color: $active-color;
+          background-color: $active-background;
+          border-color: $active-border;
+        }
+
+        @include desktop {
+          &.disabled,
+          &:disabled {
+            &:focus,
+            &.focus {
+              color: $disabled-color;
+              background-color: $disabled-background;
+              border-color: $disabled-border;
+            }
+            @include hover {
+              color: $disabled-color;
+              background-color: $disabled-background;
+              border-color: $disabled-border;
+            }
+          }
+        }
+
+        &.disabled,
+        &:disabled {
+          &:active {
+            color: $disabled-color;
+            background-color: $disabled-background;
+            border-color: $disabled-border;
+          }
+        }
+
+        &.active,
+        .open > &.dropdown-toggle {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+          // Remove the gradient for the pressed/active state
+          background-image: none;
+          @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125));
+
+          @include desktop {
+            &:hover,
+            &:focus,
+            &.focus {
+              color: $disabled-color;
+              background-color: darken($disabled-background, 10%);
+              border-color: darken($disabled-border, 12%);
+            }
+          }
+        }
+      }
+      @include shared {
+        width: 280px;
+      }
+    }
+    &.place-order-btn {
+      @include shared {
+        width: 248px;
+      }
+    }
+  }
+  &__button {
+    $color: $color-warm-linen-500;
+    $background: $color-burnt-orange-500;
+    $border: $color-burnt-orange-500;
+
+    $hover-color: $color-warm-linen-500;
+    $hover-background: $color-burnt-orange-600;
+    $hover-border: $color-burnt-orange-600;
+
+    $focus-color: $color-warm-linen-500;
+    $focus-background: $color-burnt-orange-600;
+    $focus-border: $color-burnt-orange-600;
+
+    $active-color: $color-warm-linen-500;
+    $active-background: $color-burnt-orange-800;
+    $active-border: $color-burnt-orange-800;
+
+    $disabled-color: $color-mono-500;
+    $disabled-background: $color-mono-200;
+    $disabled-border: $color-mono-200;
+
+    border-radius: 8px;
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    text-align: center;
+    /* mobile/subheaders/auto/S2 */
+    font-family: 'SanomatSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+    @include desktop {
+      @include hover {
+        color: $hover-color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+      }
+
+      &:focus,
+      &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+      }
+    }
+
+    // isolate :active from others to avoid :active:hover state changes
+    &:active {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+    }
+
+    @include desktop {
+      &.disabled,
+      &:disabled {
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+        @include hover {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      &:active {
+        color: $disabled-color;
+        background-color: $disabled-background;
+        border-color: $disabled-border;
+      }
+    }
+
+    &.active,
+    .open > &.dropdown-toggle {
+      color: $disabled-color;
+      background-color: $disabled-background;
+      border-color: $disabled-border;
+      // Remove the gradient for the pressed/active state
+      background-image: none;
+      @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125));
+
+      @include desktop {
+        &:hover,
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: darken($disabled-background, 10%);
+          border-color: darken($disabled-border, 12%);
+        }
+      }
+    }
+  }
+
+  &__newUser {
+    & > div {
+      & > h2 {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 32px;
+      }
+      display: none;
+    }
+
+    & > form {
+      margin-top: 20px;
+    }
+  }
+}
+
+:local(.payment) {
+  position: relative;
+
+  &__shipping {
+    display: flex;
+
+    @include mobile {
+      margin-bottom: 30px;
+    }
+    @include desktop {
+      margin-bottom: 40px;
+    }
+
+    & > div {
+      flex: 1 1 0;
+
+      & + div {
+        margin-left: 30px;
+      }
+
+      & > label {
+        font-weight: 600;
+        @include mobile {
+          margin-bottom: 5px;
+          font-size: 1rem;
+        }
+        @include desktop {
+          font-size: 1.1rem;
+          margin-bottom: 15px;
+        }
+      }
+
+      p {
+        color: #666;
+        margin-bottom: 0;
+        word-break: break-word;
+        @include mobile {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    @include shared {
+      flex-direction: row;
+      align-items: center;
+    }
+    @include mobile {
+      flex-direction: column;
+
+      &__secure {
+        margin-top: 10px;
+      }
+    }
+
+    & > div:first-of-type {
+      margin: 0;
+    }
+
+    &__secure {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      color: $color-dark-accent;
+      display: flex;
+      align-items: center;
+
+      & > span {
+        margin-left: 7px;
+      }
+    }
+  }
+
+  &__tabmenu {
+    display: flex;
+    flex-wrap: wrap;
+    & > .btn {
+      margin-bottom: 10px;
+      background-color: transparent;
+      position: relative;
+      padding: 0 0 6px 30px;
+      text-align: left;
+      border-radius: 0;
+      border-width: 0;
+      border-bottom-width: 1px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 14px;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1px solid #aaa;
+      }
+
+      &.is-active {
+        border-bottom-color: $color-primary;
+
+        &:after {
+          background-color: #aaa;
+          box-shadow: 0 0 0 2px $color-warm-linen-200 inset;
+        }
+      }
+
+      &:disabled {
+        cursor: default;
+        opacity: 1;
+      }
+    }
+
+    &__icon {
+      height: 28px;
+
+      & > img {
+        height: 100%;
+        width: auto;
+        display: block;
+      }
+    }
+
+    &__title {
+      margin: 0;
+      display: block;
+      color: #888;
+      font-size: 0.8rem;
+      @include text-truncate;
+    }
+
+    &:not(&--4) {
+      & > .btn {
+        @include mobile {
+          @include media-breakpoint-down(xs) {
+            margin-right: 0;
+            padding: 0 0 5px 0;
+            text-align: center;
+            width: 33.33%;
+            border-bottom-width: 2px;
+
+            &:after {
+              display: none;
+            }
+          }
+
+          @include media-breakpoint-up(sm) {
+            margin-right: 60px;
+          }
+        }
+        @include desktop {
+          margin-right: 50px;
+        }
+      }
+
+      :local(.payment)__tabmenu {
+        &__icon > img {
+          @include mobile {
+            @include media-breakpoint-down(xs) {
+              margin: 0 auto;
+            }
+          }
+        }
+      }
+    }
+
+    &--4 {
+      & > .btn {
+        @include mobile {
+          width: 50%;
+
+          &:nth-of-type(n + 3) {
+            margin-top: 20px;
+          }
+
+          &.is-active {
+            border-bottom-color: transparent;
+          }
+
+          @media (min-width: 350px) {
+            width: 33.333333%;
+
+            &:nth-of-type(3) {
+              margin-top: 0;
+            }
+          }
+
+          @include media-breakpoint-up(sm) {
+            width: auto;
+            margin-right: 40px;
+
+            &.is-active {
+              border-bottom-color: $color-green;
+            }
+
+            &:nth-of-type(4) {
+              margin-top: 0;
+            }
+          }
+
+          @include media-breakpoint-up(md) {
+            margin-right: 60px;
+          }
+        }
+        @include desktop {
+          margin-right: 50px;
+
+          &:nth-of-type(4) {
+            margin-top: 30px;
+          }
+
+          @include media-breakpoint-up(xl) {
+            &:nth-of-type(4) {
+              margin-top: 0;
+            }
+          }
+
+          @include media-breakpoint-only(xl) {
+            margin-right: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  &__tabContent {
+    @include mobile {
+      margin-top: 30px;
+    }
+    @include desktop {
+      margin-top: 50px;
+    }
+  }
+
+  &__stripe,
+  &__paypal,
+  &__zip,
+  &__affirm,
+  &__grabpay {
+    color: #666;
+
+    &.is-hidden {
+      display: none;
+    }
+
+    & > p {
+      margin-top: 15px;
+    }
+    & > a {
+      @include link-style($color-primary, darken($color-primary, 10%));
+    }
+    & .affirm-modal-trigger {
+      text-decoration: underline;
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__cvv {
+    @include flex-center;
+
+    &__container {
+      @include mobile {
+        width: 90%;
+        max-width: 500px;
+      }
+      @include desktop {
+        width: 500px;
+      }
+
+      padding: 30px;
+      background-color: $color-warm-linen-200;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    &__close {
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 6px 10px;
+
+      & > svg {
+        width: 14px;
+        height: 14px;
+        fill: #888;
+      }
+    }
+  }
+
+  &__toggle {
+    display: flex;
+    background-color: transparent;
+    position: relative;
+    white-space: normal;
+    text-align: left;
+    padding: 0;
+    border: none;
+
+    @include mobile {
+      line-height: 1.2;
+      font-size: 0.9rem;
+
+      &:before {
+        top: 3px;
+      }
+    }
+
+    &__desc {
+      flex: 1;
+      margin-left: 20px;
+      font-size: 16px;
+      line-height: 20px;
+      @include mobile {
+        margin-left: 12px;
+        font-size: 0.9rem;
+      }
+
+      & > a {
+        @include link-style($color-primary, $color-primary, underline);
+      }
+    }
+
+    &__check {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $color-warm-linen-200;
+      border: 1px solid $color-dark-accent;
+
+      & > svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        stroke: $color-primary;
+        position: absolute;
+      }
+    }
+
+    &.is-checked &__check {
+      background-color: $color-primary;
+      border: none;
+
+      & > svg {
+        stroke: $color-light-neutral;
+      }
+    }
+  }
+
+  &__address {
+    @include mobile {
+      margin-top: 30px;
+    }
+    @include desktop {
+      margin-top: 50px;
+    }
+
+    position: relative;
+
+    &__input {
+      position: relative;
+
+      @include mobile {
+        margin-top: 15px !important;
+      }
+      @include desktop {
+        margin-top: 20px !important;
+      }
+
+      &.is-hidden {
+        display: none !important;
+      }
+    }
+
+    &__next {
+      @include mobile {
+        margin-top: 120px !important;
+
+        @media (min-width: 353px) {
+          margin-top: 103px !important;
+        }
+        @media (min-width: 478px) {
+          margin-top: 86px !important;
+        }
+        @include media-breakpoint-up(lg) {
+          margin-top: 74px !important;
+        }
+      }
+      @include desktop {
+        margin-top: 115px !important;
+      }
+    }
+
+    &__back {
+      @include desktop {
+        margin-top: 115px !important;
+      }
+    }
+
+    &__tnc {
+      position: relative;
+      // z-index: 2;
+
+      @include mobile {
+        margin-top: 20px;
+      }
+      @include desktop {
+        margin-top: 20px;
+      }
+    }
+
+    &.is-manual > &__tnc {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      margin-top: 0;
+
+      @include mobile {
+        bottom: 144px;
+      }
+      @include desktop {
+        bottom: 88px;
+      }
+    }
+  }
+
+  &__next {
+    width: 248px;
+    height: 58px;
+  }
+}
+
+:local(.shipAddress) {
+  margin-bottom: 30px;
+}
+
+:local(.shipMethod) {
+  position: relative;
+
+  &__warning {
+    font-size: 0.875rem;
+    color: $color-grey;
+    background-color: $color-yellow;
+    @include mobile {
+      margin-bottom: $mobile-padding;
+      padding: 15px;
+    }
+    @include desktop {
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+        color: $color-primary;
+      }
+    }
+
+    &-title {
+      font-weight: 600;
+    }
+  }
+
+  &__instructions {
+    margin-top: 30px;
+
+    & > textarea {
+      width: 100%;
+      display: block;
+      border-color: $color-mono-300;
+      padding: 10px;
+      outline: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      background-color: $color-light-neutral;
+      @include caption1V2;
+
+      // 修改textarea的placeholder颜色
+      &::placeholder {
+        color: $color-maroon-velvet-200;
+      }
+    }
+
+    & > div {
+      color: #bebebe;
+      margin-top: 10px;
+      margin-bottom: 0;
+
+      @include mobile {
+        font-size: 0.8rem;
+      }
+      @include shared {
+        font-size: 0.9rem;
+      }
+    }
+
+    a {
+      @include link-style($color-primary, $color-primary, underline);
+    }
+  }
+
+  &__preference {
+    margin-bottom: 30px;
+
+    &__content {
+      display: flex;
+      margin-top: 20px;
+
+      @include mobile {
+        flex-direction: column;
+
+        & > div:not(:first-of-type) {
+          margin-top: 20px;
+        }
+      }
+
+      @include shared {
+        flex-direction: row;
+        justify-content: space-between;
+
+        & > div {
+          flex: 0 1 49%;
+
+          &:not(:first-of-type) {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+
+    &__icon {
+      &-leadtime {
+        svg {
+          stroke: $color-dark-accent;
+          width: 48px;
+          height: 32px;
+        }
+
+        &.is-selected svg {
+          stroke: '#212121';
+        }
+      }
+
+      &-together {
+        svg {
+          fill: $color-dark-accent;
+          width: 48px;
+          height: 47px;
+        }
+
+        &.is-selected svg {
+          fill: '#212121';
+        }
+      }
+    }
+
+    &__desc {
+      margin-top: 14px;
+      // font-size: 16px;
+      // line-height: 24px;
+      @include body2V2;
+    }
+  }
+
+  &__assembly {
+    margin-bottom: 30px;
+
+    &-wrapper {
+      display: flex;
+      margin-top: 20px;
+
+      @include shared {
+        flex-direction: row;
+        justify-content: space-between;
+
+        & > div {
+          flex: 0 1 49%;
+
+          &:not(:first-of-type) {
+            margin-top: 0;
+          }
+
+          &.is-selected {
+            cursor: default;
+          }
+        }
+      }
+
+      @include mobile {
+        flex-direction: column;
+
+        & > div:not(:first-of-type) {
+          margin-top: 20px;
+        }
+      }
+    }
+
+    &-title {
+      // font-family: $font-title;
+      // font-size: 20px;
+      // line-height: 24px;
+      @include body2V2;
+      color: $color-dark-accent;
+    }
+
+    &-desc {
+      word-break: break-word;
+      // font-size: 14px;
+      // line-height: 20px;
+      @include caption2V2;
+      margin-top: 10px;
+    }
+  }
+
+  &__modal {
+    padding: 35px 25px 20px;
+    text-align: center;
+    @include shared {
+      padding: 45px 35px 30px;
+    }
+  }
+  &__modalButton {
+    margin-top: 20px;
+    font-weight: 400;
+    padding: 8px 20px;
+    border-radius: 20px;
+    @include shared {
+      margin-top: 25px;
+      font-weight: 600;
+      padding: 8px 30px;
+      border-radius: 20px;
+    }
+  }
+}
+
+:local(.success) {
+  background-color: $color-warm-linen-200;
+  flex: 1 1 auto;
+  width: 100%;
+  display: flex;
+  min-height: 450px;
+
+  &__header {
+    @include mobile {
+      border-bottom: none;
+    }
+
+    @include shared {
+      border-bottom: 1px solid $color-dark-accent;
+    }
+  }
+
+  @include mobile {
+    flex-direction: column-reverse;
+  }
+
+  @include shared {
+    height: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__left {
+    margin: 24px auto;
+    //   flex: 1;
+    //   font-family: 'Aime';
+    //   @include mobile {
+    //     padding: 20px;
+    //   }
+    //   @include shared {
+    //     padding: 20px 0;
+    //   }
+    //   h1 {
+    //   @include h1V2;
+    //   }
+
+    //   p {
+    //     margin-bottom: 7px;
+    //     &:first-of-type {
+    //       font-weight: 600;
+    //       font-size: 16px;
+    //       line-height: 32px;
+    //     }
+    //   }
+  }
+
+  &__right {
+    @include mobile {
+      height: 300px;
+    }
+    @include shared {
+      margin-left: 50px;
+      height: 100%;
+      min-width: 500px;
+    }
+
+    div {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+  &__btn {
+    margin-top: 30px;
+    font-family: 'Aime';
+
+    @include mobile {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    @include shared {
+      display: block;
+    }
+  }
+
+  &__viewOrder {
+    @include mobile {
+      width: 100%;
+      margin-top: 14px;
+    }
+    @include shared {
+      width: auto;
+    }
+
+    span {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    $color: $color-maroon-velvet-500;
+    $background: transparent;
+    $border: $color-maroon-velvet-500;
+
+    $hover-color: $color-warm-linen-500;
+    $hover-background: $color-maroon-velvet-400;
+    $hover-border: $color-maroon-velvet-400;
+
+    $focus-color: $color-warm-linen-500;
+    $focus-background: $color-maroon-velvet-400;
+    $focus-border: $color-maroon-velvet-400;
+
+    $active-color: $color-warm-linen-500;
+    $active-background: $color-maroon-velvet-500;
+    $active-border: $color-maroon-velvet-500;
+
+    $disabled-color: $color-mono-500;
+    $disabled-background: transparent;
+    $disabled-border: $color-mono-500;
+
+    border-radius: 8px;
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    text-align: center;
+    /* mobile/subheaders/auto/S2 */
+    font-family: 'SanomatSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+    @include desktop {
+      @include hover {
+        color: $hover-color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+      }
+
+      &:focus,
+      &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+      }
+    }
+
+    // isolate :active from others to avoid :active:hover state changes
+    &:active {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+    }
+
+    @include desktop {
+      &.disabled,
+      &:disabled {
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+        @include hover {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      &:active {
+        color: $disabled-color;
+        background-color: $disabled-background;
+        border-color: $disabled-border;
+      }
+    }
+  }
+
+  &__shoppingBtn {
+    font-family: 'SanomatSans';
+    @include mobile {
+      width: 100%;
+    }
+    @include shared {
+      margin-left: 20px;
+      width: auto;
+    }
+
+    span {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+    }
+
+    a {
+      div {
+        height: inherit;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    $color: $color-warm-linen-500;
+    $background: $color-burnt-orange-500;
+    $border: $color-burnt-orange-500;
+
+    $hover-color: $color-warm-linen-500;
+    $hover-background: $color-burnt-orange-600;
+    $hover-border: $color-burnt-orange-600;
+
+    $focus-color: $color-warm-linen-500;
+    $focus-background: $color-burnt-orange-600;
+    $focus-border: $color-burnt-orange-600;
+
+    $active-color: $color-warm-linen-500;
+    $active-background: $color-burnt-orange-800;
+    $active-border: $color-burnt-orange-800;
+
+    $disabled-color: $color-mono-500;
+    $disabled-background: $color-mono-200;
+    $disabled-border: $color-mono-200;
+
+    border-radius: 8px;
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    text-align: center;
+    /* mobile/subheaders/auto/S2 */
+    font-family: 'SanomatSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+    @include desktop {
+      @include hover {
+        color: $hover-color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+      }
+
+      &:focus,
+      &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+      }
+    }
+
+    // isolate :active from others to avoid :active:hover state changes
+    &:active {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+    }
+
+    @include desktop {
+      &.disabled,
+      &:disabled {
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+        @include hover {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      &:active {
+        color: $disabled-color;
+        background-color: $disabled-background;
+        border-color: $disabled-border;
+      }
+    }
+  }
+
+  &__referral {
+    margin-top: 50px;
+  }
+}
+
+:local(.schedule) {
+  text-align: center;
+  background-color: $color-warm-linen-200;
+  flex: 1 1 auto;
+
+  @include mobile {
+    padding: 50px 20px;
+  }
+  @include shared {
+    padding: 80px 0;
+  }
+
+  h3 {
+    border-top: 1px solid #eee;
+    margin: 30px 0 30px;
+    padding-top: 20px;
+  }
+
+  svg {
+    fill: $color-green;
+    @include mobile {
+      width: 80px;
+      height: 80px;
+    }
+    @include shared {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  h1 {
+    font-weight: 600;
+    margin: 30px 0 30px;
+    text-transform: uppercase;
+    @include mobile {
+      font-size: 1.25rem;
+      padding: 0 10%;
+    }
+    @include shared {
+      font-size: 1.5rem;
+    }
+  }
+
+  p {
+    margin: 0 auto;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &__shoppingBtn {
+    margin-top: 50px;
+  }
+
+  &__submit {
+    margin-top: 30px;
+    & > .btn {
+      width: 170px;
+    }
+  }
+
+  &__delivery {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__selectSlots {
+    position: relative;
+  }
+
+  &__spinner-container {
+    width: 100%;
+    background: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0.5;
+  }
+}
+
+:local(.record) {
+  @include desktop {
+    border-bottom: $table-border-width solid $table-border-color;
+  }
+
+  & + & {
+    margin-top: 50px;
+  }
+
+  &__header {
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include mobile {
+      padding: 10px;
+      & > div {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+    @include desktop {
+      padding: 10px 15px;
+    }
+
+    &__cell {
+      display: inline-block;
+
+      & > label {
+        font-weight: normal;
+        text-transform: uppercase;
+        color: #888;
+        margin: 0;
+        display: block;
+        line-height: 1.2;
+      }
+
+      & > span {
+        display: block;
+        line-height: 1.2;
+        text-transform: capitalize;
+      }
+
+      @include mobile {
+        & + & {
+          margin-left: 10px;
+        }
+
+        & > label {
+          font-size: 0.65rem;
+        }
+        & > span {
+          font-size: 0.8rem;
+        }
+      }
+      @include desktop {
+        padding-top: 5px;
+        & + & {
+          margin-left: 80px;
+        }
+        & > label {
+          font-size: 0.75rem;
+        }
+        & > span {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    & > a {
+      font-size: 0.9rem;
+      @include link-style($color-primary, darken($color-primary, 10%));
+    }
+  }
+}
+:local(.empty) {
+  @include mobile {
+    padding: 150px $mobile-padding;
+  }
+  @include shared {
+    padding: 180px 0;
+  }
+  text-align: center;
+  background-color: $color-warm-linen-200;
+  flex: 1 1 auto;
+
+  h1 {
+    font-family: 'Aime';
+    @include mobile {
+      font-size: 1.2rem;
+    }
+    @include shared {
+      font-size: 1.4rem;
+    }
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+
+  &__btn {
+    $color: $color-warm-linen-500;
+    $background: $color-burnt-orange-500;
+    $border: $color-burnt-orange-500;
+
+    $hover-color: $color-warm-linen-500;
+    $hover-background: $color-burnt-orange-600;
+    $hover-border: $color-burnt-orange-600;
+
+    $focus-color: $color-warm-linen-500;
+    $focus-background: $color-burnt-orange-600;
+    $focus-border: $color-burnt-orange-600;
+
+    $active-color: $color-warm-linen-500;
+    $active-background: $color-burnt-orange-800;
+    $active-border: $color-burnt-orange-800;
+
+    $disabled-color: $color-mono-500;
+    $disabled-background: $color-mono-200;
+    $disabled-border: $color-mono-200;
+
+    border-radius: 8px;
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    text-align: center;
+    /* mobile/subheaders/auto/S2 */
+    font-family: 'SanomatSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+    svg {
+      color: $color-warm-linen-500;
+      fill: $color-warm-linen-500;
+      stroke: $color-warm-linen-500;
+    }
+    @include desktop {
+      @include hover {
+        color: $hover-color;
+        background-color: $hover-background;
+        border-color: $hover-border;
+      }
+
+      &:focus,
+      &.focus {
+        color: $focus-color;
+        background-color: $focus-background;
+        border-color: $focus-border;
+      }
+    }
+
+    // isolate :active from others to avoid :active:hover state changes
+    &:active {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+    }
+
+    @include desktop {
+      &.disabled,
+      &:disabled {
+        &:focus,
+        &.focus {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+        @include hover {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      &:active {
+        color: $disabled-color;
+        background-color: $disabled-background;
+        border-color: $disabled-border;
+      }
+    }
+  }
+}
+
+:local(.tctp) {
+  @include mobile {
+    padding: 100px $mobile-padding;
+  }
+  @include desktop {
+    padding: 180px 0;
+  }
+  text-align: center;
+  background-color: $color-warm-linen-200;
+  flex: 1 1 auto;
+
+  &__loading {
+    & > div {
+      position: relative;
+      height: 50px;
+    }
+
+    & > p {
+      @include mobile {
+        margin: 30px 0 0;
+      }
+      @include desktop {
+        margin: 50px 0 0;
+      }
+    }
+  }
+
+  &__error {
+    & > p {
+      @include mobile {
+        margin-bottom: 30px;
+      }
+      @include desktop {
+        margin-bottom: 50px;
+      }
+    }
+  }
+}
+
+// shared components
+
+:local(.mask) {
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

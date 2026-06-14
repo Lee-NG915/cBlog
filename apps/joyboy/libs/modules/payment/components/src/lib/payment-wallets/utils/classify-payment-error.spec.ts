@@ -1,0 +1,240 @@
+import { classifyPaymentError } from './classify-payment-error';
+
+describe('classifyPaymentError', () => {
+  it.each([
+    // order status
+    ['10703024', 'orderExpired'],
+    ['10703023', 'orderCanceled'],
+    ['payment_already_paid', 'orderAlreadyPaid'],
+    // pending / canceled
+    ['processing', 'paymentPending'],
+    ['authorising', 'paymentPending'],
+    ['capturing', 'paymentPending'],
+    ['pending_capture', 'paymentPending'],
+    ['0001', 'paymentPending'],
+    ['2001', 'paymentPending'],
+    ['auth_expired', 'canceledOrExpired'],
+    ['0003', 'canceledOrExpired'],
+    ['9020', 'canceledOrExpired'],
+    // server / client action codes
+    ['5002', 'serverError'],
+    ['9999', 'serverError'],
+    ['INTERNAL_ERROR', 'serverError'],
+    ['invalid_payload', 'clientError'],
+    // integration
+    ['api_key_expired', 'integrationError'],
+    ['forwarding_api_upstream_connection_timeout', 'integrationError'],
+    ['missing', 'integrationError'],
+    ['no_account', 'integrationError'],
+    ['rate_limit', 'integrationError'],
+    ['err_capture_failed', 'integrationError'],
+    ['4201', 'integrationError'],
+    ['6101', 'integrationError'],
+    ['9007', 'integrationError'],
+    ['9038', 'integrationError'],
+    ['9042', 'integrationError'],
+    ['9900', 'integrationError'],
+    ['unauthorized', 'integrationError'],
+    ['method_not_allowed', 'integrationError'],
+    // 3DS auth failure
+    ['payment_intent_authentication_failure', 'threedsAuthError'],
+    // balance / promotion / token / duplicate / refund / not found
+    ['balance_insufficient', 'balanceError'],
+    ['insufficient_funds', 'balanceError'],
+    ['insufficient_balance', 'balanceError'],
+    ['4051', 'balanceError'],
+    ['5007', 'balanceError'],
+    ['coupon_expired', 'promotionError'],
+    ['9078', 'promotionError'],
+    ['token_already_used', 'tokenSessionError'],
+    ['token_in_use', 'tokenSessionError'],
+    ['9040', 'tokenSessionError'],
+    ['9041', 'tokenSessionError'],
+    ['idempotency_key_in_use', 'duplicateError'],
+    ['resource_already_exists', 'duplicateError'],
+    ['duplicate_transaction', 'duplicateError'],
+    ['9015', 'duplicateError'],
+    ['4094', 'duplicateError'],
+    ['5005', 'duplicateError'],
+    ['charge_already_refunded', 'refundStatusError'],
+    ['charge_not_refundable', 'refundStatusError'],
+    ['return_intent_already_processed', 'refundStatusError'],
+    ['refund-expired', 'refundStatusError'],
+    ['4034', 'refundStatusError'],
+    ['4120', 'refundStatusError'],
+    ['4121', 'refundStatusError'],
+    ['4122', 'refundStatusError'],
+    ['transaction_not_found', 'transactionNotFoundError'],
+    ['not-found', 'transactionNotFoundError'],
+    ['resource_missing', 'transactionNotFoundError'],
+    // billing address
+    ['address_zip_fail', 'billingAddressError'],
+    ['customer_tax_location_invalid', 'billingAddressError'],
+    ['invalid_tax_location', 'billingAddressError'],
+    ['payment_method_billing_details_address_missing', 'billingAddressError'],
+    ['payment_intent_automatic_tax_incomplete', 'billingAddressError'],
+    ['shipping_address_invalid', 'billingAddressError'],
+    ['postal_code_invalid', 'billingAddressError'],
+    ['tax_id_invalid', 'billingAddressError'],
+    ['tax_id_prohibited', 'billingAddressError'],
+    ['taxes_calculation_failed', 'billingAddressError'],
+    ['stripe_tax_inactive', 'billingAddressError'],
+    // card declined
+    ['card_declined', 'cardDeclinedError'],
+    ['incorrect_number', 'cardDeclinedError'],
+    ['invalid_number', 'cardDeclinedError'],
+    ['invalid_cvc', 'cardDeclinedError'],
+    ['incorrect_zip', 'cardDeclinedError'],
+    ['debit_not_authorized', 'cardDeclinedError'],
+    ['auth-declined', 'cardDeclinedError'],
+    ['expired-authorization', 'cardDeclinedError'],
+    ['4001', 'cardDeclinedError'],
+    ['4035', 'cardDeclinedError'],
+    ['4067', 'cardDeclinedError'],
+    ['4202', 'cardDeclinedError'],
+    // authorization
+    ['authentication_required', 'authorizationError'],
+    ['payment_intent_action_required', 'authorizationError'],
+    ['invoice_payment_intent_requires_action', 'authorizationError'],
+    ['unauthorised', 'authorizationError'],
+    ['user_fail_consent', 'authorizationError'],
+    ['0004', 'authorizationError'],
+    ['4075', 'authorizationError'],
+    ['public-api-key-not-specified', 'authorizationError'],
+    ['10', 'authorizationError'],
+    // invalid details
+    ['parameter_invalid_empty', 'invalidDetailsError'],
+    ['balance_invalid_parameter', 'invalidDetailsError'],
+    ['payment_intent_invalid_parameter', 'invalidDetailsError'],
+    ['cardholder_phone_number_required', 'invalidDetailsError'],
+    ['email_invalid', 'invalidDetailsError'],
+    ['invalid_json', 'invalidDetailsError'],
+    ['invalid_field', 'invalidDetailsError'],
+    ['5003', 'invalidDetailsError'],
+    ['9004', 'invalidDetailsError'],
+    ['9014', 'invalidDetailsError'],
+    ['9044', 'invalidDetailsError'],
+    // amount mismatch
+    ['invalid_charge_amount', 'amountMismatchError'],
+    ['payment_intent_amount_reconfirmation_required', 'amountMismatchError'],
+    ['capture-greater-instrument', 'amountMismatchError'],
+    ['capture-unequal-instrument', 'amountMismatchError'],
+    ['refund-exceeded', 'amountMismatchError'],
+    ['4070', 'amountMismatchError'],
+    ['5006', 'amountMismatchError'],
+    ['9009', 'amountMismatchError'],
+    // bank account
+    ['bank_account_declined', 'bankAccountError'],
+    ['bank_account_bad_routing_numbers', 'bankAccountError'],
+    ['payment_method_microdeposit_failed', 'bankAccountError'],
+    ['payment_method_microdeposit_verification_timeout', 'bankAccountError'],
+    ['billing_invalid_mandate', 'bankAccountError'],
+    ['instant_payouts_config_disabled', 'bankAccountError'],
+    ['financial_connections_account_inactive', 'bankAccountError'],
+    ['payment_method_bank_account_blocked', 'bankAccountError'],
+    ['payouts_not_allowed', 'bankAccountError'],
+    ['4045', 'bankAccountError'],
+    ['4209', 'bankAccountError'],
+    // charge
+    ['charge_already_captured', 'chargeError'],
+    ['intent_invalid_state', 'chargeError'],
+    ['capture-voided', 'chargeError'],
+    ['partial-capture-instrument', 'chargeError'],
+    ['capture-limit-exceeded', 'chargeError'],
+    ['2003', 'chargeError'],
+    ['4018', 'chargeError'],
+    ['4130', 'chargeError'],
+    ['4140', 'chargeError'],
+    // geo / currency
+    ['country_unsupported', 'regionOrCurrencyError'],
+    ['payment_method_currency_mismatch', 'regionOrCurrencyError'],
+    ['5008', 'regionOrCurrencyError'],
+    ['9010', 'regionOrCurrencyError'],
+    ['9104', 'regionOrCurrencyError'],
+    ['9105', 'regionOrCurrencyError'],
+    // unsupported method
+    ['alipay_upgrade_required', 'unsupportedMethodError'],
+    ['bitcoin_upgrade_required', 'unsupportedMethodError'],
+    ['no_such_payment_method', 'unsupportedMethodError'],
+    // security
+    ['fraudulent', 'securityError'],
+    ['kyc_check_failed', 'securityError'],
+    ['kyc_compliance_decline', 'securityError'],
+    ['4059', 'securityError'],
+    ['4061', 'securityError'],
+    ['4065', 'securityError'],
+    ['4098', 'securityError'],
+    // account setup
+    ['account_invalid', 'accountSetupError'],
+    ['account_error_country_change_requires_additional_steps', 'accountSetupError'],
+    ['account_insufficient_funds', 'accountSetupError'],
+    ['4003', 'accountSetupError'],
+    ['9037', 'accountSetupError'],
+    ['9095', 'accountSetupError'],
+    ['public-api-key-inactive', 'accountSetupError'],
+    // invoice
+    ['invoice_upcoming_none', 'invoiceError'],
+    ['out_of_inventory', 'invoiceError'],
+    ['customer_max_subscriptions', 'invoiceError'],
+    ['5018', 'invoiceError'],
+    ['9901', 'invoiceError'],
+    ['9909', 'invoiceError'],
+    // BFF (TransactionApiErrorCode 10703xxx)
+    ['10703031', 'clientError'],
+    ['10703032', 'serverError'],
+    ['10703033', 'integrationError'],
+    ['10703034', 'authorizationError'],
+    ['10703035', 'accountSetupError'],
+    ['10703036', 'cardDeclinedError'],
+    ['10703037', 'invalidDetailsError'],
+    ['10703029', 'amountMismatchError'],
+    ['10703038', 'amountMismatchError'],
+    ['10703039', 'securityError'],
+    ['10703040', 'bankAccountError'],
+    ['10703041', 'chargeError'],
+    ['10703043', 'invoiceError'],
+    ['10703044', 'regionOrCurrencyError'],
+    ['10703045', 'unsupportedMethodError'],
+    ['10703047', 'paymentPending'],
+    ['10703048', 'paymentSuccessOrderCanceled'],
+    // PayPal (BFF + JS SDK) - dedicated category, runs after order-status checks
+    ['10703046', 'paypalError'],
+    ['PAYPAL_ERROR', 'paypalError'],
+    // PRD row 14 Payment Processing Failures - dedicated category, not fallback anymore
+    ['10703042', 'paymentProcessingError'],
+    ['payment_method_provider_timeout', 'paymentProcessingError'],
+    ['payment_method_not_available', 'paymentProcessingError'],
+    ['payment_method_unactivated', 'paymentProcessingError'],
+    ['processing_error', 'paymentProcessingError'],
+    ['status_transition_invalid', 'paymentProcessingError'],
+    ['0999', 'paymentProcessingError'],
+    ['4020', 'paymentProcessingError'],
+    ['4086', 'paymentProcessingError'],
+    ['4099', 'paymentProcessingError'],
+    ['6012', 'paymentProcessingError'],
+    ['9035', 'paymentProcessingError'],
+  ])('classifies failureCode=%s as %s', (failureCode, expectedCategory) => {
+    expect(classifyPaymentError({ failureCode })).toBe(expectedCategory);
+  });
+
+  it('keeps HTTP status fallback priority over provider-specific mappings', () => {
+    expect(classifyPaymentError({ failureCode: 'api_key_expired', httpStatus: 400 })).toBe('clientError');
+    expect(classifyPaymentError({ failureCode: 'api_key_expired', httpStatus: 500 })).toBe('serverError');
+  });
+
+  it('classifies unmatched codes as genericPaymentError', () => {
+    expect(classifyPaymentError({ failureCode: 'totally_unknown_code' })).toBe('genericPaymentError');
+  });
+
+  it.each([
+    // Create-order errors are intentionally outside the payment classifier and
+    // fall through to genericPaymentError (handled elsewhere by checkout-error.listener).
+    ['CREATE_ORDER_FAILED'],
+    // BFF generic fallback constant
+    ['10703030'],
+    // Empty / unset failureCode
+    [''],
+  ])('classifies unmatched code=%s as genericPaymentError', (failureCode) => {
+    expect(classifyPaymentError({ failureCode })).toBe('genericPaymentError');
+  });
+});

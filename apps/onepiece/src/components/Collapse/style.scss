@@ -1,0 +1,77 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.collapse) {
+  & > .btn {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  & > div {
+    transition: height 0.3s;
+    overflow: hidden;
+  }
+
+  &.is-expanded {
+    & > div {
+      overflow: visible;
+    }
+  }
+}
+
+:local(.collapseV2) {
+  &__header {
+    border-bottom: 1px solid $color-dark-accent;
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    &__title {
+      @include subtitle1;
+      font-size: 16px;
+    }
+    &__icon {
+      position: relative;
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.3s;
+        background-color: $color-dark-accent;
+        width: 2px;
+        height: 100%;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.3s;
+        background-color: $color-dark-accent;
+        height: 2px;
+        width: 100%;
+      }
+    }
+    &.active > &__icon {
+      &::before {
+        transform: translate(-50%, -50%) rotate(-90deg);
+      }
+    }
+  }
+  &__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+}

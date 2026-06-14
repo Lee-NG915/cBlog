@@ -1,0 +1,136 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.cardOne) {
+  position: relative;
+  padding: 20px;
+  background-color: $color-warm-linen-200;
+  border: 1px solid $color-mono-300;
+
+  &.is-selected {
+    background-color: $color-warm-linen-500;
+    color: $color-mono-900;
+    border: solid 1px $color-maroon-velvet-500;
+  }
+  &.is-selected &__content > div > div {
+    color: $color-mono-900;
+  }
+  &.is-selected &__check {
+    // background-color: $color-light-accent;
+    border: solid 1px $color-maroon-velvet-500;
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__check {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid $color-maroon-velvet-500;
+
+    & > svg {
+      width: 100%;
+      height: 100%;
+      stroke: $color-primary;
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      stroke: $color-maroon-velvet-500;
+    }
+  }
+}
+
+:local(.cardTwo) {
+  border: 1px solid $color-mono-300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.is-selected {
+    border-color: $color-mono-600 !important;
+    background-color: $color-warm-linen-500;
+  }
+
+  &.is-selected-payment {
+    border-color: $color-mono-600;
+  }
+
+  &.is-selected &__title {
+    background-color: $color-primary;
+    border-color: none;
+    & > div {
+      color: $color-light-neutral;
+    }
+
+    &__check {
+      background-color: $color-light-accent;
+      border: none;
+    }
+  }
+
+  &.is-selected-payment &__title {
+    background-color: $color-warm-linen-500;
+    // border-color: $color-mono-600;
+    & > div > div {
+      color: $color-mono-900;
+    }
+
+    &__check {
+      background-color: $color-terracotta-500;
+      border: none;
+
+      & > svg {
+        stroke: $color-light-neutral;
+      }
+    }
+  }
+
+  &.title-top {
+    flex-direction: column-reverse;
+  }
+
+  &__content {
+    padding: 20px;
+  }
+
+  &__title {
+    position: relative;
+    padding: 20px;
+    border-top: 1px solid $color-mono-300;
+
+    &.is-disabled {
+      cursor: default;
+    }
+
+    &-top {
+      border: none;
+    }
+
+    &__check {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #f6f3e7;
+      border: 1px solid $color-dark-accent;
+
+      & > svg {
+        width: 100%;
+        height: 100%;
+        stroke: $color-primary;
+        position: absolute;
+      }
+    }
+  }
+}

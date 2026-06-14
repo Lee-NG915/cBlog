@@ -1,0 +1,122 @@
+import {
+  formItemLayout,
+  AddressFormField,
+  validatePhoneNumber,
+  phoneNumberFormattingUtils,
+  validatePostcode,
+  getStateOptions,
+  address1DefaultValueReWrite,
+  companyDefaultValueReWrite,
+} from './base';
+import { zipcodeFormattingUtils } from '@castlery/utils';
+
+export const addressFormFields: AddressFormField[] = [
+  {
+    key: 'firstname',
+    translationKey: 'firstname',
+    type: 'input',
+    required: true,
+    validation: {
+      minLength: 1,
+      maxLength: 32,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'lastname',
+    translationKey: 'lastname',
+    type: 'input',
+    required: true,
+    validation: {
+      minLength: 1,
+      maxLength: 32,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'phone',
+    translationKey: 'phone',
+    type: 'input',
+    required: true,
+    validation: { validate: validatePhoneNumber },
+    formatter: phoneNumberFormattingUtils.CA,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'alternativePhone',
+    translationKey: 'alternativePhone',
+    type: 'input',
+    required: false,
+    validation: { validate: validatePhoneNumber },
+    formatter: phoneNumberFormattingUtils.CA,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'street',
+    translationKey: 'street',
+    type: 'input',
+    required: true,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.oneColumn,
+    defaultValueReWrite: address1DefaultValueReWrite,
+  },
+  {
+    key: 'address2',
+    translationKey: 'address2',
+    type: 'input',
+    required: false,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.oneColumn,
+  },
+  {
+    key: 'country',
+    translationKey: 'country',
+    type: 'input',
+    required: true,
+    disabled: true,
+    value: 'Canada',
+    layoutStyle: formItemLayout.oneColumn,
+  },
+  {
+    key: 'stateName',
+    translationKey: 'stateName',
+    type: 'select',
+    required: true,
+    options: getStateOptions('CA') || [],
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'city',
+    translationKey: 'city',
+    type: 'input',
+    required: true,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'zipcode',
+    translationKey: 'zipcode',
+    type: 'input',
+    required: true,
+    validation: { validate: validatePostcode },
+    formatter: zipcodeFormattingUtils.CA,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'company',
+    translationKey: 'company',
+    type: 'input',
+    required: false,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+    defaultValueReWrite: companyDefaultValueReWrite,
+  },
+];

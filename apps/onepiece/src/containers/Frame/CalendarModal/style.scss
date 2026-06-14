@@ -1,0 +1,219 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.modal) {
+  @include flex-center;
+  height: 100%;
+
+  &__container {
+    padding: 24px;
+    overflow: hidden;
+    background-color: #fbf9f4;
+
+    @include mobile {
+      max-width: 340px;
+    }
+    @include shared {
+      max-width: 460px;
+    }
+  }
+
+  &__main {
+    // border: 1px solid $color-mono-300;
+
+    .DayPicker {
+      padding: 20px;
+    }
+
+    .DayPicker-wrapper {
+      padding: 0;
+    }
+
+    .DayPicker-NavBar {
+      span {
+        &:first-of-type {
+          left: 0;
+        }
+
+        &:last-of-type {
+          right: 0;
+        }
+      }
+    }
+
+    .DayPicker-Months {
+      width: 100%;
+    }
+    .DayPicker-Month {
+      width: 100%;
+      margin: 0;
+    }
+
+    .DayPicker-Caption {
+      margin-bottom: 24px;
+    }
+
+    .DayPicker-Caption,
+    .DayPicker-Weekday {
+      color: $color-dark-neutral;
+      font-size: 20px;
+      font-family: $font-title;
+      font-weight: normal;
+
+      abbr {
+        text-decoration: none;
+        cursor: default;
+      }
+    }
+
+    .DayPicker-Body {
+      font-size: 16px;
+      line-height: 23px;
+    }
+
+    .DayPicker-Day--outside {
+      cursor: pointer;
+    }
+
+    .DayPicker-Day--disabled.DayPicker-Day--outside {
+      cursor: default;
+    }
+
+    .DayPicker-Day--selected.DayPicker-Day--outside {
+      color: #fff;
+      background-color: #844025;
+    }
+  }
+
+  &__header {
+    position: relative;
+    // padding: 20px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $color-mono-300;
+    text-align: center;
+    & > h3 {
+      max-width: 95%;
+      margin-bottom: 12px;
+    }
+
+    // & > h2 {
+    //   font-family: $font-title;
+    //   font-size: 20px;
+    //   letter-spacing: 0.3px;
+    //   line-height: 24px;
+    //   font-weight: normal;
+    // }
+
+    // & > div {
+    //   font-size: 14px;
+    //   line-height: 20px;
+    //   margin-top: 15px;
+    // }
+  }
+
+  &__close.is-calendar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+  }
+
+  &__btn {
+    display: flex;
+    // background-color: #fbf9f4;
+    // background-color: red;
+    border-top: none;
+    width: 100%;
+
+    & > .btn {
+      flex: 1 1 0;
+      // border: solid 1px $color-mono-300;
+      width: 100%;
+      margin-top: 16px;
+
+      & > div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      $color: $color-maroon-velvet-500;
+      $background: transparent;
+      $border: $color-maroon-velvet-500;
+
+      $hover-color: $color-warm-linen-500;
+      $hover-background: $color-maroon-velvet-400;
+      $hover-border: $color-maroon-velvet-400;
+
+      $focus-color: $color-warm-linen-500;
+      $focus-background: $color-maroon-velvet-400;
+      $focus-border: $color-maroon-velvet-400;
+
+      $active-color: $color-warm-linen-500;
+      $active-background: $color-maroon-velvet-500;
+      $active-border: $color-maroon-velvet-500;
+
+      $disabled-color: $color-mono-500;
+      $disabled-background: transparent;
+      $disabled-border: $color-mono-500;
+
+      border-radius: 8px;
+      color: $color;
+      background-color: $background;
+      border-color: $border;
+
+      /* mobile/subheaders/auto/S2 */
+      @include subh2V2;
+
+      @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+      @include desktop {
+        @include hover {
+          color: $hover-color;
+          background-color: $hover-background;
+          border-color: $hover-border;
+        }
+
+        &:focus,
+        &.focus {
+          color: $focus-color;
+          background-color: $focus-background;
+          border-color: $focus-border;
+        }
+      }
+
+      // isolate :active from others to avoid :active:hover state changes
+      &:active {
+        color: $active-color;
+        background-color: $active-background;
+        border-color: $active-border;
+      }
+
+      @include desktop {
+        &.disabled,
+        &:disabled {
+          &:focus,
+          &.focus {
+            color: $disabled-color;
+            background-color: $disabled-background;
+            border-color: $disabled-border;
+          }
+          @include hover {
+            color: $disabled-color;
+            background-color: $disabled-background;
+            border-color: $disabled-border;
+          }
+        }
+      }
+
+      &.disabled,
+      &:disabled {
+        &:active {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+        }
+      }
+    }
+  }
+}

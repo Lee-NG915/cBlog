@@ -1,0 +1,55 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.retiredPage) {
+  &__body {
+    text-align: center;
+    padding: 0 $mobile-padding;
+    // border-bottom: 1px solid #aaa;
+    @include media-breakpoint-up(lg) {
+      font-size: 1.25rem;
+      &-content {
+        padding: 90px 0;
+      }
+      // margin: 100px auto;
+    }
+    @include media-breakpoint-down(md) {
+      font-size: 1.125rem;
+      margin: 50px auto;
+    }
+  }
+
+  &__action {
+    display: inline-block;
+    @include shared {
+      margin-top: 50px;
+    }
+    @include mobile {
+      margin-top: 30px;
+    }
+  }
+
+  &__recommend {
+    @include media-breakpoint-down(md) {
+      padding-top: 35px;
+      margin-bottom: 20px;
+    }
+    @include media-breakpoint-up(lg) {
+      padding-top: 75px;
+      margin-bottom: 75px;
+    }
+    // margin-bottom: 50px;
+  }
+
+  &__subscription {
+    &:empty {
+      display: none;
+    }
+    @include shared {
+      margin-bottom: 100px;
+    }
+    @include mobile {
+      margin-bottom: 50px;
+    }
+  }
+}

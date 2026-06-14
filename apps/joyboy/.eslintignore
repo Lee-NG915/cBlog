@@ -1,0 +1,21 @@
+**/node_modules
+build
+coverage
+dist
+.vscode
+.yarn
+.docusaurus
+**/tmp/
+**/.next/
+**/out/
+**/storybook-static/
+**/.nyc_output
+**/junit.xml
+**/generated
+libs/shared/types/components.sb-sg.json
+libs/shared/types/presets.sb-sg.json
+libs/shared/types/src/types/components-sb-sg-schema.d.ts
+
+# TypeScript build info files
+tsconfig.tsbuildinfo
+*.tsbuildinfo

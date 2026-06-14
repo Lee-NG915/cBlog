@@ -1,0 +1,14 @@
+{
+  "name": "@castlery/modules-posthog-services",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "posthog-js": "^1.194.3",
+    "posthog-node": "^4.3.2"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "typings": "./src/index.d.ts",
+  "private": true
+}

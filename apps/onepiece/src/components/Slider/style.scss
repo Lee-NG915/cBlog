@@ -1,0 +1,59 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.slider) {
+  position: relative;
+
+  @include mobile {
+    &__outer {
+      display: flex;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+
+      & > div {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  @include desktop {
+    & > .btn {
+      position: absolute;
+      top: 50%;
+      padding: 5px;
+      background-color: transparent;
+      border: none;
+
+      & > svg {
+        width: 32px;
+        height: 32px;
+        display: block;
+        fill: #666;
+      }
+    }
+
+    &__next {
+      right: 0;
+      transform: translate(100%, -50%);
+    }
+
+    &__prev {
+      left: 0;
+      transform: translate(-100%, -50%);
+    }
+
+    &__outer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    &__inner {
+      position: relative;
+      display: flex;
+
+      & > div {
+        flex-shrink: 0;
+      }
+    }
+  }
+}

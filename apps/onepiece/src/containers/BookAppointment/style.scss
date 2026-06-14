@@ -1,0 +1,12 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.bookAppointment) {
+  margin: 15px;
+  @include shared {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    max-width: map-get($container-max-widths, lg);
+    margin: 30px auto;
+  }
+}

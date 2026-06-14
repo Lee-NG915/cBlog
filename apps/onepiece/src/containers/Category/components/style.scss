@@ -1,0 +1,529 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+@import '../../../sass/rc-slider';
+
+:local(.hits) {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  @include mobile {
+    @include media-breakpoint-up(md) {
+      margin: 0 -10px;
+    }
+
+    & > div {
+      padding: 20px 10px 25px;
+      width: 50%;
+      // border-bottom: 1px solid $color-light-accent;
+
+      // &:nth-of-type(2n + 1) {
+      //   border-right: 1px solid $color-light-accent;
+      // }
+
+      // &:last-nth-of-type(2):nth-of-type(2n + 1) {
+      //   border-bottom: none;
+      // }
+
+      @include media-breakpoint-up(sm) {
+        border: none !important;
+      }
+      @include media-breakpoint-up(md) {
+        padding: 0 10px 50px;
+      }
+      @include media-breakpoint-up(lg) {
+        // TODO
+        // width: 33.3333333%;
+        // width: 25%;
+      }
+    }
+  }
+  @include desktop {
+    align-items: flex-start;
+    margin: 0 -10px;
+
+    & > div {
+      @include media-breakpoint-down(xl) {
+        width: 33.3333333%;
+      }
+      @include media-breakpoint-up(xl) {
+        width: 25%;
+      }
+    }
+  }
+}
+
+:local(.noHits) {
+  position: relative;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+:local(.pagination) {
+  @include mobile {
+    margin-top: 50px;
+  }
+  @include desktop {
+    margin-top: 30px;
+  }
+
+  .sk-toggle {
+    display: flex;
+    justify-content: center;
+
+    &.is-disabled {
+      display: none;
+    }
+
+    &-option {
+      flex-shrink: 0;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+
+      text-align: center;
+      @include button-variant($color-dark-accent, transparent, transparent, $color-primary, transparent, transparent);
+
+      @include mobile {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        margin: 0 3px;
+
+        @include media-breakpoint-up(sm) {
+          width: 38px;
+          height: 38px;
+          line-height: 38px;
+          margin: 0 5px;
+        }
+      }
+      @include desktop {
+        width: 38px;
+        height: 38px;
+        line-height: 38px;
+        margin: 0 5px;
+      }
+
+      &.is-active {
+        cursor: default;
+        border-color: $color-primary;
+        @include button-variant(
+          $color-light-accent,
+          $color-primary,
+          $color-primary,
+          $color-dark-accent,
+          $color-primary,
+          $color-primary
+        );
+      }
+
+      &.is-disabled {
+        cursor: default;
+        @include button-variant(#666, transparent, transparent, #666, transparent, transparent);
+      }
+
+      &:first-child,
+      &:last-child {
+        svg {
+          margin-top: 7px;
+        }
+        &:hover {
+          color: $color-primary;
+          svg {
+            fill: $color-primary !important;
+            stroke: $color-primary !important;
+          }
+        }
+        &.is-disabled {
+          display: none;
+        }
+      }
+
+      &__text {
+        color: $color-dark-accent;
+        display: inline;
+      }
+    }
+  }
+}
+
+:local(.filters) {
+  // desktop filters divider
+  @include mobile {
+    padding-top: 25px;
+  }
+  @include desktop {
+    .is-enabled {
+      margin-top: 30px;
+      border-top: 1px solid $color-dark-accent;
+      padding-top: 30px;
+    }
+  }
+
+  .sk-panel {
+    &.is-disabled {
+      display: none;
+    }
+
+    &.filter--q {
+      display: none;
+    }
+
+    &__header {
+      position: relative;
+
+      &.is-collapsable {
+        cursor: pointer;
+
+        &:after {
+          font-size: 1.5rem;
+          font-weight: 300;
+          line-height: 1;
+          content: '-';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translate(0, -50%);
+          color: $color-dark-accent;
+        }
+
+        &.is-collapsed {
+          &:after {
+            content: '+';
+            font-size: 1rem;
+            font-weight: normal;
+            color: $color-dark-accent;
+          }
+        }
+      }
+    }
+
+    @include mobile {
+      padding: 30px 0 25px;
+      border-bottom: 1px solid $color-dark-accent;
+      &__header {
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      &__content {
+        background-color: #fff;
+      }
+
+      .sk-panel {
+        padding: 0;
+        width: 100%;
+        border-bottom: none;
+
+        & + .sk-panel {
+          border-top: 1px solid #eee;
+        }
+
+        & > .sk-panel__header {
+          font-weight: normal;
+          margin-bottom: 0;
+          color: #888;
+          padding: 15px 0;
+        }
+
+        & > .sk-panel__content > div {
+          padding: 15px 0;
+          border-top: 1px solid #eee;
+        }
+      }
+
+      .sk-item-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
+    @include desktop {
+      &__header {
+        font-weight: 600;
+      }
+
+      &__content {
+        & > div {
+          padding-top: 20px;
+        }
+      }
+
+      .sk-panel {
+        margin-top: 0 !important;
+        border-top: none !important;
+        padding-top: 0 !important;
+
+        & + .sk-panel {
+          margin-top: 10px !important;
+        }
+
+        & > .sk-panel__header {
+          max-width: 175px;
+          white-space: pre-wrap;
+          font-weight: normal;
+          color: #888;
+        }
+
+        & > .sk-panel__content > div {
+          padding: 15px 0 5px;
+        }
+      }
+    }
+  }
+
+  .filter--color {
+    .sk-item-list {
+      @include clearfix();
+
+      @include mobile {
+        padding: 7px 0 3px;
+        margin: 0 -14px 0 -3px;
+      }
+      @include desktop {
+        margin-left: -3px;
+        padding-top: 5px;
+      }
+
+      &-option {
+        float: left;
+        padding: 2px;
+        border: 1px solid transparent;
+        border-radius: 50%;
+
+        @include mobile {
+          width: 40px;
+          height: 40px;
+          margin-right: 11px;
+          margin-bottom: 11px;
+        }
+        @include desktop {
+          width: 32px;
+          height: 32px;
+          margin-right: 3px;
+          margin-bottom: 3px;
+          cursor: pointer;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+
+        &.is-selected {
+          border-color: $color-dark-neutral;
+        }
+
+        @include mobile {
+          &:active {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+
+  .sk-item-list .sk-item-list-option.checkbox-option,
+  .sk-item-list .sk-item-list-option.radio-option {
+    @include mobile {
+      &:nth-of-type(2n) {
+        padding-left: $mobile-padding;
+      }
+    }
+  }
+
+  .sk-item-list-option.checkbox-option,
+  .sk-item-list-option.radio-option {
+    display: flex;
+    align-items: flex-start;
+    @include mobile {
+      width: 50%;
+      padding: 5px 0;
+
+      &:active {
+        opacity: 0.7;
+      }
+    }
+    @include desktop {
+      cursor: pointer;
+      margin: 0 0 8px 0;
+    }
+
+    .text {
+      flex: 1 1 auto;
+      text-transform: capitalize;
+      font-size: 1rem;
+      color: #888;
+    }
+
+    @include above {
+      & > .text {
+        color: $color-primary;
+      }
+    }
+
+    .input {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+      flex: 0 0 auto;
+      margin-top: 4px;
+      position: relative;
+    }
+
+    &.is-selected {
+      .input {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        position: relative;
+        &::after {
+          font-family: BlinkMacSystemFont, system-ui;
+          font-weight: 700;
+          content: '\2713';
+          font-size: 12px;
+          width: 10px;
+          height: 10px;
+          line-height: 1;
+          color: #fff;
+          position: absolute;
+          top: 45%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+  .sk-item-list-option.radio-option {
+    .input {
+      border-radius: 50%;
+    }
+  }
+
+  .sk-range-slider {
+    @include mobile {
+      padding: 25px 20px 32px;
+    }
+    @include desktop {
+      padding: 20px 5px 30px 5px;
+    }
+    .rc-slider-track {
+      @include mobile {
+        background-color: $color-dark-accent;
+      }
+      @include desktop {
+        background-color: $color-dark-accent;
+      }
+    }
+  }
+
+  .filter--price .rc-slider-mark > span:last-child:after {
+    content: '+';
+  }
+}
+
+:local(.sorting) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  padding: 8px 0;
+  @include mobile {
+    padding-right: 20px;
+  }
+  & > span {
+    font-weight: 600;
+    @include mobile {
+      position: absolute;
+      top: 8px;
+      right: 40px;
+    }
+    @include desktop {
+      margin-right: 5px;
+    }
+  }
+  &__select {
+    & > div:first-of-type {
+      & > div:first-of-type {
+        right: 0;
+      }
+    }
+  }
+}
+
+:local(.seo) {
+  &__section {
+    padding: 20px 8px;
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-dark-accent;
+    }
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+    &__content {
+      font-size: 14px;
+    }
+    &__title {
+      font-size: 14px;
+      font-weight: 500;
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+  &__content {
+    border-top: 1px solid $color-dark-accent;
+    a {
+      @include link-style($color-primary, $color-primary);
+    }
+    @include shared {
+      margin-top: 60px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+    @include mobile {
+      margin-top: 40px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    &__title {
+      font-weight: 600;
+      padding-bottom: 10px;
+      font-size: 16px;
+    }
+  }
+
+  a {
+    @include link-style($color-dark-neutral, $color-primary);
+    text-decoration: underline;
+  }
+
+  & > h2,
+  h3,
+  h4,
+  h5 {
+    @include mobile {
+      font-size: 14px;
+    }
+    @include desktop {
+      font-size: 16px;
+    }
+    margin-bottom: 1rem;
+    font-family: $font-base !important;
+    letter-spacing: 0.2;
+    font-weight: bold;
+  }
+
+  & > p + h2,
+  &__faq {
+    margin-top: 1.5rem;
+  }
+
+  & > p:last-of-type {
+    margin-bottom: 0;
+  }
+}

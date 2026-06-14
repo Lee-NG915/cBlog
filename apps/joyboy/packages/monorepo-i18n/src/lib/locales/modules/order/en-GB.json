@@ -1,0 +1,99 @@
+{
+  "orderInfoOverview": {
+    "exchangeOrderNumber": "Exchange order",
+    "orderNo": "Order No",
+    "orderPlaced": "Order Placed",
+    "total": "Total",
+    "orderStatus": "Order Status",
+    "viewOrderDetails": "View Details",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "addOnServices": "Add On Services",
+    "paymentDetails": "Payment Details",
+    "assemblyPreference": "Assembly Preference",
+    "deliveryRemarks": "Delivery Remark",
+    "canceled": "Cancelled",
+    "addBackToCartTooltip": "Order has been cancelled. Add it back to cart!",
+    "payProcessingTooltip": "Discounts are reserved for you.",
+    "orderNoLongerAwaitingPayment": "This order is no longer awaiting payment. Please check the latest status.",
+    "refreshStatus": "Refresh status"
+  },
+  "webOrderHistoryPage": {
+    "metadata": {
+      "title": "Orders"
+    },
+    "title": "My Order History",
+    "emptyState": {
+      "title": "My Order History",
+      "description": "You've not made any order yet.",
+      "cta": "Go Shopping"
+    },
+    "viewDetails": "View Details",
+    "tags": {
+      "gift": "GIFT"
+    },
+    "shipmentStatus": {
+      "pending": "Dispatch",
+      "pendingDesc": "Estimated Delivery:\n Within {estimatedDeliveryStartDate} - {estimatedDeliveryEndDate}",
+      "shippedInProgress": "Shipping In Progress",
+      "trackShipping": "Track shipping {index}",
+      "shipped": "Shipped",
+      "canceled": "Cancelled",
+      "reviewCta": "Add a review"
+    }
+  },
+  "webOrderItemTable": {
+    "tableHeader": {
+      "itemDescription": "Item Description",
+      "price": "Price",
+      "qty": "Qty",
+      "shipping": "Shipping Status"
+    },
+    "tags": {
+      "gift": "GIFT"
+    },
+    "reviewCta": "Add a review",
+    "customized": "*This customised item is not eligible for returns, exchanges, or refunds.",
+    "customizedCta": "View more info",
+    "clearance": "Note: Cancellations or Returns are not applicable for this clearance item.",
+    "warranty": "Extended Warranty: {durationMonths} Months / ${warrantyOfferPrice}"
+  },
+  "webOrderDetailsPage": {
+    "metadata": {
+      "title": "Order Details"
+    },
+    "notFound": "Oh no! Order not found, please check the order number and try again.",
+    "backButton": "Back to Order History",
+    "title": "Order Details",
+    "itemList": {
+      "title": "Item List"
+    }
+  },
+  "splTransitPage": {
+    "okay": "Okay",
+    "paymentLinkExpired": {
+      "title": "Payment link expired",
+      "description": "Oops, this payment link has expired or your order is no longer valid."
+    },
+    "itemUnavailable": {
+      "title": "Item no longer available",
+      "description": "Oops, one or more items in your order are no longer available. Your order has been cancelled."
+    },
+    "unknownError": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again later."
+    }
+  },
+  "orderSummaryDisplay": {
+    "title": "Order Summary",
+    "itemSubtotal": "Item Subtotal",
+    "shipping": "Shipping",
+    "service": "Services",
+    "promotion": "Promotion",
+    "coupon": "Coupon Code",
+    "tax": "Sales Tax",
+    "total": "Total",
+    "totalAddonDescription": "(Incl. VAT)",
+    "warranty": "Warranty Subtotal"
+  }
+}

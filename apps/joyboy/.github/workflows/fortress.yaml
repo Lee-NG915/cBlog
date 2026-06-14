@@ -1,0 +1,118 @@
+name: fortress CI
+
+on:
+  push:
+    tags:
+      - 'fortress-v[0-9]*.[0-9]*.[0-9]*'
+      - 'fortress-v[0-9]*.[0-9]*.[0-9]*-beta'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+    paths:
+      - 'libs/fortress/**'
+      - '.github/workflows/fortress.yaml'
+      - '.github/workflows/chromatic.yaml'
+
+jobs:
+  # ci:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Install dependencies
+  #       run: npm install
+  #     - name: Run tests
+  #       run: npm test
+  publish:
+    # PRs are not allowed to publish
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install
+        uses: ./.github/workflows/actions/install
+
+      - name: build
+        run: |
+          pnpm nx run fortress:build:production --skip-nx-cache --verbose
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@castlery'
+
+      - name: publish fortress
+        run: pnpm publish ./dist/libs/fortress --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_PASSWORD }}
+
+      # - name: publish fortress-icons
+      #   run: pnpm publish ./dist/libs/fortress-icons --tag lastest --no-git-checks
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GPR_PASSWORD }}
+  detect-changes:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize' &&
+      github.event.pull_request.head.ref != 'release-please--branches--master' &&
+      github.event.pull_request.head.ref != 'release-please--branches--fortress-beta'
+    outputs:
+      fortress_changed: ${{ steps.detect.outputs.fortress_changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Detect fortress changes
+        id: detect
+        uses: ./.github/workflows/actions/detect-changes
+        with:
+          before-sha: ${{ github.event.before }}
+          after-sha: ${{ github.event.after }}
+
+  chromatic-pr-synchronize:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.fortress_changed == 'true'
+    uses: ./.github/workflows/chromatic.yaml
+    with:
+      fetch-depth: 0
+      ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      chromatic-branch: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      chromatic-sha: ${{ github.event.pull_request.head.sha || github.sha }}
+      chromatic-slug: ${{ github.repository }}
+      working-dir: 'libs/fortress'
+      only-changed: false
+
+  chromatic:
+    if: |
+      github.event_name == 'push' ||
+       (
+         github.event_name == 'pull_request' &&
+         (
+           github.event.action == 'opened' ||
+           github.event.action == 'reopened'
+         ) &&
+         github.event.pull_request.head.ref != 'release-please--branches--master' &&
+         github.event.pull_request.head.ref != 'release-please--branches--fortress-beta'
+       )
+    uses: ./.github/workflows/chromatic.yaml
+    with:
+      fetch-depth: 0
+      ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      chromatic-branch: >-
+        ${{ github.event_name == 'pull_request' && 
+          github.event.pull_request.head.ref || 
+          contains(github.ref, '-beta') && 
+          'fortress-beta' || 
+          'master' }}
+      chromatic-sha: ${{ github.event.pull_request.head.sha || github.sha }}
+      chromatic-slug: ${{ github.repository }}
+      working-dir: 'libs/fortress'
+      only-changed: false

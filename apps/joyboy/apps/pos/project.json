@@ -1,0 +1,105 @@
+{
+  "name": "pos",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pos",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/pos"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/pos"
+        },
+        "production": {}
+      },
+      "dependsOn": [
+        {
+          "target": "init-env",
+          "projects": ["pos"],
+          "params": "forward"
+        }
+      ]
+    },
+    "init-env": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "production",
+      "options": {
+        "cwd": "apps/pos/internals/scripts",
+        "commands": ["node secrets/index.mjs"]
+      },
+      "configurations": {
+        "development": {
+          "cwd": "apps/pos/internals/scripts",
+          "commands": ["node secrets/dev.mjs"]
+        },
+        "production": {
+          "cwd": "apps/pos/internals/scripts",
+          "commands": ["node secrets/index.mjs"]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pos:build",
+        "port": 6061,
+        "dev": true
+      },
+      "configurations": {
+        "development.us": {
+          "buildTarget": "pos:build:development",
+          "port": 6062,
+          "dev": true
+        },
+        "development.sg": {
+          "buildTarget": "pos:build:development",
+          "port": 6062,
+          "dev": true
+        },
+        "development.au": {
+          "buildTarget": "pos:build:development",
+          "port": 6062,
+          "dev": true
+        },
+        "development.ca": {
+          "buildTarget": "pos:build:development",
+          "port": 6062,
+          "dev": true
+        },
+        "development.uk": {
+          "buildTarget": "pos:build:development",
+          "port": 6062,
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "pos:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "pos:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/pos/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["type:app"]
+}

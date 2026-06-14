@@ -1,0 +1,129 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+:local(.common) {
+  font-family: $font-base;
+  &__breadcrumbs {
+    border-bottom: 1px solid $color-dark-accent;
+  }
+  & &__intro {
+    font-size: 16px;
+    line-height: 1.5;
+    border-bottom: 1px solid $color-dark-accent;
+    h1 {
+      font-family: MinervaModern, Helvetica Neue, Arial, sans-serif;
+      font-weight: normal;
+      word-spacing: 1.2px;
+      margin-bottom: 45px;
+      font-size: 2rem;
+      @include mobile {
+        font-size: 1.75rem;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+    }
+    p {
+      font-family: $font-base;
+      white-space: pre-line;
+    }
+    & > div:first-child {
+      width: 74%;
+      padding: 80px 90px 60px 30px;
+      @include media-breakpoint-up(xxl) {
+        padding-left: 0;
+      }
+      @include mobile {
+        width: 100%;
+        padding: 10px 15px;
+      }
+    }
+    & > div:last-child {
+      width: 36%;
+      @include mobile {
+        width: 100%;
+        position: relative;
+      }
+    }
+  }
+}
+
+:local(.careers) {
+  & &__openPosition {
+    @include desktop {
+      margin-top: 40px;
+      margin-right: 24px;
+    }
+    @include mobile {
+      position: absolute;
+      left: 50%;
+      bottom: 40px;
+      transform: translateX(-50%);
+      width: 210px;
+      padding: 0 5px;
+    }
+  }
+  & &__openPosition__apply {
+    @include mobile {
+      bottom: 100px;
+    }
+  }
+}
+
+:local(.graduate) {
+  & &__openPosition {
+    @include desktop {
+      margin-top: 40px;
+      margin-right: 24px;
+    }
+    @include mobile {
+      position: absolute;
+      left: 50%;
+      bottom: 0px;
+      transform: translateX(-50%);
+      width: 210px;
+      padding: 0 5px;
+    }
+  }
+  &__intro {
+    @include mobile {
+      border-bottom: none !important;
+    }
+    &__closetip {
+      margin-top: 42px;
+    }
+  }
+  &__intro__left {
+    flex-basis: 55%;
+    padding: 60px 60px 60px 30px !important;
+    @include media-breakpoint-up(xxl) {
+      padding-left: 0 !important;
+    }
+    @include mobile {
+      padding: 10px 15px !important;
+    }
+  }
+  &__intro__right {
+    flex-basis: 45%;
+  }
+
+  &__banner {
+    margin-top: 48px;
+    background: #f9f7f3;
+    padding: 48px 24px;
+    text-align: center;
+    font-family: $font-title;
+    font-size: 28px;
+    line-height: 150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      width: 60%;
+      @include mobile {
+        font-size: 18px;
+        width: auto;
+      }
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@castlery/shared-next-font",
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.0.1"
+}

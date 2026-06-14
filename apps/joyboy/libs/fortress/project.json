@@ -1,0 +1,131 @@
+{
+  "name": "fortress",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/fortress/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:shared-components", "type:base-components"],
+  "targets": {
+    "build": {
+      "cache": true,
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/libs/fortress",
+        "generatePackageJson": false
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 6005,
+        "configDir": "libs/fortress/.storybook",
+        "nodeOptions": "--max-old-space-size=16384"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/fortress",
+        "configDir": "libs/fortress/.storybook",
+        "webpackStatsJson": true
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/fortress",
+        "command": "NODE_OPTIONS='--max-old-space-size=16384' test-storybook -c .storybook --url=http://localhost:6005 --verbose --browsers=chromium"
+      }
+    },
+    "test-storybook:ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run fortress:build-storybook:ci",
+          "npx http-server dist/storybook/fortress -p 6005 &",
+          "npx wait-on tcp:6005",
+          "nx run fortress:test-storybook"
+        ],
+        "parallel": false
+      }
+    },
+    "test-storybook:ci-coverage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run fortress:build-storybook:ci",
+          "npx http-server dist/storybook/fortress -p 6005 &",
+          "npx wait-on tcp:6005",
+          "nx run fortress:test-storybook --coverage"
+        ],
+        "parallel": false
+      }
+    },
+    "test-storybook:ci-failures": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "TEST_FAILURES=1 nx run fortress:build-storybook:ci",
+          "npx http-server dist/storybook/fortress -p 6005 &",
+          "npx wait-on tcp:6005",
+          "nx run fortress:test-storybook:failures"
+        ],
+        "parallel": false
+      }
+    },
+    "test-storybook:ci-json": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run fortress:build-storybook:ci",
+          "npx http-server dist/storybook/fortress -p 6005 &",
+          "npx wait-on tcp:6005",
+          "SKIP_SNAPSHOTS=true nx run fortress:test-storybook:json"
+        ],
+        "parallel": false
+      }
+    },
+    "test-storybook:failures": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "SKIP_SNAPSHOTS=true TEST_FAILURES=1 nx run fortress:test-storybook --json --failOnConsole --outputFile test-results.json"
+      }
+    },
+    "test-storybook:json": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run fortress:test-storybook --index-json"
+      }
+    },
+    "test-storybook:no-cache": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run fortress:test-storybook --no-cache"
+      }
+    }
+  }
+}

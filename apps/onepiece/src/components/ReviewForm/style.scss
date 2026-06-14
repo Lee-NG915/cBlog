@@ -1,0 +1,241 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.variantForm) {
+  $border-radius: 8px;
+
+  &__error {
+    color: $color-primary;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  &__rating {
+    & > .btn:disabled {
+      cursor: wait;
+    }
+  }
+
+  &__content {
+    position: relative;
+
+    & > textarea {
+      resize: none;
+      border-color: #ddd;
+      margin-top: 15px;
+      border-radius: $border-radius;
+
+      &:disabled {
+        cursor: wait;
+        background-color: #fafafa;
+      }
+    }
+
+    & > span {
+      position: absolute;
+      right: 6px;
+      bottom: 1px;
+      font-size: 0.9rem;
+      color: #aaa;
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 4px;
+      border-radius: 2px;
+    }
+
+    @include mobile {
+      & > textarea {
+        margin-top: 5px;
+      }
+
+      & > span {
+        font-size: 0.8rem;
+      }
+    }
+    @include shared {
+      & > textarea {
+        margin-top: 15px;
+      }
+
+      & > span {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  &__images {
+    & > div {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    @include mobile {
+      margin: 15px -7px 0;
+
+      & > div > div {
+        width: 25%;
+        padding: 0 7px;
+        margin-top: 14px;
+
+        &:nth-of-type(-n + 4) {
+          margin-top: 0;
+        }
+
+        @include media-breakpoint-up(sm) {
+          width: 20%;
+
+          &:nth-of-type(-n + 5) {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+    @include shared {
+      margin: 20px -10px 0;
+
+      & > div > div {
+        width: 20%;
+        padding: 0 10px;
+        margin-top: 20px;
+
+        &:nth-of-type(-n + 5) {
+          margin-top: 0;
+        }
+
+        @include media-breakpoint-up(lg) {
+          &:nth-of-type(6) {
+            margin-top: 0;
+          }
+          width: 16.66%;
+        }
+      }
+    }
+  }
+
+  &__image {
+    padding-top: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border-radius: $border-radius;
+
+    &__loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: $border-radius;
+    }
+
+    & > .btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: #ddd;
+      transform: translate(50%, -50%);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+      & > svg {
+        width: 10px;
+        height: 10px;
+        fill: #fff;
+        stroke: #fff;
+        stroke-width: 5px;
+        display: block;
+      }
+
+      @include above {
+        background-color: #ccc;
+      }
+
+      @include mobile {
+        padding: 4px;
+      }
+      @include shared {
+        padding: 8px;
+      }
+    }
+  }
+
+  &__dropzone {
+    border: 1px dashed #ccc;
+    padding-top: 100%;
+    position: relative;
+    cursor: crosshair;
+    border-radius: $border-radius;
+
+    & > div {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      transform: translate(0, -50%);
+      text-align: center;
+
+      & > svg {
+        display: block;
+        margin: 0 auto;
+      }
+
+      & > p {
+        margin-bottom: 0;
+        margin-top: 5px;
+        color: #bbb;
+        line-height: 1;
+        padding: 0 10px;
+      }
+
+      @include mobile {
+        & > svg {
+          width: 24px;
+          height: 24px;
+          fill: #bbb;
+        }
+
+        & > p {
+          font-size: 0.7rem;
+        }
+      }
+      @include shared {
+        & > svg {
+          width: 38px;
+          height: 38px;
+          fill: #ccc;
+        }
+
+        & > p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+  &__couponTip {
+    margin-top: 5px;
+  }
+
+  &__anonymous {
+    display: block;
+    margin-bottom: 20px;
+    @include checkbox;
+    background-color: transparent;
+    padding: 0 0 0 20px;
+    text-transform: none;
+    color: $color-grey;
+  }
+  &__submit {
+    display: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    @include mobile {
+      text-align: center;
+    }
+    &.is-enable {
+      display: block;
+    }
+  }
+}

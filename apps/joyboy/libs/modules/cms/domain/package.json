@@ -1,0 +1,19 @@
+{
+  "name": "@castlery/modules-cms-domain",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@castlery/config": "0.0.1",
+    "@castlery/types": "0.0.1",
+    "react": "18.3.1",
+    "@castlery/observability": "0.0.1",
+    "@storyblok/react": "4.3.4",
+    "@castlery/shared-redux-services": "0.0.1",
+    "@castlery/shared-redux-core": "0.0.1"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
+}

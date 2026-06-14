@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.agents/skills/alert-harness/scripts/stop-review.sh\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

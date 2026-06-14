@@ -1,0 +1,10 @@
+{
+  "name": "@castlery/modules-promotion-services",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {},
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "private": true
+}

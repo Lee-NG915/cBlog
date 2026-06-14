@@ -1,0 +1,40 @@
+name: detect-changes
+description: 'Check if fortress files changed between two commits'
+
+inputs:
+  before-sha:
+    description: 'The commit SHA before changes'
+    required: true
+    type: string
+  after-sha:
+    description: 'The commit SHA after changes'
+    required: true
+    type: string
+
+outputs:
+  fortress_changed:
+    description: 'Whether fortress changed (true/false)'
+    value: ${{ steps.check_changes.outputs.fortress_changed }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Compute diff between previous and latest commit
+      id: compute_diff
+      shell: bash
+      run: |
+        echo "Comparing commits: ${{ inputs.before-sha }} → ${{ inputs.after-sha }}"
+        git diff --name-only ${{ inputs.before-sha }} ${{ inputs.after-sha }} > changed_files.txt
+        cat changed_files.txt
+
+    - name: Check if fortress files changed
+      id: check_changes
+      shell: bash
+      run: |
+        FORTRESS_CHANGED=false
+        if [[ -s changed_files.txt ]]; then
+          if grep -qE '^libs/fortress/|^\\.github/workflows/fortress\\.yaml$' changed_files.txt; then
+            FORTRESS_CHANGED=true
+          fi
+        fi
+        echo "fortress_changed=$FORTRESS_CHANGED" >> $GITHUB_OUTPUT

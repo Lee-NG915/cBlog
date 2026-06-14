@@ -1,0 +1,210 @@
+{
+  "title": "Shared",
+  "common": {
+    "metadata": {
+      "title": "Castlery",
+      "description": "Castlery is an online furniture store in Singapore that provides a wide range of modern and high-quality furniture.",
+      "keywords": "furniture United States, online furniture United States, furniture shop United States, furniture stores United States, furniture in United States, modern furniture United States, furniture US, furniture, Castlery, United States",
+      "pinterest-domain-verification": "95104ca2f6cfd48ce176988ea0dd0421"
+    },
+    "country": "US",
+    "color": "Color",
+    "length": "Length (inch)",
+    "dispatch": "Dispatch",
+    "telephone": {
+      "value": "18663061666",
+      "presentation": "+1 866.306.1666"
+    },
+    "whatsapp": {
+      "value": "14248887789",
+      "presentation": "+1 424-888-7789"
+    },
+    "parkingInfo": "Parking Available"
+  },
+  "priceDisplay": {
+    "price": "{showFree, select, true {Free} other {{value}}}"
+  },
+  "pageMetadata": {
+    "landing": {
+      "title": "Welcome| Castlery US"
+    },
+    "welcome": {
+      "title": "Castlery US",
+      "description": "Your home, your style"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "zh": "Chinese"
+  },
+  "landingPage": {
+    "title": "Here is Landing Page",
+    "sg": "Singapore",
+    "us": "United States",
+    "au": "Australia",
+    "ca": "Canada",
+    "uk": "United Kingdom",
+    "button": "Go"
+  },
+  "homePage": {
+    "title": "Here is Home Page"
+  },
+  "AbbyDemos": {
+    "title": "Abby's i18n Examples",
+    "variables": {
+      "title": "# Variables",
+      "description": "Use Variables to pass in values to the translation file.",
+      "welcome": "Hello {customerName}, Welcome to {appName}!"
+    },
+    "numbers": {
+      "title": "# Numbers",
+      "quantity": "Quantity: {count, number}",
+      "percentage": "Discount: {percent, number, percent}",
+      "decimal": "Rating: {rating, number, ::.0#}"
+    },
+    "currency": {
+      "title": "# Currency Demos",
+      "description": "The number of decimal places is 0-3, which is automatically processed globally without manual restriction.",
+      "price": "Price: {value,number,currency}",
+      "total": "Total: {value,number,currency}",
+      "customCurrency": "{value, number,::currency/CAD}",
+      "amount": "Amount: {showFree, select, true {Free} other {{value}}}"
+    },
+    "dateTime": {
+      "title": "# Date and Time",
+      "description": "",
+      "orderDate": "Order placed on:  {date, date}",
+      "deliveryTime": "Delivery by: {date, date, long}"
+    },
+    "pluralization": {
+      "title": "# Pluralization",
+      "description": "The pluralization is automatically processed globally without manual restriction.",
+      "quantity": "You have {count, plural, =0 {no items} =1 {one item} other {# items}} in your cart.",
+      "itemCount": "{count, plural, =1 {# item} other {# items}}",
+      "productCount": "{count, plural, =0 {No products} =1 {# product} other {# products}}"
+    },
+    "conditional": {
+      "title": "# Conditionals",
+      "description": "Using conditionals in translations is a powerful way to handle different states and scenarios.",
+      "status": "{status, select, pending {Pending} processing {Processing} shipped {Shipped} delivered {Delivered} other {Unknown}}",
+      "notification": "{type, select, success {Success!} error {Error occurred} warning {Warning} info {Information} other {Notification}}"
+    },
+    "array": {
+      "title": "# Array",
+      "description": "Using arrays in translations is a powerful way to handle different states and scenarios.",
+      "list": ["list item1", "list item2", "list item3"]
+    }
+  },
+  "addressForm": {
+    "firstname": {
+      "label": "First Name",
+      "placeholder": "Enter First Name"
+    },
+    "lastname": {
+      "label": "Last Name",
+      "placeholder": "Enter Last Name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter Email"
+    },
+    "phone": {
+      "label": "Phone Number",
+      "placeholder": "Enter Phone Number"
+    },
+    "alternativePhone": {
+      "label": "Alternate Phone Number (Optional)",
+      "placeholder": "Enter Alternate Phone Number"
+    },
+    "street": {
+      "label": "Street Address",
+      "placeholder": "Enter Street Address"
+    },
+    "address2": {
+      "label": "Apartment, Suite, Etc.(Optional)",
+      "placeholder": "Enter Apartment, Suite, Etc."
+    },
+    "country": {
+      "label": "Country",
+      "value": "United States"
+    },
+    "stateName": {
+      "label": "State",
+      "placeholder": "Enter State"
+    },
+    "city": {
+      "label": "City / Town",
+      "placeholder": "Enter City / Town"
+    },
+    "zipcode": {
+      "label": "Zip Code",
+      "placeholder": "Enter Zip Code"
+    },
+    "company": {
+      "label": "Company name (Optional)",
+      "placeholder": "Enter Company Name"
+    },
+    "cancel": "Cancel",
+    "save": "Save",
+    "errorMessage": {
+      "required": "This field is mandatory",
+      "error": "There is an error in this field",
+      "maxLength": "This field cannot be longer than {maxLength} characters",
+      "minLength": "This field cannot be shorter than {minLength} characters",
+      "pattern": "This field is not valid",
+      "validate": "This field is not valid",
+      "zipcodeInvalid": "Please enter a valid zip code",
+      "phoneInvalid": "Please enter a valid phone number"
+    },
+    "errorPrompt": {
+      "title": "Oops!",
+      "content": "There is something wrong. Please check and try again.",
+      "confirmText": "Got it"
+    },
+    "unsavedChanges": {
+      "title": "There are unsaved changes",
+      "content": "Any unsaved changes to your address details will be lost.",
+      "cancelText": "Discard changes",
+      "confirmText": "Continue editing"
+    },
+    "createCustomerConsent": {
+      "prefix": "Before clicking the Add button, please make sure customers agree to Castlery's",
+      "termsOfUse": "Terms of Use",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy",
+      "suffix": ". They will be opted in to our newsletters, and can unsubscribe at anytime."
+    },
+    "createCustomerButtons": {
+      "cancel": "Cancel",
+      "confirm": "Create Customer"
+    }
+  },
+  "pages": {
+    "signup": {
+      "subscribe": "Yes, I would like to receive marketing emails and special offers from Castlery."
+    }
+  },
+  "cartCheckoutZipcodeSelector": {
+    "title": "Shipping location",
+    "description": "Enter your zip code for an accurate shipping estimate.",
+    "placeholder": "Enter Zip code",
+    "updatedMessage": "Zip code has been updated!"
+  },
+  "ecoDelivery": {
+    "main": {
+      "title": "ECO Delivery — Partnership with Maersk",
+      "description": "We are committed to adopting low-GHG fuel options. To date, we have successfully reduced ocean freight emissions by 5,000 metric tons. Over the next decade, we aim to further reduce carbon emissions by at least 1,000 metric tons per year, in collaboration with Maersk.\u200b"
+    },
+    "whatThisMeansForYou": {
+      "title": "What This Means for You",
+      "description": "Your Castlery order will support the transition to green fuels and reduce GHG emissions at no extra cost to you."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "description": "For our shipments, Maersk replaces fossil fuels on its ships with green fuels* like green methanol or second-generation biodiesel based on waste feedstocks. The amount of carbon savings is calculated based on the energy used to move the containers, as reported by Maersk and verified by 3rd parties from Smart Freight Centre."
+    },
+    "inlineTip": "Your order supports ECO Delivery",
+    "readMoreLinkText": "Read more about Maersk ECO Delivery.",
+    "tip": "Maersk defines \u2018green fuels\u2019 as fuels with low (65-80%) to very low (80-95%) GHG emissions over their life cycle compared to fossil fuels"
+  }
+}

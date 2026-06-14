@@ -1,0 +1,26 @@
+{
+  "name": "shared-redux-extra",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/redux/extra/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:util"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/redux/extra",
+        "main": "libs/shared/redux/extra/src/index.ts",
+        "tsConfig": "libs/shared/redux/extra/tsconfig.lib.json",
+        "assets": ["libs/shared/redux/extra/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/redux/extra/jest.config.ts"
+      }
+    }
+  }
+}

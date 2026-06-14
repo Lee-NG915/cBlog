@@ -1,0 +1,37 @@
+// @import 'sass/variables';
+// @import 'sass/mixins';
+@import '../../sass/variables';
+@import '../../sass/mixins';
+body {
+  margin: 0;
+}
+
+:local(.content) {
+  background: #f7f7f7;
+  min-height: 434px;
+  display: flex;
+  margin-top: 70px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+:local(.refreshText) {
+  color: #c1af86;
+  text-decoration: underline;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+:local() {
+  &__recommend {
+    @include media-breakpoint-down(md) {
+      margin-top: 50px;
+      margin-bottom: 58px;
+    }
+    @include media-breakpoint-up(lg) {
+      margin: 80px 0;
+      min-height: 20px;
+    }
+  }
+}

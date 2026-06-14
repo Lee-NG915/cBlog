@@ -1,0 +1,29 @@
+web:
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: alb
+      # share a single ALB with all ingress rules with group
+      alb.ingress.kubernetes.io/group.name: onepiece-group-sg-test
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+      # waf, only works for regional waf
+      alb.ingress.kubernetes.io/waf-acl-id: e4b45857-5e47-44da-b6d3-209bf1357a49
+      # SecurityGroup/eks-test-alb
+      alb.ingress.kubernetes.io/security-groups: sg-048cac3f1d05098a8
+      # tls certificates for .com, .co, .sg, .com.au
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-1:825303761615:certificate/4f0499e7-704f-4309-a376-d29bb2b23ad8
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+      alb.ingress.kubernetes.io/healthcheck-path: /health
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '10'
+      alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true,routing.http.drop_invalid_header_fields.enabled=true,waf.fail_open.enabled=true,access_logs.s3.enabled=true,access_logs.s3.bucket=alb-log-waf-onepiece-sg-230,access_logs.s3.prefix=onepiece-group-sg-test
+      alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    hosts:
+      - host: www-test.castlery.com
+        paths:
+          - '/*'

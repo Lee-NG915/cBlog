@@ -1,0 +1,365 @@
+upstream onepiece-server {
+  server 127.0.0.1:9000;
+
+  keepalive 32;
+  # keepalive_timeout  75s;
+  # keepalive_requests 100;
+}
+
+log_format log_req_resp '$remote_addr - $remote_user  '
+'"$request" $status $request_time $body_bytes_sent '
+'"$http_x_forwarded_for" '
+'req_header:"$req_header" ';
+
+log_format apm '[$time_iso8601] client=$remote_addr '
+               'method=$request_method request="$request" '
+               'request_length=$request_length '
+               'status=$status bytes_sent=$bytes_sent '
+               'body_bytes_sent=$body_bytes_sent '
+               'referer=$http_referer '
+               'user_agent="$http_user_agent" '
+               'req_header="$req_header" '
+               'request_time=$request_time '
+               'upstream_addr=$upstream_addr '
+               'upstream_status=$upstream_status '
+               'upstream_response_time=$upstream_response_time '
+               'upstream_connect_time=$upstream_connect_time '
+               'upstream_header_time=$upstream_header_time '
+               'upstream_response_length=$upstream_response_length';
+
+log_format apm_json escape=json
+              '{'
+                '"http.version":"$request",'
+                '"http.status_code":$status,'
+                '"http.method":"$request_method",'
+                '"http.referer":"$http_referer",'
+                '"http.useragent":"$http_user_agent",'
+                '"time_local":"$time_local",'
+                '"remote_addr":"$remote_addr",'
+                '"remote_user":"$remote_user",'
+                '"body_bytes_sent":"$body_bytes_sent",'
+                '"request_time":$request_time,'
+                '"response_content_type":"$sent_http_content_type",'
+                '"X-Forwarded-For":"$proxy_add_x_forwarded_for",'
+                '"http_x_real_ip":"$http_x_real_ip",'
+                '"request_length":"$request_length",'
+                '"req_header":"$req_header",'
+                '"upstream_addr":"$upstream_addr",'
+                '"upstream_status":"$upstream_status",'
+                '"upstream_response_time":"$upstream_response_time",'
+                '"upstream_connect_time":"$upstream_connect_time",'
+                '"upstream_header_time":"$upstream_header_time",'
+                '"upstream_response_length":"$upstream_response_length"'
+              '}';
+
+access_log  logs/access.log apm_json;
+error_log logs/error.log;
+
+init_by_lua_block {
+  drop_param = require "drop-param"
+}
+
+map "<%= auth_required %>" $authentication {
+    default    "off";
+    "~*true"   "realm";
+}
+
+# redirect .co, .sg and com.au websites, root path should be redirect without trailing slash
+server {
+  listen 80 ;
+  listen [::]:80;
+  server_name ~^(?<subdomain>.+)\.castlery\.com\.au$;
+
+  location = / {
+    return 301 https://$subdomain.castlery.com/au;
+  }
+
+  location / {
+    return 301 https://$subdomain.castlery.com/au$request_uri;
+  }
+
+  location ~* ^/(?:favicon|apple-touch-icon|android-chrome-|mstile-|safari-pinned-tab.svg|browserconfig.xml|manifest.json|robots.txt) {
+    access_log  off;
+    auth_basic off;
+
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+}
+
+server {
+  listen 80 ;
+  listen [::]:80;
+  server_name ~^(?<subdomain>.+)\.castlery\.co$;
+
+  location = / {
+    return 301 https://$subdomain.castlery.com/us;
+  }
+
+  location / {
+    return 301 https://$subdomain.castlery.com/us$request_uri;
+  }
+
+  # for backward compatibility reason, forward /api/ to crusader for .co
+  location /api/ {
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host <%= crusader_us_api_host %>;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+    # forward to crusader api
+    proxy_pass https://<%= crusader_us_api_host %>/;
+  }
+
+  location ~* ^/(?:favicon|apple-touch-icon|android-chrome-|mstile-|safari-pinned-tab.svg|browserconfig.xml|manifest.json|robots.txt) {
+    access_log  off;
+    auth_basic off;
+
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+}
+
+server {
+  listen 80 ;
+  listen [::]:80;
+  server_name ~^(?<subdomain>.+)\.castlery\.sg$;
+
+  location = / {
+    return 301 https://$subdomain.castlery.com/sg;
+  }
+
+  location / {
+    return 301 https://$subdomain.castlery.com/sg$request_uri;
+  }
+
+  location ~* ^/(?:favicon|apple-touch-icon|android-chrome-|mstile-|safari-pinned-tab.svg|browserconfig.xml|manifest.json|robots.txt) {
+    access_log  off;
+    auth_basic off;
+
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+
+    proxy_pass http://onepiece-server;
+  }
+}
+
+
+
+map "$host" $robots {
+    default "";
+    # if $host contains the word www3
+    "~*www3" "noindex, nofollow, nosnippet, noarchive";
+    "~*test" "noindex, nofollow, nosnippet, noarchive";
+    "~*dev" "noindex, nofollow, nosnippet, noarchive";
+    "~*uat" "noindex, nofollow, nosnippet, noarchive";
+}
+
+# Desktop and mobile
+server {
+  listen 80 default_server;
+  listen [::]:80;
+  server_name _;
+
+  auth_basic $authentication;
+  auth_basic_user_file /opt/nginx/.htpasswd;
+
+  # add x-robot-tag header for www3
+  add_header X-Robots-Tag $robots;
+
+  # security headers, refer to https://observatory.mozilla.org/
+  add_header Referrer-Policy "no-referrer-when-downgrade";
+  add_header X-Frame-Options SAMEORIGIN;
+  add_header X-Content-Type-Options nosniff;
+  # add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ssl.google-analytics.com https://assets.zendesk.com https://connect.facebook.net; img-src 'self' https://ssl.google-analytics.com https://s-static.ak.facebook.com https://assets.zendesk.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.zendesk.com; font-src 'self' https://themes.googleusercontent.com; frame-src https://assets.zendesk.com https://www.facebook.com https://s-static.ak.facebook.com https://tautt.zendesk.com; object-src 'none'";
+  add_header Content-Security-Policy "frame-ancestors 'self' https://*.castlery.com https://app.storyblok.com";
+  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+
+  # print request and response headers
+  set $req_header "";
+  set $resp_header "";
+  header_filter_by_lua_block {
+    local h = ngx.req.get_headers()
+    for k, v in pairs(h) do
+        ngx.var.req_header = ngx.var.req_header .. k.."="..v.." "
+    end
+  }
+  # health check by ELB
+  location = /health {
+    access_log  off;
+    auth_basic off;
+
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+
+  # serve .well-known directory from filesystem
+  location ^~ /.well-known/apple-developer-merchantid-domain-association {
+    access_log  off;
+    auth_basic off;
+    allow all;
+    default_type	"text/plain";
+    root /opt/nginx/etc;
+    try_files $uri =404;
+    break;
+  }
+
+  # serve gpc.json
+  location ^~ /.well-known/gpc.json {
+    access_log off;
+    auth_basic off;
+    allow all;
+    default_type "application/json";
+    root /opt/nginx/etc;
+    try_files $uri =404;
+    break;
+  }
+
+  location ~* ^/(?:favicon|apple-touch-icon|android-chrome-|mstile-|safari-pinned-tab.svg|browserconfig.xml|manifest.json|robots.txt) {
+    access_log  off;
+    auth_basic off;
+
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+
+  # do not do any redirect in nginx if accessing root path, pass through to onepiece which does geo-ip redirect
+  location = / {
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+
+  # #83ywge redirect /mindscape, /rich and /wondery to /au website
+  location ~* ^/(mindscape|rich|wondery)/?$ {
+    rewrite_by_lua_block {
+      local args, err = ngx.req.get_uri_args()
+      ngx.req.set_uri_args(args)
+      local target_uri = "/au" .. ngx.var.uri
+      return ngx.redirect("https://".. ngx.var.host .. target_uri .. ngx.var.is_args .. ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
+    }
+  }
+
+  # #83ywge redirect /eventherich and /thedollop to /us website
+  location ~* ^/(eventherich|thedollop)/?$ {
+    rewrite_by_lua_block {
+      local args, err = ngx.req.get_uri_args()
+      ngx.req.set_uri_args(args)
+      local target_uri = "/us" .. ngx.var.uri
+      return ngx.redirect("https://".. ngx.var.host .. target_uri .. ngx.var.is_args .. ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
+    }
+  }
+
+  location / {
+    proxy_set_header Connection "";
+    proxy_set_header Proxy "";
+    proxy_http_version  1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Client-IP            $remote_addr;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $remote_addr;
+    proxy_set_header X-Forwarded-Proto      $http_x_forwarded_proto;
+    proxy_set_header X-Forwarded-Port       $http_x_forwarded_proto;
+    # Pass the original X-Forwarded-For
+    proxy_set_header X-Original-Forwarded-For $http_x_forwarded_for;
+
+    proxy_pass http://onepiece-server;
+  }
+}
+
+# default server, used for NGINX healthcheck and access to nginx stats
+server {
+  listen 1025;
+
+  keepalive_timeout 0;
+  gzip off;
+  access_log off;
+
+  location /healthz {
+      return 200;
+  }
+
+  location / {
+      content_by_lua_block {
+          ngx.exit(ngx.HTTP_NOT_FOUND)
+      }
+  }
+}

@@ -1,0 +1,26 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.breadcrumbs) {
+  flex: 0 0 100%;
+  font-size: 14px;
+  padding: 16px 0;
+  color: #929292;
+  @include mobile {
+    padding: 12px 0;
+  }
+
+  & > span {
+    &:last-of-type > span {
+      display: none;
+    }
+  }
+
+  &__divide {
+    margin: 0 16px;
+  }
+
+  a {
+    @include link-style(#929292, $color-primary);
+  }
+}

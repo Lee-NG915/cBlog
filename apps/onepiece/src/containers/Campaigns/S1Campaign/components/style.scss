@@ -1,0 +1,764 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+@mixin normalTitle {
+  font-family: $font-title;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 150%;
+}
+
+@mixin mediumTitle {
+  font-family: $font-title;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 120%;
+}
+
+@mixin normalText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 175%;
+}
+
+@mixin ghostButton {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: transparent;
+  border-color: $color-light-neutral;
+  color: $color-light-neutral;
+
+  svg {
+    stroke: $color-light-neutral;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $color-primary;
+  }
+
+  @include mobile {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
+
+:local(.video) {
+  &__right {
+    @include shared {
+      padding-top: 55%;
+      position: relative;
+    }
+  }
+
+  &__title {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+    font-family: $font-title;
+    font-weight: 400;
+    // font-size: 100px;
+    font-size: 0;
+    line-height: 120%;
+    color: $color-light-neutral;
+    margin-bottom: 0;
+
+    @include mobile {
+      // font-size: 45px;
+    }
+  }
+}
+
+:local(.intro) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #c79270;
+  text-align: center;
+  color: $color-light-neutral;
+  padding: 182px 26px;
+
+  @include mobile {
+    padding: 62px 26px;
+  }
+
+  &.diagonal {
+    padding: 87px 142px;
+
+    @include mobile {
+      padding: 89px 26px;
+    }
+  }
+
+  &__title {
+    @include normalTitle;
+    max-width: 1062px;
+
+    @include mobile {
+      line-height: 120%;
+    }
+
+    &.diagonal__title {
+      max-width: 618px;
+      text-align: left;
+      align-self: start;
+    }
+  }
+
+  &__line {
+    height: 118px;
+    width: 0px;
+    border-left: 1px solid $color-light-neutral;
+    margin: 38px 0 48px;
+
+    @include mobile {
+      height: 68px;
+      margin: 46px 0;
+    }
+
+    &.diagonal__line {
+      height: 216px;
+      transform: rotate(-45deg);
+      margin: 70px 0;
+
+      @include mobile {
+        height: 112px;
+        margin: 50px 0;
+      }
+    }
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+
+    @include mobile {
+      font-size: 14px;
+      line-height: 130%;
+    }
+
+    &.diagonal__description {
+      line-height: 175%;
+      max-width: 618px;
+      text-align: right;
+      align-self: end;
+
+      @include mobile {
+        max-width: 300px;
+      }
+    }
+
+    &__line {
+      margin-top: 14px;
+    }
+  }
+}
+
+:local(.quiz) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  min-height: 600px;
+  color: $color-light-neutral;
+  text-align: center;
+
+  &__form {
+    width: 100%;
+    height: 100%;
+
+    iframe {
+      width: 100%;
+      height: 100% !important;
+    }
+  }
+}
+
+:local(.quizResults) {
+  &__banner {
+    position: relative;
+    max-width: none;
+
+    &__text {
+      position: absolute;
+      left: 9%;
+      top: 10%;
+      color: $color-light-neutral;
+
+      @include mobile {
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 50px;
+        width: 100%;
+        text-align: center;
+      }
+
+      &__title {
+        font-family: $font-title;
+        font-size: 32px;
+        line-height: 38px;
+        letter-spacing: 0.3px;
+      }
+
+      &__desc {
+        font-size: 18px;
+        line-height: 26px;
+        letter-spacing: 0.3px;
+        margin-top: 12px;
+        max-width: 438px;
+
+        @include mobile {
+          font-size: 12px;
+          line-height: 175%;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  &__products {
+    @include desktop {
+      margin: 24px 120px 0;
+    }
+    @include mobile {
+      margin: 76px 24px;
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+:local(.quizDyResults) {
+  &:empty {
+    display: none;
+  }
+}
+
+:local(.waitList) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #b9b89a;
+  color: $color-light-neutral;
+  padding: 114px 0;
+  gap: 40px;
+
+  @include mobile {
+    padding: 114px 26px 54px;
+  }
+
+  &__wrapper {
+    text-align: center;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__title {
+    @include normalTitle;
+  }
+
+  &__line {
+    @include mobile {
+      width: 41px;
+      height: 0px;
+      border-top: 1px solid $color-light-neutral;
+      margin-top: 30px;
+    }
+  }
+
+  &__description {
+    margin-top: 22px;
+    @include mobile {
+      width: 299px;
+      margin-top: 30px;
+    }
+  }
+
+  &__events {
+    flex: 1;
+    display: flex;
+    gap: 70px;
+  }
+
+  &__event {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 486px;
+
+    img {
+      width: 486px;
+      height: 299px;
+    }
+
+    &__label {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 175%;
+      margin-top: 50px;
+      height: 61px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
+    &__title {
+      @include mediumTitle;
+    }
+
+    &__desc {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 175%;
+      margin: 36px 0 48px;
+    }
+
+    &__btn {
+      @include ghostButton;
+    }
+  }
+}
+
+:local(.signUp) {
+  height: 100%;
+  padding: 50px;
+  background: #b9b89a;
+  color: $color-light-neutral;
+
+  @include mobile {
+    padding: 26px;
+  }
+
+  &__wrapper {
+    &__event {
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid $color-light-neutral;
+      border-bottom-width: 0;
+    }
+  }
+
+  &__title {
+    @include normalTitle;
+  }
+
+  &__line {
+    width: 60px;
+    height: 0px;
+    border: 1px solid $color-light-neutral;
+    margin: 50px 0;
+
+    @include mobile {
+      width: 41px;
+      margin: 30px 0;
+    }
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+
+    @include mobile {
+      width: 299px;
+    }
+  }
+
+  &__date {
+    font-family: $font-title;
+    font-weight: 400;
+    font-size: 70px;
+    line-height: 120%;
+    margin-top: 30px;
+
+    @include mobile {
+      font-size: 40px;
+      line-height: 120%;
+    }
+  }
+}
+
+:local(.workshop) {
+  &__container {
+    text-align: center;
+
+    &.is-even {
+      border-top-width: 0;
+    }
+  }
+
+  &__left {
+    @include desktop {
+      border-bottom-width: 0;
+      box-sizing: content-box;
+    }
+  }
+
+  &__right {
+    padding: 30px;
+
+    @include mobile {
+      padding: 30px 20px;
+    }
+  }
+
+  &__label {
+    height: 61px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 175%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    @include mobile {
+      height: 16px;
+      font-size: 14px;
+    }
+  }
+
+  &__title {
+    font-family: $font-title;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 120%;
+
+    @include mobile {
+      font-size: 32px;
+      line-height: 150%;
+      margin-top: 16px;
+    }
+  }
+
+  &__desc {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+    margin: 36px 0 50px;
+    max-width: 526px;
+
+    @include mobile {
+      font-size: 12px;
+      margin-top: 20px;
+    }
+  }
+
+  &__btn {
+    @include ghostButton;
+  }
+}
+
+:local(.studio) {
+  color: $color-dark-neutral;
+  background: #d2be91;
+
+  &__textBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 36px;
+
+    &.showInfo {
+      @include mobile {
+        padding: 54px 26px;
+      }
+    }
+  }
+
+  &__name {
+    font-family: $font-title;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 120%;
+
+    @include mobile {
+      font-size: 32px;
+      line-height: 130%;
+    }
+  }
+
+  &__sale {
+    font-size: 18px;
+    line-height: 175%;
+    max-width: 550px;
+    margin: 50px 0 36px;
+
+    @include mobile {
+      font-weight: 400;
+      font-size: 14px;
+      max-width: 300px;
+      margin: 40px 0 32px;
+    }
+  }
+
+  &__promotion {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 175%;
+    margin-bottom: 50px;
+    color: #9b5e3e;
+
+    @include mobile {
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+  }
+
+  &__description {
+    max-width: 452px;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 175%;
+
+    @include mobile {
+      max-width: 270px;
+      font-size: 12px;
+    }
+  }
+
+  &__btn {
+    @include ghostButton;
+    margin-top: 50px;
+    border-color: $color-dark-neutral;
+    color: $color-dark-neutral;
+    height: 40px;
+    display: flex;
+    align-items: center;
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 60px;
+    }
+
+    svg {
+      stroke: $color-dark-neutral;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-color: $color-light-neutral;
+      color: $color-light-neutral;
+      background-color: $color-primary;
+
+      svg {
+        stroke: $color-light-neutral;
+      }
+    }
+
+    @include mobile {
+      margin-top: 50px;
+    }
+  }
+
+  &__label {
+    height: 61px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 175%;
+
+    @include mobile {
+      height: 16px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__address {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 175%;
+    margin-top: 36px;
+
+    @include mobile {
+      font-size: 14px;
+      margin-top: 32px;
+    }
+  }
+
+  &__line {
+    width: 100%;
+    max-width: 470px;
+    height: 0px;
+    border-top: 1px solid $color-dark-neutral;
+    margin: 40px 0;
+  }
+
+  &__detail {
+    @include normalText;
+    max-width: 500px;
+
+    & > div {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__link {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 175%;
+
+    @include mobile {
+      margin-top: 30px;
+    }
+  }
+}
+
+:local(.products) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px;
+
+  @include mobile {
+    padding: 70px 22px;
+  }
+
+  &__wrapper {
+    width: 100%;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__title {
+    @include normalTitle;
+
+    @include mobile {
+      max-width: 230px;
+      text-align: center;
+    }
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+    margin: 30px 0 60px;
+
+    @include mobile {
+      max-width: 299px;
+      margin: 30px 0 30px;
+    }
+  }
+
+  &__promotion {
+    font-weight: 600;
+    color: #9b5e3e;
+
+    @include mobile {
+      margin-top: 30px;
+    }
+  }
+
+  &__sales {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+
+    &.no-description {
+      margin-top: 78px;
+
+      @include mobile {
+        margin-top: 32px;
+      }
+    }
+
+    @include mobile {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &__btn {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 182px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $color-light-neutral;
+      font-size: 16px;
+      line-height: 24px;
+      color: $color-dark-accent;
+
+      svg {
+        width: 23px;
+        stroke: $color-dark-accent;
+      }
+
+      @include mobile {
+        bottom: 22px;
+        height: 38px;
+        font-size: 14px;
+        line-height: 21px;
+
+        svg {
+          width: 18px;
+        }
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $color-light-neutral;
+        background-color: $color-primary;
+
+        svg {
+          stroke: $color-light-neutral;
+        }
+      }
+    }
+  }
+
+  &__tips {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+    margin-top: 50px;
+
+    @include mobile {
+      font-size: 14px;
+      padding: 0 18px;
+      margin-top: 30px;
+    }
+  }
+}

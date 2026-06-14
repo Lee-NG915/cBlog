@@ -1,0 +1,89 @@
+@import '../../../sass/variables';
+
+:local(.selectContainer) {
+  position: relative;
+  border: 1px solid $color-mono-300;
+  min-height: 50px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 13px;
+  & > span {
+    font-size: 0.875rem;
+    margin-top: 5px;
+    color: #a45b37;
+  }
+  & > label {
+    position: absolute;
+    top: -13px;
+    left: 10px;
+    background-color: $color-light-neutral;
+    color: #3c101e;
+    padding: 0 3px;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+    transition: opacity 0.1s ease-in-out;
+    &.opacity1 {
+      opacity: 1;
+    }
+  }
+  button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color-light-neutral;
+    border: none;
+    padding: 0;
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background-color: $color-light-neutral;
+      color: black;
+      cursor: pointer;
+      &.notSelectable {
+        cursor: not-allowed;
+        color: $color-light-grey;
+      }
+    }
+    &:disabled:hover {
+      cursor: not-allowed;
+    }
+  }
+  &__options {
+    width: 100%;
+    position: absolute;
+    top: 80%;
+    left: 0;
+    z-index: 3;
+    padding: 10px 0;
+    background-color: $color-light-neutral;
+    border-top: 1px solid #dedede;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-height: 250px;
+    overflow: auto;
+    display: none;
+    &.is-visible {
+      display: block;
+    }
+    a {
+      display: block;
+      padding: 5px 20px;
+      line-height: 1.3;
+      white-space: break-spaces;
+      &:hover {
+        background-color: $color-warm-linen-500;
+        color: $color-dark-accent;
+      }
+      &.is-active:not(:hover) {
+        color: $color-dark-accent;
+        background-color: $color-warm-linen-300;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.s1Campaign) {
+  &__recommend {
+    margin-top: 80px;
+  }
+
+  &__divider {
+    margin-top: 50px;
+  }
+}

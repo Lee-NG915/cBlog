@@ -1,0 +1,42 @@
+{
+  "JOYBOY-WEB-160": {
+    "lastSeen": "2026-04-16T00:00:00.000Z",
+    "events": 0,
+    "users": 0,
+    "errorBucketTop": "",
+    "hash": "1d9d291e0db03768230df537b94635a9eb7c8190",
+    "updatedAt": "2026-04-21T11:31:23.310Z"
+  },
+  "JOYBOY-WEB-2V3": {
+    "lastSeen": "2026-04-13T00:00:00.000Z",
+    "events": 0,
+    "users": 0,
+    "errorBucketTop": "",
+    "hash": "4da6881359b723b8909eb331e3005441316375e3",
+    "updatedAt": "2026-04-21T11:31:23.310Z"
+  },
+  "JOYBOY-WEB-2XV": {
+    "lastSeen": "2026-04-21T18:00:00.000Z",
+    "events": 0,
+    "users": 0,
+    "errorBucketTop": "",
+    "hash": "87baf9d6a92a313b9b433be84abc02ea28d681db",
+    "updatedAt": "2026-04-21T11:31:23.310Z"
+  },
+  "JOYBOY-WEB-322": {
+    "lastSeen": "2026-04-19T00:00:00.000Z",
+    "events": 0,
+    "users": 0,
+    "errorBucketTop": "",
+    "hash": "eb4b2fc343fac45e1c4ce224ff532402b47fa0c8",
+    "updatedAt": "2026-04-21T11:31:23.310Z"
+  },
+  "JOYBOY-WEB-NG": {
+    "lastSeen": "2026-04-16T00:00:00.000Z",
+    "events": 0,
+    "users": 0,
+    "errorBucketTop": "",
+    "hash": "1d9d291e0db03768230df537b94635a9eb7c8190",
+    "updatedAt": "2026-04-21T11:31:23.310Z"
+  }
+}

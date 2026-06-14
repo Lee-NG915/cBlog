@@ -1,0 +1,53 @@
+// src/sass/_cart-theme.scss
+// 修改原因：根据新的组件库配置更新颜色变量，使用terracotta作为主色调
+$color-primary: #844025 !default; // 新主色 - 对应terracotta-500
+$color-dark-accent: #3c101e !default; // 新强调色 - 对应maroonVelvet-500
+$color-light-neutral: #ffffff !default; // 新浅色背景 - 对应white
+$color-dark-neutral: #fbf9f4 !default; // 新深色背景 - 对应warmLinen-200
+$color-complimentary: #d9c4bb !default; // 新辅助色 - 对应terracotta-100
+
+// 背景色 - 修改原因：使用新的warmLinen色板作为背景色系
+$color-bg-primary: #fbf9f4 !default; // 对应warmLinen-200
+$color-bg-secondary: #ffffff !default; // 对应white
+$color-bg-tertiary: #f8f5ec !default; // 对应warmLinen-400
+
+// 文本色 - 修改原因：使用新的mono色板作为文本色系
+$color-text-primary: #212121 !default; // 对应mono-900
+$color-text-secondary: #424242 !default; // 对应mono-800
+$color-text-tertiary: #757575 !default; // 对应mono-600
+
+// 字体家族 - 修改原因：使用新的字体配置，Aime作为display字体，SanomatSans作为body字体
+$font-family-body: var(--font-sanoma-sans, 'SanomatSans'), Helvetica Neue, Arial, sans-serif; // 正文字体
+$font-family-display: var(--font-aime, 'Aime'), Helvetica Neue, Arial, sans-serif; // 标题/展示字体
+
+// 字号（rem为主，便于响应式缩放）- 修改原因：与新的组件库字号配置保持一致
+$font-size-xs: 0.875rem; // 14px，caption2, subh3
+$font-size-sm: 1rem; // 16px，h5, caption1
+$font-size-md: 1.125rem; // 18px，h4, body1, body2, subh1, subh2
+$font-size-lg: 1.25rem; // 20px，h3, body1, body2, subh1
+$font-size-xl: 1.5rem; // 24px，h2
+$font-size-xl2: 1.75rem; // 28px，h1
+$font-size-xl3: 1.875rem; // 30px，h3(desktop)
+$font-size-xl4: 2.25rem; // 36px，h2(desktop)
+$font-size-xl5: 2.625rem; // 42px，h1(desktop)
+
+// 行高 - 修改原因：与新的组件库行高配置保持一致
+$line-height-xs: 1.2; // 标题、正文
+$line-height-sm: 1.25; // 次要正文
+$line-height-md: 1.5; // 正文、段落
+$line-height-lg: 1.75; // 大段落
+
+// 字重 - 修改原因：与新的组件库字重配置保持一致
+$font-weight-md: 400 !default; // 设计token中md权重，对应fontWeight-md
+$font-weight-lg: 600 !default; // 对应fontWeight-lg
+$font-weight-xl: 700 !default; // 对应fontWeight-xl
+
+// 字母间距 - 新增：与新的组件库字母间距配置保持一致
+$letter-spacing-xs: -0.05em !default; // 对应letterSpacing.xs
+$letter-spacing-md: -0.0125em !default; // 对应letterSpacing.md
+$letter-spacing-lg: 0.2em !default; // 对应letterSpacing.lg
+
+// 说明：
+// 以上变量用于Cart页面的字体、字号、行高、字重等统一适配新品牌主题。
+// 后续在cart相关scss文件中，优先用这些变量替换原有的字体、字号、行高等写法，实现风格统一。
+// 修改原因：与最新的Joy UI组件库配置保持一致，确保设计系统的统一性。

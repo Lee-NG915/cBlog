@@ -1,0 +1,14 @@
+{
+  "packages": {
+    ".": {},
+    "apps/pos": {
+      "release-type": "node"
+    },
+    "apps/web": {
+      "release-type": "node"
+    },
+    "libs/fortress": {
+      "release-type": "node"
+    }
+  }
+}

@@ -1,0 +1,321 @@
+@import '../../sass/_fonts';
+@import '../../sass/variables';
+@import '../../sass/cart-theme';
+@import '../../sass/mixins';
+
+:local(.cart) {
+  // 修改原因：使用新的背景色变量，对应warmLinen-200
+  background-color: $color-bg-primary;
+  // 修改原因：使用新的字体变量，Aime作为display字体
+  font-family: $font-family-display;
+  h1 {
+    // 修改原因：使用新的字体变量，Aime作为display字体
+    font-family: $font-family-display;
+    // 修改原因：使用新的字重变量，对应fontWeight-md
+    font-weight: $font-weight-md;
+    margin: 0;
+    padding: 0;
+    // 修改原因：使用新的行高变量，对应lineHeight-xs
+    line-height: $line-height-xs;
+    // 修改原因：使用新的字母间距变量，对应letterSpacing-xs
+    letter-spacing: $letter-spacing-xs;
+    @media (max-width: 900px) {
+      // 修改原因：使用新的字号变量，对应fontSize-xl2
+      font-size: $font-size-xl2;
+    }
+    @media (min-width: 901px) {
+      // 修改原因：使用新的字号变量，对应fontSize-xl5
+      font-size: $font-size-xl5;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      @include h1V2;
+    }
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
+    @include shared {
+      margin-bottom: 30px;
+    }
+
+    &__refresh {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-left: 10px;
+      @include body1V2;
+
+      & > span {
+        // 修改原因：使用新的文本色变量，对应mono-800
+        color: $color-text-secondary;
+        text-decoration: underline;
+      }
+
+      & > svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        // 修改原因：使用新的文本色变量，对应mono-800
+        fill: $color-text-secondary;
+        transform: rotate(90deg);
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          & > span {
+            // 修改原因：使用新的主色变量，对应terracotta-500
+            color: $color-primary;
+          }
+          & > svg {
+            // 修改原因：使用新的主色变量，对应terracotta-500
+            fill: $color-primary;
+          }
+        }
+      }
+
+      &.is-loading {
+        cursor: wait;
+      }
+    }
+  }
+
+  &__body {
+    @include shared {
+      display: flex;
+      // align-items: flex-start;
+      justify-content: space-between;
+
+      & > div {
+        &:first-of-type {
+          flex: 1 1 auto;
+          padding-right: 40px;
+        }
+
+        &:last-of-type {
+          flex: 0 0 auto;
+          width: 380px;
+          margin-left: 40px;
+
+          @include media-breakpoint-up(lg) {
+            width: 416px;
+          }
+        }
+      }
+    }
+  }
+
+  &__left {
+    min-width: 0;
+    @include mobile {
+      padding: 30px 0;
+    }
+    @include shared {
+      padding: 60px 0;
+      // 修改原因：使用新的分割线颜色，对应mono-300
+      border-right: 1px solid #bebebe;
+    }
+  }
+
+  &__warning {
+    // 修改原因：使用新的主色变量，对应terracotta-500
+    background-color: $color-primary;
+    // 修改原因：使用新的浅色背景变量，对应white
+    color: $color-light-neutral;
+    line-height: 1.2;
+    padding: 6px 12px;
+  }
+
+  &__undo {
+    // 修改原因：使用新的主色变量，对应terracotta-500
+    background-color: $color-primary;
+    // 修改原因：使用新的浅色背景变量，对应white
+    color: $color-light-neutral;
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 17px;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    a {
+      font-weight: 500;
+      // 修改原因：使用新的浅色背景变量，对应white
+      color: #fefdf9;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__items {
+    & > div:first-of-type {
+      border-top: none;
+    }
+  }
+
+  &__loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+
+    svg.circular > .path {
+      // 修改原因：使用新的辅助色变量，对应terracotta-100
+      stroke: $color-complimentary;
+      stroke-width: 3px;
+    }
+  }
+
+  &__hint {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 10px;
+    // & > div {
+
+    // }
+  }
+}
+
+:local(.items) {
+  position: relative;
+
+  &__item {
+    // 修改原因：使用新的分割线颜色，对应mono-300
+    border-top: 1px solid #bebebe;
+
+    @include mobile {
+      @include media-breakpoint-up(sm) {
+        &__item {
+          padding: 30px 0;
+        }
+
+        &__image {
+          margin-right: 30px;
+          width: 150px;
+
+          &.is-swatch {
+            padding: 0 25px;
+          }
+        }
+
+        &__bundleOptions {
+          padding-left: 50px;
+
+          &__img {
+            width: 100px;
+            margin-right: 30px;
+          }
+        }
+      }
+    }
+    @include desktop {
+      &__item {
+        padding: 30px 0;
+      }
+      &__review {
+        margin-right: 30px;
+      }
+      &__image {
+        margin-right: 30px;
+        width: 150px;
+
+        &.is-swatch {
+          padding: 0 25px;
+        }
+      }
+
+      // &__bottom {
+      //   justify-content: start;
+      //   gap: 24px;
+      // }
+
+      &__remove {
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      &__bundleOptions {
+        padding-left: 50px;
+
+        &__img {
+          width: 100px;
+          margin-right: 30px;
+        }
+      }
+    }
+  }
+
+  &__empty {
+    @include shared {
+      min-height: 300px;
+    }
+    & > p {
+      @include mobile {
+        margin-bottom: 1rem;
+      }
+      @include shared {
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+}
+
+:local(.summary) {
+  @include mobile {
+    padding-bottom: 30px;
+  }
+  @include desktop {
+    padding: 60px 0;
+  }
+
+  &__title {
+    // 修改原因：使用新的字体变量，Aime作为display字体
+    font-family: $font-family-display;
+    @include h2V2;
+  }
+
+  &__main {
+    & > div {
+      padding: 0;
+    }
+
+    .form-control {
+      background-color: transparent !important;
+    }
+  }
+
+  &__btn {
+    padding: 1.2rem 0;
+
+    & > .btn {
+      padding: 0.5rem 1rem;
+      margin-top: 0;
+    }
+
+    &.is-loading {
+      cursor: wait;
+      pointer-events: none;
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+  }
+}

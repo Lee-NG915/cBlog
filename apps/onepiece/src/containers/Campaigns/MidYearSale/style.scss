@@ -1,0 +1,333 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+$dTop: 0.3373;
+$mTop: 0.252;
+$mTop1x: 0.337;
+$dLeft: 33.75%;
+$dLeft2: 67.5%;
+$mLeft: 50.72%;
+
+$dW: 32.5%;
+$dW2: 66.25%;
+$dH: 32.54%;
+$dH2: 66.27%;
+$mW: 49.28%;
+$mW2: 100%;
+$mH: 24.39%;
+$mH1x: 32.61%;
+
+@function calculate($i, $percent) {
+  @return percentage(($i - 1) * $percent);
+}
+
+:local(.birthdaySale) {
+  &__title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transform: translateY(-50%);
+    color: #fff;
+    @include shared {
+      top: 40%;
+      font-size: 2.5rem;
+    }
+    @include mobile {
+      top: 50%;
+      font-size: 1.5rem;
+      white-space: pre;
+    }
+  }
+  &__intro {
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    color: #666;
+    @include mobile {
+      font-size: 1rem;
+      padding: 50px 30px 0;
+    }
+    @include shared {
+      padding: 60px 80px 0;
+      font-size: 1.125rem;
+      max-width: 883px;
+      margin: -80px auto 0;
+    }
+    &-detail {
+      white-space: pre-wrap;
+    }
+  }
+
+  &__note {
+    font-style: italic;
+    color: #666;
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 0 $mobile-padding;
+    margin-bottom: 30px;
+  }
+
+  &__subTitle {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0;
+    position: absolute;
+    transform: translateY(-50%);
+    color: #fff;
+    @include shared {
+      font-size: 1.875rem;
+      top: 26.25%;
+      & > br {
+        display: none;
+      }
+    }
+    @include mobile {
+      font-size: 1.375rem;
+      top: 38%;
+      white-space: pre;
+    }
+  }
+
+  &__extraBanner {
+    display: flex;
+    color: #fff;
+    @include mobile {
+      flex-direction: column-reverse;
+      margin-bottom: 80px;
+    }
+    @include shared {
+      flex-direction: row;
+      margin-bottom: 120px;
+    }
+  }
+  &__bannerImg {
+    @include mobile {
+      width: 100%;
+    }
+    @include shared {
+      width: 60.7%;
+    }
+  }
+  &__extraBox {
+    background-color: #404a54;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mobile {
+      width: 100%;
+      height: 212px;
+    }
+    @include shared {
+      width: 39.3%;
+      height: auto;
+    }
+  }
+  &__extraInnerBox {
+    display: flex;
+    flex-direction: column;
+
+    @include mobile {
+      align-items: center;
+    }
+    @include shared {
+      align-items: flex-start;
+    }
+    & > h1 {
+      padding: 0;
+      line-height: 1.2;
+      font-weight: 600;
+      @include mobile {
+        font-size: 1.375rem;
+        margin: 8px 0;
+      }
+      @include shared {
+        font-size: 2.5rem;
+        margin: 10px 0 0 0;
+        white-space: pre-line;
+      }
+    }
+    & > a {
+      color: #fff;
+      font-weight: 600;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include shared {
+        font-size: 1.125rem;
+      }
+    }
+    & > p {
+      margin-bottom: 30px;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include shared {
+        font-size: 1.125rem;
+      }
+    }
+  }
+  &__extraName {
+    display: inline-block;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+    @include shared {
+      padding: 10px 12px;
+      background-color: #84909c;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__section {
+    &--xs {
+      margin-bottom: 50px;
+      @include shared {
+        margin-top: 80px;
+      }
+      @include mobile {
+        margin-top: 50px;
+      }
+    }
+    @include shared {
+      margin-bottom: 120px;
+    }
+    @include mobile {
+      margin-bottom: 80px;
+    }
+    &-container {
+      position: relative;
+      @include shared {
+        width: 75%;
+        margin: -200px auto 0;
+      }
+      @include mobile {
+        width: 92%;
+        margin: -50px auto 0;
+      }
+      & > a {
+        position: absolute;
+      }
+    }
+  }
+  &__promotions {
+    @include shared {
+      width: 70%;
+      margin-left: 15%;
+    }
+  }
+
+  &__variantList {
+    & h4 {
+      color: #32443c;
+    }
+  }
+
+  // tool styles
+
+  //desktop
+  @for $i from 1 through 3 {
+    .d_cell_#{$i}1_11 {
+      left: 0%;
+      top: calculate($i, $dTop);
+      width: $dW;
+      height: $dH;
+    }
+  }
+  @for $i from 1 through 3 {
+    .d_cell_#{$i}2_11 {
+      left: $dLeft;
+      top: calculate($i, $dTop);
+      width: $dW;
+      height: $dH;
+    }
+  }
+  @for $i from 1 through 3 {
+    .d_cell_#{$i}3_11 {
+      left: $dLeft2;
+      top: calculate($i, $dTop);
+      width: $dW;
+      height: $dH;
+    }
+  }
+
+  @for $i from 1 through 3 {
+    .d_cell_#{$i}1_21 {
+      left: 0%;
+      top: calculate($i, $dTop);
+      width: $dW2;
+      height: $dH;
+    }
+  }
+  @for $i from 1 through 3 {
+    .d_cell_#{$i}2_21 {
+      left: $dLeft;
+      top: calculate($i, $dTop);
+      width: $dW2;
+      height: $dH;
+    }
+  }
+  // mobile
+  @for $i from 1 through 4 {
+    .m_cell_#{$i}1_11 {
+      left: 0%;
+      top: calculate($i, $mTop);
+      width: $mW;
+      height: $mH;
+    }
+  }
+  @for $i from 1 through 4 {
+    .m_cell_#{$i}2_11 {
+      left: $mLeft;
+      top: calculate($i, $mTop);
+      width: $mW;
+      height: $mH;
+    }
+  }
+  @for $i from 1 through 3 {
+    .m_cell_#{$i}1_11x {
+      left: 0%;
+      top: calculate($i, $mTop1x);
+      width: $mW;
+      height: $mH1x;
+    }
+  }
+  @for $i from 1 through 3 {
+    .m_cell_#{$i}2_11x {
+      left: $mLeft;
+      top: calculate($i, $mTop1x);
+      width: $mW;
+      height: $mH1x;
+    }
+  }
+  @for $i from 1 through 3 {
+    .m_cell_#{$i}1_21x {
+      left: 0%;
+      top: calculate($i, $mTop1x);
+      width: $mW2;
+      height: $mH1x;
+    }
+  }
+
+  @for $i from 1 through 4 {
+    .m_cell_#{$i}1_21 {
+      left: 0%;
+      top: calculate($i, $mTop);
+      width: $mW2;
+      height: $mH;
+    }
+  }
+
+  // special big cell
+  .d_cell_22_22 {
+    left: $dLeft;
+    top: 33.73%;
+    width: $dW2;
+    height: $dH2;
+  }
+  // for test
+  .cell {
+    background-color: #ff112233;
+  }
+}

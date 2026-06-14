@@ -1,0 +1,20 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.StandardInput) {
+  min-height: 50px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  input {
+    @include form-control;
+    height: 100%;
+    border-radius: 0;
+    border-color: $color-dark-accent;
+    &:focus {
+      border-color: $color-dark-accent;
+    }
+  }
+}

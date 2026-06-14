@@ -1,0 +1,109 @@
+name: Build & Upload Image To AWS ECR
+
+inputs:
+  app-name:
+    description: 'Application name'
+    required: true
+    type: string
+  app-env:
+    description: 'Environment. e.g: us-test, us-prod'
+    required: true
+    type: string
+  app-version:
+    description: 'Application version'
+    required: true
+    type: string
+  image-tag:
+    description: 'Image tag e.g pos_sg-test_1.5.0-b1697076075'
+    required: true
+    type: string
+  include-nginx:
+    description: 'Include Nginx Docker image'
+    required: false
+    default: false
+    type: boolean
+  dockerfile-path:
+    description: 'Dockerfile path'
+    required: true
+    type: string
+    default: '.'
+  nginx-dockerfile-path:
+    description: 'Nginx Dockerfile path'
+    type: string
+    default: './nginx/'
+  build-with-assets:
+    description: 'Build with assets'
+    required: false
+    default: false
+    type: boolean
+  registry:
+    description: 'ECR registry'
+    required: true
+    type: string
+    default: '825303761615.dkr.ecr.ap-southeast-1.amazonaws.com'
+
+runs:
+  using: 'composite'
+  steps:
+    # - name: Download build assets
+    #   if: ${{ inputs.build-with-assets }}
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: build-results
+    #     path: ./dist
+
+    # - name: Check build results
+    #   if: ${{ inputs.build-with-assets }}
+    #   shell: bash
+    #   run: |
+    #     ls -la .
+    #     ls -la ./dist
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BUILDER }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BUILDER }}
+    #     aws-region: ap-southeast-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: '.'
+        file: ${{ inputs.dockerfile-path }}
+        push: true
+        cache-from: type=local,src=/tmp/.buildx-cache/joyboy-${{ inputs.app-name }}
+        cache-to: type=local,dest=/tmp/.buildx-cache-new/joyboy-${{ inputs.app-name }},mode=max
+        tags: |
+          ${{inputs.registry}}/joyboy/${{ inputs.app-name }}:${{ inputs.image-tag }}
+        build-args: |
+          APP_NAME=${{ inputs.app-name }}
+          APP_ENV=${{ inputs.app-env }}
+          APP_VERSION=${{ inputs.app-version }}
+          APP_BUILD=${{ inputs.image-tag }}
+          APP_COMMIT=${{ github.sha }}
+
+    - name: Build and push Nginx Docker image
+      if: ${{ inputs.include-nginx == 'true' }}
+      uses: docker/build-push-action@v5
+      with:
+        context: '.'
+        file: ${{ inputs.nginx-dockerfile-path }}
+        push: true
+        cache-from: type=local,src=/tmp/.buildx-cache/joyboy-${{ inputs.app-name }}-nginx
+        cache-to: type=local,dest=/tmp/.buildx-cache-new/joyboy-${{ inputs.app-name }}-nginx,mode=max
+        tags: |
+          ${{inputs.registry}}/joyboy:${{ inputs.image-tag }}-nginx
+        build-args: |
+          APP_NAME=${{ inputs.app-name }}
+          APP_VERSION=${{ inputs.app-version }}
+          APP_ENV=${{ inputs.app-env  }}
+          APP_BUILD=${{ inputs.image-tag }}
+          APP_COMMIT=${{ github.sha }}

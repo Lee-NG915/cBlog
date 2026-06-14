@@ -1,0 +1,9 @@
+
+# Sentry Config File
+.sentryclirc
+
+# Environment file
+env*.json
+.env*.local
+.env.serve*
+.env*.production

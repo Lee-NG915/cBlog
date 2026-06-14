@@ -1,0 +1,194 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.studio) {
+  &__banner {
+    margin-bottom: 30px;
+  }
+  &__store {
+    @include mobile {
+      margin-bottom: 0;
+    }
+    @include desktop {
+      margin-bottom: 80px;
+    }
+
+    & > div {
+      position: relative;
+      z-index: 1;
+    }
+
+    .slick-next,
+    .slick-prev {
+      opacity: 1 !important;
+
+      & > svg {
+        fill: #fff;
+      }
+
+      @include above {
+        & > svg {
+          fill: #f0f0f0;
+        }
+      }
+    }
+
+    .slick-prev {
+      left: 30px;
+    }
+
+    .slick-next {
+      right: 30px;
+    }
+
+    .slick-dots {
+      width: auto;
+
+      @include desktop {
+        display: none !important;
+
+        @include media-breakpoint-up(xl) {
+          display: flex !important;
+          transform: translate(480px, 0);
+          bottom: 25px;
+        }
+      }
+
+      li {
+        width: 30px;
+      }
+
+      li button:before {
+        width: 10px;
+        height: 10px;
+        background-color: transparent;
+        border: 2px solid #fff;
+        opacity: 1;
+      }
+
+      li.slick-active button:before {
+        background-color: #fff;
+      }
+    }
+  }
+
+  &__intro {
+    background-color: #fff;
+
+    @include mobile {
+      padding: 50px 30px;
+
+      @include media-breakpoint-up(md) {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 50px;
+      }
+    }
+    @include desktop {
+      width: 900px;
+      margin: -80px auto 0;
+      padding: 50px 80px;
+    }
+    a {
+      color: $color-primary !important;
+    }
+    & > h1 {
+      @include heading1;
+      text-align: center;
+
+      & > span {
+        font-family: $font-base;
+        text-transform: none;
+        position: relative;
+        margin-left: 0.4rem;
+        font-size: 60%;
+        top: -0.8rem;
+        color: $color-primary;
+      }
+
+      @include mobile {
+        margin-bottom: 20px;
+
+        @include media-breakpoint-up(md) {
+          margin-bottom: 40px;
+        }
+      }
+      @include desktop {
+        margin-bottom: 40px;
+      }
+    }
+
+    & > p {
+      text-align: center;
+
+      @include mobile {
+        margin-bottom: 30px;
+
+        @include media-breakpoint-up(md) {
+          margin-bottom: 40px;
+        }
+      }
+      @include desktop {
+        margin-bottom: 50px;
+      }
+    }
+
+    &__detail {
+      display: flex;
+      flex-wrap: wrap;
+
+      @include mobile {
+        margin-bottom: 30px;
+
+        @include media-breakpoint-up(md) {
+          margin-bottom: 30px;
+        }
+      }
+      @include desktop {
+        margin-bottom: 50px;
+      }
+
+      & > div {
+        @include mobile {
+          width: 100%;
+          font-size: 1rem;
+          text-align: center;
+
+          @include media-breakpoint-up(md) {
+            width: 50%;
+            padding: 0 25px;
+            text-align: left;
+          }
+        }
+        @include desktop {
+          width: 50%;
+          font-size: 1.125rem;
+          padding: 0 25px;
+        }
+
+        & > div {
+          padding: 0 10px;
+          margin-bottom: 30px;
+          & > p {
+            margin-bottom: 0px;
+            & > strong {
+              font-weight: normal;
+            }
+          }
+          & > h4 {
+            font-weight: 700;
+            margin-bottom: 10px;
+          }
+          & > a {
+            font-weight: 600;
+            @include link-style($color-primary, darken($color-primary, 10%));
+          }
+        }
+      }
+    }
+
+    &__book {
+      text-align: center;
+    }
+  }
+}

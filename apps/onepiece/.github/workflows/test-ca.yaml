@@ -1,0 +1,28 @@
+name: CI/CD for test-ca
+on:
+  push:
+    branches:
+      - test-ca
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/build.yaml
+    with:
+      APP_ENV: ca-test
+    secrets: inherit
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      app_env: ca-test
+      app_country: ca
+      env: test
+      image_tag: ${{ needs.ci.outputs.IMAGE_TAG }}
+      s3region: ca-central-1
+      bucket: knight-ca-test
+      auto_merge: true
+    secrets: inherit

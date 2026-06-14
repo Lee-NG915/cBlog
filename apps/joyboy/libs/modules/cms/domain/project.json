@@ -1,0 +1,26 @@
+{
+  "name": "modules-cms-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/cms/domain/src",
+  "projectType": "library",
+  "tags": ["scope:cms", "type:domain"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/cms/domain",
+        "main": "libs/modules/cms/domain/src/index.ts",
+        "tsConfig": "libs/modules/cms/domain/tsconfig.lib.json",
+        "assets": ["libs/modules/cms/domain/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/cms/domain/jest.config.ts"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# CODEOWNERS
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# AI Specs — requires approval to avoid silent spec drift
+docs/ai-specs/                              @lychee27z
+
+# Observability package source
+libs/shared/observability/                  @lychee27z
+tools/eslint-plugin-observability/          @lychee27z
+
+# Observability CI gate
+.github/workflows/observability-lint.yaml  @lychee27z

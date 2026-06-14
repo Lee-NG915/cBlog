@@ -1,0 +1,76 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.legacy) {
+  min-height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @include mobile {
+    background-image: url(https://res.cloudinary.com/castlery/image/upload/static/home/legacy-mobile.jpg);
+  }
+  @include desktop {
+    background-image: url(https://res.cloudinary.com/castlery/image/upload/static/home/legacy.jpg);
+  }
+
+  &__container {
+    text-align: center;
+
+    & > h1 {
+      margin-bottom: 15px;
+    }
+
+    & > p {
+      color: #666;
+      margin-bottom: 0;
+    }
+
+    @include mobile {
+      padding: 100px 30px;
+
+      & > img {
+        width: 120px;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        line-height: 1.2;
+      }
+    }
+    @include desktop {
+      padding: 120px 30px;
+
+      & > img {
+        width: 200px;
+        margin-bottom: 50px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  &__browsers {
+    @include desktop {
+      margin-top: 70px;
+
+      &__cell {
+        display: inline-block;
+        padding: 0 30px;
+
+        & > img {
+          width: 80px;
+          margin-bottom: 10px;
+        }
+
+        & > p {
+          color: #666;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

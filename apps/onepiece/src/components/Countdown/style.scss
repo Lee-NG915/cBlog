@@ -1,0 +1,72 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.countdown) {
+  display: flex;
+  color: #fff;
+
+  @include mobile {
+    width: 260px;
+    font-size: 1.25rem;
+  }
+  @include shared {
+    width: 280px;
+    font-size: 1.75rem;
+  }
+  &--collapsed {
+    font-weight: 600;
+    width: auto;
+    @include mobile {
+      @include media-breakpoint-down(xs) {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  &--collapsed &__cell {
+    border-radius: 2px;
+
+    flex: 0 1 auto;
+    margin-right: 10px;
+    font-size: 0.875rem;
+    font-feature-settings: 'tnum';
+    font-variant-numeric: tabular-nums;
+    &:after {
+      display: none;
+    }
+    & > div {
+      &:last-of-type {
+        font-size: inherit;
+      }
+    }
+  }
+
+  &__cell {
+    flex: 1 1 0;
+    text-align: center;
+    position: relative;
+
+    &:not(:last-of-type) {
+      &:after {
+        position: absolute;
+        content: ':';
+        right: -2px;
+        top: 0.09em;
+        line-height: 1.1;
+        font-size: 0.7em;
+      }
+    }
+
+    & > div {
+      &:first-of-type {
+        line-height: 1.1;
+        font-size: 1em;
+      }
+
+      &:last-of-type {
+        text-transform: uppercase;
+        font-size: 0.35em;
+      }
+    }
+  }
+}

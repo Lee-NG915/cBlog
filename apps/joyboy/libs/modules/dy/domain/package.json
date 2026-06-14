@@ -1,0 +1,10 @@
+{
+  "name": "@castlery/modules-dy-domain",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "dependencies": {},
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "private": true
+}

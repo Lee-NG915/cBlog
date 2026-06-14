@@ -1,0 +1,335 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+:local(.wrapper) {
+  position: relative;
+  margin: 15px 15px 0;
+}
+
+:local(.plaIntro) {
+  &__place {
+    grid-area: place;
+  }
+
+  &__right {
+    grid-area: right;
+  }
+
+  &__hulla {
+    @include mobile {
+      margin: 24px 16px;
+    }
+    border-bottom: 1px solid $color-dark-accent;
+  }
+}
+
+:local(.plaBtnGroup) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+:local(.plaSearch) {
+  margin: 15px 15px 5px;
+  position: relative;
+  height: auto;
+  border: 1px solid #ccc;
+  & input {
+    padding: 14px 20px !important;
+    font-size: 0.875rem !important;
+    line-height: 1.15 !important;
+  }
+
+  &__placeholder {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    font-size: 0.875rem;
+    line-height: 1.15;
+    color: #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}
+
+:local(.plaGallery) {
+  margin: -20px 0;
+  display: flow-root;
+
+  @include desktop {
+    margin: 0;
+    grid-area: left;
+  }
+}
+
+:local(.plaSection) {
+  margin-top: 80px;
+
+  &__title {
+    padding: 40px 15px;
+    text-align: center;
+    h2 {
+      @include heading1;
+    }
+    @include media-breakpoint-down(md) {
+      padding: 0px 0px 30px;
+    }
+  }
+
+  &__item {
+    text-align: center;
+    h3 {
+      font-weight: normal;
+      font-size: 1.125rem;
+      @include media-breakpoint-down(md) {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  &__footer {
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 40px;
+    a {
+      display: inline-block;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+:local(.dyPosition) {
+  & > [data-dy-embedded-object] {
+    @include desktop {
+      margin-top: 120px;
+      margin-bottom: 120px;
+    }
+    @include mobile {
+      margin-top: 80px;
+      margin-bottom: 80px;
+    }
+  }
+}
+
+:local(.detailCommon) {
+  height: 50px;
+  font-size: 1rem;
+  & > a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+:local(.plaDetail) {
+  @include mobile {
+    margin: 10px 15px 0;
+  }
+  @include desktop {
+    margin: 10px 0 0;
+  }
+  border: 1px solid #000;
+}
+
+:local(.plaDetail2) {
+  @include mobile {
+    margin: 0 15px;
+  }
+
+  & > a {
+    color: white;
+  }
+  transition: 0.3s;
+  background-color: #c1af86;
+  &:hover {
+    background-color: #a08f6b;
+  }
+}
+
+:local(.plaDetail3) {
+  @include mobile {
+    width: 350px;
+  }
+  & > a {
+    color: #778379;
+    text-decoration: underline;
+  }
+  margin: 0 auto;
+}
+
+:local(.plaConfig) {
+  @include desktop {
+    margin-bottom: 40px;
+  }
+  @include mobile {
+    margin: 0 15px 40px 15px;
+  }
+
+  &__title {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 1.875rem 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #c1af86;
+    border-bottom: 1px solid #c1af86;
+    height: 76px;
+    & > div:last-of-type {
+      position: relative;
+      width: 15px;
+      height: 15px;
+
+      &::before {
+        position: absolute;
+        content: '';
+        left: 50%;
+        top: 50%;
+        background-color: $color-dark-accent;
+        transform: translate(-50%, -50%);
+        width: 2px;
+        height: 100%;
+        display: block;
+        fill: $color-dark-accent;
+        transition: transform 0.5s;
+      }
+
+      &::after {
+        position: absolute;
+        content: '';
+        left: 50%;
+        top: 50%;
+        background-color: $color-dark-accent;
+        transition: transform 0.5s;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 2px;
+      }
+    }
+
+    .active::before {
+      transform: translate(-50%, -50%) rotate(-90deg) !important;
+    }
+  }
+
+  &__panel {
+    background-color: #f9f9f9;
+    display: flow-root;
+    transition-property: max-height, opacity;
+    transition-duration: 0.3s;
+    &-cover {
+      margin: 30px 26px;
+    }
+    .bundleMargin {
+      margin-bottom: 30px;
+    }
+
+    &.bundle {
+      background-color: #fff;
+      border-bottom: 1px solid #ededed;
+    }
+  }
+}
+
+:local(.plaConfig3) {
+  @include mobile {
+    padding: 0 15px;
+  }
+  &__title {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 1.875rem 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #c1af86;
+    color: black;
+    height: 76px;
+    & > div:last-of-type {
+      position: relative;
+      width: 15px;
+      height: 15px;
+
+      &::before {
+        position: absolute;
+        content: '';
+        left: 50%;
+        top: 50%;
+        background-color: $color-dark-accent;
+        transform: translate(-50%, -50%);
+        width: 2px;
+        height: 100%;
+        display: block;
+        fill: $color-dark-accent;
+        transition: transform 0.5s;
+      }
+
+      &::after {
+        position: absolute;
+        content: '';
+        left: 50%;
+        top: 50%;
+        background-color: $color-dark-accent;
+        transition: transform 0.5s;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 2px;
+      }
+    }
+
+    .active::before {
+      transform: translate(-50%, -50%) rotate(-90deg) !important;
+    }
+  }
+
+  &__panel {
+    background-color: #f9f9f9;
+    display: flow-root;
+    transition-property: max-height, opacity;
+    transition-duration: 0.3s;
+    &-cover {
+      margin: 30px 26px;
+    }
+    .bundleMargin {
+      margin-bottom: 30px;
+    }
+
+    &.bundle {
+      background-color: #fff;
+      border-bottom: 1px solid #ededed;
+    }
+  }
+}
+
+:local(.addToCartBtn) {
+  @include mobile {
+    // margin: 0 15px;
+  }
+  & > div {
+    // margin: 0;
+  }
+}
+
+:local(.flex2) {
+  flex: 1 1 48%;
+}

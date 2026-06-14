@@ -1,0 +1,84 @@
+{
+  "title": "Cart",
+  "emptyCart": {
+    "title": "Your cart",
+    "emptyDesc": "You have no items in your shopping cart."
+  },
+  "webCartSummary": {
+    "title": "Cart summary",
+    "itemsSubtotal": "Items Subtotal",
+    "warranty": "Warranty Subtotal",
+    "estimatedShipping": "Estimated shipping",
+    "shipping": "Shipping",
+    "service": "Services",
+    "viewServiceDetails": "View more details",
+    "promotion": "Promotion",
+    "viewPromotionDetails": "View more details",
+    "addCoupon": "Add Coupon Code",
+    "applyButton": "Apply",
+    "couponCode": "Coupon Code:",
+    "salesTax": "Sales Tax",
+    "total": "Total",
+    "totalWithTax": "(Incl. taxes & shipping)",
+    "totalWithTaxTooltip": "Price varies by zip code and add-on services at checkout.",
+    "DISPOSAL_SERVICE": "Disposal service",
+    "CARRY_UP_SERVICE": "Carry-up service",
+    "ROOM_OF_CHOICE": "Room of choice",
+    "STANDARD": "Standard",
+    "WHITE_GLOVE": "White glove",
+    "STANDARD_SERVICE": "Standard service"
+  },
+  "posCartSummary": {
+    "itemsSubtotal": "Items Subtotal",
+    "warrantySubtotal": "Warranty Subtotal",
+    "shipping": "Shipping",
+    "estimatedShipping": "Estimated Shipping",
+    "service": "Services",
+    "viewServiceDetails": "View Service Details",
+    "promotion": "Promotion",
+    "viewPromotionDetails": "View Details",
+    "salesTax": "Sales Tax",
+    "total": "Total"
+  },
+  "webCheckoutButton": {
+    "continueShopping": "Continue Shopping",
+    "checkout": "Checkout",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "customizedItemPopupTitle": "Confirm your selection.",
+    "customizedItemPopupDesc": "Customised items in your order are made specifically for you and cannot be returned, exchanged, or refunded.",
+    "customizedItemPopupLink": "Learn more here.",
+    "selectGiftReminderTitle": "Don't forget your free gift!",
+    "selectGiftReminderDesc": "Forgot to select a gift. Please click \"Choose Gift\" to select a gift. Click \"Skip\" to give up selecting a gift.",
+    "selectGiftReminderChooseGift": "Choose Gift",
+    "selectGiftReminderSkip": "Skip"
+  },
+  "posOnlineCart": {
+    "title": "Online Cart",
+    "description": "Select products from online cart to add to POS.",
+    "notice": "Note: Once products are added to POS, the products will be removed from customers’ online cart.",
+    "selectAll": "Select All",
+    "empty": "Online Cart Is Empty.",
+    "confirm": "Add to POS",
+    "cancel": "Cancel"
+  },
+  "o2oPushToOnline": {
+    "button": "Push To Online",
+    "title": "Do you want to push to online?",
+    "description": "Please check all information before proceeding.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "success": "Success",
+    "successTip": "Order has been pushed to online!"
+  },
+  "o2oPushToPos": {
+    "title": "Online Cart",
+    "description": "This customer has an online cart. Add it here?",
+    "confirm": "Add Cart",
+    "cancel": "Cancel"
+  },
+  "posProductItem": {
+    "priceOutdated": "Sorry, the price of this product is outdated. Please refresh the cart in order to check out.",
+    "outOfStock": "Sorry, this product is out of stock for your selected shipping region. Please remove it in order to check out."
+  }
+}

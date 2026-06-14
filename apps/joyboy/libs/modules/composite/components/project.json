@@ -1,0 +1,29 @@
+{
+  "name": "modules-composite-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/composite/components/src",
+  "projectType": "library",
+  "tags": ["type:composite-components"],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/composite/components",
+        "tsConfig": "libs/modules/composite/components/tsconfig.lib.json",
+        "project": "libs/modules/composite/components/package.json",
+        "entryFile": "libs/modules/composite/components/src/index.ts",
+        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/modules/composite/components/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

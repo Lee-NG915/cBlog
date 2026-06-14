@@ -1,0 +1,113 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+$margin-bottom: 100px;
+$margin-bottom-mobile: 80px;
+:local(.promotions) {
+  display: flex;
+  align-items: baseline;
+  background-color: #935b4f;
+  @include shared {
+    margin-bottom: $margin-bottom;
+    margin-top: -$margin-bottom;
+    padding: 3.125rem 0;
+    @include media-breakpoint-down(lg) {
+      padding: 2rem 0;
+    }
+  }
+  @include mobile {
+    padding: 2rem 0;
+    margin-bottom: $margin-bottom-mobile;
+    margin-top: -$margin-bottom-mobile;
+    @include media-breakpoint-down(sm) {
+      flex-wrap: wrap;
+      padding: 1rem;
+    }
+  }
+  &__item {
+    flex: 1;
+    border-left: 1px solid #d8d8d8;
+    &:first-child {
+      border-left: none;
+    }
+    @include mobile {
+      @include media-breakpoint-down(sm) {
+        padding: 1.875rem 0;
+        flex: 1 0 50%;
+        &:nth-child(2n - 1) {
+          border-left: 0;
+        }
+        border-bottom: 1px solid #d8d8d8;
+        &:nth-last-child(2) {
+          border-bottom: none;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+    &--further {
+      @include shared {
+        margin: 10px 0;
+      }
+    }
+    &--further &__content__title {
+      position: relative;
+      &:before {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 45%;
+        right: 0;
+        border-top: 4px solid #edd3cf;
+        transform: rotate(-7deg);
+      }
+    }
+    &--further &__content__header {
+      @include mobile {
+        @include media-breakpoint-down(sm) {
+          margin-top: 10px;
+        }
+      }
+    }
+    &__content {
+      text-align: center;
+      color: #ffffff;
+      &__header {
+        position: relative;
+        font-weight: bold;
+        img {
+          position: absolute;
+          height: 70%;
+          width: auto;
+          bottom: 100%;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+        @include shared {
+          font-size: 1.875rem;
+          @include media-breakpoint-down(lg) {
+            font-size: 1.25rem;
+          }
+        }
+        @include mobile {
+          font-size: 1.25rem;
+        }
+      }
+      &__body {
+        @include shared {
+          font-size: 1.25rem;
+          @include media-breakpoint-down(lg) {
+            font-size: 1rem;
+          }
+        }
+        @include mobile {
+          font-size: 1rem;
+          @include media-breakpoint-down(sm) {
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}

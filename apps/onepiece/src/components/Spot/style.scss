@@ -1,0 +1,67 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.spot) {
+  --bgColor: #fff;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  padding: 18px;
+  @include mobile {
+    padding: 12px;
+  }
+  @keyframes expand {
+    from {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    to {
+      opacity: 0;
+      transform: scale3d(1.7, 1.7, 1.7);
+    }
+  }
+  &::before {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    animation: expand 2s ease infinite;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    @include mobile {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &::after {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: var(--bgColor); // js control
+    border-radius: 50%;
+    @include mobile {
+      width: 10px;
+      height: 10px;
+    }
+  }
+  &:hover {
+    &::before {
+      animation: none;
+    }
+    &::after {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &.stopAnimation {
+    &::before {
+      animation: none;
+    }
+  }
+}

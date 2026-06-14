@@ -1,0 +1,11 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.referral) {
+  @include shared {
+    min-height: 550px;
+  }
+  @include mobile {
+    min-height: 965px;
+  }
+}

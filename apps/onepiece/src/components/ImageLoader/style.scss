@@ -1,0 +1,17 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.default) {
+  position: relative;
+  height: 200px;
+}
+:local(.center) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+:local(.bg) {
+  background-repeat: no-repeat;
+  background-position: center;
+}

@@ -1,0 +1,108 @@
+{
+  "cSpell.words": [
+    "attrchange",
+    "autodocs",
+    "bddgen",
+    "borderplain",
+    "capi",
+    "castlery",
+    "clsx",
+    "combobox",
+    "datepicker",
+    "devkit",
+    "Docgen",
+    "firstname",
+    "Friendbuy",
+    "instantsearch",
+    "lastname",
+    "lazysizes",
+    "Listbox",
+    "maytra",
+    "mediaquery",
+    "Neue",
+    "nextjs",
+    "Pinterest",
+    "qrcode",
+    "rias",
+    "searchkit",
+    "storyblok",
+    "storysource",
+    "subh",
+    "svgr",
+    "textbox",
+    "Tiktok",
+    "upsdell",
+    "YOTPO",
+    "zipcode",
+    "Adelaila"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.nx": true,
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/*.code-search": true
+  },
+  "[ejs]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null,
+    "eslint.enable": false
+  },
+  "cucumber.features": ["apps/pos-e2e/src/features/**/*.feature"],
+  "cucumber.glue": ["apps/pos-e2e/src/steps/**/*.ts"],
+  "cucumberautocomplete.steps": ["apps/pos-e2e/src/steps/**/*.ts"],
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "eslint.validate": ["json"],
+  "nxConsole.generateAiAgentRules": true,
+  "i18n-ally.localesPaths": ["apps/web/public/locales", "packages/monorepo-i18n/src/lib/locales"],
+
+  // 自动格式化配置
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[*.tsbuildinfo]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false
+  }
+}

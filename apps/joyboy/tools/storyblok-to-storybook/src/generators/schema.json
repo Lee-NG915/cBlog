@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Generator",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "blokJson": {
+      "type": "string",
+      "description": "Paste your Storyblok JSON here"
+    },
+    "relativePath": {
+      "type": "string",
+      "description": "The relative path to the component file"
+    },
+    "componentName": {
+      "type": "string",
+      "description": "The name of the component for which you want to generate story args"
+    }
+  },
+  "required": ["blokJson", "relativePath", "componentName"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "web",
+  "version": "1.92.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "ua-parser-js": "1.0.35"
+  }
+}

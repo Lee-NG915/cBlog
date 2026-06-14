@@ -1,0 +1,14 @@
+webpack/*
+node_modules/*
+dist/*
+static/*
+scripts/*
+nginx
+log
+etc
+templates
+docs
+deploy
+src/fortress/*
+src/storyblock/*
+etc/templates/env.ejs

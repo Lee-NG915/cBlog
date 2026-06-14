@@ -1,0 +1,62 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.staticInfo) {
+  font-family: $font-base;
+
+  @include mobile {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  @include shared {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  td ul {
+    padding-inline-start: 1.5em;
+  }
+
+  tr th {
+    font-weight: 600;
+  }
+
+  &.container {
+    @include media-breakpoint-down(sm) {
+      padding-left: $mobile-padding;
+      padding-right: $mobile-padding;
+    }
+  }
+
+  & > h1 {
+    @include heading1;
+    text-align: center;
+    margin-bottom: 30px;
+    @include shared {
+      margin-bottom: 50px;
+    }
+  }
+
+  & > h2 {
+    font-family: $font-title;
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+    padding-top: 2.5rem;
+    text-transform: uppercase;
+  }
+
+  & > ul {
+    list-style-type: disc;
+    margin-bottom: 1rem;
+    padding-left: 1.125rem;
+  }
+
+  & > p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  a {
+    @include link-style($color-primary, $color-primary, underline);
+  }
+}

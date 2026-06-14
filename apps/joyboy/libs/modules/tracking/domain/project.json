@@ -1,0 +1,29 @@
+{
+  "name": "modules-tracking-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/tracking/domain/src",
+  "projectType": "library",
+  "tags": ["type:domain", "scope:tracking"],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/tracking/domain",
+        "main": "libs/modules/tracking/domain/src/index.ts",
+        "tsConfig": "libs/modules/tracking/domain/tsconfig.lib.json",
+        "assets": [],
+        "project": "libs/modules/tracking/domain/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/tracking/domain/jest.config.ts"
+      }
+    }
+  }
+}

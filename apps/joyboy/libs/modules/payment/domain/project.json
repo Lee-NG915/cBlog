@@ -1,0 +1,32 @@
+{
+  "name": "modules-payment-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/payment/domain/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/payment/domain",
+        "main": "libs/modules/payment/domain/src/index.ts",
+        "tsConfig": "libs/modules/payment/domain/tsconfig.lib.json",
+        "assets": [],
+        "project": "libs/modules/payment/domain/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/payment/domain/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:domain", "scope:payment"]
+}

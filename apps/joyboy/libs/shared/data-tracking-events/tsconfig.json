@@ -1,0 +1,49 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      // ---------------- todo ---------------
+      // "api-mapping/*": [
+      //   "src/lib/api-mapping/*"
+      // ],
+      // "config/*": [
+      //   "src/lib/config/*"
+      // ],
+      // "events/*": [
+      //   "src/lib/events/*"
+      // ],
+      // "helpers/*": [
+      //   "src/lib/helpers/*"
+      // ],
+      // "metrics/*": [
+      //   "src/lib/metrics/*"
+      // ],
+      // "triggers/*": [
+      //   "src/lib/triggers/*"
+      // ],
+      // "types/*": [
+      //   "src/lib/types/*"
+      // ],
+      // "utils/*": [
+      //   "src/lib/utils/*"
+      // ]
+    }
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

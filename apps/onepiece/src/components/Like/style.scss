@@ -1,0 +1,55 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.like) {
+  padding: 10px;
+  background-color: transparent;
+  &:disabled {
+    opacity: 1;
+  }
+
+  & > svg {
+    fill: transparent;
+    stroke: $color-dark-neutral;
+  }
+
+  @include above {
+    & > svg {
+      fill: $color-primary;
+      stroke: $color-primary;
+    }
+  }
+
+  &.is-liked {
+    & > svg {
+      fill: $color-primary;
+      stroke: $color-primary;
+    }
+
+    @include above {
+      & > svg {
+        fill: darken($color-primary, 8%);
+        stroke: darken($color-primary, 8%);
+      }
+    }
+  }
+
+  &.is-loading {
+    cursor: wait;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  // only used for icon mode
+  &__loading {
+    width: 22px;
+    height: 22px;
+    position: relative;
+
+    .path {
+      stroke: $color-primary !important;
+    }
+  }
+}

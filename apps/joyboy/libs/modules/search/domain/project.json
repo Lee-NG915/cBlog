@@ -1,0 +1,26 @@
+{
+  "name": "modules-search-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/search/domain/src",
+  "projectType": "library",
+  "tags": ["scope:search", "type:domain"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/search/domain",
+        "main": "libs/modules/search/domain/src/index.ts",
+        "tsConfig": "libs/modules/search/domain/tsconfig.lib.json",
+        "assets": ["libs/modules/search/domain/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/search/domain/jest.config.ts"
+      }
+    }
+  }
+}

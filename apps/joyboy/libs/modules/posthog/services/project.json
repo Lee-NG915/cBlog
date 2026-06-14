@@ -1,0 +1,29 @@
+{
+  "name": "modules-posthog-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/posthog/services/src",
+  "projectType": "library",
+  "tags": ["scope:posthog", "type:util", "type:shared-services"],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/posthog/services",
+        "main": "libs/modules/posthog/services/src/index.ts",
+        "tsConfig": "libs/modules/posthog/services/tsconfig.lib.json",
+        "assets": ["libs/modules/posthog/services/*.md"],
+        "project": "libs/modules/posthog/services/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/posthog/services/jest.config.ts"
+      }
+    }
+  }
+}

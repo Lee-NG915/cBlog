@@ -38,6 +38,10 @@ export const userProfile: UserProfile = {
   bio: siteConfig.description,
 };
 
+const isInterviewEnabled =
+  process.env.NEXT_PUBLIC_ENABLE_INTERVIEW === "true" ||
+  process.env.NODE_ENV === "development";
+
 // 主导航项
 export const mainNavItems: NavItem[] = [
   {
@@ -55,6 +59,15 @@ export const mainNavItems: NavItem[] = [
     href: "/about",
     icon: "user",
   },
+  ...(isInterviewEnabled
+    ? [
+        {
+          label: "模拟面试",
+          href: "/interview",
+          icon: "sparkles",
+        },
+      ]
+    : []),
 ];
 
 // 社交链接（预留字段，后续可以配置）

@@ -1,0 +1,28 @@
+/* 三方脚本字体样式设置兼容，https://github.com/vercel/next.js/releases/tag/v14.3.0-canary.64
+    * 1. 版本目前低于修复版本
+    * 2. 以补丁形式设置原始字体名称对应字体文件路径
+    * 3. 后续升级项目后可去除
+*/
+@font-face {
+  font-family: 'MinervaModern';
+  src: url('../../../../next-font/src/fonts/minervaModern-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MinervaModern';
+  src: url('../../../../next-font/src/fonts/minervaModern-bold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MinervaModern';
+  src: url('../../../../next-font/src/fonts/minervaModern-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

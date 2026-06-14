@@ -1,0 +1,144 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+@keyframes show-results {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+:local(.helpCenter) {
+  padding: 30px 0 50px 0;
+
+  max-width: 1440px;
+  margin: 0 auto;
+  flex-grow: 1;
+
+  @include mobile {
+    padding-top: 0;
+    padding-bottom: 30px;
+  }
+  @include desktop {
+    min-height: 55vh;
+  }
+
+  h1 {
+    @include heading1;
+  }
+  &-title {
+    max-width: 80vw;
+    display: flex;
+    justify-content: center;
+    max-width: 80vw;
+    margin: 0 auto;
+    flex-grow: 1;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    @include mobile {
+      padding-bottom: 15px;
+    }
+  }
+
+  #gladly-help-center {
+    min-height: 40vh;
+
+    .gladlyHC-searchInput {
+      @include form-control;
+      line-height: 2em;
+    }
+    .gladlyHC-searchResult {
+      padding: 5px 10px;
+    }
+
+    .gladlyHC-faqHeading {
+      @include heading2;
+      padding: 30px 0 20px 0;
+      @include mobile {
+        padding: 10px 0;
+      }
+    }
+    .gladlyHC-faqSections {
+      justify-content: space-between;
+    }
+
+    .gladlyHC-faqSections .gladlyHC-faqSection {
+      padding: 15px 0;
+      @include desktop {
+        // padding-right: 20px;
+        flex-basis: 48%;
+        flex-grow: 0;
+      }
+    }
+
+    .gladlyHC-faqSection-header {
+      @include subtitle1;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .gladlyHC-faqSection-listItem,
+    .gladlyHC-answersIndex-item {
+      padding: 5px 0;
+    }
+
+    .gladlyHC-answerDetail-name {
+      @include heading2;
+      padding: 10px 0;
+    }
+
+    .gladlyHC-answersIndex-link a,
+    .gladlyHC-answerDetail-backLink,
+    .gladlyHC-faqSection-listItem-more a {
+      color: $color-primary;
+    }
+    .gladlyHC-answersIndex-link a {
+      @include subtitle1;
+    }
+
+    .gladlyHC-answerDetail-backLink {
+      padding: 10px 0;
+      width: 70px;
+    }
+
+    .gladlyHC-answersIndex-list {
+      .gladlyHC-answersIndex-item {
+        list-style: none;
+      }
+    }
+
+    .gladlyHC-answersIndex-list {
+      padding-left: 0;
+    }
+
+    .gladlyHC-searchMenuContainer {
+      .gladlyHC-searchMenu {
+        max-height: 400px;
+        overflow: auto;
+      }
+    }
+
+    .gladlyHC-searchResultsSection-results:empty {
+      animation: show-results 1s ease-out; // Solve problems with delayed results
+
+      &::before {
+        content: 'no result';
+      }
+      padding: 0;
+    }
+
+    .gladlyHC-answerDetail-content {
+      a {
+        color: $color-primary;
+      }
+    }
+  }
+}

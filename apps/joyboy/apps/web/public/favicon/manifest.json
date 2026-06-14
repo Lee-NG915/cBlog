@@ -1,0 +1,16 @@
+{
+  "name": "Castlery",
+  "icons": [
+    {
+      "src": "/static/favicon/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/static/favicon/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone"
+}

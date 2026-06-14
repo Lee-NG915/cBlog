@@ -1,0 +1,669 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.autosuggest) {
+  position: relative;
+  z-index: 1;
+  font-family: 'Aime';
+
+  div[role='listbox'] {
+    background-color: $color-warm-linen-200 !important;
+  }
+  li[role='option'] {
+    padding: 0 !important;
+  }
+
+  .form-control {
+    background-color: #fbf9f4 !important;
+  }
+
+  & &__spinner {
+    left: 85%;
+  }
+
+  & > .react-autosuggest__container,
+  &__container {
+    & > input {
+      padding: 0.375rem 1rem;
+      border: none;
+      border-bottom: 1px solid $color-mono-300;
+
+      &::placeholder {
+        color: #bbb;
+      }
+
+      &:focus {
+        border-bottom-color: $color-mono-300;
+      }
+
+      font-size: 1rem;
+    }
+  }
+  .react-autosuggest__suggestions-container,
+  &__suggestions {
+    &:empty {
+      visibility: hidden;
+    }
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: $color-warm-linen-200;
+    border: 1px solid $color-mono-300;
+    border-top: none;
+    font-family: 'Aime';
+    padding: 0;
+    .btn {
+      display: block;
+      background-color: transparent;
+      // padding: 0.5rem 1rem;
+      width: 100%;
+      text-align: left;
+      font-size: 0.9rem;
+      border-radius: 0;
+
+      @include button-variant($color-dark-neutral, transparent, transparent, $color-dark-neutral, #eee, transparent);
+      @include text-truncate();
+    }
+  }
+
+  &__powered {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    & > svg {
+      width: 116px;
+      height: 15px;
+      fill: #737373;
+    }
+  }
+
+  &__not-found {
+    width: 100%;
+    cursor: not-allowed;
+    opacity: 0.8;
+    background-color: transparent;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  &__btn {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    text-align: left;
+    width: 100%;
+    padding: 12px 16px;
+
+    &:hover {
+      //   // color: $color-primary;
+      background-color: #f6f3e7;
+    }
+  }
+
+  &__zipcodeInput {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    &__info {
+      font-size: 14px;
+      position: absolute;
+      padding: 0.5em 5px;
+      color: $color-dark-accent;
+    }
+  }
+}
+
+:local(.address) {
+  position: relative;
+
+  &__layout {
+    & > div {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      height: 100%;
+      &:not(:first-of-type) {
+        & > div > div {
+          border-top: none;
+        }
+      }
+    }
+
+    &__whole {
+      width: 100%;
+    }
+
+    &__half {
+      width: 50%;
+      height: auto;
+      display: inline-block;
+
+      &:nth-of-type(even) {
+        & > div {
+          border-left: none;
+        }
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+
+    & > h2 {
+      margin-bottom: 0;
+      margin-right: 10px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      font-family: $font-title;
+    }
+
+    & > svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: $color-dark-accent;
+    }
+  }
+
+  &__back {
+    padding: 5px 0;
+    display: inline-block;
+    @include link-style(#bbb, $color-primary);
+
+    & > svg {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 10px;
+      fill: #aaa;
+      transition: 0.2s;
+    }
+
+    @include above {
+      & > svg {
+        fill: $color-primary;
+      }
+    }
+  }
+
+  &__error {
+    color: $color-primary;
+    margin-top: 30px;
+  }
+
+  &__title {
+    font-family: $font-title;
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 40px;
+  }
+
+  &__form {
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+
+    &__fnu {
+      padding: 15px 0;
+      border: 1px solid $color-mono-300;
+      margin-top: -1px;
+
+      &.is-checked &__check {
+        background-color: $color-primary;
+        border: none;
+
+        & > svg {
+          fill: $color-primary;
+          stroke: $color-light-neutral;
+        }
+      }
+
+      &__check {
+        flex-shrink: 0;
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: $color-light-neutral;
+        border: 1px solid $color-mono-300;
+        margin-right: 10px;
+
+        & > svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          fill: $color-primary;
+          position: absolute;
+        }
+      }
+
+      .btn {
+        background-color: transparent;
+        position: relative;
+        border: none;
+        padding: 0 0 0 22px;
+        color: #888;
+        white-space: normal;
+        line-height: 1.2;
+        text-align: left;
+        text-transform: none;
+        display: flex;
+        align-items: center;
+        @include mobile {
+          padding: 0 0 0 10px;
+        }
+      }
+    }
+  }
+
+  .row {
+    position: relative;
+
+    &--city {
+      z-index: 11;
+    }
+  }
+
+  .row + .row {
+    margin-top: 10px;
+  }
+
+  @include media-breakpoint-down(md) {
+    .col-xs-12 + .col-xs-12 {
+      margin-top: 10px;
+    }
+  }
+
+  &__cityError {
+    position: absolute;
+    bottom: 0px;
+    left: 0.9375rem;
+    font-size: 0.8rem;
+    color: $color-primary;
+    margin: 0;
+    z-index: 1;
+    line-height: 1;
+  }
+
+  &__btn {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__cancel {
+      font-size: 16px;
+      line-height: 18px;
+      color: $color-dark-accent;
+    }
+
+    &__submit {
+      width: 192px;
+      height: 58px;
+      position: relative;
+
+      &:disabled {
+        cursor: wait;
+      }
+
+      &__button {
+        $color: $color-warm-linen-500;
+        $background: $color-burnt-orange-500;
+        $border: $color-burnt-orange-500;
+
+        $hover-color: $color-warm-linen-500;
+        $hover-background: $color-burnt-orange-600;
+        $hover-border: $color-burnt-orange-600;
+
+        $focus-color: $color-warm-linen-500;
+        $focus-background: $color-burnt-orange-600;
+        $focus-border: $color-burnt-orange-600;
+
+        $active-color: $color-warm-linen-500;
+        $active-background: $color-burnt-orange-800;
+        $active-border: $color-burnt-orange-800;
+
+        $disabled-color: $color-mono-500;
+        $disabled-background: $color-mono-200;
+        $disabled-border: $color-mono-200;
+
+        border-radius: 8px;
+        color: $color;
+        background-color: $background;
+        border-color: $border;
+
+        text-align: center;
+        /* mobile/subheaders/auto/S2 */
+        font-family: 'SanomatSans';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+
+        @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075));
+
+        @include desktop {
+          @include hover {
+            color: $hover-color;
+            background-color: $hover-background;
+            border-color: $hover-border;
+          }
+
+          &:focus,
+          &.focus {
+            color: $focus-color;
+            background-color: $focus-background;
+            border-color: $focus-border;
+          }
+        }
+
+        // isolate :active from others to avoid :active:hover state changes
+        &:active {
+          color: $active-color;
+          background-color: $active-background;
+          border-color: $active-border;
+        }
+
+        @include desktop {
+          &.disabled,
+          &:disabled {
+            &:focus,
+            &.focus {
+              color: $disabled-color;
+              background-color: $disabled-background;
+              border-color: $disabled-border;
+            }
+            @include hover {
+              color: $disabled-color;
+              background-color: $disabled-background;
+              border-color: $disabled-border;
+            }
+          }
+        }
+
+        &.disabled,
+        &:disabled {
+          &:active {
+            color: $disabled-color;
+            background-color: $disabled-background;
+            border-color: $disabled-border;
+          }
+        }
+
+        &.active,
+        .open > &.dropdown-toggle {
+          color: $disabled-color;
+          background-color: $disabled-background;
+          border-color: $disabled-border;
+          // Remove the gradient for the pressed/active state
+          background-image: none;
+          @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125));
+
+          @include desktop {
+            &:hover,
+            &:focus,
+            &.focus {
+              color: $disabled-color;
+              background-color: darken($disabled-background, 10%);
+              border-color: darken($disabled-border, 12%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__addressSearch {
+    display: block !important;
+    position: relative;
+    z-index: 3;
+    margin-top: 30px;
+    font-family: 'Aime';
+    @include body1V2;
+    & > div > input {
+      background-color: transparent;
+    }
+  }
+
+  &__citySearch {
+    padding: 0.8rem 0 1.15rem;
+    margin: 0;
+    position: relative;
+
+    &__autosuggest {
+      z-index: 2;
+
+      & > .react-autosuggest__container {
+        & > input {
+          padding: 0.1rem 0;
+        }
+
+        ul {
+          max-height: 240px;
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+    }
+
+    &__error {
+      font-size: 0.8rem;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      line-height: 1;
+      color: $color-primary;
+      z-index: 1;
+    }
+
+    &.has-error > &__autosuggest {
+      & > .react-autosuggest__container {
+        & > input {
+          border-bottom-color: $color-primary;
+        }
+      }
+    }
+  }
+}
+
+:local(.error) {
+  color: $color-primary;
+  margin: 10px 0;
+  line-height: 1;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      line-height: 20px;
+    }
+  }
+}
+
+:local(.addressList) {
+  position: relative;
+
+  &__loading {
+    position: relative;
+    height: 300px;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    &__item {
+      background-color: transparent;
+      border-radius: 0;
+      text-align: left;
+
+      @include mobile {
+        width: 100%;
+        margin-bottom: $mobile-padding;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        @include media-breakpoint-between(sm, lg) {
+          width: 48.5%;
+          margin-right: 3%;
+          margin-bottom: 3%;
+          &:nth-of-type(2n + 2) {
+            margin-right: 0;
+          }
+          &:nth-last-of-type(2):nth-of-type(odd) {
+            margin-bottom: 0;
+          }
+        }
+
+        @include media-breakpoint-up(xl) {
+          width: 31.5%;
+          margin-right: 2.75%;
+          margin-bottom: 2.75%;
+          &:nth-of-type(3n + 3) {
+            margin-right: 0;
+          }
+          &:nth-last-of-type(2):nth-of-type(3n + 1) {
+            margin-bottom: 0;
+          }
+          &:nth-last-of-type(2):nth-of-type(3n + 2) {
+            margin-bottom: 0;
+          }
+          &:nth-last-of-type(3):nth-of-type(3n + 1) {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      @include desktop {
+        width: 48.5%;
+        margin-right: 3%;
+        margin-bottom: 3%;
+        &:nth-of-type(2n + 2) {
+          margin-right: 0;
+        }
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &:nth-last-of-type(2):nth-of-type(odd) {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &__address {
+    padding: 20px;
+    border: 1px solid $color-mono-300;
+    color: $color-maroon-velvet-500;
+    position: relative;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 24px;
+      @include text-truncate;
+    }
+
+    @include above {
+      border-color: $color-mono-300;
+      color: $color-maroon-velvet-500;
+    }
+
+    &.is-selected {
+      position: relative;
+      color: $color-warm-linen-500;
+      background-color: $color-terracotta-500;
+      border: 1px solid $color-mono-300;
+      pointer-events: none;
+    }
+
+    &__check {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $color-warm-linen-500;
+
+      & > svg {
+        width: 100%;
+        height: 100%;
+        stroke: $color-maroon-velvet-500;
+        position: absolute;
+      }
+    }
+
+    &__delete {
+      position: absolute;
+      border-left: 1px solid $color-dark-accent;
+      border-bottom: 1px solid $color-dark-accent;
+      top: 0;
+      right: 0;
+      padding: 10px;
+      background-color: transparent;
+
+      & > svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        fill: $color-dark-accent;
+      }
+
+      @include above {
+        border-color: $color-primary;
+        & > svg {
+          fill: $color-primary;
+        }
+      }
+    }
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 130px;
+    border: 1px solid $color-mono-300;
+    color: $color-dark-accent;
+    cursor: pointer;
+
+    & > span {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 20px;
+      margin-right: 10px;
+    }
+
+    & > svg {
+      width: 14px;
+      height: 14px;
+      fill: $color-dark-accent;
+    }
+
+    @include above {
+      color: $color-primary;
+      border-color: $color-mono-300;
+      & > svg {
+        fill: $color-primary;
+      }
+    }
+  }
+}

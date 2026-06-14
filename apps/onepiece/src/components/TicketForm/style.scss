@@ -1,0 +1,74 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.ticketForm) {
+  @include shared {
+    max-width: map-get($container-max-widths, lg);
+    margin: 0 auto;
+  }
+  @include mobile {
+    padding: 15px;
+  }
+  &__header {
+    text-align: center;
+    @include shared {
+      margin-bottom: 50px;
+    }
+    @include mobile {
+      margin-bottom: 20px;
+    }
+  }
+  &__title {
+    @include heading2;
+    @include shared {
+      margin-bottom: 30px;
+    }
+    @include mobile {
+      margin-bottom: 20px;
+    }
+  }
+  &__description {
+    padding: 10px;
+    color: $color-grey;
+    @include shared {
+      font-size: 1.125rem;
+    }
+  }
+  &__input {
+    @include shared {
+      margin-bottom: 20px;
+    }
+    @include mobile {
+      margin-bottom: 15px;
+    }
+  }
+  &__recaptcha {
+    margin-top: 30px;
+    & > div {
+      margin: 0 auto;
+    }
+  }
+  &__submit {
+    position: relative;
+    margin: 50px 0 20px;
+    text-align: center;
+    & > .btn {
+      width: 250px;
+      &:disabled {
+        cursor: wait;
+      }
+    }
+  }
+  &__hint {
+    margin: 20px 0;
+    text-align: center;
+    color: #666;
+    @include shared {
+      font-size: 1rem;
+    }
+    @include mobile {
+      padding: 0 $mobile-padding;
+      font-size: 14px;
+    }
+  }
+}

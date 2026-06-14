@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "nrwl.angular-console",
+    "esbenp.prettier-vscode",
+    "firsttris.vscode-jest-runner",
+    "ms-playwright.playwright",
+    "dbaeumer.vscode-eslint",
+    "chakrounanas.turbo-console-log",
+    "yoavbls.pretty-ts-errors",
+    "cucumberopen.cucumber-official",
+    "usernamehw.errorlens",
+    "github.copilot-chat",
+    "styled-components.vscode-styled-components",
+    "adam-bender.commit-message-editor",
+    "SimonSiefke.svg-preview",
+    "datadog.datadog-vscode"
+  ]
+}

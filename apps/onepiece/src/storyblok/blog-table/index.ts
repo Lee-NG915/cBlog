@@ -1,0 +1,1 @@
+export { BlogTable } from './table';

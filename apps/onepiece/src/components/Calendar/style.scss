@@ -1,0 +1,37 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.calendar) {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+
+  & > input {
+    padding-right: 45px;
+  }
+
+  & > label {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(0, -50%);
+
+    & > svg {
+      width: 24px;
+      height: 24px;
+      fill: #b3b3b3;
+    }
+  }
+
+  & > .DayPicker {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border-radius: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+  }
+}

@@ -1,0 +1,596 @@
+//
+// override bootstrap default settings
+//
+// 修改原因：根据新的组件库配置更新品牌主色，使用terracotta-500
+$brand-primary: #844025 !default; // 对应terracotta-500
+$btn-font-weight: 400 !default;
+$link-hover-decoration: none !default;
+
+// TODO https://app.clickup.com/t/866acx1n6
+// 修改原因：保持现有的断点配置，与组件库保持一致
+$grid-breakpoints: (
+  xs: 0,
+  sm: 544px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xsl: 1340px,
+  xxl: 1500px,
+  desktop: 900px,
+) !default;
+
+$container-max-widths: (
+  sm: 576px,
+  md: 720px,
+  lg: 962px,
+  xl: 1170px,
+  xsl: 1310px,
+  xxl: 1470px,
+  desktop: 900px,
+) !default;
+
+$border-radius: 0.25rem !default;
+$border-radius-lg: 0.5rem !default;
+$border-radius-sm: 0.125rem !default;
+
+//
+// end of override
+//
+@import '~bootstrap/scss/variables';
+
+// === Font Family ===
+// 修改原因：根据新的组件库配置更新字体家族
+$font-title: 'Aime', 'Helvetica Neue', Arial, sans-serif; // 对应fontFamily-display
+$font-base: 'Aime', 'Helvetica Neue', Arial, sans-serif; // 对应fontFamily-body
+$font-Sans: 'SanomatSans', 'Helvetica Neue', Arial, sans-serif;
+
+// === Font Size ===
+
+// === Color Palette ===
+// 修改原因：根据新的组件库配置更新颜色色板，使用terracotta作为主色调
+$color-primary: #844025; // terracotta-500
+$color-complimentary: #3c101e; // maroonVelvet-500
+$color-light-accent: #f3ece9; // terracotta-50
+$color-dark-accent: #3c101e; // maroonVelvet-500
+$color-light-neutral: #fbf9f4; // warmLinen-200
+$color-dark-neutral: #3c101e; // mono-900
+$color-black-font: #000000;
+$color-light-grey: #f5f5f5; // mono-100
+
+// brandColors
+$maroon-velvet-500: #3c101e;
+$maroon-velvet-400: #63404b;
+$mono-700: #616161;
+$burnt-orange-500: #d25c1b;
+
+// === Color Palette End ===
+
+// 修改原因：根据新的组件库配置更新状态色
+$color-green: #414128; // leafGreen-500
+$color-grey: $color-complimentary;
+$color-grey-font: $color-complimentary;
+$color-grey-light: #9e9e9e; // mono-500
+$color-grey-bg: #f5f5f5; // mono-100
+$color-grey-image: #f5f5f5; // mono-100
+$color-grey-super-light: #d2d2d2; // mono-200
+$color-dark-light: #3c101e; // mono-800
+$color-yellow: #d25c1b; // burntOrange-500
+$color-pink: #65000b; // rosewood-500
+$color-blue: #9ca3c1; // freshWaterBlue-500
+
+$color-green-3: #414128; // leafGreen-500
+$color-red-3: #65000b; // rosewood-500
+
+$color-gold-3: #d25c1b; // burntOrange-500
+$color-gold-4: #bf5419; // burntOrange-600
+$color-gold-5: #954113; // burntOrange-700
+
+$color-blue-3: #9ca3c1; // freshWaterBlue-500
+
+$color-burnt-orange-500: #d25c1b; // burntOrange-500
+$color-burnt-orange-600: #bf5419; // burntOrange-600
+$color-burnt-orange-700: #954113; // burntOrange-700
+$color-burnt-orange-800: #74330f; // burntOrange-800
+
+// Warm Linen Color Palette
+$color-warm-linen-10: #fefefd; // warmLinen-10
+$color-warm-linen-50: #fefefd; // warmLinen-50
+$color-warm-linen-100: #fcfbf8; // warmLinen-100
+$color-warm-linen-200: #fbf9f4; // warmLinen-200
+$color-warm-linen-300: #f9f7ef; // warmLinen-300
+$color-warm-linen-400: #f8f5ec; // warmLinen-400
+$color-warm-linen-500: #f6f3e7; // warmLinen-500
+$color-warm-linen-600: #e0ddd2; // warmLinen-600
+$color-warm-linen-700: #afada4; // warmLinen-700
+$color-warm-linen-800: #87867f; // warmLinen-800
+$color-warm-linen-900: #676661; // warmLinen-900
+
+// Mono Color Palette
+$color-mono-10: #fafafa; // mono-10
+$color-mono-50: #fafafa; // mono-50
+$color-mono-100: #f5f5f5; // mono-100
+$color-mono-200: #d2d2d2; // mono-200
+$color-mono-300: #bebebe; // mono-300
+$color-mono-400: #b1b1b1; // mono-400
+$color-mono-500: #9e9e9e; // mono-500
+$color-mono-600: #757575; // mono-600
+$color-mono-700: #616161; // mono-700
+$color-mono-800: #424242; // mono-800
+$color-mono-900: #212121; // mono-900
+
+// Rosewood Color Palette
+$color-rosewood-10: #f0e6e7; // rosewood-10
+$color-rosewood-50: #f0e6e7; // rosewood-50
+$color-rosewood-100: #cfb0b3; // rosewood-100
+$color-rosewood-200: #b88a8f; // rosewood-200
+$color-rosewood-300: #98545c; // rosewood-300
+$color-rosewood-400: #84333c; // rosewood-400
+$color-rosewood-500: #65000b; // rosewood-500
+$color-rosewood-600: #5c000a; // rosewood-600
+$color-rosewood-700: #480008; // rosewood-700
+$color-rosewood-800: #380006; // rosewood-800
+$color-rosewood-900: #2a0005; // rosewood-900
+
+// Terracotta Color Palette
+$color-terracotta-10: #f3ece9; // terracotta-10
+$color-terracotta-50: #f3ece9; // terracotta-50
+$color-terracotta-100: #d9c4bb; // terracotta-100
+$color-terracotta-200: #c6a79b; // terracotta-200
+$color-terracotta-300: #ad7f6d; // terracotta-300
+$color-terracotta-400: #9d6651; // terracotta-400
+$color-terracotta-500: #844025; // terracotta-500
+$color-terracotta-600: #783a22; // terracotta-600
+$color-terracotta-700: #5e2d1a; // terracotta-700
+$color-terracotta-800: #492314; // terracotta-800
+$color-terracotta-900: #371b10; // terracotta-900
+
+// Maroon Velvet Color Palette
+$color-maroon-velvet-10: #ece7e9; // maroonVelvet-10
+$color-maroon-velvet-50: #ece7e9; // maroonVelvet-50
+$color-maroon-velvet-100: #c3b5b9; // maroonVelvet-100
+$color-maroon-velvet-200: #a59198; // maroonVelvet-200
+$color-maroon-velvet-300: #7c5f68; // maroonVelvet-300
+$color-maroon-velvet-400: #63404b; // maroonVelvet-400
+$color-maroon-velvet-500: #3c101e; // maroonVelvet-500
+$color-maroon-velvet-600: #370f1b; // maroonVelvet-600
+$color-maroon-velvet-700: #2b0b15; // maroonVelvet-700
+$color-maroon-velvet-800: #210911; // maroonVelvet-800
+$color-maroon-velvet-900: #19070d; // maroonVelvet-900
+
+// Leaf Green Color Palette
+$color-leaf-green-10: #ececea; // leafGreen-10
+$color-leaf-green-50: #ececea; // leafGreen-50
+$color-leaf-green-100: #c4c4bc; // leafGreen-100
+$color-leaf-green-200: #a8a89c; // leafGreen-200
+$color-leaf-green-300: #80806f; // leafGreen-300
+$color-leaf-green-400: #676753; // leafGreen-400
+$color-leaf-green-500: #414128; // leafGreen-500
+$color-leaf-green-600: #3b3b24; // leafGreen-600
+$color-leaf-green-700: #2e2e1c; // leafGreen-700
+$color-leaf-green-800: #242416; // leafGreen-800
+$color-leaf-green-900: #1b1b11; // leafGreen-900
+
+$color-info: $color-blue-3;
+$color-success: $color-green-3;
+$color-warning: $color-gold-3;
+$color-error: $color-red-3;
+
+$desktop-padding: 30px;
+$mobile-padding: 15px;
+$mobile-padding-y: 0.5rem; // for btn, input padding y on mobile
+
+$height-header-desktop: 70px;
+$height-header-mobile: 50px;
+
+:export {
+  primaryColor: $color-primary;
+  complimentaryColor: $color-complimentary;
+  lightAccentColor: $color-light-accent;
+  darkAccentColor: $color-dark-accent;
+  lightNeutralColor: $color-light-neutral;
+  darkNeutralColor: $color-dark-neutral;
+  blackFontColor: $color-dark-neutral;
+}
+
+// 修改原因：根据新的组件库配置更新颜色映射
+$colors: (
+  'primary': $color-primary,
+  'complimentary': $color-complimentary,
+  'light-accent': $color-light-accent,
+  'dark-accent': $color-dark-accent,
+  'light-neutral': $color-light-neutral,
+  'dark-neutral': $color-dark-neutral,
+  'black-font': $color-black-font,
+  'white': #fff,
+  'transparent': transparent,
+);
+
+@mixin subh1V2 {
+  font-weight: 400;
+  font-family: 'SanomatSans';
+  letter-spacing: 0.2em;
+  line-height: 1.4;
+  text-transform: uppercase; // 默认转大写
+  // color: `var(--fortress-palette-brand-mono-900)`,
+  // mobile
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1rem;
+  }
+  // tablet
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1rem;
+  }
+  // desktop
+  @media (min-width: 901px) {
+    font-size: 1rem;
+  }
+}
+/* JS style (subh1V2)
+{
+  fontWeight: 400,
+  fontFamily: 'SanomatSans',
+  letterSpacing: '0.2em',
+  lineHeight: 1.4,
+  textTransform: 'uppercase',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1rem',
+  },
+}
+*/
+
+// === Typography V2 mixins ===
+@mixin h1V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1.5rem; // 24px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1.5rem; // 24px
+  }
+  @media (min-width: 901px) {
+    font-size: 2.125rem; // 34px
+  }
+}
+/* JS style (h1V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.03em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1.5rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1.5rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '2.125rem',
+  },
+}
+*/
+
+@mixin h2V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1.375rem; // 22px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1.375rem; // 22px
+  }
+  @media (min-width: 901px) {
+    font-size: 2rem; // 32px
+  }
+}
+/* JS style (h2V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.03em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1.375rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1.375rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '2rem',
+  },
+}
+*/
+
+@mixin h3V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1.25rem; // 20px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1.25rem; // 20px
+  }
+  @media (min-width: 901px) {
+    font-size: 1.75rem; // 28px
+  }
+}
+/* JS style (h3V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.03em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1.25rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1.25rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1.75rem',
+  },
+}
+*/
+
+@mixin h4V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1.125rem; // 18px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1.125rem; // 18px
+  }
+  @media (min-width: 901px) {
+    font-size: 1.375rem; // 22px
+  }
+}
+/* JS style (h4V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.03em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1.125rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1.125rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1.375rem',
+  },
+}
+*/
+
+@mixin h5V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1rem; // 16px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1rem; // 16px
+  }
+  @media (min-width: 901px) {
+    font-size: 1.125rem; // 18px
+  }
+}
+/* JS style (h5V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.03em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1.125rem',
+  },
+}
+*/
+
+@mixin subh2V2 {
+  font-family: 'SanomatSans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.875rem; // 14px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 0.875rem; // 14px
+  }
+  @media (min-width: 901px) {
+    font-size: 0.875rem; // 14px
+  }
+}
+/* JS style (subh2V2)
+{
+  fontFamily: 'SanomatSans, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '0.875rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '0.875rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '0.875rem',
+  },
+}
+*/
+
+@mixin subh3V2 {
+  font-family: 'SanomatSans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.75rem; // 12px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 0.75rem; // 12px
+  }
+  @media (min-width: 901px) {
+    font-size: 0.75rem; // 12px
+  }
+}
+/* JS style (subh3V2)
+{
+  fontFamily: 'SanomatSans, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: '0.2em',
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '0.75rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '0.75rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '0.75rem',
+  },
+}
+*/
+
+@mixin body1V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 1rem; // 16px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 1rem; // 16px
+  }
+  @media (min-width: 901px) {
+    font-size: 1.125rem; // 18px
+  }
+}
+/* JS style (body1V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: 0,
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1.125rem',
+  },
+}
+*/
+
+@mixin body2V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.875rem; // 14px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 0.875rem; // 14px
+  }
+  @media (min-width: 901px) {
+    font-size: 1rem; // 16px
+  }
+}
+/* JS style (body2V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: 0,
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '0.875rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '0.875rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '1rem',
+  },
+}
+*/
+
+@mixin caption1V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  @media (min-width: 0px) and (max-width: 600px) {
+    font-size: 0.75rem; // 12px
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: 0.75rem; // 12px
+  }
+  @media (min-width: 901px) {
+    font-size: 0.875rem; // 14px
+  }
+}
+/* JS style (caption1V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: 0,
+  '@media (min-width: 0px) and (max-width: 600px)': {
+    fontSize: '0.75rem',
+  },
+  '@media (min-width: 601px) and (max-width: 900px)': {
+    fontSize: '0.75rem',
+  },
+  '@media (min-width: 901px)': {
+    fontSize: '0.875rem',
+  },
+}
+*/
+
+@mixin caption2V2 {
+  font-family: 'Aime', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-size: 0.75rem; // 12px
+}
+/* JS style (caption2V2)
+{
+  fontFamily: 'Aime, Helvetica Neue, Arial, sans-serif',
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: 0,
+  fontSize: '0.75rem',
+}
+*/

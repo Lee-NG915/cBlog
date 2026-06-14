@@ -1,0 +1,277 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.review) {
+  @include mobile {
+    &__left {
+      position: relative;
+    }
+    &__right {
+      margin-top: 20px;
+    }
+  }
+  @include desktop {
+    display: flex;
+
+    &__left {
+      flex: 0 0 auto;
+      width: 180px;
+
+      @include media-breakpoint-up(xl) {
+        width: 200px;
+      }
+    }
+    &__right {
+      flex: 1 1 auto;
+      padding-left: 95px;
+      @include media-breakpoint-down(xl) {
+        padding-left: 30px;
+      }
+    }
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    @include mobile {
+      &.is-featured {
+        padding-right: 100px;
+      }
+    }
+    & > span {
+      line-height: 1.2;
+      font-size: 1rem;
+      margin-right: 10px;
+    }
+  }
+
+  &__tip {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+
+    & > svg {
+      fill: $color-primary;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__rating {
+    @include mobile {
+      margin: 5px 0;
+    }
+    @include desktop {
+      margin: 10px 0;
+    }
+  }
+
+  &__image {
+    @include mobile {
+      width: 120px;
+    }
+    @include desktop {
+      width: 150px;
+    }
+  }
+
+  &__product {
+    & > p {
+      & > a {
+        text-decoration: underline;
+        @include link-style($color-primary, $color-primary, none);
+      }
+    }
+    @include mobile {
+      color: #888;
+      line-height: 1.2;
+
+      & > p {
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 5px;
+
+        &:after {
+          content: ',';
+        }
+
+        &:last-of-type {
+          margin-right: 0;
+
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+    @include desktop {
+      color: #888;
+
+      & > p {
+        margin-bottom: 0;
+        font-size: 0.7rem;
+        line-height: 1.2;
+
+        &:first-of-type {
+          font-size: 0.9rem;
+          color: #666;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  &__related {
+    font-size: 0.875rem;
+    color: $color-grey;
+  }
+
+  &__featured {
+    @include mobile {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    @include desktop {
+      margin-top: 20px;
+    }
+  }
+}
+
+:local(.message) {
+  & + & {
+    border-top: 1px dashed #e3e3e3;
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+  &__more {
+    outline: none !important;
+    text-decoration: underline;
+  }
+
+  &__moreNew {
+    font-size: 0.875rem;
+  }
+
+  @include desktop {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__body {
+    @include desktop {
+      flex: 0 1 638px;
+    }
+  }
+
+  &__footer {
+    @include desktop {
+      text-align: center;
+      flex: 0 1 130px;
+    }
+  }
+
+  &__title {
+    text-transform: capitalize;
+    font-size: 1.125rem;
+    @include desktop {
+      margin-bottom: 20px;
+    }
+    @include mobile {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__user {
+    @include mobile {
+      margin-bottom: 5px;
+    }
+    @include desktop {
+      margin-bottom: 10px;
+    }
+
+    & > span {
+      color: $color-primary;
+    }
+  }
+
+  &__content {
+    word-break: break-word;
+    margin-bottom: 30px;
+    color: $color-grey;
+    line-height: 1.4;
+  }
+
+  &__images {
+    & > div {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &__item {
+      cursor: zoom-in;
+      border-radius: 8px;
+    }
+
+    @include mobile {
+      margin: 10px -5px;
+
+      &__item {
+        width: 25%;
+        padding: 0 5px;
+
+        &:nth-of-type(n + 5) {
+          margin-top: 10px;
+        }
+
+        @include media-breakpoint-up(sm) {
+          width: 20%;
+          &:nth-of-type(5) {
+            margin-top: 0;
+          }
+        }
+        @include media-breakpoint-up(lg) {
+          width: 16.66%;
+          &:nth-of-type(6) {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+    @include desktop {
+      margin: 15px -5px;
+
+      &__item {
+        width: 16.66%;
+        padding: 0 5px;
+
+        &:nth-of-type(n + 7) {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  &__date {
+    color: $color-grey;
+    font-size: 0.875rem;
+  }
+
+  &__like.btn {
+    border: 1px solid #ccc;
+    border-radius: 1.5rem;
+    padding: 0.2rem 0.5rem;
+
+    &.is-liked {
+      border-color: $color-primary;
+    }
+  }
+}
+
+:local(.tag) {
+  display: inline-block;
+  padding: 0.15rem 1rem;
+  border-radius: 0.9rem;
+  background-color: #eee;
+}

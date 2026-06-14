@@ -1,0 +1,1 @@
+export const posSalesId = 'pos_sales_id';

@@ -1,0 +1,40 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.switch) {
+  display: inline-block;
+  input {
+    display: none;
+    &:checked ~ label {
+      background-color: $color-primary;
+      border: 1px solid $color-primary;
+    }
+
+    &:checked ~ label::before {
+      transform: translate(20px, 3px);
+      background-color: #fff;
+    }
+  }
+  label {
+    display: inline-block;
+    height: 28px;
+    width: 46px;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    position: relative;
+    border-radius: 14px;
+    transition: background-color 0.4s;
+    margin: 0;
+    cursor: pointer;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #aaa;
+      transform: translate(4px, 3px);
+      transition: transform 0.4s;
+    }
+  }
+}

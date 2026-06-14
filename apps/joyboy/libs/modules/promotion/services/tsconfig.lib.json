@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"],
+    "jsx": "react"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../domain/src/event/promotion.event.ts",
+    "src/promotion.listener.ts",
+    "../domain/src/helper/promotion.helper.ts"
+  ],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+}

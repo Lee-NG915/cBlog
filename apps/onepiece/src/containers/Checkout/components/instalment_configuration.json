@@ -1,0 +1,118 @@
+ {
+   "ipp_options":[
+     {
+       "bank": "OCBC Singapore",
+       "bank_code": "OCBC",
+       "bins": [
+         "400610",
+         "400902",
+         "434922",
+         "450898",
+         "452419",
+         "496679",
+         "524040",
+         "540012",
+         "541383",
+         "541386",
+         "552410"
+       ],
+       "options": [
+         {
+           "min_amount": "500",
+           "period": 6
+         },
+         {
+           "min_amount": "500",
+           "period": 12
+         }
+       ],
+       "terms_url": "https://www.ocbc.com/personal-banking/cards/card-services-0-percent-installment-plan.html"
+     },
+     {
+       "bank": "United Overseas Bank (Singapore)",
+       "bank_code": "UOB",
+       "bins": [
+         "376317",
+         "400682",
+         "404142",
+         "407514",
+         "426588",
+         "454182",
+         "454183",
+         "454718",
+         "456598",
+         "486374",
+         "493725",
+         "515705",
+         "540191",
+         "541126",
+         "542125",
+         "552163",
+         "552253",
+         "552592",
+         "552892",
+         "558957"
+       ],
+       "options": [
+         {
+           "min_amount": "500",
+           "period": 6
+         },
+         {
+           "min_amount": "500",
+           "period": 12
+         },
+         {
+           "min_amount": "500",
+           "period": 24
+         }
+       ],
+       "terms_url": "http://www.uob.com.sg/assets/pdfs/personal/cards/zeroinstaltnc.pdf"
+     },
+     {
+       "bank": "American Express (Singapore)",
+       "bank_code": "AMEX",
+       "bins": [
+         "376200",
+         "376201",
+         "376202",
+         "376203",
+         "376204",
+         "376205",
+         "376206",
+         "376207",
+         "376208",
+         "376209",
+         "376210",
+         "376211",
+         "376212",
+         "376213",
+         "376214",
+         "376215",
+         "376216",
+         "376217",
+         "376218",
+         "376219",
+         "377359",
+         "377360",
+         "377361",
+         "377381",
+         "379855",
+         "379873",
+         "379874",
+         "379875"
+       ],
+       "options": [
+         {
+           "min_amount": "500",
+           "period": 6
+         },
+         {
+           "min_amount": "500",
+           "period": 12
+         }
+       ],
+       "terms_url": "http://paysmall.com.sg/terms-and-conditions"
+     }
+   ]
+ }

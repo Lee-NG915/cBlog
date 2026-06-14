@@ -1,0 +1,253 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+$red: #7e3618;
+
+:local(.intro) {
+  position: relative;
+  text-align: center;
+  background: #fff;
+  max-width: 80%;
+  margin: 0 auto;
+  @include shared {
+    margin-top: -35px;
+    padding: 50px;
+    padding-bottom: 0;
+  }
+  @include mobile {
+    margin-top: -18px;
+    padding: 30px 10px;
+    padding-bottom: 0;
+  }
+
+  &__title {
+    line-height: 1;
+    margin-bottom: 0;
+    @include shared {
+      font-size: 1.875rem;
+    }
+    @include mobile {
+      font-size: 1.6875rem;
+      & > span {
+        display: block;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__desc {
+    @include shared {
+      margin: 30px 0 50px;
+      font-size: 1.25rem;
+    }
+    @include mobile {
+      margin: 20px 0 20px;
+      font-size: 1.125rem;
+    }
+  }
+}
+
+:local(.rsvp) {
+  & > .btn {
+    font-weight: bold;
+    @include button-variant(#fff, $red, $red);
+    @include shared {
+      width: 250px;
+      font-size: 1.25rem;
+    }
+    @include mobile {
+      width: 200px;
+      font-size: 1.125rem;
+    }
+  }
+}
+
+:local(.campaigns) {
+  text-align: center;
+  @include shared {
+    // margin-top: 70px
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+  }
+  @include mobile {
+    // margin-top:
+    padding: 0 20px;
+  }
+  &__campaign {
+    @include shared {
+      &:first-child {
+        margin-top: 0;
+        width: 100%;
+      }
+      &:not(:first-child) {
+        flex: 1;
+        max-width: 680px;
+      }
+      margin-bottom: 70px;
+      &-title {
+        font-size: 1.875rem;
+        margin-top: 40px;
+      }
+      &-desc {
+        padding: 0 30px;
+        margin-top: 30px;
+        font-size: 1.25rem;
+      }
+      &-link {
+        display: block;
+        margin-top: 20px;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+    }
+    @include mobile {
+      margin-bottom: 50px;
+      &-title {
+        font-size: 1.375rem;
+        margin-top: 40px;
+      }
+      &-desc {
+        margin-top: 20px;
+        font-size: 1.125rem;
+        padding: 0 10px;
+      }
+      &-link {
+        display: block;
+        margin-top: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+:local(.event) {
+  text-align: center;
+  background-color: #f2eeed;
+  @include shared {
+    padding: 60px 0;
+    margin-bottom: 100px;
+  }
+  @include mobile {
+    padding: 44px 15px;
+    margin-bottom: 50px;
+  }
+
+  &__title {
+    position: relative;
+    text-transform: uppercase;
+    @include shared {
+      font-size: 1.25rem;
+      letter-spacing: 1.11px;
+      margin-bottom: 60px;
+    }
+    @include mobile {
+      font-size: 1.125rem;
+      letter-spacing: 1px;
+      font-weight: 300;
+      margin-bottom: 50px;
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      margin-top: 10px;
+      transform: translate(-50%, 0);
+      @include shared {
+        width: 157px;
+      }
+      @include mobile {
+        width: 136px;
+      }
+      height: 0;
+      border-top: 1px solid #424242;
+    }
+  }
+
+  &__date {
+    @include shared {
+      font-size: 1.875rem;
+      margin-bottom: 100px;
+    }
+    @include mobile {
+      p {
+        margin-bottom: 0.5rem;
+      }
+      font-size: 1.375rem;
+      margin-bottom: 50px;
+    }
+    font-weight: bold;
+  }
+
+  &__studios {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__studio {
+    @include shared {
+      flex: 0 1 680px;
+    }
+    @include mobile {
+      flex: 0 1 165px;
+    }
+    &-name {
+      font-weight: bold;
+      @include shared {
+        font-size: 1.25rem;
+        margin: 50px 0 20px;
+      }
+      @include mobile {
+        font-size: 0.9375rem;
+        margin: 30px 0 10px;
+      }
+    }
+    &-address {
+      @include shared {
+        font-size: 1.125rem;
+        margin-bottom: 24px;
+      }
+      @include mobile {
+        font-size: 0.875rem;
+        margin-bottom: 10px;
+      }
+    }
+    &-link {
+      font-weight: bold;
+      text-decoration: underline;
+      @include shared {
+        font-size: 1.125rem;
+      }
+      @include mobile {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+:local(.reminder) {
+  text-align: center;
+  @include shared {
+    margin-bottom: 70px;
+  }
+  @include mobile {
+    margin-bottom: 50px;
+  }
+  &__desc {
+    font-style: italic;
+    color: #666;
+    @include shared {
+      margin-top: 22px;
+      font-size: 1rem;
+    }
+    @include mobile {
+      margin-top: 10px;
+      font-size: 0.75rem;
+    }
+  }
+}

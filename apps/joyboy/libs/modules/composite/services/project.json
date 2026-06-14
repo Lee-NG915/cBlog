@@ -1,0 +1,26 @@
+{
+  "name": "modules-composite-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/composite/services/src",
+  "projectType": "library",
+  "tags": ["type:composite-services", "scope:composite"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/composite/services",
+        "main": "libs/modules/composite/services/src/index.ts",
+        "tsConfig": "libs/modules/composite/services/tsconfig.lib.json",
+        "assets": ["libs/modules/composite/services/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/composite/services/jest.config.ts"
+      }
+    }
+  }
+}

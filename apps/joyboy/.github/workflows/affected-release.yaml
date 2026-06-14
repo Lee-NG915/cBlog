@@ -1,0 +1,72 @@
+name: Affected Release
+
+on:
+  # push:
+  #   tags:
+  #     - 'source-v[0-9]*.[0-9]*.[0-9]*'
+  # release:
+  #   types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+env:
+  OWNER: castlery
+  REPO: joyboy
+
+jobs:
+  affected-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT_BOT }}
+          fetch-depth: 0
+
+      - name: install
+        uses: ./.github/workflows/actions/install
+
+      - name: Get affected projects
+        id: get-affected-projects
+        uses: ./.github/workflows/actions/get-affected-projects
+        with:
+          main-branch: master
+          last-successful-event: release
+          # workflow-id: release-please.yaml
+
+      - name: Trigger release
+        id: trigger-release
+        uses: actions/github-script@v7
+        env:
+          AFFECTED_APPS: ${{ steps.get-affected-projects.outputs.affected_projects }}
+          AUTH_TOKEN: ${{ secrets.GH_PAT_BOT }}
+          REF: ${{ github.ref }}
+          OWNER: ${{ env.OWNER }}
+          REPO: ${{ env.REPO }}
+        with:
+          script: |
+            console.log(process.env.AFFECTED_APPS);
+            const affectedApps = JSON.parse(process.env.AFFECTED_APPS);
+            if(!affectedApps || !affectedApps.length) {
+              return;
+            }
+            for (const project of affectedApps) {
+              github.rest.repos.createDispatchEvent({
+                owner: process.env.OWNER,
+                repo: process.env.REPO,
+                event_type: 'release-' + project,
+                client_payload: {
+                  project: project,
+                  affectedApps: affectedApps,
+                  ref: process.env.REF
+                }
+              })
+            }

@@ -1,0 +1,292 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+@import '../../sass/schedule';
+
+:local(.deliverySlot) {
+  position: relative;
+
+  &__table {
+    display: flex;
+    overflow: auto;
+    @include scroll-bar;
+    &::-webkit-scrollbar {
+      height: 0.5rem;
+    }
+    -webkit-overflow-scrolling: touch;
+    // background: #fff;
+    padding-bottom: 10px;
+    @include mobile {
+      margin: 0 -15px 10px;
+    }
+    @include shared {
+      margin: 0;
+    }
+  }
+
+  &__column {
+    flex: 0 0 auto;
+    padding-right: $mobile-padding;
+    background-clip: content-box;
+
+    @include mobile {
+      width: 45%;
+      &:first-child {
+        margin-left: 5px;
+      }
+      @include media-breakpoint-up(sm) {
+        width: 30%;
+      }
+    }
+
+    @include shared {
+      width: 24%;
+      padding: 0;
+      padding-right: $mobile-padding;
+
+      @include media-breakpoint-up(xl) {
+        width: 17%;
+      }
+      @include media-breakpoint-up(xsl) {
+        width: 15%;
+      }
+    }
+
+    &.is-empty {
+      @include shared {
+        width: 12%;
+        @include media-breakpoint-up(xl) {
+          width: 10%;
+        }
+      }
+      @include mobile {
+        width: 25%;
+      }
+      background-image: linear-gradient(
+        135deg,
+        #fbf9f4 47.5%,
+        #e3e3e3 47.5%,
+        #e3e3e3 50%,
+        #fbf9f4 50%,
+        #fbf9f4 97.5%,
+        #e3e3e3 97.5%,
+        #e3e3e3 100%
+      );
+      background-size: 20px 20px;
+    }
+
+    &__header {
+      text-align: center;
+
+      @include mobile {
+        padding: 12px 10px;
+      }
+      @include shared {
+        padding: 0 0 38px 0;
+      }
+
+      & > span {
+        display: block;
+
+        &:last-child {
+          text-transform: uppercase;
+          font-family: $font-family-sans-serif;
+          color: $color-maroon-velvet-500;
+          font-weight: 400;
+          font-size: 1.125rem;
+          @include mobile {
+            font-size: 0.875rem;
+          }
+        }
+        &:first-child {
+          font-family: $font-family-aime;
+          color: $color-maroon-velvet-500;
+          font-weight: 400;
+          font-size: 1.875rem;
+          margin-bottom: 8px;
+          line-height: 1.2;
+          @include mobile {
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+
+    &__body {
+      & > .btn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-family: $font-family-aime;
+
+        line-height: 1.2;
+        border-radius: 8px;
+        @include button-variant(
+          $color-maroon-velvet-500,
+          $color-neutral-warm-linen-200,
+          $color-maroon-velvet-500,
+          $color-neutral-warm-linen-500,
+          $color-maroon-velvet-400,
+          $color-maroon-velvet-500
+        );
+
+        @include mobile {
+          font-size: 1rem;
+          padding: 0.5rem 0.5rem;
+        }
+        @include shared {
+          font-size: 1.25rem;
+          padding: 1rem 1.5rem;
+        }
+
+        & + .btn {
+          margin-top: 10px;
+        }
+
+        &:disabled {
+          @include button-variant(
+            $color-neutral-mono-500,
+            $color-neutral-warm-linen-200,
+            $color-neutral-mono-500,
+            $color-neutral-mono-500,
+            $color-neutral-warm-linen-200,
+            $color-neutral-mono-500
+          );
+          cursor: default;
+        }
+
+        &.is-selected {
+          @include button-variant(
+            $color-neutral-warm-linen-500,
+            $color-maroon-velvet-500,
+            $color-maroon-velvet-500,
+            $color-neutral-warm-linen-500,
+            $color-maroon-velvet-500,
+            $color-maroon-velvet-500
+          );
+        }
+      }
+    }
+  }
+
+  &__premium-slot {
+    color: $color-primary;
+    &--disabled {
+      color: #d8d8d8;
+    }
+    &--selected {
+      color: #fff;
+    }
+  }
+
+  &__legend {
+    display: flex;
+    margin-top: 40px;
+    text-transform: uppercase;
+    font-family: $font-family-sans-serif;
+    color: $color-maroon-velvet-500;
+
+    & > div {
+      flex: 0 0 auto;
+      padding-left: 2.75rem;
+      position: relative;
+      font-size: 0.875rem;
+      // line-height: 1;
+      @include mobile {
+        padding-left: 1.25rem;
+      }
+
+      & + div {
+        margin-left: 2rem;
+        @include mobile {
+          margin-left: 1rem;
+        }
+      }
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 2rem;
+        height: 2rem;
+        border-radius: 8px;
+        @include mobile {
+          width: 1rem;
+          height: 1rem;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    &__available:before {
+      border: 1px solid $color-maroon-velvet-500;
+    }
+
+    &__full:before {
+      border: 1px solid $color-neutral-mono-500;
+    }
+
+    &__selected:before {
+      background-color: $color-maroon-velvet-500;
+    }
+  }
+
+  &__list {
+    margin-top: 10px;
+    &__slot {
+      &:last-child > .btn {
+        border-bottom: none;
+      }
+      & > .btn {
+        color: $color-dark-neutral;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 0;
+        width: 100%;
+        padding: 20px $mobile-padding;
+        border-bottom: 1px solid #f6f6f6;
+        background-color: #fff;
+        & > span {
+          &:first-child {
+            display: flex;
+            align-items: center;
+            & > svg {
+              margin-right: 30px;
+              border-radius: 50%;
+              border: 1px solid #c4c4c4;
+              padding: 2px;
+              width: 20px;
+              height: 20px;
+              fill: white;
+              stroke: white;
+              stroke-width: 2px;
+              background-color: #fff;
+            }
+          }
+        }
+        &.is-selected {
+          & > span {
+            &:first-child {
+              & > svg {
+                background-color: $color-primary;
+                border-color: $color-primary;
+              }
+            }
+          }
+        }
+        &:disabled {
+          color: #d8d8d8;
+          & > span {
+            &:first-child {
+              & > svg {
+                border-color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/grid';
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+.container {
+  @include mobile {
+    @include media-breakpoint-down(sm) {
+      @include make-container(0);
+    }
+  }
+  @include desktop {
+    @include media-breakpoint-down(md) {
+      max-width: map-get($container-max-widths, lg);
+    }
+  }
+  &:after {
+    display: none;
+  }
+}
+
+.container-small {
+  @extend .container;
+  @include media-breakpoint-up(xsl) {
+    max-width: 1200px;
+  }
+}
+
+.container-large {
+  width: 100%;
+  max-width: map-get($container-max-widths, xxl) - 30px;
+
+  @include shared {
+    @include media-breakpoint-down(xxl) {
+      @include make-container($desktop-padding * 2);
+    }
+    @include media-breakpoint-up(xxl) {
+      @include make-container(0);
+    }
+  }
+  @include mobile {
+    @include make-container($mobile-padding * 2);
+  }
+  &:after {
+    display: none;
+  }
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.container-fluid {
+  @include make-container(0);
+  width: 100%;
+  max-width: map-get($container-max-widths, xxl) - 30px;
+  &:after {
+    display: none;
+  }
+
+  // make sure the banner has the same visual width with other components
+  @include media-breakpoint-up(xxl) {
+    & > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.clearfix {
+  @include clearfix;
+}

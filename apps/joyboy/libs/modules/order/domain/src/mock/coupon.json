@@ -1,0 +1,52 @@
+{
+  "couponList": [
+    {
+      "version": "v2",
+      "name": "Free Shiping & $100 ",
+      "voucherType": "FreeShipping",
+      "code": "ABCD3TYU",
+      "voucherTime": {
+        "startTime": "2025-03-03T23:43:26.102-07:00",
+        "endTime": "2025-04-23T23:43:26.102-07:00"
+      },
+      "state": 0,
+      "content": {
+        "usingRuleDescription": "Min spend $2000.",
+        "discountDescription": "Spend $3000 get $150 discount and free shipping",
+        "unavailableReason": ""
+      }
+    },
+    {
+      "version": "v2",
+      "name": "$20 OFF",
+      "voucherType": "OrderDiscount",
+      "code": "WERTYU",
+      "voucherTime": {
+        "startTime": "2025-03-03T23:43:26.102-07:00",
+        "endTime": "2025-12-03T23:43:26.102-07:00"
+      },
+      "state": 0,
+      "content": {
+        "usingRuleDescription": "",
+        "discountDescription": "",
+        "unavailableReason": ""
+      }
+    },
+    {
+      "version": "v2",
+      "name": "$50",
+      "voucherType": "ProductDiscount",
+      "code": "HHBW9F",
+      "voucherTime": {
+        "startTime": "2025-03-03T23:43:26.102-07:00",
+        "endTime": "2025-04-03T23:43:26.102-07:00"
+      },
+      "state": 1,
+      "content": {
+        "usingRuleDescription": "Min spend $1000.",
+        "discountDescription": "string",
+        "unavailableReason": "Only for new customer"
+      }
+    }
+  ]
+}

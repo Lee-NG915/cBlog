@@ -1,0 +1,1 @@
+export const ProductsCollectionModuleName = 'Shop The Collection';

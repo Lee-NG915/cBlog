@@ -1,0 +1,39 @@
+{/* Iconography.mdx */}
+
+import { Meta, Title, IconGallery, IconItem } from '@storybook/blocks';
+import * as Icons from './index';
+import * as SearchIcons from './searchIcons';
+
+<Meta title="Components/Icon " />
+
+# Iconography
+
+<IconGallery>
+  {Object.entries(Icons).map(([name,ItemCom]) => {
+  {
+  return (<IconItem name={`${name}`}>
+
+  <ItemCom />
+  </IconItem>
+  )
+
+}
+})}
+
+</IconGallery>
+
+# Search Icon
+
+<IconGallery>
+  {Object.entries(SearchIcons).map(([name,ItemCom]) => {
+  {
+  return (<IconItem name={`${name}`}>
+
+  <ItemCom />
+  </IconItem>
+  )
+
+}
+})}
+
+</IconGallery>

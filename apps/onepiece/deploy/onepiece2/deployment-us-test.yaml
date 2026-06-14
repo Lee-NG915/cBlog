@@ -1,0 +1,6 @@
+---
+deployment:
+  - region: us-east-1
+    cluster: test-eks-use1
+    namespace: ecomm-test
+    bucket: knight-us-test

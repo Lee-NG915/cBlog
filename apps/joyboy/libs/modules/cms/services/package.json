@@ -1,0 +1,30 @@
+{
+  "name": "@castlery/modules-cms-services",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {
+    "@storyblok/react": "4.3.4",
+    "memory-cache": "0.2.0",
+    "tslib": "^2.3.0",
+    "schema-dts": "^1.1.2",
+    "@castlery/utils": "*",
+    "@castlery/config": "*",
+    "@castlery/shared-persistence-kit": "*",
+    "uuid": "*",
+    "@castlery/modules-cms-domain": "*",
+    "@castlery/types": "*",
+    "moment-timezone": "*",
+    "react": "*",
+    "next": "14.2.35",
+    "@sentry/nextjs": "^10.43.0",
+    "@castlery/modules-dy-domain": "0.0.1",
+    "@castlery/observability": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/memory-cache": "0.2.5"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
+}

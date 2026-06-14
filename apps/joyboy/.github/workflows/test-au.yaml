@@ -1,0 +1,63 @@
+name: TEST-AU CI/CD
+on:
+  push:
+    branches:
+      - test-au
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  CI:
+    if: ${{ github.event_name == 'push' || contains(github.ref, 'source') }}
+    uses: ./.github/workflows/CI.yaml
+    with:
+      app-env: au-test
+      last-successful-event: ${{ contains(github.ref, 'source') && 'release' || '' }}
+    secrets: inherit
+
+  CD:
+    needs: [CI]
+    if: ${{needs.CI.outputs.affected_projects != '[]'}}
+    strategy:
+      fail-fast: false
+      matrix:
+        affected_project: ${{ fromJson(needs.CI.outputs.affected_projects) }}
+        run-cd: [false]
+        include:
+          - affected_project: pos
+            run-cd: ${{ contains(fromJson(needs.CI.outputs.affected_projects), 'pos') }}
+            upload-assets: true
+            include-nginx: false
+            version: ${{ fromJson(needs.CI.outputs.affected_projects_version)['pos'] }}
+
+          - affected_project: web
+            run-cd: ${{ contains(fromJson(needs.CI.outputs.affected_projects), 'web') }}
+            # run-cd: false
+            upload-assets: true
+            include-nginx: false
+            version: ${{ fromJson(needs.CI.outputs.affected_projects_version)['web'] }}
+        # 排除run-cd为false的
+        exclude:
+          - run-cd: false
+    uses: ./.github/workflows/CD.yaml
+    with:
+      # affected-projects: ${{ needs.CI.outputs.affected_projects }}
+      app-name: ${{ matrix.affected_project }}
+      s3region: ap-southeast-1
+      bucket: knight-au-stag
+      app-env: au-test
+      app-country: au
+      env: test
+      upload-assets: ${{ matrix.upload-assets }}
+      include-nginx: ${{ matrix.include-nginx }}
+      run-cd: ${{ matrix.run-cd }}
+    secrets: inherit

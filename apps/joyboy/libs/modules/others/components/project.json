@@ -1,0 +1,32 @@
+{
+  "name": "modules-others-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/others/components/src",
+  "projectType": "library",
+  "tags": ["type:components", "scope:others"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "build": {
+    "executor": "@nx/rollup:rollup",
+    "outputs": ["{options.outputPath}"],
+    "options": {
+      "outputPath": "dist/libs/modules/others/components",
+      "tsConfig": "libs/modules/others/components/tsconfig.lib.json",
+      "project": "libs/modules/others/components/package.json",
+      "entryFile": "libs/modules/others/components/src/index.ts",
+      "external": ["react", "react-dom", "@emotion/react/jsx-runtime"],
+      "rollupConfig": "@nx/react/plugins/bundle-rollup",
+      "compiler": "swc",
+      "assets": [
+        {
+          "glob": "libs/modules/others/components/README.md",
+          "input": ".",
+          "output": "."
+        }
+      ]
+    }
+  }
+}

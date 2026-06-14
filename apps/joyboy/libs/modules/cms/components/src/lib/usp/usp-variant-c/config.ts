@@ -1,0 +1,1 @@
+export const USPVariantCModuleName = 'USP Variant C';

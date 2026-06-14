@@ -1,0 +1,14 @@
+import React from 'react';
+import Icons, { SvgIconProps as IconsProps } from '@mui/joy/SvgIcon';
+
+export type VerifiedProps = IconsProps;
+
+// https://www.zhangxinxu.com/sp/svgo/
+
+export function Verified(props: VerifiedProps) {
+  return (
+    <Icons {...props}>
+      <path d="M9.175 21.45 7.5 18.65l-3.175-.7.325-3.275-2.15-2.45 2.15-2.45L4.325 6.5 7.5 5.8 9.175 3l2.975 1.25L15.125 3 16.8 5.8l3.175.7-.325 3.275 2.15 2.45-2.15 2.45.325 3.275-3.175.7-1.675 2.8-2.975-1.25-2.975 1.25Zm.425-1.275 2.55-1.05 2.55 1.05 1.45-2.4 2.75-.6-.25-2.85 1.85-2.1-1.85-2.1.25-2.85-2.75-.6-1.45-2.4-2.55 1.05-2.55-1.05-1.45 2.4-2.75.6.25 2.85-1.85 2.1 1.85 2.1-.25 2.85 2.75.6 1.45 2.4Zm1.5-5.1 4.95-4.95-.7-.725-4.25 4.25-2.15-2.125-.7.7 2.85 2.85Z" />
+    </Icons>
+  );
+}

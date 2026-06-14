@@ -1,0 +1,18 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+:local(.svg) {
+  @each $key, $value in $colors {
+    &--color-#{$key} {
+      fill: $value;
+      stroke: $value;
+    }
+
+    &--hover-#{$key} {
+      &:hover {
+        fill: $value;
+        stroke: $value;
+      }
+    }
+  }
+}

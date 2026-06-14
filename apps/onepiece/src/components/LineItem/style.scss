@@ -1,0 +1,128 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.bundle) {
+  & > div {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  &__img {
+    flex: 0 0 auto;
+
+    @include mobile {
+      width: 90px;
+      padding-left: 20px;
+
+      @include media-breakpoint-up(sm) {
+        width: 120px;
+        padding-left: 40px;
+      }
+    }
+    @include desktop {
+      width: 90px;
+      padding-left: 20px;
+
+      @include media-breakpoint-up(xl) {
+        width: 120px;
+        padding-left: 40px;
+      }
+    }
+  }
+
+  &__info {
+    flex: 1 1 auto;
+    text-align: left;
+    line-height: 1.2;
+    @include mobile {
+      padding-left: 5px;
+
+      @include media-breakpoint-up(sm) {
+        padding-left: 10px;
+      }
+    }
+    @include desktop {
+      padding-left: 10px;
+    }
+
+    & > p {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 2px;
+
+      &:first-of-type {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 5px;
+      }
+    }
+
+    &__name {
+      font-size: 16px;
+      line-height: 175%;
+      color: $maroon-velvet-500;
+      @include mobile {
+        font-size: 18px;
+        @include media-breakpoint-up(sm) {
+          font-size: 20px;
+        }
+      }
+    }
+
+    &__option {
+      font-size: 14px;
+      line-height: 175%;
+      color: $color-dark-accent;
+
+      @include mobile {
+        font-size: 0.9rem;
+        @include media-breakpoint-up(sm) {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &__qty {
+      font-size: 14px;
+      line-height: 175%;
+
+      @include mobile {
+        font-size: 0.9rem;
+        @include media-breakpoint-up(sm) {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+:local(.name) {
+  color: $maroon-velvet-500;
+  @include body1V2;
+
+  &__badge {
+    margin-left: 5px;
+    vertical-align: text-top;
+    display: inline-block;
+    background-color: $color-primary;
+    color: #fff;
+    padding: 3px 4px;
+    font-size: 0.7rem;
+    // letter-spacing: 1px;
+    font-weight: 600;
+    font-family: $font-title;
+    line-height: 1;
+    border-radius: 2px;
+  }
+
+  &__badgeV2 {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background-color: $color-terracotta-500;
+    color: $color-warm-linen-500;
+    padding: 3px 4px;
+    @include caption1V2;
+  }
+}

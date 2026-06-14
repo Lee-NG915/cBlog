@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "path": "./"
+    },
+    {
+      "path": "../onepiece"
+    },
+    {
+      "path": "./.claude/worktrees"
+    }
+  ],
+  "settings": {
+    "cSpell.words": [
+      "castlery",
+      "clsx",
+      "combobox",
+      "dynamicyield",
+      "firstname",
+      "lastname",
+      "nextjs",
+      "subh",
+      "upsert",
+      "XWZH"
+    ],
+    "nxConsole.generateAiAgentRules": true,
+    "i18n-ally.localesPaths": [
+      "apps/web/public/locales",
+      "packages/monorepo-i18n/src/lib/locales"
+    ]
+  }
+}

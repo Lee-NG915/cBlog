@@ -1,0 +1,91 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.select) {
+  display: inline-block;
+  position: relative;
+
+  & > .btn {
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    text-transform: none;
+    @include flex;
+  }
+
+  &__options {
+    position: absolute;
+    z-index: 10;
+    padding: 10px 0;
+    background-color: #fff;
+    border-top: 1px solid $color-light-grey;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    max-height: 250px;
+    overflow: auto;
+
+    &.is-close {
+      display: none;
+    }
+
+    & > a {
+      display: block;
+      padding: 5px 20px;
+      line-height: 1.3;
+      white-space: break-spaces;
+
+      &.is-hover {
+        background-color: $color-primary;
+      }
+
+      &.is-active {
+        color: $color-primary;
+      }
+
+      @include above {
+        background-color: $color-primary;
+        color: $color-light-accent;
+
+        span.select-custom-option {
+          color: $color-light-accent !important;
+        }
+
+        &.is-active {
+          color: $color-light-neutral;
+          span.select-custom-option {
+            color: $color-light-neutral !important;
+          }
+        }
+      }
+
+      &.is-reset {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #e3e3e3;
+        line-height: 1.5;
+        height: auto;
+        text-align: right;
+
+        & > svg {
+          width: 12px;
+          height: 12px;
+          fill: $color-dark-neutral;
+        }
+
+        &.is-hover {
+          background-color: transparent;
+        }
+
+        @include above {
+          color: $color-primary;
+          background-color: transparent;
+
+          & > svg {
+            fill: $color-primary;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.banner) {
+  &__tooltip {
+    & > span.bottom {
+      width: 100%;
+      top: 126%;
+    }
+  }
+  &__textContainer {
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 0 30px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+
+    h1 {
+      font-family: $font-title;
+      font-weight: 400;
+      margin: 0;
+      font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+      line-height: 150%;
+
+      @include mobile {
+        font-size: 28px;
+      }
+    }
+
+    p {
+      font-size: clamp(0.875rem, 1.5vw, 1rem);
+      line-height: 175%;
+
+      @include mobile {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        margin: 0;
+      }
+
+      @include shared {
+        width: 75%;
+        margin: 8px auto 0;
+      }
+    }
+  }
+
+  &__quiz {
+    width: 250px;
+    margin: 16px auto 0;
+
+    button {
+      height: 48px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 175%;
+
+      @include mobile {
+        height: 40px;
+      }
+    }
+  }
+
+  &__more {
+    white-space: nowrap;
+  }
+
+  &.has-border {
+    border-top: 1px solid #ddd;
+  }
+
+  &__countdown {
+    margin: 5px auto -5px;
+    @include shared {
+      margin: 20px auto 0;
+    }
+
+    &.is-black {
+      color: $color-dark-neutral !important;
+    }
+
+    &.is-white {
+      color: #fff !important;
+    }
+  }
+}

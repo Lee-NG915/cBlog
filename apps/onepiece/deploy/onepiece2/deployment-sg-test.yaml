@@ -1,0 +1,6 @@
+---
+deployment:
+  - region: ap-southeast-1
+    cluster: test-eks-apse1
+    namespace: ecomm-test
+    bucket: knight-sg-stag

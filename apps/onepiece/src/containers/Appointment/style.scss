@@ -1,0 +1,18 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.appointment) {
+  &__container {
+    width: 360px;
+    padding: 10px 20px;
+  }
+
+  &__loading {
+    width: 50px;
+    height: 50px;
+
+    .path {
+      stroke: $color-dark-neutral !important;
+    }
+  }
+}

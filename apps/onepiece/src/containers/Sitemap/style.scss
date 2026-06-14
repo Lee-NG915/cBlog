@@ -1,0 +1,103 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.sitemap) {
+  @include shared {
+    min-height: 550px;
+  }
+  @include mobile {
+    min-height: 965px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $mobile-padding;
+    padding-right: $mobile-padding;
+  }
+
+  h1 {
+    text-align: center;
+    color: #3c101e;
+    // @include heading1;
+    padding: 20px 0;
+    @include mobile {
+      padding: 10px 0;
+    }
+  }
+
+  h3 {
+    color: #3c101e;
+
+    // @include heading2;
+    padding-bottom: 20px;
+    @include mobile {
+      padding-bottom: 10px;
+    }
+  }
+
+  // h3 {
+  //   @include subtitle1;
+  // }
+
+  &__section {
+    padding: 3rem 0;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid $color-mono-300;
+    }
+    @include mobile {
+      padding: 2rem 0;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li {
+        margin-bottom: 18px;
+        color: #3c101e;
+        @include mobile {
+          margin-bottom: 12px;
+        }
+
+        a {
+          color: #3c101e;
+          // font-size: 16px;
+          @include body1V2;
+          // @include mobile {
+          //   font-size: 14px;
+          // }
+        }
+      }
+    }
+  }
+
+  &__loading {
+    position: relative;
+    margin-bottom: 100px;
+  }
+
+  &__column {
+    column-count: 3;
+
+    @include mobile {
+      column-count: 2;
+    }
+
+    &__child {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      color: #3c101e;
+      &:after {
+        content: '';
+        height: 2rem;
+        display: block;
+
+        @include mobile {
+          height: 10px;
+        }
+      }
+    }
+  }
+}

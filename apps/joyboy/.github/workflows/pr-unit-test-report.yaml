@@ -1,0 +1,100 @@
+name: PR Unit Test Report
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-unit-test-report-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  affected-unit-tests:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install
+        uses: ./.github/workflows/actions/install
+
+      - name: Collect changed files
+        run: |
+          mkdir -p artifacts/affected-unit-tests
+          git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" \
+            > artifacts/affected-unit-tests/changed-files.txt
+
+      - name: Run affected unit tests
+        id: unit-tests
+        continue-on-error: true
+        env:
+          UNIT_TEST_REPORT_DIR: artifacts/affected-unit-tests
+          CHANGED_FILES_PATH: artifacts/affected-unit-tests/changed-files.txt
+        run: node scripts/ci/run-affected-unit-tests.mjs
+
+      - name: Add job summary
+        if: always()
+        run: |
+          if [ -f artifacts/affected-unit-tests/job-summary.md ]; then
+            cat artifacts/affected-unit-tests/job-summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## Affected Unit Test Report" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "No unit test report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload unit test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-unit-test-report-${{ github.event.pull_request.number }}
+          path: artifacts/affected-unit-tests
+          retention-days: 7
+
+      - name: Post unit test report comment
+        if: always() && github.event.pull_request.head.repo.fork == false
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '## Affected Unit Test Report';
+            const fallback = `${marker}\n\nNo unit test report was generated.`;
+            const body = fs.existsSync('artifacts/affected-unit-tests/comment.md')
+              ? fs.readFileSync('artifacts/affected-unit-tests/comment.md', 'utf8')
+              : fallback;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find((comment) => comment.body.startsWith(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

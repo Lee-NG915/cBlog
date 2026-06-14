@@ -1,0 +1,49 @@
+name: Brand Refresh Release CI/CD
+
+on:
+  push:
+    branches:
+      - master_brand_refresh_web
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  BRAND-REFRESH-WEB:
+    strategy:
+      matrix:
+        include:
+          - country: sg
+            s3region: ap-southeast-1
+            bucket: knight-sg-prod
+          - country: au
+            s3region: ap-southeast-2
+            bucket: knight-au-prod
+          - country: us
+            s3region: ap-southeast-1
+            bucket: knight-us-prod
+          - country: ca
+            s3region: ca-central-1
+            bucket: knight-ca-prod
+          - country: uk
+            s3region: eu-west-2
+            bucket: knight-uk-prod
+      fail-fast: false
+    uses: ./.github/workflows/CICD-COMPOSE.yaml
+    with:
+      base-branch: master_brand_refresh_web
+      last-successful-event: push
+      env: prod
+      country: ${{ matrix.country }}
+      upload-assets: true
+      include-nginx: false
+      s3region: ${{ matrix.s3region }}
+      bucket: ${{ matrix.bucket }}
+    secrets: inherit

@@ -1,0 +1,20 @@
+/Users/abbywang/Documents/castlery_projects/onepiece/src/fortress/NiceModal
+├── NiceModal.stories.tsx
+├── Readme.md
+├── __test__
+├── components
+|  ├── BaseModal.tsx
+|  ├── FormModal.tsx
+|  ├── Fragments.tsx
+|  └── HookModal.tsx
+├── hooks
+|  ├── elementsHolder.tsx
+|  ├── useModal.tsx
+|  ├── useNiceFormModal.tsx
+|  ├── usePatchElement.tsx
+|  ├── useSimpleModal.tsx
+|  └── withFunc.ts
+└── index.ts
+
+directory: 3 file: 13
+

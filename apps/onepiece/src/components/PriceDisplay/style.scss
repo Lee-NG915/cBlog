@@ -1,0 +1,22 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.priceDisplay) {
+  font-size: 16px;
+  letter-spacing: 0.27px;
+  line-height: 18px;
+  white-space: nowrap;
+
+  &__price {
+    display: inline-block;
+    margin-right: 8px;
+    font-weight: 600;
+    color: $color-primary;
+  }
+
+  &__origin-price {
+    color: $color-complimentary;
+    display: inline-block;
+    text-decoration: line-through;
+  }
+}

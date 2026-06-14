@@ -1,0 +1,21 @@
+{
+  "name": "@castlery/types",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "scripts": {
+    "generate-sg:types": "storyblok pull-components --space 44267 --file-name sb-sg && storyblok-generate-ts source=./components.sb-sg.json target=./src/types/components-sb-sg-schema"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@storyblok/react": "4.3.4",
+    "storyblok-generate-ts": "2.1.0"
+  },
+  "devDependencies": {
+    "storyblok": "^3.35.2",
+    "storyblok-generate-ts": "^2.1.0"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@castlery/shared-components",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "dependencies": {
+    "react-slick": "^0.30.2",
+    "swiper": "^11.2.10",
+    "@cloudinary/react": "1.11.2",
+    "@cloudinary/url-gen": "1.10.0"
+  },
+  "devDependencies": {
+    "@types/react-slick": "^0.23.13"
+  }
+}

@@ -1,0 +1,37 @@
+@import 'sass/variables';
+
+:local(.radio) {
+  display: flex;
+  align-items: center;
+
+  // &:last-child {
+  //   margin-bottom: 0 !important;
+  //   margin-right: 0 !important;
+  // }
+
+  &__button {
+    font-family: $font-base;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 103px;
+    height: 41px;
+    border: 1px solid $color-light-grey;
+    color: $color-complimentary;
+    font-size: 14px;
+
+    &--active {
+      border-color: $color-dark-neutral;
+      color: $color-dark-neutral;
+    }
+    &--disabled {
+      border: none;
+    }
+
+    &:hover {
+      border-color: $color-dark-neutral;
+    }
+  }
+}

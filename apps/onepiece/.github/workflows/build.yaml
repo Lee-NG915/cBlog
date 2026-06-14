@@ -1,0 +1,223 @@
+name: Build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_call:
+    inputs:
+      APP_ENV:
+        required: true
+        type: string
+    outputs:
+      IMAGE_VERSION:
+        description: 'Image Version for Deploy' # e.g: 2.19.12
+        value: ${{ jobs.init-app-env.outputs.APPLICATION_VERSION }}
+      IMAGE_TAG:
+        description: 'Image Version for Deploy' # e.g: 2.19.12-b1680159140
+        value: ${{ jobs.init-app-env.outputs.IMAGE_TAG }}
+env:
+  REGISTRY: 825303761615.dkr.ecr.ap-southeast-1.amazonaws.com
+  APP_NAME: onepiece
+
+jobs:
+  init-app-env:
+    runs-on: ubuntu-latest
+    outputs:
+      APPLICATION_VERSION: ${{ steps.set_vars.outputs.APPLICATION_VERSION }} # e.g: 2.19.12
+      IMAGE_TAG: ${{ steps.set_vars.outputs.IMAGE_TAG }} # e.g: 2.19.12-b1680159140
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set environment variables
+        id: set_vars
+        run: |
+          git fetch --tags --force
+          APPLICATION_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+          SECOND_EPOCH=$(date +%s)
+          IMAGE_TAG="${APPLICATION_VERSION}-b${SECOND_EPOCH}"
+          echo "APPLICATION_VERSION=$APPLICATION_VERSION"
+          echo "IMAGE_TAG=$IMAGE_TAG"
+          echo "Setting environment variables"
+          echo "APPLICATION_VERSION=$APPLICATION_VERSION" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: summary
+        run: |
+          echo "### Build info " >> $GITHUB_STEP_SUMMARY
+          echo "App version: ${{ steps.set_vars.outputs.APPLICATION_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "Image tag: ${{ steps.set_vars.outputs.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "Argo cd: [![App Status](https://argocd.cslr.io/api/badge?name=onepiece-${{inputs.APP_ENV}}&revision=true)](https://argocd.cslr.io/applications/onepiece-${{inputs.APP_ENV}})" >> $GITHUB_STEP_SUMMARY
+
+  build-assets:
+    runs-on: ubuntu-latest
+    needs: init-app-env
+    env:
+      APPLICATION_VERSION: ${{ needs.init-app-env.outputs.APPLICATION_VERSION }}
+      IMAGE_TAG: ${{ needs.init-app-env.outputs.IMAGE_TAG }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment and cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: config Node Auth Token
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GPR_PASSWORD }}" >> .npmrc
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile --non-interactive
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BUILDER }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BUILDER }}
+          aws-region: ap-southeast-1
+
+      - name: Get secrets from AWS Secrets Manager and write to .env
+        run: node scripts/secret/index.js
+        env:
+          SECRET_NAME: ecomm-team/onepiece/${{ inputs.APP_ENV }}
+
+      - name: Archive .env and default.conf
+        uses: actions/upload-artifact@v4
+        with:
+          name: config-files
+          retention-days: 1
+          path: |
+            .env
+            nginx/web/conf.d/default.conf
+
+      - name: Build assets
+        run: |
+          yarn build
+        env:
+          APP_NAME: ${{ env.APP_NAME }}
+          APP_ENV: ${{ inputs.APP_ENV }}
+          APP_VERSION: ${{ env.APPLICATION_VERSION }}
+          NODE_ENV: 'production'
+
+      - name: Clean source map files
+        run: |
+          find ./static/ -maxdepth 3 \( -name "*.js.map" -o -name "*.css.map" \) -exec rm {} \;
+
+      - name: Archive assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-assets
+          retention-days: 7
+          path: |
+            static
+
+  build-image:
+    runs-on: ubuntu-latest
+    needs: [init-app-env, build-assets]
+    env:
+      APPLICATION_VERSION: ${{ needs.init-app-env.outputs.APPLICATION_VERSION }}
+      IMAGE_TAG: ${{ needs.init-app-env.outputs.IMAGE_TAG }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'false' # no need to checkout submodules for docker build
+
+      - name: Download .env and default.conf
+        uses: actions/download-artifact@v4
+        with:
+          name: config-files
+
+      # for docker build: Keep static files consistent
+      - name: Download build assets
+        uses: actions/download-artifact@v4
+        with:
+          name: build-assets
+          path: ./static
+
+      # - name: Docker meta
+      #   id: meta
+      #   uses: docker/metadata-action@v4
+      #   with:
+      #     # list of Docker images to use as base name for tags
+      #     images: |
+      #       ${{ env.REGISTRY}}/${{ env.APP_NAME }}
+      #     flavor: |
+      #       latest=false
+      #     # generate Docker tags based on the following events/attributes
+      #     tags: |
+      #       type=schedule,pattern={{date 'YYYYMMDD'}}
+      #       type=ref,event=branch,prefix=,suffix=-{{sha}}
+      #       type=ref,event=pr,suffix=-${{ github.event.pull_request.head.sha }}
+      #       type=ref,event=tag
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_BUILDER }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_BUILDER }}
+          aws-region: ap-southeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Config Node Auth Token
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GPR_PASSWORD }}" >> .npmrc
+
+      - name: Build onepiece and push
+        uses: docker/build-push-action@v5
+        with:
+          context: '.'
+          push: true
+          cache-from: type=local,src=/tmp/.buildx-cache/onepiece
+          cache-to: type=local,dest=/tmp/.buildx-cache-new/onepiece,mode=max
+          tags: |
+            ${{env.REGISTRY}}/${{ env.APP_NAME }}:${{ inputs.APP_ENV }}_${{ env.IMAGE_TAG }}
+          build-args: |
+            APP_NAME=${{ env.APP_NAME }}
+            APP_ENV=${{ inputs.APP_ENV }}
+            APP_VERSION=${{ env.APPLICATION_VERSION }}
+            APP_BUILD=${{ env.IMAGE_TAG }}
+            APP_COMMIT=${{ github.sha }}
+            NODE_AUTH_TOKEN=${{ secrets.GPR_PASSWORD }}
+
+      - name: Build and push Nginx Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./nginx/web/
+          push: true
+          cache-from: type=local,src=/tmp/.buildx-cache/onepiece-nginx
+          cache-to: type=local,dest=/tmp/.buildx-cache-new/onepiece-nginx,mode=max
+          tags: |
+            ${{env.REGISTRY}}/${{ env.APP_NAME }}:${{ inputs.APP_ENV }}_${{ env.IMAGE_TAG }}-nginx
+          build-args: |
+            APP_NAME=${{ env.APP_NAME }}
+            APP_VERSION=${{ env.APPLICATION_VERSION }}
+            APP_ENV=${{ inputs.APP_ENV  }}
+            APP_BUILD=${{ env.IMAGE_TAG }}
+            APP_COMMIT=${{ github.sha }}
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache

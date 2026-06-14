@@ -1,0 +1,52 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - master
+      - fortress-beta
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: release-please-master
+        if: github.ref_name == 'master'
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GH_PAT_BOT }}
+          config-file: release-please/master/release-please-config.json
+          manifest-file: release-please/release-please-manifest.json
+          target-branch: ${{ github.ref_name }}
+          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false},{"type":"ci","section":"Miscellaneous","hidden":false},{"type":"perf","section":"Miscellaneous","hidden":false},{"type":"test","section":"Miscellaneous","hidden":false},{"type":"docs","section":"Miscellaneous","hidden":false}, {"type":"hotfix","section":"Hotfix","hidden":false}]'
+
+      - name: release-please-fortress-beta
+        if: github.ref_name == 'fortress-beta'
+        id: release-beta
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GH_PAT_BOT }}
+          config-file: release-please/fortress-beta/release-please-config.json
+          manifest-file: release-please/release-please-manifest.json
+          target-branch: ${{ github.ref_name }}
+          path: libs/fortress
+
+      - name: release info
+        if: github.ref_name == 'master'
+        env:
+          realese-output: ${{ toJson(steps.release.outputs) }}
+        run: |
+          echo $realese-output
+
+      - name: release info for fortress-beta
+        if: github.ref_name == 'fortress-beta'
+        env:
+          release-output: ${{ toJson(steps.release-beta.outputs) }}
+        run: |
+          echo "Release info (fortress-beta):"
+          echo $release-output

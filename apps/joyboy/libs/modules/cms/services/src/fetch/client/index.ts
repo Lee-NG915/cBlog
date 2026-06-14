@@ -1,0 +1,1 @@
+export { fetchInClient } from './fetch';

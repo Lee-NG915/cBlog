@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "generator": {
+      "factory": "./src/generators/generator",
+      "schema": "./src/generators/schema.json",
+      "description": "Generate Storybook args/argTypes from Storyblok JSON"
+    }
+  }
+}

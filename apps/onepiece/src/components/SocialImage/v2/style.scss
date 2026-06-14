@@ -1,0 +1,519 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+:local(.socialImage) {
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    & > :local(.socialImage) {
+      &__mask {
+        opacity: 1;
+      }
+    }
+  }
+  &__overlayed {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(236, 233, 233, 0.943);
+    padding: 2px 5px 2px 5px;
+    opacity: 0.8;
+  }
+  &__playBtn {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: rgba(250, 250, 250, 0.8);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-35%, -50%);
+      width: 16px;
+      height: 22px;
+      background-color: $color-dark-neutral;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+  &__playBtn-mobile {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: rgba(250, 250, 250, 0.8);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-35%, -50%);
+      width: 8px;
+      height: 11px;
+      background-color: $color-dark-neutral;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+  &__mask {
+    height: 95px;
+    color: $color-light-accent;
+    background: $color-primary;
+    line-height: 1.2;
+    font-size: 12px;
+    @include flex($direction: column, $align: flex-start); //$justify: space-between,
+    padding: 0 15px;
+    & > span {
+      font-weight: bold;
+      line-height: 1.4;
+    }
+    & > p {
+      line-height: 1.4;
+      white-space: pre-wrap;
+      margin-bottom: 0;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+  &__slick-container {
+    // z-index: -1;
+    @include desktop {
+      width: 800px;
+      .slick-prev {
+        transform: translateX(-80px);
+        opacity: 0.7;
+      }
+      .slick-next {
+        transform: translateX(80px);
+        opacity: 0.7;
+      }
+      .slick-prev:hover,
+      .slick-next:hover {
+        opacity: 1 !important;
+      }
+
+      &:hover {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+        }
+      }
+    }
+
+    &-slick-dots {
+      transform: unset;
+      justify-content: initial;
+      overflow-x: auto;
+      padding: 1px 5px;
+      white-space: nowrap;
+      position: sticky;
+      bottom: 0;
+      background-color: #fff;
+      z-index: 3;
+
+      li {
+        display: inline-block;
+        width: 85px;
+        height: 85px;
+        margin: 0px 5px;
+        padding: 5px;
+        & > div {
+          background-color: #f3f3f3;
+        }
+      }
+      .slick-active {
+        outline: $color-primary solid 1px !important;
+      }
+    }
+  }
+
+  &__slider-item {
+    @include desktop {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  @include shared {
+    &__mask {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      font-size: 14px;
+      padding: 0 20px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+  }
+}
+
+:local(.socialImageModal) {
+  position: relative;
+
+  @include mobile {
+    background-color: #fff;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  @include desktop {
+    display: flex;
+    width: 800px;
+    min-height: 600px;
+    padding-right: 300px;
+    background-color: #000;
+    position: relative;
+    align-items: center;
+
+    @media (min-width: 1680px) {
+      width: 1000px;
+      min-height: 600px;
+    }
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__content {
+    font-size: 0.875rem;
+
+    @include mobile {
+      padding: 15px $mobile-padding;
+    }
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 24px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    &__ig-handle {
+      display: flex;
+      align-items: center;
+      color: $color-dark-neutral;
+      font-weight: bold;
+      margin-bottom: 15px;
+      & > svg {
+        width: 20px;
+        height: 20px;
+        fill: $color-dark-neutral;
+      }
+      & > span {
+        @include desktop {
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        @include mobile {
+          margin-left: 7px;
+          padding-left: 7px;
+        }
+        border-left: 1px solid #888;
+      }
+    }
+
+    &__text {
+      color: $color-dark-neutral;
+      @include desktop {
+        overflow-y: auto;
+        word-break: break-word;
+        flex: 1 1 auto;
+        @include scroll-bar;
+        -webkit-overflow-scrolling: touch;
+      }
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__product {
+    @include mobile {
+      margin-top: 15px;
+    }
+    @include desktop {
+      margin-top: 30px;
+      flex: 0 0 auto;
+    }
+
+    &__loading {
+      height: 200px;
+      position: relative;
+    }
+
+    &__slick {
+      margin: 0;
+
+      & > .slick-slider > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+          left: auto;
+          top: 0;
+          padding: 4px 8px;
+          border: 1px solid #333;
+          width: auto;
+          height: auto;
+          transition: 0.2s;
+
+          & > svg {
+            width: 12px;
+            height: 12px;
+            fill: #333;
+            display: block;
+            stroke: #333;
+            stroke-width: 30px;
+          }
+
+          &:not(.slick-disabled) {
+            @include above {
+              background-color: #333;
+              opacity: 1 !important;
+
+              & > svg {
+                fill: #fff;
+                stroke: #fff;
+              }
+            }
+          }
+
+          &.slick-disabled {
+            display: block !important;
+            opacity: 0.5 !important;
+            cursor: default;
+          }
+        }
+
+        .slick-prev {
+          right: 10px;
+          transform: translate(-100%, -100%);
+        }
+
+        .slick-next {
+          right: 0;
+          transform: translate(0, -100%);
+        }
+      }
+
+      & > .slick-slider:hover > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+        }
+      }
+
+      &.is-onepage > .slick-slider > {
+        .slick-next,
+        .slick-prev {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+:local(.newSocialImageModal) {
+  color: #000;
+  margin: 70px auto 0;
+  @include mobile {
+    width: 100%;
+    padding: 0 20px;
+
+    @include media-breakpoint-up(sm) {
+      width: 90%;
+    }
+    @include media-breakpoint-up(md) {
+      width: 600px;
+    }
+  }
+  @include shared {
+    width: 600px;
+  }
+  @include mobile {
+    background-color: #fff;
+  }
+  @include desktop {
+    display: flex;
+    width: 800px;
+    min-height: 500px;
+    padding-right: 300px;
+    background-color: #000;
+    position: relative;
+    align-items: center;
+
+    @media (min-width: 1680px) {
+      width: 1000px;
+      min-height: 700px;
+    }
+  }
+
+  &__image {
+    padding: 0 0 1rem;
+  }
+
+  &__content {
+    font-size: 0.875rem;
+
+    @include mobile {
+      padding: 5px 0 $mobile-padding 0;
+    }
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 24px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    &__ig-handle {
+      display: flex;
+      align-items: center;
+      color: $color-dark-neutral;
+      font-weight: bold;
+      & > svg {
+        width: 20px;
+        height: 20px;
+        fill: $color-dark-neutral;
+      }
+      & > span {
+        @include desktop {
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        @include mobile {
+          margin-left: 7px;
+          padding-left: 7px;
+        }
+        border-left: 1px solid #888;
+      }
+    }
+
+    &__text {
+      @include desktop {
+        overflow-y: auto;
+        word-break: break-word;
+        flex: 1 1 auto;
+        @include scroll-bar;
+        -webkit-overflow-scrolling: touch;
+      }
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__product {
+    @include mobile {
+      margin-top: 15px;
+    }
+    @include desktop {
+      margin-top: 30px;
+      flex: 0 0 auto;
+    }
+
+    &__loading {
+      height: 200px;
+      position: relative;
+    }
+
+    &__slick {
+      margin: 0;
+
+      & > .slick-slider > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+          left: auto;
+          top: 0;
+          padding: 4px 8px;
+          border: 1px solid #333;
+          width: auto;
+          height: auto;
+          transition: 0.2s;
+
+          & > svg {
+            width: 12px;
+            height: 12px;
+            fill: #333;
+            display: block;
+            stroke: #333;
+            stroke-width: 30px;
+          }
+
+          &:not(.slick-disabled) {
+            @include above {
+              background-color: #333;
+              opacity: 1 !important;
+
+              & > svg {
+                fill: #fff;
+                stroke: #fff;
+              }
+            }
+          }
+
+          &.slick-disabled {
+            display: block !important;
+            opacity: 0.5 !important;
+            cursor: default;
+          }
+        }
+
+        .slick-prev {
+          right: 10px;
+          transform: translate(-100%, -100%);
+        }
+
+        .slick-next {
+          right: 0;
+          transform: translate(0, -100%);
+        }
+      }
+
+      & > .slick-slider:hover > {
+        .slick-prev,
+        .slick-next {
+          opacity: 1;
+        }
+      }
+
+      &.is-onepage > .slick-slider > {
+        .slick-next,
+        .slick-prev {
+          display: none !important;
+        }
+      }
+    }
+  }
+}

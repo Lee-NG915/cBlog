@@ -1,0 +1,36 @@
+{
+  "name": "modules-promotion-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/promotion/components/src",
+  "projectType": "library",
+  "tags": ["type:components", "scope:promotion"],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/promotion/components",
+        "tsConfig": "libs/modules/promotion/components/tsconfig.lib.json",
+        "project": "libs/modules/promotion/components/package.json",
+        "entryFile": "libs/modules/promotion/components/src/index.ts",
+        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/modules/promotion/components/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/promotion/components/jest.config.ts"
+      }
+    }
+  }
+}

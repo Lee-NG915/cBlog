@@ -1,0 +1,16 @@
+{
+  "name": "@castlery/data-tracking-events",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "tslib": "^2.3.0"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/lodash-es": "^4.17.12"
+  }
+}

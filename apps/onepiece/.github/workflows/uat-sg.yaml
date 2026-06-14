@@ -1,0 +1,28 @@
+name: CI/CD for uat-sg
+on:
+  push:
+    branches:
+      - uat-sg
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/build.yaml
+    with:
+      APP_ENV: sg-uat
+    secrets: inherit
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      app_env: sg-uat
+      app_country: sg
+      env: uat
+      image_tag: ${{ needs.ci.outputs.IMAGE_TAG }}
+      s3region: ap-southeast-1
+      bucket: knight-sg-uat
+      auto_merge: true
+    secrets: inherit

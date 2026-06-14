@@ -1,0 +1,174 @@
+@import 'sass/variables';
+@import 'sass/mixins';
+
+:local(.desContent) {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  &__positions {
+    .slick-dots {
+      @include desktop {
+        width: 70%;
+        justify-content: flex-end !important;
+        left: 0;
+        transform: translate(0);
+      }
+      @include mobile {
+        position: absolute;
+        justify-content: flex-end !important;
+        top: 280px;
+      }
+    }
+  }
+  &__position {
+    &__img {
+      flex-basis: 70% !important;
+      img {
+        height: 100%;
+      }
+    }
+    &__apply {
+      flex-basis: 30% !important;
+    }
+  }
+}
+
+:local(.positionApply) {
+  height: 100%;
+  border: 1px solid #c1af86;
+  display: flex;
+  flex-direction: column;
+  &__intro {
+    flex-grow: 1;
+    display: flex;
+    // flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 32px;
+    min-height: 280px;
+    @include mobile {
+      padding: 12px;
+      min-height: 250px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 175%;
+      margin: 0;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+  }
+  &__applybtn {
+    border-top: 1px solid #c1af86;
+    svg {
+      fill: #c1af86;
+    }
+  }
+}
+
+:local(.BipAndTrain) {
+  color: $color-dark-neutral;
+  margin-top: 48px;
+  border-top: 1px solid #c1af86;
+  &__left {
+    @include desktop {
+      border-right: 1px solid #c1af86;
+    }
+    @include mobile {
+      border-bottom: 1px solid #c1af86;
+    }
+  }
+  &__right {
+    ol {
+      padding-left: 24px;
+    }
+  }
+  &__content {
+    padding: 32px 48px;
+    @include mobile {
+      padding: 24px 5px;
+    }
+    h3 {
+      font-family: $font-title;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 28px;
+      @include mobile {
+        font-size: 24px;
+      }
+      line-height: 150%;
+      padding: 15px 0;
+    }
+  }
+}
+
+:local(.ApplyAndEnd) {
+  border-top: 1px solid #c1af86;
+  border-bottom: 1px solid #c1af86;
+  &__left,
+  &__right {
+    @include desktop {
+      padding: 32px 48px 32px 48px;
+    }
+    @include mobile {
+      padding: 24px 5px;
+    }
+    h3 {
+      font-family: $font-title;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 28px;
+      @include mobile {
+        font-size: 24px;
+      }
+      line-height: 150%;
+      padding: 15px 0;
+    }
+  }
+  &__left {
+    flex-basis: 60% !important;
+    @include desktop {
+      border-right: 1px solid #c1af86;
+    }
+    @include mobile {
+      border-bottom: 1px solid #c1af86;
+    }
+    &__process {
+      // margin-top: 24px;
+      // padding-left: 24px;
+    }
+    &__des {
+      margin-top: 24px;
+      p {
+        font-size: 16px;
+        a {
+          @include link-style($color-primary);
+        }
+      }
+    }
+  }
+  &__right {
+    flex-basis: 40% !important;
+    &__des {
+      p {
+        font-size: 16px;
+        a {
+          @include link-style($color-primary);
+        }
+      }
+    }
+  }
+}
+
+:local(.closeTip) {
+  display: flex;
+  &__icon {
+    padding-top: 2px;
+    margin-right: 5px;
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: #00aff5 !important;
+      stroke: #fff;
+    }
+  }
+}

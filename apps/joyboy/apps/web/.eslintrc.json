@@ -1,0 +1,100 @@
+{
+  "extends": ["plugin:@nx/react-typescript", "next", "next/core-web-vitals", "../../.eslintrc.base.json"],
+  "plugins": ["observability"],
+  "ignorePatterns": ["!**/*", ".next/**/*", "storybook-static"],
+  "overrides": [
+    {
+      "files": ["*.*"],
+      "rules": {
+        "@next/next/no-html-link-for-pages": "off"
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "observability/no-bare-sentry-capture": "warn",
+        "observability/no-sentry-in-edge": "error",
+        "observability/no-deprecated-page-type-search": "error",
+        "observability/no-double-reporting": "error"
+      }
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      }
+    },
+    {
+      "files": ["**/page.ts", "**/page.tsx"],
+      "rules": {
+        "observability/page-requires-sentry-context": "warn"
+      }
+    },
+    {
+      "files": ["**/layout.ts", "**/layout.tsx"],
+      "rules": {
+        "observability/layout-requires-sentry-provider": "warn",
+        "observability/async-layout-early-context": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/products/**/page.tsx",
+        "**/categories/**/page.tsx",
+        "**/collections/**/page.tsx",
+        "**/sales/**/page.tsx",
+        "**/search/page.tsx",
+        "**/home/page.tsx",
+        "**/account/**/page.tsx"
+      ],
+      "rules": {
+        "observability/page-requires-sentry-context": "error"
+      }
+    },
+    {
+      "files": [
+        "**/products/**/layout.tsx",
+        "**/categories/**/layout.tsx",
+        "**/collections/**/layout.tsx",
+        "**/sales/**/layout.tsx",
+        "**/home/layout.tsx",
+        "**/account/**/layout.tsx"
+      ],
+      "rules": {
+        "observability/layout-requires-sentry-provider": "error"
+      }
+    },
+    {
+      "files": [
+        "**/checkout/**/*.ts",
+        "**/checkout/**/*.tsx",
+        "**/payment/**/*.ts",
+        "**/payment/**/*.tsx",
+        "**/cart/**/*.ts",
+        "**/cart/**/*.tsx"
+      ],
+      "rules": {
+        "observability/no-bare-sentry-capture": "warn",
+        "no-restricted-syntax": [
+          "warn",
+          {
+            "selector": "CallExpression[callee.name='captureStructuredError']",
+            "message": "Checkout/Payment/Cart: Sentry integration blocked until migration completes. See CLAUDE.md Rule 9."
+          },
+          {
+            "selector": "CallExpression[callee.name='withServerActionInstrumentation']",
+            "message": "Checkout/Payment/Cart: Sentry integration blocked until migration completes. See CLAUDE.md Rule 9."
+          },
+          {
+            "selector": "CallExpression[callee.name='setGlobalSentryContext']",
+            "message": "Checkout/Payment/Cart: Sentry integration blocked until migration completes. See CLAUDE.md Rule 9."
+          },
+          {
+            "selector": "CallExpression[callee.object.name='Sentry'][callee.property.name='captureException']",
+            "message": "Checkout/Payment/Cart: Sentry integration blocked until migration completes. See CLAUDE.md Rule 9."
+          }
+        ]
+      }
+    }
+  ]
+}

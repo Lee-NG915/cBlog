@@ -1,0 +1,402 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+// @mixin md-shared {
+//   @if $platform == mobile {
+//     @include media-breakpoint-up(md) {
+//       @content;
+//     }
+//   } @else if $platform == desktop {
+//     @content;
+//   }
+// }
+
+@mixin md-shared {
+  @include media-breakpoint-up(md) {
+    @content;
+  }
+}
+
+@mixin sm-shared {
+  // @if $platform == mobile {
+  //   @include media-breakpoint-up(sm) {
+  //     @content;
+  //   }
+  // } @else if $platform == desktop {
+  //   @content;
+  // }
+  @include media-breakpoint-up(sm) {
+    @content;
+  }
+}
+
+:local(.modal) {
+  @include flex-center;
+  overflow: auto;
+
+  @include mobile {
+    &:before,
+    &:after {
+      flex-basis: 0px;
+    }
+  }
+
+  @include md-shared {
+    &:before,
+    &:after {
+      flex-basis: 30px;
+    }
+  }
+
+  &__container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+
+    @include mobile {
+      width: 100%;
+      min-height: 100%;
+      padding: 30px $mobile-padding;
+      border-radius: 0;
+
+      @include media-breakpoint-up(sm) {
+        padding: 30px;
+      }
+
+      @include media-breakpoint-up(md) {
+        width: 700px;
+        padding: 30px 50px;
+        min-height: auto;
+        border-radius: 6px;
+      }
+    }
+
+    @include shared {
+      width: 850px;
+      padding: 30px 50px;
+    }
+  }
+
+  &__title {
+    font-weight: 600;
+    margin: 0 0 30px;
+    position: relative;
+    padding-bottom: 25px;
+    text-align: center;
+
+    @include mobile {
+      font-size: 1.375rem;
+    }
+    @include shared {
+      font-size: 1.625rem;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 50px;
+      height: 0;
+      border-top: 1px solid #888;
+    }
+  }
+
+  &__intro {
+    color: #666;
+    text-align: center;
+    width: 80%;
+    font-size: 0.9rem;
+    margin: 0 auto;
+  }
+
+  &__close {
+    position: absolute;
+    padding: 15px;
+    background-color: transparent;
+    top: 0;
+    right: 0;
+
+    & > svg {
+      width: 16px;
+      height: 16px;
+      fill: #888;
+      display: block;
+    }
+  }
+}
+
+:local(.swatches) {
+  margin-top: 30px;
+
+  &__loading {
+    position: relative;
+    height: 300px;
+  }
+
+  &__collection {
+    border-top: 1px solid #e3e3e3;
+    margin-top: 30px;
+    padding-top: 30px;
+
+    & > h4 {
+      font-weight: bold;
+      text-align: left;
+      margin-bottom: 5px;
+      line-height: 1.4;
+
+      @include mobile {
+        font-size: 1.1rem;
+      }
+      @include shared {
+        font-size: 1.375rem;
+      }
+    }
+
+    & > p {
+      text-align: left;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__row {
+    & + & {
+      margin-top: 20px;
+    }
+  }
+
+  &__items {
+    display: flex;
+    position: relative;
+    z-index: 100;
+
+    @include mobile {
+      margin: 0 -5px;
+    }
+    @include sm-shared {
+      margin: 0 -8px;
+    }
+  }
+
+  &__item {
+    text-align: center;
+    position: relative;
+
+    @include mobile {
+      width: 33.3333%;
+      padding: 0 5px;
+
+      @include media-breakpoint-up(sm) {
+        width: 25%;
+        padding: 0 8px;
+      }
+      @include media-breakpoint-up(md) {
+        width: 20%;
+      }
+    }
+    @include shared {
+      width: 16.6666%;
+      padding: 0 8px;
+    }
+
+    & > a {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      display: block;
+
+      & > div {
+        border-radius: 6px;
+      }
+
+      & > svg {
+        width: 32px;
+        height: 32px;
+        fill: #fff;
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    & > label {
+      display: block;
+      padding: 0 5px;
+      line-height: 1.2;
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-size: 1rem;
+    }
+
+    &.is-active {
+      &:after {
+        position: absolute;
+        display: block;
+        content: '';
+        bottom: -15px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-top: none;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $color-grey-bg;
+      }
+    }
+  }
+}
+
+:local(.desc) {
+  background-color: $color-grey-bg;
+  margin-top: 15px;
+  position: relative;
+  z-index: 1;
+  border-radius: 8px;
+
+  @include mobile {
+    padding: $mobile-padding;
+
+    @include media-breakpoint-up(sm) {
+      display: flex;
+      padding: 30px;
+    }
+  }
+  @include shared {
+    display: flex;
+    padding: 30px;
+  }
+
+  &__image {
+    flex: 0 0 auto;
+
+    & > div {
+      border-radius: 6px;
+    }
+
+    @include mobile {
+      & > .btn {
+        display: none;
+      }
+    }
+
+    @include sm-shared {
+      width: 200px;
+
+      & > .btn {
+        margin-top: 30px;
+        display: block;
+      }
+    }
+  }
+
+  &__add {
+    display: block;
+    width: 100%;
+    position: relative;
+    line-height: 1.6;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &:disabled {
+      opacity: 1;
+    }
+
+    &.is-loading {
+      cursor: wait;
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &__intro {
+    flex: 1 1 auto;
+
+    @include mobile {
+      margin-top: 20px;
+    }
+    @include sm-shared {
+      margin-left: 30px;
+      margin-top: 0;
+
+      & > .btn {
+        display: none;
+      }
+    }
+
+    &__name {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.375rem;
+    }
+
+    &__section {
+      & + & {
+        margin-top: 10px;
+      }
+
+      & > label {
+        font-weight: bold;
+        margin-bottom: 0;
+        text-transform: capitalize;
+      }
+
+      & > p {
+        color: #666;
+        margin: 0;
+      }
+    }
+
+    &__actions {
+      margin-top: 20px;
+      display: none;
+
+      @include mobile {
+        @include media-breakpoint-down(xs) {
+          display: flex;
+        }
+      }
+
+      & > .btn {
+        &:first-of-type {
+          flex: 0 0 auto;
+          margin-right: $mobile-padding;
+        }
+        &:last-of-type {
+          flex: 1 1 auto;
+        }
+      }
+    }
+  }
+
+  &__close {
+    background-color: transparent;
+    padding: 15px;
+    border: none;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    & > svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+      fill: #888;
+    }
+
+    @include mobile {
+      @include media-breakpoint-down(xs) {
+        display: none;
+      }
+    }
+  }
+}

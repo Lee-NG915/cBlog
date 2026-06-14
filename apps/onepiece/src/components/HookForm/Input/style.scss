@@ -1,0 +1,64 @@
+@import '../../../sass/variables';
+
+:local(.inputContainer) {
+  padding: 13px;
+  position: relative;
+  border: 1px solid $color-mono-300;
+  min-height: 50px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &:not(:first-child) {
+    border-top: none;
+  }
+  & > label {
+    position: absolute;
+    top: 13px;
+    left: 10px;
+    background-color: $color-light-neutral;
+    color: $color-dark-accent;
+    padding: 0 3px;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+    transition: top 0.1s ease-in-out;
+  }
+  & > input {
+    width: 100%;
+    border: none;
+    box-sizing: border-box;
+    background-color: $color-light-neutral;
+    outline: none;
+    color: black;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    &:-internal-autofill-selected {
+      box-shadow: 0 0 0 30px $color-light-neutral inset;
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+    &:not(:read-only):focus + label {
+      opacity: 1;
+      top: -13px;
+    }
+    &:read-only {
+      color: $color-dark-accent;
+    }
+    &:read-only:hover {
+      cursor: not-allowed;
+    }
+  }
+  & > span {
+    font-size: 0.875rem;
+    margin-top: 5px;
+    color: $color-rosewood-500;
+  }
+}

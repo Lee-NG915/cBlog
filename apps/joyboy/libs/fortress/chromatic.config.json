@@ -1,0 +1,8 @@
+{
+  "buildScriptName": "build-storybook",
+  "onlyChanged": true,
+  "projectId": "Project:66825548b1273c22ce4c899b",
+  "storybookBaseDir": "libs/fortress",
+  "zip": true,
+  "exitOnceUploaded": true
+}

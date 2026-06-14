@@ -34,8 +34,24 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# local interview backend artifacts
+/apps/backend/data/
+
+# workspace source repos
+/apps/joyboy/node_modules/
+/apps/joyboy/dist/
+/apps/joyboy/.next/
+/apps/joyboy/.nx/
+/apps/joyboy/.env
+/apps/joyboy/.env.*
+/apps/onepiece/node_modules/
+/apps/onepiece/dist/
+/apps/onepiece/.next/
+/apps/onepiece/.nx/
+/apps/onepiece/.env
+/apps/onepiece/.env.*
+
 # internal reference docs (not for public blog)
 /docs/joyboy/
 /docs/confluence-export/
 /docs/internal/
-

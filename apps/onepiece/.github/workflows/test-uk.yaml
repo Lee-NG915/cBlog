@@ -1,0 +1,26 @@
+name: CI/CD for test-uk
+on:
+  push:
+    branches:
+      - test-uk
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/build.yaml
+    with:
+      APP_ENV: uk-test
+    secrets: inherit
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      app_env: uk-test
+      app_country: uk
+      env: test
+      image_tag: ${{ needs.ci.outputs.IMAGE_TAG }}
+      s3region: eu-west-2
+      bucket: knight-uk-test
+      auto_merge: true
+    secrets: inherit

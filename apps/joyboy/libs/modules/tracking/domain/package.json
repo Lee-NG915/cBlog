@@ -1,0 +1,10 @@
+{
+  "name": "@castlery/modules-tracking-domain",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "dependencies": {},
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "private": true
+}

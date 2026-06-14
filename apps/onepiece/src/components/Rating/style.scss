@@ -1,0 +1,29 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.wrapper) {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+
+  svg {
+    fill: #ccc;
+    & + svg {
+      margin-left: 1px;
+    }
+  }
+
+  div {
+    line-height: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    height: 100%;
+    white-space: nowrap;
+
+    svg {
+      fill: $color-primary;
+    }
+  }
+}

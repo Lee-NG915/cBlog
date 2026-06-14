@@ -1,0 +1,327 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb", "prettier"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "globalReturn": false,
+      "impliedStrict": true,
+      "jsx": true,
+      "legacyDecorators": true // 装饰器语法
+    }
+  },
+  "plugins": ["html", "prettier", "react-hooks"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts", ".json", ".css", ".scss", ".sass"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+      },
+      "extends": [
+        "airbnb-typescript",
+        "plugin:@typescript-eslint/recommended", // Uses rules from `@typescript-eslint/eslint-plugin`,
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      // "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaFeatures": {
+          "jsx": true
+        },
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        // typescript rules
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/comma-dangle": ["off"],
+        "@typescript-eslint/no-misused-promises": [
+          "error",
+          {
+            "checksVoidReturn": false
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          1,
+          {
+            "ignoreRestSiblings": true
+          }
+        ],
+        "@typescript-eslint/no-redeclare": [
+          "warn",
+          {
+            "ignoreDeclarationMerge": true
+          }
+        ],
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-return": "warn",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "as" }],
+        // 变量命名 naming-convention
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            "selector": "default",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"],
+            "leadingUnderscore": "allowSingleOrDouble", // 前置下划线
+            "trailingUnderscore": "allowSingleOrDouble" // 后置下划线
+          },
+          {
+            "selector": "typeLike",
+            "leadingUnderscore": "forbid", // 前置下划线
+            "trailingUnderscore": "forbid", // 后置下划线
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "variableLike",
+            "leadingUnderscore": "forbid", // 前置下划线
+            "trailingUnderscore": "forbid", // 后置下划线
+            "format": ["camelCase", "UPPER_CASE", "PascalCase"]
+          }
+        ],
+        "@typescript-eslint/restrict-template-expressions": "warn",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "import/extensions": 0
+      }
+    }
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "printWidth": 120,
+        // below line only for windows users facing CLRF and eslint/prettier error
+        // non windows users feel free to delete it
+        "endOfLine": "auto"
+      }
+    ],
+    "import/no-dynamic-require": "warn",
+    "import/extensions": 0,
+    "global-require": "off",
+    "import/prefer-default-export": 0,
+    "import": 0,
+    "no-debugger": 0,
+    "no-alert": 0,
+    "no-await-in-loop": 0,
+    "no-return-assign": ["error", "except-parens"],
+    "no-unused-vars": [
+      1,
+      {
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "res|next|^err"
+      }
+    ],
+    "prefer-const": "error",
+    "arrow-body-style": [2, "as-needed"],
+    "no-unused-expressions": [
+      2,
+      {
+        "allowTaggedTemplates": true,
+        "allowShortCircuit": true
+      }
+    ],
+    "no-param-reassign": [
+      1,
+      {
+        "props": false
+      }
+    ],
+    "no-console": 0,
+    "func-names": 0,
+    "space-before-function-paren": 0,
+    "comma-dangle": 0,
+    "max-len": 0,
+    "no-underscore-dangle": 0,
+    "consistent-return": 0,
+    "no-unsafe-optional-chaining": 0,
+    "no-useless-return": 2,
+    "radix": 0,
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
+    "prefer-destructuring": "off", // 解构
+    "prefer-promise-reject-errors": "warn",
+    "prefer-rest-params": "warn",
+    "no-use-before-define": "warn",
+    "no-bitwise": "warn",
+    "no-shadow": "off",
+    "no-undef": "warn",
+    "no-plusplus": "off",
+    "no-nested-ternary": "off",
+    "no-restricted-globals": "warn",
+    "no-restricted-syntax": "off",
+    "class-methods-use-this": "off",
+    "max-classes-per-file": "off",
+    "require-await": "error",
+    "camelcase": "warn",
+    "import/no-unresolved": "error",
+    "no-useless-concat": "off",
+    "default-param-last": "warn",
+    "no-continue": "off",
+
+    // react rules
+    "jsx-a11y/accessible-emoji": 0,
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "warn",
+      {
+        "aspects": ["invalidHref"]
+      }
+    ],
+    "react/no-array-index-key": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/prefer-stateless-function": 0,
+    "react/forbid-prop-types": 0,
+    "react/no-unescaped-entities": 0,
+    "react/function-component-definition": 0,
+    "react/require-default-props": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".mdx"]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/state-in-constructor": "off",
+    "react/default-props-match-prop-types": "warn",
+    "react/static-property-placement": ["error", "static public field"],
+    "react/destructuring-assignment": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "react/sort-comp": "warn",
+    "react/prop-types": "warn",
+    "react/jsx-no-bind": "warn",
+    "react/no-did-update-set-state": "warn",
+    "react/jsx-no-target-blank": "off",
+    "react/no-unused-state": "warn",
+    "react/no-danger": "off",
+    "react/jsx-key": "warn",
+    "react/no-unused-class-component-methods": "warn",
+    "react/jsx-no-useless-fragment": "off",
+    "react/display-name": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/no-invalid-html-attribute": "off"
+  },
+  "globals": {
+    "__DEVELOPMENT__": "readonly",
+    "__CLIENT__": "readonly",
+    "__SERVER__": "readonly",
+    "__DISABLE_SSR__": "readonly",
+    "__PLATFORM__": "readonly",
+    "__ONE_PIECE_WEB_SERVER_NAME__": "readonly",
+    "__APPLICATION_ENV__": "readonly",
+    "__HOST__": "readonly",
+    "__APIHOST__": "readonly",
+    "__TIME_ZONE__": "readonly",
+    "__COUNTRY__": "readonly",
+    "__CURRENCY__": "readonly",
+    "__BASE_ROUTE__": "readonly",
+    "__BASE_URL__": "readonly",
+    "__FACEBOOK_CLIENT_ID__": "readonly",
+    "__GOOGLE_MAP_API_KEY__": "readonly",
+    "__SENTRY_DSN__": "readonly",
+    "__FULLSTORY_ENABLED__": "readonly",
+    "__LOCALE__": "readonly",
+    "__PHRASES__": "readonly",
+    "__ZIP_ENABLED__": "readonly",
+    "__INSTALMENT_ENABLED__": "readonly",
+    "__INSTALMENT_URL__": "readonly",
+    "__INSTALMENT_ENCRYPT__": "readonly",
+    "__PAYPAL_ENABLED__": "readonly",
+    "__PAYPAL_CLIENT_ID__": "readonly",
+    "__GRABPAY_ENABLED__": "readonly",
+    "__AFFIRM_ENABLED__": "readonly",
+    "__AFFIRM_PUBLIC_KEY__": "readonly",
+    "__AFFIRM_SCRIPT__": "readonly",
+    "__APP_VERSION__": "readonly",
+    "__APP_ENV__": "readonly",
+    "__APP_NAME__": "readonly",
+    "__RECAPTCHA_KEY__": "readonly",
+    "__ZIP_PUBLIC_KEY__": "readonly",
+    "__STRIPE_ENABLED__": "readonly",
+    "__GOOGLE_MERCHANT_ID__": "readonly",
+    "__FRESHCHAT_ENABLED__": "readonly",
+    "__FRESHCHAT_ID__": "readonly",
+    "__GOOGLE_REVIEW_ENABLED__": "readonly",
+    "__DY_ENABLED__": "readonly",
+    "__DY_SECTION_ID__": "readonly",
+    "__GTM_ID__": "readonly",
+    "__salePages": "writable",
+    "__taxonomy": "writable",
+    "__maintenance__": "readonly",
+    "__PORT__": "readonly",
+    "__STORY_BLOKS_REFRESH_INTERVAL__": "readonly",
+    "__DATADOG_APPLICATION_ID__": "readonly",
+    "__DATADOG_CLIENT_TOKEN__": "readonly",
+    "__KLAVIYO_PUBLIC_KEY__": "readonly",
+    "__SERVER_DY_API_KEY__": "readonly",
+    "__CLIENT_DY_API_KEY__": "readonly",
+    "__APPLE_CLIENT_ID__": "readonly",
+    "__MULBERRY_PUBLIC_TOKEN__": "readonly",
+    "__MULBERRY_SDK__": "readonly",
+    "__FREE_SHIPPING_ZIPCODES__": "readonly",
+    "__GOOGLE_CLIENT_ID__": "readonly",
+    "__YOTPO_GUID__": "readonly",
+    "__YOTPO_API_KEY__": "readonly",
+    "__YOTPO_ENABLED__": "readonly",
+    "__YOTPO_REWARDS_ID__": "readonly",
+    "__YOTPO_REFERRAL_ID__": "readonly",
+    "__YOTPO_REFERRAL_POPUP_ID__": "readonly",
+    "__FRIENDBUY_ENABLED__": "readonly",
+    "__GLADLY_HC_API__": "readonly",
+    "__GLADLY_HC_ORGID__": "readonly",
+    "__GLADLY_HC_BRANDID__": "readonly",
+    "__GLADLY_CDN__": "readonly",
+    "__GLADLY_ENABLED__": "readonly",
+    "__GLADLY_APPID__": "readonly",
+    "__PINTEREST_ENABLED__": "readonly",
+    "__PAPERFORM_ID__": "readonly",
+    "__OPEN_GRADUATE_APPLICATION__": "readonly",
+    "__GRADUATE_PROGRAM_GREENHOUSE__": "readonly",
+    "__COOKIEYES_ENABLED__": "readonly",
+    "__COOKIYES_CDN__": "readonly",
+    "__REQUEST_TIME_THRESHOLD__": "readonly",
+    "__HEALTH_REQUEST_TIME_THRESHOLD__": "readonly",
+    "__CHECK_SYSTEM_METRICS__": "readonly",
+    "__PASSWORD_ENCRYPTION_PUBLIC_KEY__": "readonly"
+  }
+}

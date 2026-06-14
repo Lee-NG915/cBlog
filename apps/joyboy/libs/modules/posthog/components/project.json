@@ -1,0 +1,16 @@
+{
+  "name": "modules-posthog-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/posthog/components/src",
+  "projectType": "library",
+  "tags": ["scope:posthog", "type:components"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/posthog/components/jest.config.ts"
+      }
+    }
+  }
+}

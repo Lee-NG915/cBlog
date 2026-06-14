@@ -1,0 +1,63 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.banner) {
+  // .container-fluid {
+  //   background-position: center;
+  //   background-size: cover;
+  //   text-align: center;
+  //   color: $color-light-neutral;
+  //   position: relative;
+  //   display: flex;
+  //   align-items: center;
+  //   min-height: 170px;
+
+  //   @include mobile {
+  //     padding-top: 30px;
+  //     padding-bottom: 30px;
+
+  //     @include media-breakpoint-up(sm) {
+  //       padding-top: 50px;
+  //       padding-bottom: 50px;
+  //     }
+  //   }
+  //   @include desktop {
+  //     padding-top: 50px;
+  //     padding-bottom: 50px;
+  //   }
+
+  //   &:before {
+  //     content: '';
+  //     display: block;
+  //     position: absolute;
+  //     left: 0;
+  //     top: 0;
+  //     width: 100%;
+  //     height: 100%;
+  //     background-color: rgba(0, 0, 0, 0.5);
+  //   }
+
+  //   & > .container {
+  //     position: relative;
+  //   }
+  // }
+
+  p {
+    width: 75%;
+    margin: 20px auto 0;
+    line-height: 1.3;
+
+    @include mobile {
+      font-size: 0.9rem;
+
+      @include media-breakpoint-up(sm) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  a {
+    text-decoration: underline;
+    @include link-style(#fff, $color-primary, underline);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "libs/fortress": {
+      "release-type": "node",
+      "prerelease-type": "beta",
+      "versioning": "prerelease",
+      "prerelease": true
+    }
+  }
+}

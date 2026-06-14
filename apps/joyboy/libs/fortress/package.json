@@ -1,0 +1,68 @@
+{
+  "name": "@castlery/fortress",
+  "version": "0.62.0",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/castlery/joyboy.git"
+  },
+  "scripts": {
+    "storybook": "NODE_OPTIONS='--max-old-space-size=16384' nx run fortress:storybook",
+    "build-storybook": "NODE_OPTIONS='--max-old-space-size=16384' nx run fortress:build-storybook --configDir=.storybook",
+    "chromatic": "NODE_OPTIONS='--max-old-space-size=16384' npx chromatic --project-token chpt_68cd5d09d39021f --build-script-name=build-storybook --exit-zero-on-changes --skip-tsc"
+  },
+  "dependencies": {
+    "@mui/base": "^5.0.0-beta.40",
+    "@mui/joy": "^5.0.0-beta.30",
+    "@mui/material": "^5.15.3",
+    "@mui/system": "^5.15.15",
+    "@mui/utils": "^5.15.14",
+    "@types/react-day-picker": "^5.3.0",
+    "css-mediaquery": "^0.1.2",
+    "dayjs": "^1.10.7",
+    "postcode-validator": "^3.10.3",
+    "prop-types": "^15.8.1",
+    "react-datepicker": "^6.3.0",
+    "react-day-picker": "^9.9.0"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/css-mediaquery": "^0.1.4",
+    "@types/react-datepicker": "^6.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "glob": "^10.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remark-gfm": "^4.0.0",
+    "rollup-plugin-preserve-directives": "^0.4.0"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@types/react": "^17.0.0 || ^18.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@emotion/react": {
+      "optional": true
+    },
+    "@emotion/styled": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}

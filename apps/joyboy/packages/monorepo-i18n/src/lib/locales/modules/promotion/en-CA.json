@@ -1,0 +1,43 @@
+{
+  "promotionHint": {
+    "freeGiftUnlocked": "Free gift unlocked！",
+    "freeShippingComplete": "Congrats, you can now enjoy <strong>Free Shipping</strong>!",
+    "freeShippingAway": "You are <strong>{amount}</strong> away from Free Shipping!",
+    "freeGiftUnlockedCongrats": "Congratulations, you have unlocked a Free Gift!",
+    "freeGiftProgressDesktop": "Only <strong>{gap}</strong> more to unlock Free Gift",
+    "freeGiftProgressMobile": "<strong>{gap}</strong> more to unlock Free Gift",
+    "priceBreakProgress": "{amount} more to get {label}!"
+  },
+  "giftGallery": {
+    "stockNote": "Note: Gifts are subject to stock availability.",
+    "tcsApply": "T&Cs apply.",
+    "chooseYourFreeGift": "Choose your free gift",
+    "modalTitle": "Choose Your Free Gift",
+    "noGiftsAvailable": "No gifts available at the moment",
+    "giftUnavailableBanner": "Sorry, this product is unavailable. Please remove it in order to check out."
+  },
+  "giftRemoveConfirm": {
+    "title": "Remove gift from cart?",
+    "desc": "Removing this gift will also remove its associated coupon code. Do you want to continue?",
+    "cancel": "Cancel",
+    "confirm": "Remove",
+    "confirmLoading": "Removing..."
+  },
+  "removeFreeGiftCouponConfirm": {
+    "title": "Remove free gift coupon?",
+    "desc": "Removing this free gift coupon will also remove the gift item. Do you want to continue?",
+    "cancel": "Cancel",
+    "confirm": "Remove"
+  },
+  "checkoutGiftCouponDisabled": {
+    "title": "Coupon unavailable in checkout",
+    "desc": "Gift coupon code can only be used in the cart.",
+    "confirm": "OK"
+  },
+  "giftCloseWarning": {
+    "title": "Don't miss your free gift!",
+    "desc": "Closing this pop-up will remove the applied gift code.",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  }
+}

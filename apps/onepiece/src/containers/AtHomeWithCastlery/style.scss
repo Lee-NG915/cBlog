@@ -1,0 +1,683 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.wrapper) {
+  background-color: $color-grey-bg;
+  border-bottom: 1px solid #e3e3e3;
+
+  @include mobile {
+    padding: 30px 0;
+  }
+  @include shared {
+    padding: 50px 0;
+  }
+
+  h1 {
+    font-family: $font-title;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: -14px;
+      transform: translate(-50%, 0);
+      width: 60px;
+      border-top: 1px solid #aaa;
+    }
+
+    @include mobile {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    @include shared {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
+  h2 {
+    font-weight: normal;
+    text-align: center;
+
+    @include mobile {
+      font-size: 1rem;
+      padding: 0 30px;
+      margin-bottom: 30px;
+    }
+    @include shared {
+      font-size: 1.1rem;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+:local(.like) {
+  padding: 0px;
+  background-color: transparent;
+  transition: 0.2s;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+    fill: #cacaca;
+  }
+
+  span {
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-left: 5px;
+    line-height: 1;
+  }
+
+  &:disabled {
+    cursor: wait;
+  }
+
+  @include above {
+    svg {
+      fill: #bbb;
+    }
+  }
+
+  &.is-liked {
+    svg {
+      fill: $color-primary;
+    }
+    span {
+      color: $color-primary;
+    }
+
+    @include above {
+      svg {
+        fill: darken($color-primary, 8%);
+      }
+    }
+  }
+}
+
+:local(.grid) {
+  @include mobile {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  @include shared {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  &__sizer,
+  &__item {
+    @include mobile {
+      width: 50%;
+
+      @include media-breakpoint-up(md) {
+        width: 33.333333%;
+      }
+    }
+    @include shared {
+      width: 25%;
+
+      @include media-breakpoint-up(xl) {
+        width: 20%;
+      }
+    }
+  }
+
+  &__item {
+    position: absolute;
+
+    @include mobile {
+      padding: 0 5px;
+      margin-bottom: 10px;
+    }
+    @include shared {
+      padding: 0 10px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__loading,
+  &__loadMore,
+  &__error,
+  &__end {
+    margin-top: 20px;
+    position: relative;
+  }
+
+  &__loading {
+    @include mobile {
+      height: 2.5rem;
+    }
+    @include desktop {
+      height: 2.25rem;
+    }
+
+    &.is-fullpage {
+      height: 500px;
+    }
+  }
+
+  &__loadMore,
+  &__end {
+    text-align: center;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 0;
+      border-top: 1px solid #d3d3d3;
+    }
+
+    @include mobile {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    @include shared {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    & > div {
+      position: relative;
+      display: inline-block;
+      padding: 0 30px;
+      background-color: $color-grey-bg;
+
+      & > .btn {
+        border: none;
+      }
+    }
+
+    & > span {
+      position: relative;
+      display: inline-block;
+      background-color: $color-grey-bg;
+      color: #aaa;
+
+      @include mobile {
+        padding: 0.5rem 30px;
+      }
+      @include desktop {
+        padding: 0.375rem 30px;
+      }
+    }
+  }
+
+  &__error {
+    @include mobile {
+      padding: 0.5rem 0;
+    }
+    @include desktop {
+      padding: 0.375rem 0;
+    }
+
+    text-align: center;
+    color: #666;
+  }
+}
+
+:local(.gridItem) {
+  display: block;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  &__panel {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 5px 10px;
+    background-color: #fff;
+  }
+}
+
+:local(.item) {
+  &__wrapper {
+    @include mobile {
+      padding: 0;
+
+      @include media-breakpoint-up(md) {
+        padding: 0 0 30px;
+      }
+    }
+    @include desktop {
+      padding: 50px 0;
+    }
+
+    border-top: 1px solid #e3e3e3;
+  }
+
+  &__main {
+    @include desktop {
+      display: flex;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__gallery {
+    @include desktop {
+      flex: 1 1 auto;
+    }
+
+    & > div + div {
+      @include mobile {
+        margin-top: 10px;
+        @include media-breakpoint-up(sm) {
+          margin-top: 20px;
+        }
+      }
+      @include desktop {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &__sidebar {
+    @include desktop {
+      width: 350px;
+      flex: 0 0 auto;
+    }
+  }
+
+  &__comment {
+    @include mobile {
+      padding: 30px $mobile-padding;
+
+      &.is-borderless {
+        @media (min-width: 606px) {
+          padding: 30px 0;
+        }
+        @include media-breakpoint-up(md) {
+          padding-top: 30px;
+        }
+      }
+    }
+    @include desktop {
+      padding: 15px 20px;
+
+      & > .btn {
+        margin-top: 15px;
+      }
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    & > span {
+      font-weight: 600;
+      line-height: 1.2;
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+  }
+
+  &__tip {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+
+    & > svg {
+      fill: $color-primary;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__rating {
+    & > span {
+      margin-left: 10px;
+      font-size: 0.8rem;
+      color: #aaa;
+      position: relative;
+      top: -0.15rem;
+    }
+  }
+
+  &__content {
+    margin-top: 10px;
+    margin-bottom: 0;
+    word-break: break-word;
+    @include mobile {
+      margin-top: 15px;
+    }
+  }
+
+  &__like {
+    border: 1px solid #ccc;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+
+    & > div {
+      transform: scale(1.2, 1.2);
+    }
+
+    &.is-liked {
+      border-color: $color-primary;
+    }
+  }
+
+  &__loading {
+    position: relative;
+    @include mobile {
+      height: 350px;
+    }
+    @include shared {
+      height: 500px;
+    }
+
+    &.has-border {
+      border-top: 1px solid #eee;
+    }
+  }
+
+  &__taggedProduct,
+  &__relatedProducts {
+    border-top: 1px solid #eee;
+
+    & > h3 {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    @include mobile {
+      padding: $mobile-padding;
+
+      & > h3 {
+        text-align: center;
+      }
+
+      @include media-breakpoint-up(md) {
+        padding: 30px $mobile-padding;
+
+        & > h3 {
+          margin-bottom: 15px;
+        }
+      }
+    }
+    @include desktop {
+      padding: 15px 20px;
+    }
+  }
+
+  &__taggedProduct {
+    @include mobile {
+      & > div {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &__relatedProducts {
+    @include mobile {
+      &__container {
+        margin-left: -$mobile-padding;
+        margin-right: -$mobile-padding;
+        padding: 0 $mobile-padding / 2;
+        display: flex;
+        flex-wrap: wrap;
+
+        & > div {
+          width: 50%;
+          padding: 0 $mobile-padding / 2;
+
+          &:nth-of-type(n + 3) {
+            margin-top: $mobile-padding;
+          }
+        }
+
+        @include media-breakpoint-up(sm) {
+          padding: 0;
+
+          & > div {
+            padding: 0 10px;
+
+            &:nth-of-type(n + 3) {
+              margin-top: 20px;
+            }
+          }
+        }
+
+        @include media-breakpoint-up(lg) {
+          & > div {
+            width: 33.333333%;
+
+            &:nth-of-type(3) {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+    @include desktop {
+      .slick-prev,
+      .slick-next {
+        opacity: 1;
+        left: auto;
+        top: -15px;
+        padding: 4px 8px;
+        border: 1px solid $color-primary;
+        width: auto;
+        height: auto;
+        transition: 0.2s;
+
+        & > svg {
+          width: 12px;
+          height: 12px;
+          fill: $color-primary;
+          display: block;
+          stroke: $color-primary;
+          stroke-width: 30px;
+        }
+
+        &:not(.slick-disabled) {
+          @include above {
+            background-color: $color-primary;
+            opacity: 1 !important;
+
+            & > svg {
+              fill: #fff;
+              stroke: #fff;
+            }
+          }
+        }
+
+        &.slick-disabled {
+          opacity: 0.5 !important;
+          cursor: default;
+        }
+      }
+
+      .slick-prev {
+        right: 10px;
+        transform: translate(-100%, -100%);
+      }
+
+      .slick-next {
+        right: 0;
+        transform: translate(0, -100%);
+      }
+    }
+  }
+
+  &__product {
+    & > a:last-of-type {
+      margin-top: 5px;
+    }
+
+    & > div {
+      margin-top: 0;
+    }
+
+    & > p {
+      line-height: 1;
+      margin-top: 2px;
+
+      &:nth-last-of-type(2) {
+        margin-top: 4px;
+      }
+    }
+  }
+
+  &__error {
+    padding: 30px 0;
+    color: #666;
+    text-align: center;
+  }
+
+  &__viewMore {
+    & > a {
+      & > svg {
+        width: 10px;
+        height: 10px;
+        margin-left: 5px;
+        stroke: $color-primary;
+        stroke-width: 20px;
+        fill: $color-primary;
+      }
+
+      @include above {
+        & > svg {
+          stroke: darken($color-primary, 10%);
+          fill: darken($color-primary, 10%);
+        }
+      }
+    }
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: $mobile-padding;
+
+      & > .btn {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      & > a {
+        padding-top: 5px;
+        @include link-style($color-primary, darken($color-primary, 10%));
+      }
+
+      @include media-breakpoint-up(md) {
+        padding: 30px;
+
+        & > .btn {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        & > a {
+          padding-top: 20px;
+        }
+      }
+    }
+    @include desktop {
+      margin-top: 30px;
+      text-align: center;
+    }
+  }
+}
+
+:local(.modal) {
+  @include mobile {
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  @include desktop {
+    @include flex-center;
+
+    &__wrapper {
+      height: 100%;
+      position: relative;
+
+      &:first-of-type {
+        opacity: 0;
+      }
+      &:last-of-type {
+        opacity: 1;
+      }
+    }
+
+    &__container {
+      background-color: #fff;
+      width: 85%;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+      @include media-breakpoint-up(xl) {
+        width: 80%;
+      }
+    }
+
+    &__btn {
+      position: absolute;
+      top: 50%;
+      padding: 15px;
+      border: none;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      z-index: 1;
+
+      & > svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: relative;
+      }
+
+      @include above {
+        & > svg {
+          fill: $color-primary;
+        }
+      }
+
+      &--prev {
+        left: 3.75%;
+        transform: translate(-50%, -50%);
+
+        @include media-breakpoint-up(xl) {
+          left: 5%;
+        }
+
+        & > svg {
+          right: 2px;
+        }
+      }
+
+      &--next {
+        right: 3.75%;
+        transform: translate(50%, -50%);
+
+        @include media-breakpoint-up(xl) {
+          right: 5%;
+        }
+
+        & > svg {
+          left: 2px;
+        }
+      }
+    }
+  }
+}

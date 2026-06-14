@@ -1,0 +1,26 @@
+{
+  "name": "monorepo-features",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/monorepo-features/src",
+  "projectType": "library",
+  "tags": ["type:util"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/monorepo-features",
+        "main": "packages/monorepo-features/src/index.ts",
+        "tsConfig": "packages/monorepo-features/tsconfig.lib.json",
+        "assets": ["packages/monorepo-features/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/monorepo-features/jest.config.ts"
+      }
+    }
+  }
+}

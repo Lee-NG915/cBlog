@@ -1,0 +1,215 @@
+name: Observability Lint
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'apps/web/**/*.ts'
+      - 'apps/web/**/*.tsx'
+      - 'libs/shared/observability/**'
+      - 'tools/eslint-plugin-observability/**'
+      - 'apps/web/.eslintrc.json'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  observability-lint:
+    name: Observability Compliance (web)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install
+        uses: ./.github/workflows/actions/install
+
+      - name: Get changed web TS files
+        id: changed-files
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          CHANGED=$(git diff --name-only "$BASE"..."$HEAD" -- 'apps/web/**/*.ts' 'apps/web/**/*.tsx' | grep -v '^$' || true)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Get plugin/config changes
+        id: plugin-config-changed
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          CHANGED=$(git diff --name-only "$BASE"..."$HEAD" -- \
+            'tools/eslint-plugin-observability/**' \
+            'libs/shared/observability/**' \
+            'apps/web/.eslintrc.json' | grep -v '^$' || true)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Run observability lint
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          FILES="${{ steps.changed-files.outputs.files }}"
+          echo "Scanning for observability violations..."
+          echo "$FILES" | while read -r f; do echo "  • $f"; done
+          echo ""
+
+          RESULT=$(echo "$FILES" | xargs npx eslint --format unix 2>&1 | grep "observability/" || true)
+
+          if [[ -z "$RESULT" ]]; then
+            echo "[OK] All observability checks passed."
+            exit 0
+          fi
+
+          echo "$RESULT"
+          echo ""
+
+          ERROR_COUNT=$(echo "$RESULT" | grep -cE " error " || true)
+          WARN_COUNT=$(echo "$RESULT" | grep -cE " warning " || true)
+          echo "Errors: $ERROR_COUNT   Warnings: $WARN_COUNT"
+
+          if [[ $ERROR_COUNT -gt 0 ]]; then
+            echo "::error::Observability lint: $ERROR_COUNT error(s). Fix before merging. See apps/web/.eslintrc.json and AGENTS.md § Observability Hard Rules."
+            exit 1
+          fi
+
+      - name: Run ESLint rule tests (when plugin, observability lib, or web ESLint config changes)
+        if: steps.plugin-config-changed.outputs.files != ''
+        run: |
+          echo "Plugin/observability/eslintrc changes detected — running rule tests..."
+          node tools/eslint-plugin-observability/tests/rules.test.js && \
+          node tools/eslint-plugin-observability/tests/config-integrity.test.js
+
+      - name: No relevant changes
+        if: steps.changed-files.outputs.files == '' && steps.plugin-config-changed.outputs.files == ''
+        run: echo "[OK] No relevant web/plugin/observability/eslintrc changes — observability checks skipped."
+
+      - name: Run Sentry context coverage scan
+        id: coverage
+        if: always()
+        run: |
+          REPORT=$(bash tools/eslint-plugin-observability/scripts/coverage-scan.sh --ci)
+          echo "json<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$REPORT" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post coverage report and violation comment
+        if: always() && github.event.pull_request.head.repo.fork == false
+        uses: actions/github-script@v7
+        env:
+          COVERAGE_JSON: ${{ steps.coverage.outputs.json }}
+        with:
+          script: |
+            // Shared upsert helper — single listComments call for all PR comments
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            async function upsertComment(marker, body) {
+              const existing = comments.find(c => c.body.startsWith(marker));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body,
+                });
+              }
+            }
+
+            // --- Coverage report ---
+            const coverageJson = process.env.COVERAGE_JSON;
+            if (coverageJson) {
+              try {
+                const data = JSON.parse(coverageJson);
+                const p = data.pages;
+                const l = data.layouts;
+                const s = data.summary;
+                const rate = s.eligibleTotal > 0
+                  ? ((s.coveredTotal / s.eligibleTotal) * 100).toFixed(1)
+                  : 'n/a';
+                const pRate = p.totalEligible > 0
+                  ? ((p.covered / p.totalEligible) * 100).toFixed(1)
+                  : 'n/a';
+                const lRate = l.totalEligible > 0
+                  ? ((l.covered / l.totalEligible) * 100).toFixed(1)
+                  : 'n/a';
+
+                const missingPages = p.missing.length > 0
+                  ? p.missing.map(f => `  - \`${f}\``).join('\n')
+                  : '  _None_';
+                const missingLayouts = l.missing.length > 0
+                  ? l.missing.map(f => `  - \`${f}\``).join('\n')
+                  : '  _None_';
+
+                const fs = require('fs');
+                const baselinePath = 'tools/eslint-plugin-observability/metrics/baseline.json';
+                let deltaLine = '';
+                if (fs.existsSync(baselinePath)) {
+                  try {
+                    const base = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+                    const delta = s.coveredTotal - base.summary.coveredTotal;
+                    const sign = delta >= 0 ? '+' : '';
+                    deltaLine = `\n> **Delta vs baseline:** ${sign}${delta} files (baseline: ${base.summary.coveredTotal}/${base.summary.eligibleTotal})`;
+                  } catch (e) { /* ignore malformed baseline */ }
+                }
+
+                const coverageBody = [
+                  '## Sentry Context Coverage Report',
+                  '',
+                  '| Metric | Covered | Total | Rate |',
+                  '|--------|---------|-------|------|',
+                  `| page.tsx (setGlobalSentryContext) | ${p.covered} | ${p.totalEligible} | ${pRate}% |`,
+                  `| layout.tsx (SentryContextProvider) | ${l.covered} | ${l.totalEligible} | ${lRate}% |`,
+                  `| **Total** | **${s.coveredTotal}** | **${s.eligibleTotal}** | **${rate}%** |`,
+                  deltaLine,
+                  '',
+                  '<details>',
+                  '<summary>Missing instrumentation (' + s.missingCount + ' files)</summary>',
+                  '',
+                  '**page.tsx:**',
+                  missingPages,
+                  '',
+                  '**layout.tsx:**',
+                  missingLayouts,
+                  '',
+                  '</details>',
+                ].join('\n');
+
+                await upsertComment('## Sentry Context Coverage Report', coverageBody);
+              } catch (e) {
+                core.warning(`Coverage report parse failed: ${e.message}`);
+              }
+            }
+
+            // --- Violation comment (only on failure) ---
+            const jobStatus = '${{ job.status }}';
+            if (jobStatus === 'failure') {
+              const violationBody = [
+                '## Observability Lint Failure',
+                '',
+                'One or more observability rule violations were found in this PR.',
+                'Fix the errors listed in the [CI logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) before merging.',
+                '',
+                'Common fixes:',
+                '- Replace `Sentry.captureException` with `captureStructuredError` from `@castlery/observability`',
+                '- Add `setGlobalSentryContext` to new `page.tsx` files',
+                '- Add `<SentryContextProvider>` to new `layout.tsx` files',
+                '- See `AGENTS.md` § Observability Hard Rules for full details',
+              ].join('\n');
+
+              await upsertComment('## Observability Lint Failure', violationBody);
+            }

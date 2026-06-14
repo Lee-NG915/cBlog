@@ -1,0 +1,28 @@
+name: CI/CD for test-au
+on:
+  push:
+    branches:
+      - test-au
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/build.yaml
+    with:
+      APP_ENV: au-test
+    secrets: inherit
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      app_env: au-test
+      app_country: au
+      env: test
+      image_tag: ${{ needs.ci.outputs.IMAGE_TAG }}
+      s3region: ap-southeast-1
+      bucket: knight-au-stag
+      auto_merge: true
+    secrets: inherit

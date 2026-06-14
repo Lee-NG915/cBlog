@@ -1,0 +1,240 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+:local(.intro) {
+  position: relative;
+  &__container {
+    text-align: center;
+    background: #fff;
+    max-width: 80%;
+    margin: 0 auto;
+    @include mobile {
+      margin-top: -18px;
+      padding: 30px 10px;
+      padding-bottom: 0;
+    }
+    @include shared {
+      margin-top: -35px;
+      padding: 50px;
+      padding-bottom: 0;
+    }
+  }
+
+  &__header {
+    width: 100%;
+    padding: 0 30px;
+    text-align: center;
+    position: absolute;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__title {
+    margin-bottom: 0;
+    @include heading1;
+  }
+
+  &__desc {
+    font-size: 14px;
+    @include shared {
+      font-size: 16px;
+    }
+    color: $color-grey;
+  }
+}
+
+:local(.campaigns) {
+  text-align: center;
+  @include mobile {
+    // margin-top:
+    padding: 0 20px;
+  }
+  @include shared {
+    padding: 0;
+  }
+
+  &__title {
+    @include heading2;
+    font-weight: bold;
+    margin: 60px 0 40px 0;
+  }
+
+  &__campaign {
+    h3 {
+      @include heading3;
+      margin-bottom: 40px;
+      text-transform: none;
+
+      @include mobile {
+        margin-bottom: 28px;
+      }
+    }
+
+    @include mobile {
+      margin-bottom: 50px;
+
+      &-desc {
+        margin: 20px 0;
+        font-size: 1rem;
+      }
+
+      &-promotions {
+        margin-top: 30px;
+      }
+    }
+    @include shared {
+      margin-bottom: 70px;
+
+      &-desc {
+        padding: 0 30px;
+        margin: 30px 0;
+        font-size: 18px;
+        line-height: 32px;
+      }
+
+      &-promotions {
+        margin-top: 50px;
+      }
+    }
+  }
+}
+
+:local(.event) {
+  text-align: center;
+  background-color: #f2eeed;
+  @include mobile {
+    padding: 44px 15px;
+    margin-bottom: 50px;
+  }
+  @include shared {
+    padding: 60px 0;
+    margin-bottom: 80px;
+  }
+
+  &__title {
+    position: relative;
+    text-transform: uppercase;
+    @include mobile {
+      font-size: 1.125rem;
+      letter-spacing: 1px;
+      font-weight: 300;
+      margin-bottom: 50px;
+    }
+    @include shared {
+      font-size: 1.25rem;
+      letter-spacing: 1.11px;
+      margin-bottom: 60px;
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      margin-top: 10px;
+      transform: translate(-50%, 0);
+      @include mobile {
+        width: 136px;
+      }
+      @include shared {
+        width: 157px;
+      }
+      height: 0;
+      border-top: 1px solid #424242;
+    }
+  }
+
+  &__date {
+    @include mobile {
+      p {
+        margin-bottom: 0.5rem;
+      }
+      font-size: 1.375rem;
+      margin-bottom: 50px;
+    }
+    @include shared {
+      font-size: 1.875rem;
+      margin-bottom: 100px;
+    }
+    font-weight: bold;
+  }
+
+  &__studios {
+    &:hover {
+      color: $color-dark-neutral;
+    }
+  }
+
+  &__studio {
+    &:not(:last-of-type) {
+      margin-bottom: 60px;
+      @include mobile {
+        margin-bottom: 44px;
+      }
+    }
+    &-name {
+      font-weight: bold;
+      @include mobile {
+        font-size: 0.9375rem;
+        margin: 30px 0 10px;
+      }
+      @include shared {
+        font-size: 1.25rem;
+        margin: 50px 0 20px;
+      }
+    }
+    &-address {
+      @include mobile {
+        font-size: 0.875rem;
+        margin-bottom: 10px;
+      }
+      @include shared {
+        font-size: 1.125rem;
+        margin-bottom: 24px;
+      }
+    }
+    &-link {
+      font-weight: bold;
+      text-decoration: underline;
+      @include mobile {
+        font-size: 0.875rem;
+      }
+      @include shared {
+        font-size: 1.125rem;
+      }
+    }
+  }
+}
+
+:local(.reminder) {
+  text-align: center;
+  margin-bottom: 50px;
+
+  &__desc {
+    font-style: italic;
+    color: $color-grey;
+
+    @include mobile {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      padding: 0 50px;
+    }
+    @include shared {
+      margin-top: 22px;
+      font-size: 1rem;
+    }
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__link {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+  }
+}

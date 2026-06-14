@@ -1,0 +1,307 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.styleContest) {
+  &__header {
+    text-align: center;
+    white-space: nowrap;
+    position: absolute;
+    color: #fff;
+    margin-bottom: 0;
+    @include shared {
+      top: 28%;
+    }
+    @include mobile {
+      top: 34%;
+    }
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &-title {
+      @include mobile {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+      @include shared {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+    }
+    &-subTitle {
+      font-weight: bold;
+      margin-bottom: 0;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include shared {
+        font-size: 1.625rem;
+      }
+    }
+  }
+
+  &__title {
+    text-align: center;
+    @include shared {
+      font-size: 1.625rem;
+      margin-bottom: 60px;
+    }
+    @include mobile {
+      font-size: 1.375rem;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__intro {
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    @include mobile {
+      font-size: 1rem;
+      padding: 52px 22px 0;
+    }
+    @include shared {
+      padding: 60px 52px 0;
+      font-size: 1.125rem;
+      max-width: 883px;
+      margin: -80px auto 0;
+      @include media-breakpoint-down(xl) {
+        padding: 36px 36px 0;
+      }
+    }
+    &-title {
+      @include shared {
+        margin-bottom: 30px;
+        font-size: 1.625rem;
+      }
+      @include mobile {
+        margin-bottom: 10px;
+        font-size: 1.375rem;
+      }
+    }
+    &-detail {
+      @include shared {
+        font-size: 1.125rem;
+        max-width: 570px;
+      }
+      @include mobile {
+        font-size: 1rem;
+        max-width: 375px;
+      }
+      margin: 0 auto;
+      color: $color-grey;
+    }
+  }
+
+  &__prizes {
+    @include shared {
+      margin-top: 80px;
+    }
+    @include mobile {
+      margin-top: 60px;
+      padding: 0 22px;
+    }
+    &-content {
+      // display: grid;
+      // justify-content: center;
+      // @include shared {
+      //   grid-template-columns: repeat(auto-fill, minmax(500, 1fr));
+      //   grid-gap: 0 10px;
+      // }
+      // @include mobile {
+      //   grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
+      //   grid-gap: 15px 10px;
+      // }
+    }
+  }
+
+  &__prize {
+    text-align: center;
+    &--best {
+      background-color: #f9ece5;
+    }
+    &--popular {
+      background-color: #f5ebda;
+    }
+    @include shared {
+      padding: 55px 77px;
+      max-width: 810px;
+      margin: 0 auto;
+    }
+    @include mobile {
+      padding: 24px 22.5px;
+    }
+    &-title {
+      @include shared {
+        font-size: 1.25rem;
+      }
+      @include mobile {
+        font-size: 1.125rem;
+      }
+    }
+    &-desc {
+      color: $color-grey;
+      @include shared {
+        font-size: 1.125rem;
+      }
+      @include mobile {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__methods {
+    text-align: center;
+    @include mobile {
+      margin-top: 60px;
+    }
+    @include shared {
+      margin-top: 80px;
+    }
+    &-content {
+      justify-content: space-between;
+      display: flex;
+      @include mobile {
+        flex-direction: column;
+      }
+      @include shared {
+        flex-direction: row;
+      }
+    }
+  }
+
+  &__method {
+    @include shared {
+      flex: 0 1 358px;
+    }
+    & img {
+      height: 60px;
+      width: auto;
+    }
+    color: $color-grey;
+    & strong {
+      color: $color-dark-neutral;
+    }
+    &-desc {
+      @include mobile {
+        padding: 30px 40px 50px;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      @include shared {
+        padding: 50px 10px;
+        font-size: 1.125rem;
+        line-height: 1.33;
+      }
+      & > a {
+        font-weight: bold;
+        @include link-style($color-dark-neutral, darken($color-dark-neutral, 10%), underline);
+      }
+    }
+  }
+
+  &__collections {
+    @include shared {
+      margin-top: 50px;
+      padding: 0 15px;
+    }
+    @include mobile {
+      margin-top: 10px;
+      padding: 0 21px;
+    }
+    &-content {
+      display: grid;
+      justify-content: center;
+      @include shared {
+        grid-template-columns: repeat(auto-fill, minmax(0, 358px));
+        grid-gap: 48px;
+      }
+      @include mobile {
+        grid-template-columns: repeat(auto-fill, minmax(157px, 1fr));
+        grid-gap: 40px;
+      }
+    }
+  }
+
+  &__inspiration {
+    text-align: center;
+    &-title {
+      @include shared {
+        margin-top: 30px;
+      }
+      @include mobile {
+        margin-top: 20px;
+      }
+      margin-bottom: 0;
+    }
+    &-footer {
+      color: $color-primary;
+      margin-top: 1.5rem;
+    }
+    &-featured {
+      color: #666;
+      line-height: 1.5;
+    }
+    &-links {
+      line-height: 1.5;
+      color: $color-primary;
+      text-decoration: underline;
+    }
+    &-link {
+      & > a {
+        @include link-style($color-primary, darken($color-primary, 10%), underline);
+      }
+    }
+  }
+
+  &__contact {
+    text-align: center;
+    padding: 0 21px;
+    @include shared {
+      margin: 80px 0 100px;
+    }
+    @include mobile {
+      margin: 40px 0 60px;
+    }
+    font-size: 1.125rem;
+    color: #666;
+    & > a {
+      font-weight: bold;
+      @include link-style($color-dark-neutral, darken($color-dark-neutral, 10%), underline);
+    }
+  }
+
+  &__terms {
+    @include shared {
+      margin-bottom: 120px;
+    }
+    @include mobile {
+      padding: 0 21px;
+      margin-bottom: 80px;
+    }
+    &-container {
+      @include shared {
+        padding: 30px 20px;
+      }
+      @include mobile {
+        padding: 20px 0;
+      }
+      border-top: 1px solid #cecece;
+      border-bottom: 1px solid #cecece;
+    }
+    &-title {
+      @include shared {
+        font-size: 1.25rem;
+        margin-bottom: 30px;
+      }
+      @include mobile {
+        font-size: 1.125rem;
+        margin-bottom: 23px;
+      }
+    }
+    &-content {
+      padding-left: 1.3rem;
+      color: $color-grey;
+      line-height: 1.5;
+    }
+  }
+}

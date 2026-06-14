@@ -1,0 +1,83 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+:local(.notification) {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  animation: slideIn 0.1s linear;
+  background-color: $color-dark-neutral;
+  color: white;
+  margin: 0 auto;
+  width: 85%;
+  z-index: 1;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  @keyframes slideIn {
+    0% {
+      bottom: -60px;
+    }
+    25% {
+      bottom: -35px;
+    }
+    50% {
+      bottom: -10px;
+    }
+    75% {
+      bottom: 15px;
+    }
+    100% {
+      bottom: 40px;
+    }
+  }
+  &__actionText {
+    text-decoration: underline;
+    font-weight: bold;
+    margin: 0 16px;
+    color: white;
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+  button {
+    width: 24px;
+    height: 24px;
+    border: none;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background-color: $color-light-neutral;
+  }
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: $color-dark-neutral;
+    cursor: pointer;
+    stroke: #323433;
+    stroke-width: 3px;
+  }
+  @include mobile {
+    height: max-content;
+    width: 95%;
+    padding: 20px;
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+    button {
+      align-self: flex-start;
+    }
+    span {
+      max-width: 27ch;
+      padding-bottom: 6px;
+    }
+    &__actionText {
+      margin: 0;
+    }
+  }
+}

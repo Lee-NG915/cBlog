@@ -1,0 +1,409 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.deliveryReview) {
+  &__checkCircle {
+    width: 104px !important;
+    height: 104px !important;
+    @include desktop {
+      width: 144px !important;
+      height: 144px !important;
+    }
+  }
+
+  &__title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transform: translateY(-50%);
+    color: #fff;
+    margin-bottom: 0;
+    @include mobile {
+      top: 50%;
+      font-size: 1.5rem;
+    }
+    @include shared {
+      top: 40%;
+      font-size: 2.5rem;
+    }
+  }
+
+  &__intro,
+  &__status {
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    color: #666;
+    @include mobile {
+      font-size: 1rem;
+      padding: 50px 30px 0;
+    }
+    @include shared {
+      padding: 60px 80px 0;
+      font-size: 1.125rem;
+      max-width: 883px;
+      margin: -80px auto 0;
+    }
+  }
+
+  &__status {
+    text-align: center;
+    @include mobile {
+      margin-bottom: 80px;
+    }
+    @include shared {
+      margin-bottom: 120px;
+    }
+    & > svg {
+      width: 100px;
+      height: 100px;
+      fill: #00cc8a;
+    }
+    &-message {
+      @include mobile {
+        margin-top: 30px;
+        font-size: 1rem;
+      }
+      @include shared {
+        margin-top: 40px;
+        font-size: 1.125rem;
+      }
+    }
+    &-cta {
+      &:hover,
+      &:focus {
+        color: #fff;
+      }
+      font-weight: 600;
+      @include mobile {
+        margin-top: 50px;
+        font-size: 1rem;
+        width: 200px;
+        padding: 8px 0;
+      }
+      @include shared {
+        margin-top: 80px;
+        font-size: 1.125rem;
+        width: 320px;
+        padding: 12px 0;
+      }
+    }
+    & .third-link {
+      margin-left: 6px;
+      color: #767676;
+      text-decoration: underline;
+    }
+  }
+
+  &__error {
+    & > svg {
+      fill: $color-primary;
+    }
+  }
+
+  &__loading {
+    position: relative;
+    height: 300px;
+  }
+
+  &__processing {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__container {
+    position: relative;
+    max-width: 860px;
+    padding: 0 20px;
+    @include mobile {
+      margin: 50px auto;
+    }
+    @include shared {
+      margin: 70px auto;
+    }
+    & > h2 {
+      margin-bottom: 0;
+      text-align: center;
+      @include mobile {
+        font-size: 1.375rem;
+        padding: 0 40px;
+      }
+      @include shared {
+        font-size: 1.625rem;
+        padding: 0;
+      }
+    }
+  }
+
+  &__details {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    @include tablet {
+      display: grid;
+      margin-top: 30px;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      grid-gap: 0;
+    }
+    @include mobile {
+      display: grid;
+      margin-top: 30px;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      grid-gap: 0;
+    }
+    @include shared {
+      margin-top: 50px;
+      grid-template-columns: 110px 227px;
+      grid-gap: 5px 50px;
+      justify-items: start;
+    }
+  }
+
+  &__box {
+    display: flex;
+    justify-content: center;
+    @include mobile {
+    }
+    @include shared {
+    }
+  }
+
+  &__leftPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 16px;
+    @include mobile {
+    }
+    @include shared {
+    }
+  }
+
+  &__rightPanel {
+    @include mobile {
+    }
+    @include shared {
+    }
+  }
+
+  &__info {
+    &-label {
+      color: #000;
+      white-space: nowrap;
+      font-weight: bold;
+      @include mobile {
+        font-size: 0.875rem;
+      }
+      @include shared {
+        font-size: 1rem;
+      }
+    }
+    &-value {
+      &--bold {
+        font-weight: bold;
+      }
+      color: $color-dark-neutral;
+      @include mobile {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      @include shared {
+        white-space: nowrap;
+        font-size: 1.125rem;
+        margin-bottom: 0;
+        text-align: left;
+      }
+    }
+  }
+
+  &__product {
+    white-space: pre-wrap;
+  }
+
+  &__rating {
+    & > .btn > svg {
+      width: 38px;
+      height: 38px;
+      stroke: #c7c7c7;
+    }
+    &-container {
+      text-align: center;
+      @include mobile {
+        margin-top: 30px;
+      }
+      @include shared {
+        margin-top: 50px;
+      }
+    }
+  }
+
+  &__submit {
+    text-align: center;
+    @include mobile {
+      margin: 50px 0 70px;
+    }
+    @include shared {
+      margin: 70px 0 120px;
+    }
+    &-button {
+      font-weight: 600;
+      @include mobile {
+        width: 200px;
+        height: 42px;
+      }
+      @include shared {
+        width: 320px;
+        height: 54px;
+      }
+    }
+  }
+
+  &__questions {
+    @include mobile {
+      margin-top: 50px;
+    }
+    @include shared {
+      margin-top: 80px;
+    }
+  }
+
+  &__question {
+    display: flex;
+    & + & {
+      @include mobile {
+        margin-top: 50px;
+      }
+      @include shared {
+        margin-top: 30px;
+      }
+    }
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    @include shared {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+    &-label {
+      @include mobile {
+        font-size: 1rem;
+        color: $color-dark-neutral;
+      }
+      @include shared {
+        font-size: 1.12rem;
+        color: $color-grey;
+      }
+    }
+    &-answers {
+      display: flex;
+      @include mobile {
+        margin-left: 0;
+        margin-top: 30px;
+      }
+      @include shared {
+        margin-left: 20px;
+        margin-top: 0;
+      }
+    }
+    &-answer {
+      font-weight: bold;
+      &.is-selected {
+        border: 2px solid #00cc8a;
+        color: #00cc8a;
+      }
+      & + & {
+        margin-left: 30px;
+      }
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dddddd;
+      border-radius: 3px;
+      width: 100px;
+      height: 45px;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include shared {
+        font-size: 1.125rem;
+      }
+    }
+  }
+
+  &__feedback {
+    @include mobile {
+      margin-top: 50px;
+    }
+    @include shared {
+      margin-top: 80px;
+    }
+    position: relative;
+    & > span {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      color: #9b9b9b;
+      @include mobile {
+        font-size: 1rem;
+      }
+      @include shared {
+        font-size: 1.125rem;
+      }
+    }
+  }
+  &__feedback-message {
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+  &__submit__feedback {
+    border-radius: 10px;
+    @include mobile {
+      margin-top: 10px;
+    }
+    @include shared {
+      margin-top: 20px;
+    }
+    position: relative;
+    & > .feedback-form-control {
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #55595c;
+      background-color: #fff;
+      background-image: none;
+      background-clip: padding-box;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      padding: 0.375rem 0.75rem;
+      &:focus {
+        border-color: #c1af86;
+        outline: none;
+      }
+    }
+    & > .delivery_review_copy {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      cursor: pointer;
+      width: 28px;
+      height: 27px;
+      & > svg {
+        width: 28px;
+        height: 27px;
+      }
+    }
+  }
+}

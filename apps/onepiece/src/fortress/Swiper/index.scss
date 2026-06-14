@@ -1,0 +1,8 @@
+.swiper {
+  position: relative;
+  overflow: hidden;
+  .swiperScroll {
+    position: absolute;
+    display: flex;
+  }
+}

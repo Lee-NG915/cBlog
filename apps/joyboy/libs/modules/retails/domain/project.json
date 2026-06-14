@@ -1,0 +1,30 @@
+{
+  "name": "modules-retails-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/retails/domain/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/retails/domain",
+        "main": "libs/modules/retails/domain/src/index.ts",
+        "tsConfig": "libs/modules/retails/domain/tsconfig.lib.json",
+        "assets": ["libs/modules/retails/domain/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/retails/domain/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:shared-domain", "scope:retails"]
+}

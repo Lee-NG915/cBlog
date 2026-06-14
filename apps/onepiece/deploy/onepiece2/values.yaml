@@ -1,0 +1,75 @@
+# Default values for westworld.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+rollingUpdate:
+  maxSurge: 20%
+  maxUnavailable: 0
+
+image:
+  repository: 825303761615.dkr.ecr.ap-southeast-1.amazonaws.com/onepiece
+  tag: stable
+  pullPolicy: IfNotPresent
+
+nameOverride: ''
+fullnameOverride: ''
+
+podAnnotations: {}
+
+podLabels:
+  # enable datadog mutation webhook
+  admission.datadoghq.com/enabled: 'true'
+
+extraEnvs:
+  # Enable Continuous Profiler
+  - name: DD_PROFILING_ENABLED
+    value: 'true'
+  # Automatically Inject Trace and Span IDs into Logs
+  - name: DD_LOGS_INJECTION
+    value: 'true'
+
+datadog:
+  service: onepiece
+  env: unknown
+  version: unknown
+
+# web uses aws-alb-ingress, and relies on AWS CertManager to serve https
+web:
+  service:
+    type: NodePort
+    port: 80
+  ingress:
+    enabled: false
+    ingressClassName: alb
+  replicaCount: 2
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 20
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+  resources:
+    requests:
+      memory: 768Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

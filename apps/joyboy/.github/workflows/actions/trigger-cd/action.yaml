@@ -1,0 +1,70 @@
+name: Trigger CD
+
+inputs:
+  app-name:
+    description: 'Application name'
+    required: true
+    type: string
+  app-env:
+    description: 'Environment. e.g: us-test, sg-prod'
+    required: true
+    type: string
+  env:
+    description: 'Environment. e.g: test, prod'
+    required: true
+    type: string
+  app-country:
+    description: 'Country. e.g: us, sg'
+    required: true
+    type: string
+  image-tag:
+    description: 'Image tag'
+    required: true
+    type: string
+  image-version:
+    description: 'Image version'
+    required: true
+    type: string
+  deployment-repo:
+    description: 'Deployment repository'
+    required: true
+    type: string
+  repository-token:
+    description: 'Github token'
+    required: true
+    type: string
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.deployment-repo }} # deployment repo e.g: org/repo
+        token: ${{ inputs.repository-token }}
+
+    - name: Update image version in deployment repo
+      id: update_yaml
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'applications/${{inputs.app-name}}/values/${{ inputs.env }}/${{ inputs.app-country }}.yaml'
+        commitChange: false
+        updateFile: true
+        changes: |
+          {
+            "image.tag": "${{ inputs.image-tag }}",
+            "image.version": "${{ inputs.image-version }}"
+          }
+
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ inputs.repository-token }}
+        commit-message: Update deployment image version
+        branch: deployment/patch-${{inputs.app-name}}-${{ inputs.app-env }}-${{ inputs.image-tag }}
+        branch-suffix: timestamp
+        delete-branch: true
+        title: '[automerge] Update ${{inputs.app-name}}-${{ inputs.app-env }} version to ${{ inputs.image-tag}}'
+        labels: |
+          automerge

@@ -1,0 +1,13 @@
+{
+  "name": "@castlery/config",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@t3-oss/env-nextjs": "^0.8.0",
+    "zod": "^3.22.4"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}

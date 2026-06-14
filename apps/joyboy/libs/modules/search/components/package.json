@@ -1,0 +1,17 @@
+{
+  "name": "@castlery/modules-search-components",
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.0.1",
+  "dependencies": {
+    "@searchkit/api": "4.11.1",
+    "@searchkit/instantsearch-client": "4.12.1",
+    "instantsearch.js": "^4.81.0",
+    "react-instantsearch": "^7.17.0",
+    "react-instantsearch-nextjs": "^1.0.3",
+    "searchkit": "^4.15.0"
+  },
+  "devDependencies": {
+    "@elastic/elasticsearch": "^8.18.2"
+  }
+}

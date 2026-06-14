@@ -1,0 +1,13 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.reviews) {
+  &__list {
+    @include shared {
+      margin-bottom: 120px;
+    }
+    @include mobile {
+      margin-bottom: 80px;
+    }
+  }
+}

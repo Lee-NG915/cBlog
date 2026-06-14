@@ -1,0 +1,178 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/node_modules"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": false,
+            "allowCircularSelfDependency": true,
+            "allow": ["fortress-client -> fortress"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "type:components",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared-components",
+                  "type:cms-components",
+                  "type:services",
+                  "type:shared-services",
+                  "type:domain",
+                  "type:shared-domain",
+                  "type:composite-domain",
+                  "type:util",
+                  "type:actions"
+                ]
+              },
+              {
+                "sourceTag": "type:shared-components",
+                "onlyDependOnLibsWithTags": [
+                  "type:base-components",
+                  "type:services",
+                  "type:domain",
+                  "type:shared-domain",
+                  "type:composite-domain",
+                  "type:util"
+                ]
+              },
+              {
+                "sourceTag": "type:base-components",
+                "onlyDependOnLibsWithTags": []
+              },
+              {
+                "sourceTag": "type:composite-components",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared-components",
+                  "type:components",
+                  "type:services",
+                  "type:domain",
+                  "type:shared-domain",
+                  "type:util"
+                ]
+              },
+              {
+                "sourceTag": "type:cms-components",
+                "onlyDependOnLibsWithTags": [
+                  "type:composite-components",
+                  "type:shared-components",
+                  "type:components",
+                  "type:services",
+                  "type:domain",
+                  "type:shared-domain",
+                  "type:composite-domain",
+                  "type:util"
+                ]
+              },
+              {
+                "sourceTag": "type:services",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared-services",
+                  "type:domain",
+                  "type:shared-domain",
+                  "type:util",
+                  "type:config"
+                ]
+              },
+              {
+                "sourceTag": "type:composite-services",
+                "onlyDependOnLibsWithTags": [
+                  "type:services",
+                  "type:shared-services",
+                  "type:domain",
+                  "type:util",
+                  "type:config"
+                ]
+              },
+              {
+                "sourceTag": "type:shared-domain",
+                "onlyDependOnLibsWithTags": ["type:config", "type:util"]
+              },
+              {
+                "sourceTag": "type:domain",
+                "onlyDependOnLibsWithTags": ["type:config", "type:util", "type:shared-domain"]
+              },
+              {
+                "sourceTag": "type:composite-domain",
+                "onlyDependOnLibsWithTags": ["type:config", "type:util", "type:shared-domain", "type:domain"]
+              },
+              {
+                "sourceTag": "type:config",
+                "onlyDependOnLibsWithTags": ["type:config", "type:util"]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": ["type:util", "type:domain"]
+              },
+              {
+                "sourceTag": "scope:cms",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "scope:search",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "scope:composite",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:cart",
+                  "scope:product",
+                  "scope:checkout",
+                  "scope:order",
+                  "scope:payment",
+                  "scope:promotion",
+                  "scope:retails",
+                  "scope:others"
+                ]
+              }
+            ]
+          }
+        ],
+        "no-console": "off",
+        "react/jsx-no-useless-fragment": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "ignoreRestSiblings": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-types": "off"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {}
+    }
+  ]
+}

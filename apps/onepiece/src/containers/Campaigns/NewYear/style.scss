@@ -1,0 +1,163 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.newYear) {
+  &__intro {
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    @include mobile {
+      font-size: 1rem;
+      padding: 50px 22px;
+    }
+    @include shared {
+      padding: 50px 56px;
+      font-size: 1.125rem;
+      max-width: 883px;
+      margin: -80px auto 0;
+    }
+    strong {
+      color: $color-dark-neutral;
+    }
+    &-title {
+      @include shared {
+        margin-bottom: 3.125rem;
+        font-size: 1.625rem;
+      }
+      @include mobile {
+        margin-bottom: 1.5rem;
+        font-size: 1.375rem;
+      }
+    }
+    &-detail {
+      color: $color-grey;
+    }
+  }
+
+  &__pairUps {
+    @include shared {
+      padding-top: 20px;
+      padding-bottom: 100px;
+    }
+    @include tablet {
+      padding-top: 10px;
+      padding-bottom: 80px;
+    }
+    @include mobile {
+      padding-top: 0px;
+      padding-bottom: 50px;
+    }
+  }
+
+  &__pairUp {
+    text-align: center;
+    @include shared {
+      padding-top: 80px;
+      padding-bottom: 80px;
+      &-title {
+        font-size: 1.25rem;
+      }
+    }
+    @include tablet {
+      padding-top: 60px;
+      padding-bottom: 60px;
+      &-title {
+        font-size: 1.25rem;
+      }
+    }
+    @include mobile {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      &-title {
+        font-size: 1.125rem;
+      }
+    }
+    &-title {
+      margin-bottom: 0;
+    }
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &__freeShipping {
+    @include shared {
+      margin-bottom: 80px;
+    }
+    @include mobile {
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+    background-color: #928072;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    &-content {
+      @include desktop {
+        flex: 0 1 600px;
+      }
+      @include mobile {
+        flex: 1;
+      }
+      padding: 30px;
+    }
+    &-banner {
+      @include desktop {
+        flex: 0 1 840px;
+      }
+      @include mobile {
+        flex: 1 1 100%;
+      }
+    }
+    &-title {
+      font-family: $font-title;
+      font-weight: 600;
+      @include mobile {
+        letter-spacing: 1px;
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+      @include shared {
+        letter-spacing: 3px;
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+      }
+    }
+    &-headline {
+      font-weight: bold;
+      @include shared {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        line-height: 1;
+      }
+      @include mobile {
+        font-size: 1.375rem;
+        margin-bottom: 10px;
+      }
+    }
+    &-desc {
+      @include shared {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+      }
+      @include mobile {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+    }
+    &-cta {
+      color: #fff;
+      &:focus,
+      &:hover {
+        text-decoration: underline;
+        color: #fff;
+      }
+      font-weight: 600;
+      @include shared {
+        font-size: 1.25rem;
+      }
+      @include mobile {
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "modules-cart-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/cart/services/src",
+  "projectType": "library",
+  "tags": ["type:services"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/cart/services",
+        "main": "libs/modules/cart/services/src/index.ts",
+        "tsConfig": "libs/modules/cart/services/tsconfig.lib.json",
+        "assets": ["libs/modules/cart/services/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/cart/services/jest.config.ts"
+      }
+    }
+  }
+}

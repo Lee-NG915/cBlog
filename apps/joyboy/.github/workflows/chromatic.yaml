@@ -1,0 +1,68 @@
+name: 'Run Chromatic Workflow'
+
+on:
+  workflow_call:
+    inputs:
+      fetch-depth:
+        type: string
+        description: 'Git fetch-depth for checkout'
+        required: false
+        default: '0'
+      ref:
+        type: string
+        description: 'Git ref for checkout (e.g. pull_request.head.ref)'
+        required: false
+        default: ''
+      chromatic-branch:
+        type: string
+        description: 'Branch name in Chromatic'
+        required: false
+        default: ''
+      chromatic-sha:
+        type: string
+        description: 'Commit SHA in Chromatic'
+        required: false
+        default: ''
+      chromatic-slug:
+        type: string
+        description: 'Repo slug (e.g. org/repo)'
+        required: false
+        default: ''
+      working-dir:
+        type: string
+        description: 'Path to the fortress code or storybook folder'
+        required: false
+        default: 'libs/fortress'
+      only-changed:
+        type: boolean
+        description: 'Whether to use Chromatic "onlyChanged"'
+        required: false
+        default: false
+
+env:
+  CHROMATIC_PROJECT_TOKEN: chpt_68cd5d09d39021f
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
+          ref: ${{ inputs.ref }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/actions/install
+
+      - name: Publish Fortress to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ env.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: ${{ inputs['working-dir'] }}
+          onlyChanged: ${{ inputs['only-changed'] }}
+          branchName: ${{ inputs['chromatic-branch'] }}
+        env:
+          CHROMATIC_BRANCH: ${{ inputs['chromatic-branch'] }}
+          CHROMATIC_SHA: ${{ inputs['chromatic-sha'] }}
+          CHROMATIC_SLUG: ${{ inputs['chromatic-slug'] }}

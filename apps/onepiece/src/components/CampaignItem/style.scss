@@ -1,0 +1,37 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.campaignItem) {
+  text-align: center;
+  @include shared {
+    flex: 0 1 460px;
+  }
+
+  @include mobile {
+    flex: 1 1 460px;
+    margin-bottom: 50px;
+    @include media-breakpoint-up(md) {
+      flex: 0 1 460px;
+      margin-bottom: 0;
+    }
+  }
+  &__title {
+    @include shared {
+      margin: 30px 0 20px;
+      font-size: 1.25rem;
+    }
+    @include mobile {
+      margin: 20px 0 10px;
+      font-size: 1.125rem;
+    }
+  }
+  &__desc {
+    color: #666;
+    @include shared {
+      font-size: 1.125rem;
+    }
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+name: CI/CD for prod-ca
+on:
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/build.yaml
+    with:
+      APP_ENV: ca-prod
+    secrets: inherit
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      app_env: ca-prod
+      app_country: ca
+      env: prod
+      image_tag: ${{ needs.ci.outputs.IMAGE_TAG }}
+      s3region: ca-central-1
+      bucket: knight-ca-prod
+      auto_merge: true
+    secrets: inherit

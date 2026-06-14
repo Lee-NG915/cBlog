@@ -1,0 +1,98 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.lookContainer) {
+  margin-top: 4rem;
+  @include mobile {
+    margin-top: 2rem;
+  }
+
+  &__header {
+    text-align: center;
+
+    @include mobile {
+      padding: 0 30px;
+    }
+  }
+  h1 {
+    font-weight: normal;
+    margin-bottom: 30px;
+    font-size: 3.125rem;
+    @include mobile {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+  }
+  h3 {
+    font-family: $font-title;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 150%;
+    margin-bottom: 20px;
+  }
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 175%;
+    margin-bottom: 30px;
+  }
+  &__sliderItem {
+    margin-top: 25px;
+    @include desktop {
+      margin-top: 50px;
+    }
+  }
+  & .home-stl-dots {
+    width: 100%;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      li {
+        position: relative;
+        flex: 1;
+        background-color: #c2b08a;
+        height: 1px;
+        width: 100%;
+        button {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          opacity: 0;
+          left: 50%;
+          top: 50%;
+          font-size: 0;
+          padding: 0;
+          border: 0;
+          transform: translate(-50%, -50%);
+          background-color: #a35b3b;
+          width: 100%;
+        }
+        &.slick-active {
+          button {
+            opacity: 1;
+          }
+        }
+      }
+      & .controlBtn {
+        width: 15px;
+        height: 24px;
+        margin-left: 40px;
+        fill: $color-primary;
+        cursor: pointer;
+        &.disabled {
+          cursor: not-allowed;
+          fill: $color-dark-accent;
+        }
+      }
+    }
+  }
+  .slick-slide {
+    height: 0px;
+    &.slick-active {
+      height: auto;
+    }
+  }
+}

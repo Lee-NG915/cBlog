@@ -1,0 +1,115 @@
+import {
+  formItemLayout,
+  AddressFormField,
+  validatePhoneNumber,
+  phoneNumberFormattingUtils,
+  validatePostcode,
+  address1DefaultValueReWrite,
+  companyDefaultValueReWrite,
+} from './base';
+import { zipcodeFormattingUtils } from '@castlery/utils';
+
+export const addressFormFields: AddressFormField[] = [
+  {
+    key: 'firstname',
+    translationKey: 'firstname',
+    type: 'input',
+    required: true,
+    validation: {
+      minLength: 1,
+      maxLength: 32,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'lastname',
+    translationKey: 'lastname',
+    type: 'input',
+    required: true,
+    validation: {
+      minLength: 1,
+      maxLength: 32,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'phone',
+    translationKey: 'phone',
+    type: 'input',
+    required: true,
+    validation: { validate: validatePhoneNumber },
+    formatter: phoneNumberFormattingUtils.UK,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'alternativePhone',
+    translationKey: 'alternativePhone',
+    type: 'input',
+    required: false,
+    validation: { validate: validatePhoneNumber },
+    formatter: phoneNumberFormattingUtils.UK,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'address2',
+    translationKey: 'address2',
+    type: 'input',
+    required: false,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.oneColumn,
+  },
+  {
+    key: 'street',
+    translationKey: 'street',
+    type: 'input',
+    required: true,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.oneColumn,
+    defaultValueReWrite: address1DefaultValueReWrite,
+  },
+  {
+    key: 'country',
+    translationKey: 'country',
+    type: 'input',
+    required: true,
+    disabled: true,
+    value: 'United Kingdom',
+    layoutStyle: formItemLayout.oneColumn,
+  },
+  {
+    key: 'city',
+    translationKey: 'city',
+    type: 'input',
+    required: true,
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'zipcode',
+    translationKey: 'zipcode',
+    type: 'input',
+    required: true,
+    validation: { validate: validatePostcode },
+    formatter: zipcodeFormattingUtils.UK,
+    layoutStyle: formItemLayout.twoColumn,
+  },
+  {
+    key: 'company',
+    translationKey: 'company',
+    type: 'input',
+    label: 'Company name (Optional)',
+    required: false,
+    placeholder: 'Enter Company Name',
+    validation: {
+      maxLength: 200,
+    },
+    layoutStyle: formItemLayout.oneColumn,
+    defaultValueReWrite: companyDefaultValueReWrite,
+  },
+];

@@ -1,0 +1,94 @@
+name: CI/CD FOR APP DEPLOYMENT
+on:
+  workflow_call:
+    inputs:
+      upload-assets:
+        description: 'Upload assets to S3'
+        required: true
+        type: boolean
+      include-nginx:
+        description: 'Include nginx'
+        required: true
+        type: boolean
+      env:
+        description: 'The app environment'
+        required: true
+        type: string
+      country:
+        description: 'The app country'
+        required: true
+        type: string
+      s3region:
+        description: 'The s3 region'
+        required: true
+        type: string
+      bucket:
+        description: 'The s3 bucket'
+        required: true
+        type: string
+      base-branch:
+        description: 'The base branch'
+        required: false
+        type: string
+      last-successful-event:
+        description: 'The last successful event for nx affected'
+        required: false
+        type: string
+        default: 'push'
+      run-cd:
+        description: 'Run CD'
+        required: false
+        type: boolean
+        default: true
+      secret-name:
+        description: 'AWS Sectret Name'
+        required: false
+        type: string
+
+jobs:
+  CI:
+    uses: ./.github/workflows/CI.yaml
+    with:
+      app-env: ${{inputs.country}}-${{ inputs.env }}
+      base-branch: ${{ inputs.base-branch || 'master' }}
+      last-successful-event: ${{ inputs.last-successful-event || 'push' }}
+      secret-name: ${{ inputs.secret-name }}
+    secrets: inherit
+
+  CD:
+    needs: [CI]
+    if: ${{ needs.CI.outputs.affected_apps != '[]' && inputs.run-cd }}
+    strategy:
+      fail-fast: false
+      matrix:
+        affected_project: ${{ fromJson(needs.CI.outputs.affected_projects) }}
+        run-cd: [false]
+        include:
+          - affected_project: pos
+            # run-cd: ${{ contains(fromJson(needs.CI.outputs.affected_projects), 'pos') }}
+            run-cd: false
+            upload-assets: ${{ inputs.upload-assets }}
+            include-nginx: ${{ inputs.include-nginx }}
+            version: ${{ fromJson(needs.CI.outputs.affected_projects_version)['pos'] }}
+
+          # - affected_project: web
+          # run-cd: ${{ contains(fromJson(needs.CI.outputs.affected_projects), 'web') }}
+          # run-cd: false
+          # upload-assets: ${{ inputs.upload-assets }}
+          # include-nginx: ${{ inputs.include-nginx }}
+          # version: ${{ fromJson(needs.CI.outputs.affected_projects_version)['web'] }}
+        # 排除run-cd为false的
+        exclude:
+          - run-cd: false
+    uses: ./.github/workflows/CD.yaml
+    with:
+      app-name: ${{ matrix.affected_project }}
+      s3region: ${{inputs.s3region}}
+      bucket: ${{inputs.bucket}}
+      app-env: ${{inputs.country}}-${{ inputs.env }}
+      app-country: ${{inputs.country}}
+      env: ${{ inputs.env }}
+      upload-assets: ${{ matrix.upload-assets }}
+      include-nginx: ${{ matrix.include-nginx }}
+      run-cd: ${{ matrix.run-cd  }}
+    secrets: inherit

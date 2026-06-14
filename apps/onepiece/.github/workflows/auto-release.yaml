@@ -1,0 +1,50 @@
+name: Auto release
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v3
+        id: release-please
+        with:
+          token: ${{ secrets.GH_PAT_BOT }}
+          release-type: node
+          package-name: onepiece
+          include-v-in-tag: false # tag will be like 1.0.0 instead of v1.0.0
+          default-branch: develop
+          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false},{"type":"ci","section":"Miscellaneous","hidden":false},{"type":"perf","section":"Miscellaneous","hidden":false},{"type":"test","section":"Miscellaneous","hidden":false},{"type":"docs","section":"Miscellaneous","hidden":false}, {"type":"hotfix","section":"Hotfix","hidden":false}]'
+
+      - name: checkout to master
+        uses: actions/checkout@v4
+        if: ${{ steps.release-please.outputs.release_created }}
+        with:
+          ref: master
+
+      # 将tag: steps.release.outputs.tag_name 合并到 master 分支
+      - name: Merge tag to master
+        if: ${{ steps.release-please.outputs.release_created }}
+        run: |
+          git fetch --tags
+          git pull
+          git merge refs/tags/${{ steps.release-please.outputs.tag_name }}
+          git push
+
+      - name: Reset branches
+        if: ${{ steps.release-please.outputs.release_created }}
+        run: |
+          branches=("uat-au" "uat-sg" "uat-us" "uat-ca" "uat-uk" "test-au" "test-sg" "test-us" "test-ca" "test-uk")
+          for branch in "${branches[@]}"; do
+            git checkout $branch
+            git reset --hard refs/tags/${{ steps.release-please.outputs.tag_name }}
+            git push --force
+          done

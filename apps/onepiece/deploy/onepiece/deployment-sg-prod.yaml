@@ -1,0 +1,6 @@
+---
+deployment:
+  - region: ap-southeast-1
+    cluster: sg-prod
+    namespace: prod
+    bucket: knight-sg-prod

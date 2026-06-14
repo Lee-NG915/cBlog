@@ -1,0 +1,78 @@
+/*
+ FontSquirrel generator : https://www.fontsquirrel.com/tools/webfont-generator
+ It can generate all the missing font files, subset of font files and the @font-face CSS declaration for you
+*/
+/* MinervaModern Font */
+@font-face {
+  font-family: 'MinervaModern';
+  src: local('MinervaModern'), local('Minerva Modern'), url('../../shared/next-font/src/fonts/minervaModern-regular.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/minervaModern-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MinervaModern';
+  src: local('MinervaModern'), local('Minerva Modern'), url('../../shared/next-font/src/fonts/minervaModern-bold.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/minervaModern-bold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MinervaModern';
+  src: local('MinervaModern'), local('Minerva Modern'), url('../../shared/next-font/src/fonts/minervaModern-bold.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/minervaModern-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Poppins Font */
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'), url('../../shared/next-font/src/fonts/poppins-light.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/poppins-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'), url('../../shared/next-font/src/fonts/poppins-regular.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/poppins-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'), url('../../shared/next-font/src/fonts/poppins-medium.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/poppins-medium.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'), url('../../shared/next-font/src/fonts/poppins-bold.woff2') format('woff2'),
+    url('../../shared/next-font/src/fonts/poppins-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Maytra';
+  src: local('Maytra'), url('../../shared/next-font/src/fonts/Maytra.woff2') format('woff2'), url('../../shared/next-font/src/fonts/Maytra.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Adelaila';
+  src: local('Adelaila'), url('../../shared/next-font/src/fonts/Adelaila.woff') format('woff');
+}

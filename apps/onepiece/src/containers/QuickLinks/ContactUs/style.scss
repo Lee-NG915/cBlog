@@ -1,0 +1,538 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.contact) {
+  &__banner {
+    .container-fluid {
+      &:before {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  &__body {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    & > .container {
+      @include mobile {
+        padding-left: $mobile-padding;
+        padding-right: $mobile-padding;
+      }
+    }
+  }
+
+  &__note {
+    & > p {
+      & > strong {
+        font-weight: bold;
+      }
+      font-size: 0.9rem;
+      color: #666;
+      padding: 0 10%;
+    }
+  }
+
+  &__info,
+  &__form {
+    & > h2 {
+      text-align: center;
+      @include heading2;
+
+      @include mobile {
+        margin-bottom: 1rem;
+      }
+      @include shared {
+        margin-bottom: 1.5rem;
+      }
+    }
+    & > p {
+      color: $color-complimentary;
+      padding: 0 15%;
+      text-align: center;
+      & > a {
+        @include link-style($color-primary, $color-primary, underline);
+      }
+      & > br {
+        @include mobile {
+          display: none;
+        }
+        @include shared {
+          display: inline;
+        }
+      }
+    }
+    &__subtitle {
+      padding: 0 14% !important;
+      @include mobile {
+        padding: 0 20px !important;
+      }
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__info {
+    text-align: center;
+
+    @include mobile {
+      padding: 30px 0 0;
+
+      @include media-breakpoint-up(sm) {
+        padding: 50px 0 0;
+      }
+    }
+    @include desktop {
+      padding: 50px 0 0;
+    }
+    & p {
+      margin-bottom: 5px;
+    }
+    & strong {
+      color: $color-dark-neutral;
+    }
+  }
+
+  &__methods {
+    @include mobile {
+      padding: 30px 0 20px;
+
+      @include media-breakpoint-up(sm) {
+        display: flex;
+        padding: 50px 0 20px;
+      }
+    }
+    @include desktop {
+      display: flex;
+      padding: 50px 0 20px;
+    }
+
+    &__cell {
+      padding: 0 10px;
+
+      @include mobile {
+        & + & {
+          margin-top: 30px;
+        }
+
+        @include media-breakpoint-up(sm) {
+          flex: 1 1 0;
+
+          & + & {
+            border-left: 1px solid #e3e3e3;
+            margin-top: 0;
+          }
+        }
+      }
+      @include desktop {
+        flex: 1 1 0;
+
+        & + & {
+          border-left: 1px solid #e3e3e3;
+        }
+      }
+
+      & > img {
+        width: 70px;
+        margin-bottom: 20px;
+      }
+
+      & > p {
+        color: $color-complimentary;
+        font-size: 14px;
+        line-height: 1.3;
+
+        & + :local(.contact)__methods__subtitle {
+          margin-top: 30px;
+        }
+      }
+
+      strong {
+        font-weight: 600;
+      }
+    }
+
+    &__title {
+      color: $color-primary;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: block;
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      width: 100%;
+
+      @include above {
+        color: darken($color-primary, 10%);
+      }
+    }
+
+    &__titleNoHover {
+      color: $color-primary;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: block;
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      width: 100%;
+    }
+
+    &__subtitle {
+      cursor: pointer;
+      display: block;
+      font-weight: 600;
+      @include mobile {
+        margin-bottom: 10px;
+      }
+      @include desktop {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__subtitleNoCursor {
+      display: block;
+      font-weight: 600;
+      @include mobile {
+        margin-bottom: 10px;
+      }
+      @include desktop {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  &__form {
+    margin-top: 80px;
+    @include mobile {
+      margin-top: 50px;
+    }
+    & > form {
+      max-width: 1000px;
+    }
+
+    @include mobile {
+      & > form {
+        margin: 30px auto 50px;
+      }
+
+      .row > div:nth-of-type(n + 2) {
+        &.col-sm-6 {
+          margin-top: 15px;
+        }
+      }
+
+      .row + .row {
+        margin-top: 15px;
+      }
+
+      @include media-breakpoint-up(sm) {
+        & > form {
+          margin: 50px auto 80px;
+        }
+
+        .row > div:nth-of-type(n + 2) {
+          &.col-sm-6 {
+            margin-top: 0;
+          }
+        }
+
+        .row + .row {
+          margin-top: 30px;
+        }
+      }
+    }
+    @include desktop {
+      & > form {
+        margin: 50px auto 80px;
+      }
+
+      .row + .row {
+        margin-top: 30px;
+      }
+    }
+
+    &__submit {
+      position: relative;
+      text-align: center;
+      margin-top: 50px;
+
+      & > .btn {
+        width: 200px;
+        &:disabled {
+          cursor: wait;
+        }
+      }
+    }
+
+    &__po {
+      position: relative;
+      &-info {
+        cursor: pointer;
+        z-index: 2;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(0, -50%);
+
+        width: 14px;
+        height: 14px;
+        fill: #aaa;
+
+        @include above {
+          fill: #888;
+        }
+      }
+    }
+
+    &__uploads {
+      @include shared {
+        margin-top: 45px;
+        margin-bottom: 60px;
+      }
+      @include mobile {
+        margin-top: 35px;
+        margin-bottom: 50px;
+      }
+      &__intro {
+        color: $color-grey;
+        font-weight: 600;
+        margin-bottom: 30px;
+        @include mobile {
+          text-align: center;
+        }
+        @include shared {
+          text-align: left;
+        }
+      }
+      &__container {
+        display: grid;
+        @include mobile {
+          justify-content: center;
+          grid-template-columns: repeat(auto-fill, 100px);
+          grid-gap: 20px;
+        }
+        @include shared {
+          justify-content: start;
+          grid-template-columns: repeat(auto-fill, 150px);
+          grid-gap: 30px;
+        }
+      }
+    }
+
+    &__upload {
+      &__image {
+        padding-top: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        border-radius: 3px;
+
+        & > .btn {
+          position: absolute;
+          right: 0;
+          top: 0;
+          border: none;
+          border-radius: 50%;
+          background-color: #ddd;
+          transform: translate(50%, -50%);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+          & > svg {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+            stroke: #fff;
+            stroke-width: 5px;
+            display: block;
+          }
+
+          @include above {
+            background-color: #ccc;
+          }
+
+          @include mobile {
+            padding: 4px;
+          }
+          @include shared {
+            padding: 8px;
+          }
+        }
+      }
+    }
+
+    &__dropzone {
+      overflow: hidden;
+      border: 1px dashed #c7c7c7;
+      border-radius: 3px;
+      cursor: pointer;
+      padding-top: 100%;
+      position: relative;
+      &__container {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        transform: translate(0, -50%);
+        text-align: center;
+      }
+      &__img {
+        display: block;
+        margin: 0 auto;
+        @include shared {
+          width: 48px;
+          height: 48px;
+        }
+        @include mobile {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      &__text {
+        margin-bottom: 0;
+        margin-top: 5px;
+        font-weight: 600;
+        color: $color-grey;
+        padding: 0 10px;
+        @include mobile {
+          font-size: 0.875rem;
+        }
+        @include shared {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &__damages {
+      @include mobile {
+        margin: 50px 0;
+        @include media-breakpoint-down(xs) {
+          margin: 50px -15px;
+        }
+      }
+      @include shared {
+        margin: 60px 0;
+      }
+      background-color: #f2f2f2;
+      padding: 50px 0;
+      text-align: center;
+      & > h4 {
+        font-size: 1.125rem;
+        margin: 0 15px;
+      }
+      &__intro {
+        margin-top: 10px;
+        font-size: 1rem;
+        padding: 0 30px;
+      }
+      &__photos {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 20px;
+        @include mobile {
+          margin: 30px 15px 0;
+          justify-content: center;
+        }
+        @include shared {
+          margin: 50px 0;
+          justify-content: center;
+        }
+      }
+      &__photo {
+        @include shared {
+          width: 150px;
+          height: 150px;
+          margin: 0 25px;
+        }
+        @include mobile {
+          width: 107px;
+          height: 107px;
+          margin: 0 5px;
+        }
+      }
+      &__standard {
+        font-weight: 600;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+
+    &__recaptch {
+      @include mobile {
+        margin-top: 30px;
+
+        @include media-breakpoint-up(sm) {
+          margin-top: 50px;
+        }
+      }
+      @include desktop {
+        margin-top: 50px;
+      }
+
+      & > div {
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &__modal {
+    margin: 0 auto;
+
+    @include mobile {
+      width: 325px;
+    }
+    @include shared {
+      width: 380px;
+    }
+
+    &__container {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      border-top: 5px solid $color-primary;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include mobile {
+        height: 172px;
+      }
+      @include shared {
+        height: 200px;
+      }
+      & > img {
+        @include mobile {
+          width: 190px;
+        }
+        @include shared {
+          width: 220px;
+        }
+      }
+    }
+
+    &__close {
+      background-color: transparent;
+      border: none;
+      padding: 10px;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      & > svg {
+        width: 15px;
+        height: 15px;
+        fill: #c3c3c3;
+        display: block;
+      }
+
+      @include above {
+        & > svg {
+          fill: #aaa;
+        }
+      }
+    }
+  }
+}

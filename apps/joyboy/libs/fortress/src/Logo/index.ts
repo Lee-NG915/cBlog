@@ -1,0 +1,1 @@
+export { WebLOGO } from './WebLogo';

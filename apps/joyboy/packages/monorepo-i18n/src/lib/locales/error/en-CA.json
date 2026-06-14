@@ -1,0 +1,296 @@
+{
+  "globalError": {
+    "title": "Our servers are taking a quick break. ",
+    "description": "We will be back up shortly! Error Code: {errorMessage}",
+    "confirm": "Got it"
+  },
+  "failedToFetchError": {
+    "title": "Oops!",
+    "description": "Request timed out or network error. Please try again later.",
+    "confirm": "OKAY"
+  },
+  "transactionApiError": {
+    "10701013": {
+      "title": "Item is disabled",
+      "description": "Oops, the item is unavailable now.",
+      "confirm": "OKAY"
+    },
+    "10701014": {
+      "title": "Item is disabled",
+      "description": "Oops, the item is unavailable now.",
+      "confirm": "OKAY"
+    },
+    "10701015": {
+      "title": "Item is disabled",
+      "description": "Oops, the item is unavailable now.",
+      "confirm": "OKAY"
+    },
+    "10701038": {
+      "title": "Item is disabled",
+      "description": "Oops, the item is unavailable now.",
+      "confirm": "OKAY"
+    },
+    "10701017": {
+      "title": "Item is out of stock",
+      "description": "Oops, The item is out of stock, please refresh the product page.",
+      "confirm": "OKAY"
+    },
+    "10701001": {
+      "title": "Hit purchase limit",
+      "description": "Oops, the item has a purchase limit.",
+      "confirm": "OKAY"
+    },
+    "10701003": {
+      "title": "Hit purchase limit",
+      "confirm": "OKAY"
+    },
+    "10701004": {
+      "title": "Same swatch cannot be added repeatedly",
+      "description": "Oops, the same swatch cannot be added repeatedly.",
+      "confirm": "OKAY"
+    },
+    "10701034": {
+      "title": "Hit cart limit",
+      "description": "Oops, the number of items in your cart has reached the limit.",
+      "confirm": "OKAY"
+    },
+    "10701040": {
+      "title": "Failed to merge carts",
+      "description": "Oops, items added to the cart while logged out cannot merge into your logged-in cart, possibly due to exceeding purchase limits or invalid items.",
+      "confirm": "OKAY"
+    },
+    "10702029": {
+      "title": "Confirm Your Selection",
+      "description": "Customized items in your order are made specifically for you and cannot be returned, exchanged, or refunded.",
+      "confirm": "ACCEPT AND CHECKOUT",
+      "cancel": "CANCEL"
+    },
+    "10702031": {
+      "title": "Confirm Your Selection",
+      "description": "Customized items in your order are made specifically for you and cannot be returned, exchanged, or refunded.",
+      "confirm": "ACCEPT AND CHECKOUT",
+      "cancel": "CANCEL"
+    },
+    "10702000": {
+      "title": "Item is deleted",
+      "description": "Oops, one of your picks is no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702010": {
+      "title": "Item is deleted",
+      "description": "Oops, some of your picks are no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702001": {
+      "title": "Item is unavailable",
+      "description": "Oops, one of your picks is no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702012": {
+      "title": "Item is unavailable",
+      "description": "Oops, some of your picks are no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702002": {
+      "title": "Item is disabled",
+      "description": "Oops, one of your picks is no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702011": {
+      "title": "Item is disabled",
+      "description": "Oops, some of your picks are no longer available. We’ve updated your cart and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702003": {
+      "title": "Item price is outdated",
+      "description": "The price of this item has changed. Please refresh your cart to continue with checkout.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702013": {
+      "title": "Item price is outdated",
+      "description": "The prices of some items have changed. Please refresh your cart to continue with checkout.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702004": {
+      "title": "Exceeding purchase limit of swatch",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702020": {
+      "title": "Exceeding purchase limit of swatch",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702019": {
+      "title": "Exceeding purchase limit of swatch",
+      "description": "Oops, the same swatch can only be purchased once.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702005": {
+      "title": "Quantity exceeds maximum purchase limit",
+      "description": "Oops, this item has a purchase limit. We've updated your cart with the maximum quantity allowed and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702014": {
+      "title": "Quantity exceeds maximum purchase limit",
+      "description": "Oops, some items in your cart have a purchase limit. We've updated your cart with the maximum quantity allowed and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702006": {
+      "title": "Quantity not meet minimum purchase requirement",
+      "description": "Oops, this item requires a minimum quantity to hit checkout. We've updated your cart to the required quantity and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702015": {
+      "title": "Quantity not meet minimum purchase requirement",
+      "description": "Oops, some items require a minimum quantity to hit checkout. We've updated your cart to the required quantity and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702007": {
+      "title": "Quantity not meet the quantity increment requirement",
+      "description": "Oops, this item can only be bought in set quantities. We've updated your cart to meet the requirement and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702016": {
+      "title": "Quantity not meet the quantity increment requirement",
+      "description": "Oops, some items can only be bought in set quantities. We've updated your cart to meet the requirement and will refresh the page shortly.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702008": {
+      "title": "Item is out of stock",
+      "description": "Oops, this item is out of stock for your selected shipping region. Please remove it to continue with checkout.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702017": {
+      "title": "Item is out of stock",
+      "description": "Oops, some items are out of stock for your selected shipping region. Please remove it to continue with checkout.",
+      "confirm": "OKAY",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10701019": {
+      "title": "Applied coupon is not available",
+      "description": "Sorry, the coupon code is no longer available. The page will refresh shortly.",
+      "confirm": "OKAY"
+    },
+    "10701022": {
+      "title": "Gift unavailable",
+      "description": "The gift you selected is currently unavailable. Please choose another gift.",
+      "confirm": "OKAY"
+    },
+    "10702025": {
+      "title": "Applied coupon is not available",
+      "description": "Sorry, the coupon code is no longer available.",
+      "confirm": "OKAY"
+    },
+    "10702027": {
+      "title": "Don’t miss your free gift!",
+      "description": "Are you sure you want to checkout without claiming your free gift?",
+      "confirm": "CONTINUE",
+      "cancel": "CANCEL"
+    },
+    "10702028": {
+      "title": "Gift unavailable",
+      "description": "The gift you selected is currently unavailable. Please choose another gift.",
+      "confirm": "OKAY"
+    },
+    "10702041": {
+      "title": "Token expired",
+      "description": "Your checkout session has expired. Please refresh the page to get the latest estimated delivery time.",
+      "confirm": "Back to cart",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702035": {
+      "title": "Token expired",
+      "description": "TYour checkout session has expired. Please refresh the page to get the latest estimated delivery time.",
+      "confirm": "Back to cart",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702038": {
+      "title": "Selected address is deleted",
+      "description": "Oops, your selected address was removed. Please choose a new one.",
+      "confirm": "Select new address"
+    },
+    "10702036": {
+      "title": "Selected address is not supported for delivery",
+      "description": "Oops, looks like we do not ship to your area. We'll email you as soon as we're able to deliver to your area.",
+      "confirm": "Update address"
+    },
+    "10703012": {
+      "title": "Item stock can't be reserved",
+      "confirm": "Back to cart",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10703050": {
+      "title": "Warranty changed",
+      "confirm": "Back to cart",
+      "checkoutConfirm": "Back to cart"
+    },
+    "10703018": {
+      "title": "Item lead time is changed",
+      "confirm": "Refresh shipment"
+    },
+    "10703021": {
+      "title": "Promotion is changed",
+      "description": "We've updated the promotion applied to your order. The page will refresh shortly.",
+      "cancel": "Back to cart",
+      "confirm": "Continue to checkout"
+    },
+    "10702042": {
+      "checkoutConfirm": "Back to cart"
+    },
+    "10702043": {
+      "checkoutConfirm": "Back to cart"
+    }
+  },
+  "paymentProcessingError": {
+    "title": "Oops, looks like your payment didn't go through.",
+    "orderAlreadyPaidTitle": "Order already paid",
+    "orderAlreadyPaid": "This order has already been paid. Please view your order details or contact support if you need assistance.",
+    "paymentPending": "Your payment didn't go through. You can retry the payment from your <1>order history</1> or contact your bank.",
+    "canceledOrExpired": "Oops, looks like your payment session has expired or been canceled. You can retry the payment from your <1>order history</1>.",
+    "clientError": "Something went wrong processing your checkout. You can retry the payment from your <1>order history</1>.",
+    "serverError": "Oops, something's not working on our end. You can retry the payment from your <1>order history</1>.",
+    "integrationError": "Something went wrong processing your checkout. You can retry the payment from your <1>order history</1> or contact support if problem persists.",
+    "threedsAuthErrorTitle": "Authentication failed",
+    "threedsAuthError": "Oops, 3D Secure authentication failed. Please try again. If the popup does not appear, disable any browser extensions or use incognito mode.",
+    "authorizationError": "It looks like the system couldn't authorize your payment. You can retry the payment from your <1>order history</1>, or contact support if you need help.",
+    "accountSetupError": "It looks like there's an issue with your account setup. Please verify your account information and country settings. You can retry the payment from your <1>order history</1>.",
+    "cardDeclinedError": "Oops, your payment didn't go through. Please check your card details or retry the payment from your <1>order history</1> with a different payment method.",
+    "invalidDetailsError": "Oops, not all the details seem to be filled in. Please check your info and retry the payment from your <1>order history</1>.",
+    "amountMismatchError": "The transaction amount or verification details isn't quite right. Please check the numbers and retry the payment from your <1>order history</1>.",
+    "securityError": "This action isn't available because of security or compliance rules. Contact support for assistance or retry the payment from your <1>order history</1>.",
+    "bankAccountError": "It looks like there's an issue with your bank account. Please check your details or try a different account. You can retry the payment from your <1>order history</1>.",
+    "chargeError": "It looks like the payment didn't go through due to an issue with the charge or transaction. Please check the payment status or retry the payment from your <1>order history</1>.",
+    "genericPaymentError": "Oops, your payment didn't go through. Please retry the payment from your <1>order history</1>.",
+    "paymentProcessingError": "Oops, your payment didn't go through. Please retry the payment from your <1>order history</1>.",
+    "paypalError": "{{shortMessage}} You can make the payment again from the <1>order history</1>.",
+    "invoiceError": "It looks like we couldn't process your subscription or invoice. Please check your details or contact support. You can retry the payment from your <1>order history</1>.",
+    "regionOrCurrencyError": "Oops, this service isn't supported in your region or currency. Please update your settings and retry the payment from your <1>order history</1>.",
+    "unsupportedMethodError": "Oops, this payment method is no longer supported. You can retry the payment from your <1>order history</1>.",
+    "billingAddressError": "Oops, your tax or address details isn't quite right. Please update your billing information and place your order again.",
+    "balanceError": "Oops, there may not be enough available balance to complete this payment. Please check your account or try another payment method from your <1>order history</1>.",
+    "promotionError": "Oops, the promotion or coupon code is no longer available. Please review your order and retry the payment from your <1>order history</1>.",
+    "tokenSessionError": "Oops, your payment session is no longer valid. Please retry the payment from your <1>order history</1>.",
+    "duplicateError": "Oops, this payment request may have already been submitted. Please check your order status from <1>order history</1>.",
+    "refundStatusError": "Your payment has already been processed or refunded. Please check your <1>order history</1> or contact support for help.",
+    "transactionNotFoundError": "Oops, we couldn't find this transaction. Please check your <1>order history</1> or contact support if you need help.",
+    "paymentSuccessOrderCanceled": "Oops, your order was canceled during the payment process. Please <1>contact us</1> for refund.",
+    "paymentSuccessOrderCanceledButton": "View my order"
+  }
+}

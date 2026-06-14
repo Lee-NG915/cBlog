@@ -1,0 +1,3 @@
+// 'utm_medium=cpc&utm_source=facebook&utm_campaign=funnel%3APrsp-Awa_geo%3AUS-All_type%3ATraffic_campaign%3ABundles&utm_content=format%3ALnk_lead%3AVid_creative%3ADawsonExtendedSofaWithOttomanSet-haleyscornerr-Jun2025-Organic-BCA&utm_id=120213783287270472&utm_term=120221939461790472&fbclid=IwY2xjawNr5WBleHRuA2FlbQEwAGFkaWQBqyUV8TsOqAEeqj1haEJ8qHHSJRLkjOgJoq5uZPOPjwMyhGmISRhjb5uPwSvvb0JV20LAZjw_aem_5mbG7GZYML2E78oH9hfXGw'
+
+export const utmParameters = 'utm_parameters';

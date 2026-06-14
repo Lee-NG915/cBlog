@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "exclude": [".git", "node_modules", ".vscode", "deploy", "dist", "docs", "etc", "log", "nginx"]
+}

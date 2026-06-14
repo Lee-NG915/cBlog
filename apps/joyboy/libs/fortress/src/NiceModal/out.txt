@@ -1,0 +1,23 @@
+/Users/abbywang/Documents/castlery_projects/joyboy/libs/fortress/src/NiceModal
+├── NiceModal.stories.tsx
+├── components
+|  ├── BaseModal.tsx
+|  ├── FormModal.tsx
+|  ├── Fragments.tsx
+|  ├── HookModal.tsx
+|  └── NestedModal.tsx
+├── demos
+|  ├── BaseModalStory.tsx
+|  ├── CommonModalStory.tsx
+|  └── FormModalStory.tsx
+├── hooks
+|  ├── elementsHolder.tsx
+|  ├── useDecNiceModal.tsx
+|  ├── useModal.tsx
+|  ├── usePatchElement.tsx
+|  └── withFunc.ts
+├── index.ts
+└── out.txt
+
+directory: 3 file: 16
+

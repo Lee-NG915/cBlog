@@ -1,0 +1,29 @@
+{
+  "name": "modules-checkout-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/checkout/domain/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/checkout/domain",
+        "main": "libs/modules/checkout/domain/src/index.ts",
+        "tsConfig": "libs/modules/checkout/domain/tsconfig.lib.json",
+        "assets": [],
+        "project": "libs/modules/checkout/domain/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/checkout/domain/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:domain", "scope:checkout"]
+}

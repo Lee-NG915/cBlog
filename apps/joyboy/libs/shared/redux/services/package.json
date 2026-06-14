@@ -1,0 +1,11 @@
+{
+  "name": "@castlery/shared-redux-services",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts"
+}

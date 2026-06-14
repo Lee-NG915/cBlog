@@ -1,0 +1,1212 @@
+{
+  "id": 4827,
+  "name": "Pebble Chaise Sectional Sofa",
+  "slug": "pebble-chaise-sectional-sofa",
+  "description": "Pebble adds sophisticated simplicity and contemporary charm with its gently curved frame and metal brass-capped legs.",
+  "product_type": "configurable",
+  "price": "1599.0",
+  "tags": [],
+  "max_sale_qty": 1000,
+  "min_sale_qty": 1,
+  "qty_increments": 1,
+  "show_free_swatch": true,
+  "product_layout": "configurable",
+  "warning_message": null,
+  "meta_title": "",
+  "meta_description": "",
+  "meta_keywords": "",
+  "available_on": "2020-12-25T00:00:00.000+08:00",
+  "list_price": "1599.0",
+  "discontinued": false,
+  "taxons": [
+    {
+      "name": "Category",
+      "permalink": "category",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Collections",
+      "permalink": "collections",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Pebble Collection",
+      "permalink": "pebble-collection",
+      "level": 1,
+      "ancestors": ["Collections"]
+    },
+    {
+      "name": "Sofa \u0026 Armchairs",
+      "permalink": "sofa-armchairs",
+      "level": 1,
+      "ancestors": ["Category"]
+    },
+    {
+      "name": "Chaise Sectional Sofas",
+      "permalink": "sofa-armchairs/chaise-sectional-sofas",
+      "level": 2,
+      "ancestors": ["Category", "Sofa \u0026 Armchairs"]
+    },
+    {
+      "name": "Category",
+      "permalink": "category",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Sofa \u0026 Armchairs",
+      "permalink": "sofa-armchairs",
+      "level": 1,
+      "ancestors": ["Category"]
+    },
+    {
+      "name": "Collections",
+      "permalink": "collections",
+      "level": 0,
+      "ancestors": []
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "name": "Menu",
+      "permalink": "menu",
+      "level": 0
+    },
+    {
+      "name": "Sofas",
+      "permalink": "sofas",
+      "level": 1
+    },
+    {
+      "name": "Sectional Sofas",
+      "permalink": "sofas/sectional-sofas",
+      "level": 2
+    }
+  ],
+  "product_properties": {
+    "product_details": [
+      {
+        "name": "filling",
+        "presentation": "Filling",
+        "value": "Foam and Pocket Coil Filled Seat; Fibre Filled Back",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "suspension",
+        "presentation": "Suspension",
+        "value": "Sinuous Spring",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "cover_type",
+        "presentation": "Cover Type",
+        "value": "Removable Cushion Cover",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "care",
+        "presentation": "Care",
+        "value": "Fabric Sofa, Metal Legs",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "\u003ch3\u003eFabric Sofa \u0026 Metal Legs Care \u003c/h3\u003e  \u003cstrong\u003eGeneral Care\u003c/strong\u003e \u003cul\u003e  \u003cli\u003eDo not sit on sofa arms and/or back frame.\u003c/li\u003e \u003cli\u003eAlways move the sofa by lifting it at the base, do not drag.\u003c/li\u003e \u003cli\u003eAvoid prolonged exposure to direct sunlight and keep sofa away from any heating source to prevent fading or discolouration. \u003c/li\u003e \u003cli\u003eUsing a brush attachment, vacuum the sofa regularly to remove any dust particles.\u003c/li\u003e \u003cli\u003eBlot spills immediately and gently with a clean white cloth. Do not rub.\u003c/li\u003e \u003cli\u003eProfessional cleaning is advised for tough stains.\u003c/li\u003e \u003cli\u003eAvoid sitting on the sofa when wearing clothing that may cause colour transfer. \u003c/li\u003e \u003cli\u003eFor removable cushions, flip, rotate and fluff the seat and back cushions regularly to prolong their lifespan and keep them plump.\u003c/li\u003e \u003cli\u003eFor non-removable cushions, to straighten folds and creases that form on cushions after prolonged use, smooth the surface with your hands and tuck any excess upholstery into the sides of the cushions.\u003c/li\u003e \u003c/ul\u003e      \u003cstrong\u003eFabric Care\u003c/strong\u003e\u003cul\u003e Pilling is a normal and common occurrence, and is not an indication of the fabric’s quality. To remove pills easily, simply use a shaver or fuzz remover.\u003c/ul\u003e  \u003cstrong\u003eVelvet Care \u003c/strong\u003e \u003cul\u003e \u003cli\u003eBrush the velvet pile regularly to reverse the effects of wear and tear that might temporarily crush the pile. \u003c/li\u003e \u003cli\u003eAvoid placing heavy objects on the sofa for long periods of time. \u003c/li\u003e \u003cli\u003eTo straighten light creases, set your steamer at a low heat setting and steam in the direction of the pile. \u003c/li\u003e \u003c/ul\u003e  \u003cb\u003eMetal Leg Care \u003c/b\u003e \u003cul\u003e \u003cli\u003eKeep legs always dry. \u003c/li\u003e \u003cli\u003eClean away dust or dirt with a soft, clean cloth. \u003c/li\u003e \u003cli\u003eDo not apply harsh chemicals which may erode the finish. \u003c/li\u003e \u003cli\u003eUse metal polish to maintain the shine of the metal. (Not applicable for powder-coated metal leg) \u003c/li\u003e \u003c/ul\u003e"
+      },
+      {
+        "name": "frame",
+        "presentation": "Frame",
+        "value": "Laminated veneer lumber \u0026 Plywood",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "leg_frame",
+        "presentation": "Leg Frame",
+        "value": "Black Powder Coating Metal Legs with 2cm Plate Stainless Steel Foot Cap",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "max_bearing_support",
+        "presentation": "Max Bearing Support",
+        "value": "4 x 150 kg",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "color_var",
+        "presentation": "Colour Variance",
+        "value": "Disclaimer",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "Due to photoshoot lighting conditions and monitor settings etc, there might be colour variance."
+      }
+    ],
+    "product_dimensions": [
+      {
+        "name": "general_dimensions",
+        "presentation": "Dimension",
+        "value": "W264 x D88/167 x H82cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "\u003cb\u003e Note: \u003c/b\u003eAll upholstered furniture may vary 2cm in dimension and is by no means considered a defect. In the event a furniture consists of two or more modules, a tolerance of 2-5cm is expected."
+      },
+      {
+        "name": "seatable_width",
+        "presentation": "Seatable Width",
+        "value": "240cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "seating_depth",
+        "presentation": "Seating Depth",
+        "value": "60cm / 137cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "seating_height",
+        "presentation": "Seating Height",
+        "value": "45cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "leg_height",
+        "presentation": "Leg Height",
+        "value": "18.5cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "product_weight",
+        "presentation": "Product Weight",
+        "value": "72.2 kg",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "packaging_dimensions",
+        "presentation": "Packaging Dimensions",
+        "value": "2 Boxes",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "\u003ch3\u003ePackaging Dimensions\u003c/h3\u003e \u003cdiv style='display: flex;'\u003e\u003cul\u003e \u003cli\u003eBox 1: 176x91.5x50cm (43.5 kg);\u003cbr\u003e \u003c/li\u003e \u003cli\u003eBox 2: 169.5x95x50cm (41.5 kg); \u003cbr\u003e \u003c/li\u003e \u003c/ul\u003e\u003c/div\u003e"
+      }
+    ],
+    "delivery_returns": [
+      {
+        "name": "cancellation",
+        "presentation": "Cancellation",
+        "value": "Free - 5 Working Days Before Delivery",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "warranty",
+        "presentation": "Warranty",
+        "value": "Frame 3 Years, Foam \u0026 Fabric 1 Year",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "returns",
+        "presentation": "Return Policy",
+        "value": "30 Days Return",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "assembly_condition",
+        "presentation": "Assembly",
+        "value": "Legs to be Fitted",
+        "is_public": true,
+        "is_private": false,
+        "explanation": ""
+      }
+    ],
+    "comfort_ratings": [
+      {
+        "name": "overall_sit_rating",
+        "presentation": "Seat Comfort",
+        "value": "2",
+        "is_public": true,
+        "is_private": false,
+        "explanation": ""
+      },
+      {
+        "name": "seat_depth_rating",
+        "presentation": "Seat Depth",
+        "value": "4",
+        "is_public": true,
+        "is_private": false,
+        "explanation": ""
+      },
+      {
+        "name": "seat_height_rating",
+        "presentation": "Seat Height",
+        "value": "3",
+        "is_public": true,
+        "is_private": false,
+        "explanation": ""
+      },
+      {
+        "name": "seat_softness_rating",
+        "presentation": "Seat Softness",
+        "value": "3",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "\u003ch3\u003eSeat Softness\u003c/h3\u003e\u003cvideo width=\"100%\" autoplay controls\u003e\u003csource src=\"https://res.cloudinary.com/castlery/video/upload/v1648548775/knight/property/Softness-of-sofa-Video-SG_AU.mp4\" type=\"video/mp4\"\u003eYour browser does not support the video tag.\u003c/video\u003e\u003cbr\u003e\u003cbr\u003e\u003cp\u003eOur sofas come in a variety of softness options depending on the type of seat filling used. Measured on a scale of one to five (from softest to firmest), you'll find a comfort level that suits your lifestyle best.\u003c/p\u003e"
+      }
+    ]
+  },
+  "related_products": [
+    {
+      "label": "Chaise",
+      "name": "Pebble Chaise Sectional Sofa",
+      "id": 4827,
+      "product_slug": "pebble-chaise-sectional-sofa"
+    },
+    {
+      "label": "L-Shape",
+      "name": "Pebble L-Shape Sectional Sofa",
+      "id": 4829,
+      "product_slug": "pebble-l-shape-sectional-sofa"
+    },
+    {
+      "label": "Chaise with Ottoman",
+      "name": "Pebble Chaise Sectional Sofa with Ottoman",
+      "id": 4870,
+      "product_slug": "pebble-chaise-sectional-sofa-with-ottoman"
+    }
+  ],
+  "collections": [4870, 4829, 4826, 4825, 4824, 4886, 4969, 5169],
+  "reviews": {
+    "avg_rating": 4.9,
+    "best_rating": 5,
+    "worst_rating": 1,
+    "count": 74,
+    "show_related_reviews": true,
+    "reviews": [
+      {
+        "id": 18480,
+        "product_id": 4827,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2022-09-19T16:39:11.526+08:00",
+        "updated_at": "2023-12-01T11:09:16.734+08:00",
+        "is_featured": true,
+        "is_related": false,
+        "variant": {
+          "id": 25444,
+          "name": "Pebble Chaise Sectional Sofa Left Facing, Ocean Blue",
+          "price": "1799.0",
+          "sku": "50440745-TR4001",
+          "product_name": "Pebble Chaise Sectional Sofa",
+          "product_slug": "pebble-chaise-sectional-sofa",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "1799.0",
+          "images": [
+            {
+              "position": 4,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1670405711/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Front-1670405710.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1670405711/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Front-1670405710.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1670405711/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Front-1670405710.jpg"
+              }
+            },
+            {
+              "position": 15,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619602682/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619602682/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619602682/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Angle.jpg"
+              }
+            },
+            {
+              "position": 16,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619602675/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619602675/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619602675/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Side.jpg"
+              }
+            },
+            {
+              "position": 17,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619602688/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Back.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619602688/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Back.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619602688/crusader/variants/50440745-TR4001/Pebble-Chaise-Sectional-Sofa-Left-Facing-Ocean-Blue-Back.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Pebble Collection",
+              "permalink": "pebble-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Chaise Sectional Sofas",
+              "permalink": "sofa-armchairs/chaise-sectional-sofas",
+              "level": 2,
+              "ancestors": ["Category", "Sofa \u0026 Armchairs"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "left_facing",
+              "presentation": "Left Facing",
+              "option_value_id": 35,
+              "option_type_id": 2,
+              "option_type_name": "orientation",
+              "option_type_presentation": "Orientation"
+            },
+            {
+              "name": "ocean_blue",
+              "presentation": "Ocean Blue",
+              "option_value_id": 282,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            },
+            {
+              "name": "brass_cap",
+              "presentation": "Brass Cap",
+              "option_value_id": 298,
+              "option_type_id": 6,
+              "option_type_name": "leg_color",
+              "option_type_presentation": "Leg"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 18826,
+            "created_at": "2022-09-19T16:39:11.554+08:00",
+            "updated_at": "2022-09-19T16:39:11.554+08:00",
+            "is_official": false,
+            "title": "good quality, stylish design",
+            "anonymous": false,
+            "content": "i like that the legs can be chosen, the leg is long enough to allow my vacuum robot to go thru, the covers can be re-ordered separately for very reasonable price. the seating cushion feels harder, the back cushions are softer but still sturdy. the back is lower than my old leather sofa so not as comfy but that is something we have to deal with if we want a stylish design. overall quite satsified.",
+            "user": {
+              "id": 129001,
+              "firstname": "Q",
+              "lastname": "U."
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1663576748/knight/customer_review/cgrgapiaggodtldrg3be.jpg",
+                "ratio": 0.9527
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      },
+      {
+        "id": 18680,
+        "product_id": 4827,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2022-09-02T17:04:42.807+08:00",
+        "updated_at": "2023-12-01T11:09:15.808+08:00",
+        "is_featured": true,
+        "is_related": false,
+        "variant": {
+          "id": 25467,
+          "name": "Pebble Chaise Sectional Sofa Right Facing, Forest Green",
+          "price": "1799.0",
+          "sku": "50440746-SR4006",
+          "product_name": "Pebble Chaise Sectional Sofa",
+          "product_slug": "pebble-chaise-sectional-sofa",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "1799.0",
+          "images": [
+            {
+              "position": 4,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1671614441/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Front-1671614438.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1671614441/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Front-1671614438.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1671614441/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Front-1671614438.jpg"
+              }
+            },
+            {
+              "position": 12,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619603102/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619603102/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619603102/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Angle.jpg"
+              }
+            },
+            {
+              "position": 13,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619603097/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619603097/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619603097/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Side.jpg"
+              }
+            },
+            {
+              "position": 14,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1619603105/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Back.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1619603105/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Back.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1619603105/crusader/variants/50440746-SR4006/Pebble-Chaise-Sectional-Sofa-Right-Facing-Forest-Green-Back.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Pebble Collection",
+              "permalink": "pebble-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Chaise Sectional Sofas",
+              "permalink": "sofa-armchairs/chaise-sectional-sofas",
+              "level": 2,
+              "ancestors": ["Category", "Sofa \u0026 Armchairs"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "right_facing",
+              "presentation": "Right Facing",
+              "option_value_id": 34,
+              "option_type_id": 2,
+              "option_type_name": "orientation",
+              "option_type_presentation": "Orientation"
+            },
+            {
+              "name": "forest_green",
+              "presentation": "Forest Green",
+              "option_value_id": 168,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            },
+            {
+              "name": "brass_cap",
+              "presentation": "Brass Cap",
+              "option_value_id": 298,
+              "option_type_id": 6,
+              "option_type_name": "leg_color",
+              "option_type_presentation": "Leg"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 19026,
+            "created_at": "2022-09-02T17:04:42.807+08:00",
+            "updated_at": "2022-09-26T20:44:25.080+08:00",
+            "is_official": null,
+            "title": "You need to get this sectional!",
+            "anonymous": false,
+            "content": "This my favorite recent purchase when furnishing my new apartment. It's hard to find such a great color in green for a living room sectional. I enjoy that the couch is comfy while also still quite supportive.",
+            "user": {
+              "id": 151804,
+              "firstname": "I",
+              "lastname": "V."
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1662134647/knight/customer_review/h8emeooun6hsixco63fz.png",
+                "ratio": 1.3346
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      },
+      {
+        "id": 16372,
+        "product_id": 4827,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2022-08-13T23:46:59.236+08:00",
+        "updated_at": "2023-12-01T11:09:16.638+08:00",
+        "is_featured": true,
+        "is_related": false,
+        "variant": {
+          "id": 25446,
+          "name": "Pebble Chaise Sectional Sofa Left Facing, Shadow grey",
+          "price": "1799.0",
+          "sku": "50440745-TR4002",
+          "product_name": "Pebble Chaise Sectional Sofa",
+          "product_slug": "pebble-chaise-sectional-sofa",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "1799.0",
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1671614420/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Front-1671614418.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1671614420/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Front-1671614418.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1671614420/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Front-1671614418.jpg"
+              }
+            },
+            {
+              "position": 14,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168239/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Dim-US.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168239/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Dim-US.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168239/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Dim-US.jpg"
+              }
+            },
+            {
+              "position": 15,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168240/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168240/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168240/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Angle.jpg"
+              }
+            },
+            {
+              "position": 16,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168238/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168238/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168238/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Side.jpg"
+              }
+            },
+            {
+              "position": 17,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168241/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Back.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168241/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Back.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168241/crusader/variants/50440745-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Back.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Pebble Collection",
+              "permalink": "pebble-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Chaise Sectional Sofas",
+              "permalink": "sofa-armchairs/chaise-sectional-sofas",
+              "level": 2,
+              "ancestors": ["Category", "Sofa \u0026 Armchairs"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Sofa \u0026 Armchairs",
+              "permalink": "sofa-armchairs",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "left_facing",
+              "presentation": "Left Facing",
+              "option_value_id": 35,
+              "option_type_id": 2,
+              "option_type_name": "orientation",
+              "option_type_presentation": "Orientation"
+            },
+            {
+              "name": "shadow_grey",
+              "presentation": "Shadow Grey",
+              "option_value_id": 283,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            },
+            {
+              "name": "brass_cap",
+              "presentation": "Brass Cap",
+              "option_value_id": 298,
+              "option_type_id": 6,
+              "option_type_name": "leg_color",
+              "option_type_presentation": "Leg"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 16715,
+            "created_at": "2022-08-13T23:46:59.236+08:00",
+            "updated_at": "2022-08-18T17:24:53.740+08:00",
+            "is_official": null,
+            "title": "Beautiful looking and perfect match for the living",
+            "anonymous": false,
+            "content": "love the material, modern style, has a soft feel to it. the seats are firm in a good way which is exactly what we wanted. would recommend this to anyone who likes more firm seats. it is very comfortable and  pleasant to the eyes. i was skeptical at first, but me and my husband love it so much, we will be buying an ottoman as an addition to the collection. the color is amazing. it definitely complements the vibe of my living room space. it is not a bulky furniture. it is perfect for small space.",
+            "user": {
+              "id": 147232,
+              "firstname": "N",
+              "lastname": "I."
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1660429875/knight/customer_review/A5CA1009-A5FB-4598-AB25-5BAC10B7E825.jpg",
+                "ratio": 1.33333333333333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1660429909/knight/customer_review/9C839AFF-4548-42E6-A99A-BFD8CF25C221.jpg",
+                "ratio": 1.33333333333333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1660429916/knight/customer_review/4F84AB68-1C76-499D-B983-BB2E91D48B5A.jpg",
+                "ratio": 1.33333333333333
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": 25445,
+      "name": "Pebble Chaise Sectional Sofa Right Facing, Shadow grey",
+      "sku": "50440746-TR4002",
+      "product_id": 4827,
+      "price": "1799.0",
+      "sketchfab_3d_model_id": null,
+      "modular_tool_url": null,
+      "furniture_tool_url": null,
+      "list_price": "1799.0",
+      "product_slug": "pebble-chaise-sectional-sofa",
+      "product_name": "Pebble Chaise Sectional Sofa",
+      "is_customized": false,
+      "warning_message": "",
+      "discontinued": false,
+      "tags": [
+        "fall",
+        "modern_contemporary",
+        "midcenturymodern",
+        "removable_covers",
+        "holiday",
+        "all_sofa",
+        "s3_event (do not use)",
+        "style_moderncontemporary",
+        "all products"
+      ],
+      "badges": [],
+      "variant_properties": {
+        "product_details": [],
+        "product_dimensions": [],
+        "delivery_returns": [],
+        "comfort_ratings": []
+      },
+      "variant_option_values": [
+        {
+          "name": "right_facing",
+          "presentation": "Right Facing",
+          "option_value_id": 34,
+          "option_type_id": 2,
+          "option_type_name": "orientation",
+          "option_type_presentation": "Orientation"
+        },
+        {
+          "name": "shadow_grey",
+          "presentation": "Shadow Grey",
+          "option_value_id": 283,
+          "option_type_id": 1,
+          "option_type_name": "material",
+          "option_type_presentation": "Material"
+        },
+        {
+          "name": "brass_cap",
+          "presentation": "Brass Cap",
+          "option_value_id": 298,
+          "option_type_id": 6,
+          "option_type_name": "leg_color",
+          "option_type_presentation": "Leg"
+        }
+      ],
+      "dimension_image": {
+        "position": 1,
+        "alt": null,
+        "links": {
+          "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1655220760/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim-1655220757.jpg",
+          "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1655220760/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim-1655220757.jpg",
+          "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1655220760/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim-1655220757.jpg"
+        }
+      },
+      "images": [
+        {
+          "position": 4,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1671614402/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Front-1671614400.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1671614402/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Front-1671614400.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1671614402/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Front-1671614400.jpg"
+          }
+        },
+        {
+          "position": 14,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168033/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168033/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168033/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Dim.jpg"
+          }
+        },
+        {
+          "position": 15,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Angle.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Angle.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Angle.jpg"
+          }
+        },
+        {
+          "position": 16,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168032/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Side.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168032/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Side.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168032/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Side.jpg"
+          }
+        },
+        {
+          "position": 17,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Back.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Back.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638168034/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Shadow-Grey-Back.jpg"
+          }
+        }
+      ],
+      "assets": [
+        {
+          "position": 1,
+          "type": "lifestyle",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Facing-Shadow-grey-Lifestyle-Crop.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Facing-Shadow-grey-Lifestyle-Crop.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Right-Facing-Shadow-grey-Lifestyle-Crop.jpg"
+          }
+        },
+        {
+          "position": 2,
+          "type": "master_video",
+          "path": "https://res.cloudinary.com/castlery/video/private/v1661856623/crusader/variants/50440745-SR4006/Pebble_Sofa_UK-1661856616.mp4"
+        },
+        {
+          "position": 5,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_2.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_2.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964788/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_2.jpg"
+          }
+        },
+        {
+          "position": 6,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964790/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_3.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964790/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_3.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964790/crusader/variants/50440746-TR4002/Pebble-Chaise-Sectional-Sofa-Left-Shadow-Grey-Set_3.jpg"
+          }
+        },
+        {
+          "position": 7,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D2.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D2.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D2.jpg"
+          }
+        },
+        {
+          "position": 8,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D3.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D3.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D3.jpg"
+          }
+        },
+        {
+          "position": 9,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D4.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D4.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964789/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-D4.jpg"
+          }
+        },
+        {
+          "position": 12,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624964792/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-Set_11.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624964792/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-Set_11.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624964792/crusader/variants/50440746-TR4002/Pebble-Sofa-Shadow-Grey-Set_11.jpg"
+          }
+        }
+      ],
+      "assembly_files": [
+        {
+          "id": 73,
+          "filetype": "doc",
+          "display_filename": "Pebble Chaise Sectional Sofa",
+          "file_link": "https://res.cloudinary.com/castlery/image/upload/v1681195825/Pebble_Chaise_Sectional_Sofa_50440746__20221104.pdf",
+          "created_at": "2023-04-28T17:26:49.256+08:00",
+          "filename": "Pebble_Chaise_Sectional_Sofa_50440746__20221104.pdf"
+        }
+      ]
+    }
+  ],
+  "option_types": [
+    {
+      "id": 1,
+      "name": "material",
+      "presentation": "Material",
+      "values": [
+        {
+          "id": 131,
+          "name": "fumo_grey",
+          "presentation": "Fumo Grey",
+          "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627871528/crusader/variants/SR-4005/Fumo-Grey_1.jpg",
+          "color": "black",
+          "collection": {
+            "id": 310,
+            "name": "Swatch, Surro Collection",
+            "description": "Lightweight and velvety to the touch, Surro is a soft fabric that's finely woven. It's available in muted hues.",
+            "presentation": "Surro Collection",
+            "knp_friendly": null,
+            "fabric_composition": "100% polyester"
+          }
+        },
+        {
+          "id": 168,
+          "name": "forest_green",
+          "presentation": "Forest Green",
+          "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627871627/crusader/variants/SR-4006/Forest-Green_1.jpg",
+          "color": "green",
+          "collection": {
+            "id": 310,
+            "name": "Swatch, Surro Collection",
+            "description": "Lightweight and velvety to the touch, Surro is a soft fabric that's finely woven. It's available in muted hues.",
+            "presentation": "Surro Collection",
+            "knp_friendly": null,
+            "fabric_composition": "100% polyester"
+          }
+        },
+        {
+          "id": 282,
+          "name": "ocean_blue",
+          "presentation": "Ocean Blue",
+          "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627549145/crusader/variants/TR-4001/Oncean-Blue_1.jpg",
+          "color": null,
+          "collection": {
+            "id": 4818,
+            "name": "Swatch, Trinity Range Collection",
+            "description": "Soft and lightweight, Trinity's tonal depth comes from yarns woven together to create a richly-textured fabric.",
+            "presentation": "Trinity Range Collection",
+            "knp_friendly": null,
+            "fabric_composition": "88% Polyester, 10% Nylon, 2% Cotton"
+          }
+        },
+        {
+          "id": 283,
+          "name": "shadow_grey",
+          "presentation": "Shadow Grey",
+          "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1638173025/crusader/variants/TR-4002/Pebble-Shadow-Grey_1.jpg",
+          "color": null,
+          "collection": {
+            "id": 4818,
+            "name": "Swatch, Trinity Range Collection",
+            "description": "Soft and lightweight, Trinity's tonal depth comes from yarns woven together to create a richly-textured fabric.",
+            "presentation": "Trinity Range Collection",
+            "knp_friendly": null,
+            "fabric_composition": "88% Polyester, 10% Nylon, 2% Cotton"
+          }
+        },
+        {
+          "id": 284,
+          "name": "ivory_white",
+          "presentation": "Ivory White",
+          "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627549405/crusader/variants/TR-4003/Ivory-White_1.jpg",
+          "color": null,
+          "collection": {
+            "id": 4818,
+            "name": "Swatch, Trinity Range Collection",
+            "description": "Soft and lightweight, Trinity's tonal depth comes from yarns woven together to create a richly-textured fabric.",
+            "presentation": "Trinity Range Collection",
+            "knp_friendly": null,
+            "fabric_composition": "88% Polyester, 10% Nylon, 2% Cotton"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "orientation",
+      "presentation": "Orientation",
+      "values": [
+        {
+          "id": 35,
+          "name": "left_facing",
+          "presentation": "Left Facing",
+          "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693983086/knight/cms/swatch/sofa_left_extend_svg.svg",
+          "color": null
+        },
+        {
+          "id": 34,
+          "name": "right_facing",
+          "presentation": "Right Facing",
+          "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693983124/knight/cms/swatch/sofa_right_extend_svg.svg",
+          "color": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "leg_color",
+      "presentation": "Leg",
+      "values": [
+        {
+          "id": 298,
+          "name": "brass_cap",
+          "presentation": "Brass Cap",
+          "image_url": "https://production-static-images.s3-ap-southeast-1.amazonaws.com/swatches/brass+cap.jpg",
+          "color": null
+        },
+        {
+          "id": 299,
+          "name": "black_metal",
+          "presentation": "Black Metal",
+          "image_url": "https://production-static-images.s3-ap-southeast-1.amazonaws.com/swatches/black+metal.jpg",
+          "color": null
+        }
+      ]
+    }
+  ],
+  "customizations": [
+    {
+      "variant_id": 25445,
+      "option_types": "1:283;2:34;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25393,
+      "batch": 1
+    },
+    {
+      "variant_id": 25443,
+      "option_types": "1:282;2:34;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25392,
+      "batch": 1
+    },
+    {
+      "variant_id": 25444,
+      "option_types": "1:282;2:35;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25392,
+      "batch": 1
+    },
+    {
+      "variant_id": 25446,
+      "option_types": "1:283;2:35;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25393,
+      "batch": 1
+    },
+    {
+      "variant_id": 25447,
+      "option_types": "1:284;2:34;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25394,
+      "batch": 1
+    },
+    {
+      "variant_id": 25448,
+      "option_types": "1:284;2:35;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 25394,
+      "batch": 1
+    },
+    {
+      "variant_id": 25467,
+      "option_types": "1:168;2:34;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 8564,
+      "batch": 1
+    },
+    {
+      "variant_id": 25468,
+      "option_types": "1:168;2:35;6:298",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": 8564,
+      "batch": 1
+    }
+  ]
+}
+

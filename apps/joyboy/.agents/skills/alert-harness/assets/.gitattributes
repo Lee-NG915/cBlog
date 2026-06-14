@@ -1,0 +1,4 @@
+# Alert harness runtime state — use union merge to reduce conflicts
+# when cross-machine scheduled jobs write to the same file
+issue-snapshots.json merge=union
+metrics.jsonl merge=union

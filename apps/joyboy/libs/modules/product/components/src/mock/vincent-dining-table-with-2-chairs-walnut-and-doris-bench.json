@@ -1,0 +1,1399 @@
+{
+  "id": 5164,
+  "name": "Vincent Dining Table with 2 Chairs, Walnut and Doris Bench",
+  "slug": "vincent-dining-table-with-2-chairs-walnut-and-doris-bench",
+  "description": "The Vincent Dining Set and Doris Bench marry soft curves and solid wood, taking your home dining experience up a notch.​",
+  "product_type": "bundle",
+  "price": "1639.0",
+  "tags": [],
+  "max_sale_qty": 1000,
+  "min_sale_qty": 1,
+  "qty_increments": 1,
+  "show_free_swatch": true,
+  "product_layout": "bundle",
+  "warning_message": "",
+  "meta_title": "",
+  "meta_description": "",
+  "meta_keywords": "",
+  "available_on": "2022-04-20T00:00:00.000+08:00",
+  "list_price": "1726.0",
+  "discontinued": false,
+  "taxons": [
+    {
+      "name": "Category",
+      "permalink": "category",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Collections",
+      "permalink": "collections",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Vincent Collection",
+      "permalink": "vincent-collection",
+      "level": 1,
+      "ancestors": ["Collections"]
+    },
+    {
+      "name": "Furniture Sets",
+      "permalink": "furniture-sets",
+      "level": 1,
+      "ancestors": ["Category"]
+    },
+    {
+      "name": "Rectangular Dining Table Sets",
+      "permalink": "furniture-sets/Rectanglar-dining-table-sets",
+      "level": 2,
+      "ancestors": ["Category", "Furniture Sets"]
+    },
+    {
+      "name": "Category",
+      "permalink": "category",
+      "level": 0,
+      "ancestors": []
+    },
+    {
+      "name": "Furniture Sets",
+      "permalink": "furniture-sets",
+      "level": 1,
+      "ancestors": ["Category"]
+    },
+    {
+      "name": "Collections",
+      "permalink": "collections",
+      "level": 0,
+      "ancestors": []
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "name": "Menu",
+      "permalink": "menu",
+      "level": 0
+    },
+    {
+      "name": "Chairs",
+      "permalink": "chairs",
+      "level": 1
+    },
+    {
+      "name": "Dining Room Sets",
+      "permalink": "chairs/dining-room-bundles",
+      "level": 2
+    }
+  ],
+  "product_properties": {
+    "product_details": [
+      {
+        "name": "special_feature",
+        "presentation": "Special Feature",
+        "value": "Table: Metal Brace Underneath Table Top",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "care",
+        "presentation": "Care",
+        "value": "Wooden Dining Set",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "<h3>Wooden Dining Set Care</h3>  <strong>Wooden Table Care</strong> <ul>    <li>Dust with a soft, dry cloth and clean with a slightly damp cloth​.</li> <li>Avoid abrasive cleaners and placing rough or sharp objects​ on the surface.</li> <li>Keep furniture away from direct heat or sunlight​</li> <li>Wipe spills immediately. </li>\t\t\t\t\t <li>Use coasters or placemats where possible, to prevent discolouration of the surface.</li> <li>Lift when moving, do not drag​.</li> <li>Periodically check that all connections are tightly secured.</li> </ul>    <strong>Dining Chairs & Benches Care</strong>  <ul> <li> <b>General Care</b></li>  <ul> <li>Do not tilt the chair backwards or forwards while seated. </li> <li>Periodically check that all connections are tightly secured. </li> </ul> <li> <b>Wooden Type Care</b></li> <ul> <li>Dust with a soft, dry cloth and clean with a slightly damp cloth​. </li> <li>Avoid abrasive cleaners and placing rough or sharp objects​ on the surface. </li> <li>Keep furniture away from direct heat or sunlight​. </li> <li>Wipe spills immediately. </li> </ul>  <li> <strong>Upholstered Type Care </strong></li> <ul> <li>Avoid prolonged exposure to direct sunlight and keep furniture away from any heating source to prevent fading or discolouration. </li> <li>Using a brush attachment, vacuum fabric seats regularly to remove any dust particles. </li> <li>Blot spills immediately and gently with a clean white cloth. Do not rub. </li> <li>Professional cleaning is advised for tough stains. </li> </ul> </ul>"
+      },
+      {
+        "name": "material",
+        "presentation": "Material",
+        "value": "Table&Chair: Solid American Walnut Wood; Bench: Solid Rubber Wood with Dark Walnut Stain",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "As with all solid wood furniture, temperature and humidity changes may result in small cracks and fissures. Solid wood tends to absorb and release humidity through wood movement, shrinking the wood fibre and creating hairline cracks. However, the overall structure remains uncompromised."
+      },
+      {
+        "name": "max_bearing_support",
+        "presentation": "Max Bearing Support",
+        "value": "Chair: 130 kg, Table: 100 kg, Bench: 8.8 kg",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "upholstery",
+        "presentation": "Upholstery",
+        "value": "Chair&Bench: PU Foam seat with Fabric",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "color_var",
+        "presentation": "Colour Variance",
+        "value": "Natural Variations",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "Due to the unique nature of each wood piece used, the wood / veneer is marked by organic knots, nicks and other visual imperfections which highlight its origins. Expect variations in woodgrains and wood color tones."
+      }
+    ],
+    "product_dimensions": [
+      {
+        "name": "general_dimensions",
+        "presentation": "Dimension",
+        "value": "Table: W150/180 x D80/90 x H75cm; Chair: W45 x D53 x H80.5cm; Bench: W122 x D35.5 x H48cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "seatable_width",
+        "presentation": "Seatable Width",
+        "value": "Bench: 122cm Chair: 43cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "seating_depth",
+        "presentation": "Seating Depth",
+        "value": "Bench: 35.5cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "seating_height",
+        "presentation": "Seating Height",
+        "value": "Bench: 48cm Chair: 44cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "sh_leg_to_leg_distance",
+        "presentation": "Leg to Leg Distance (at height 45cm)",
+        "value": "120cm/150cm",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "product_weight",
+        "presentation": "Product Weight",
+        "value": "Chair: 6 kg, Table: 25 kg/32 kg, Bench: 8.8 kg",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "capacity",
+        "presentation": "Capacity",
+        "value": "Sits 4-6 People Comfortably",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "packaging_dimensions",
+        "presentation": "Packaging Dimensions",
+        "value": "4 Boxes",
+        "is_public": true,
+        "is_private": false,
+        "explanation": "<h3>Packaging Dimensions</h3><div style='display: flex;'><ul><li>Box 1: 158x88x13.5cm (34 kg)(150cm table); 188x98x13.5cm (37 kg)(180cm table)</li><li>Box 2: 75.5x46.5x94.5cm (16 kg)</li><li>Box 3: 75.5x46.5x94.5cm (16 kg)</li><li>Box 4: 125x37x14cm (11.4 kg)</li></ul></div>"
+      }
+    ],
+    "delivery_returns": [
+      {
+        "name": "cancellation",
+        "presentation": "Cancellation",
+        "value": "Free - 5 Working Days Before Delivery",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "warranty",
+        "presentation": "Warranty",
+        "value": "1 Year Limited Warranty",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "returns",
+        "presentation": "Return Policy",
+        "value": "30 Days Return",
+        "is_public": true,
+        "is_private": false,
+        "explanation": null
+      },
+      {
+        "name": "assembly_condition",
+        "presentation": "Assembly",
+        "value": "Legs to be Fitted",
+        "is_public": true,
+        "is_private": false,
+        "explanation": ""
+      }
+    ],
+    "comfort_ratings": []
+  },
+  "related_products": [],
+  "collections": [163, 4484, 4784, 1455, 4469, 2422, 4734],
+  "reviews": {
+    "avg_rating": 4.8,
+    "best_rating": 5,
+    "worst_rating": 1,
+    "count": 751,
+    "show_related_reviews": false,
+    "reviews": [
+      {
+        "id": 26596,
+        "product_id": 163,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2023-09-21T04:26:35.567+08:00",
+        "updated_at": "2023-10-20T16:50:39.005+08:00",
+        "is_featured": true,
+        "is_related": true,
+        "variant": {
+          "id": 574,
+          "name": "Vincent Dining Table, 180cm",
+          "price": "1049.0",
+          "sku": "41960002",
+          "product_name": "Vincent Dining Table, Walnut",
+          "product_slug": "vincent-dining-table",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "1049.0",
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg"
+              }
+            },
+            {
+              "position": 8,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Rectangular Dining Tables",
+              "permalink": "tables/rectangular-dining-tables",
+              "level": 2,
+              "ancestors": ["Category", "Tables"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "1_8m",
+              "presentation": "180cm",
+              "option_value_id": 47,
+              "option_type_id": 4,
+              "option_type_name": "length",
+              "option_type_presentation": "Length"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 27130,
+            "created_at": "2023-09-21T04:26:35.567+08:00",
+            "updated_at": "2023-09-26T04:56:20.490+08:00",
+            "is_official": false,
+            "title": "Great quality, exactly what I was looking for!",
+            "anonymous": false,
+            "content": "Purchased the vincent dining table online on castlery for our new home and we are really happy with it. The quality is great, smooth finish and very sturdy. Most dining tables I checked at furniture stores were shaky so I was particular about it being extra sturdy - the vincent dining table is super sturdy and well made. It was also very easy to assemble. This is my first purchase from castlery and I am already a fan - we also continued to buy chairs and bench from castlery.",
+            "user": {
+              "id": 182193,
+              "firstname": "E",
+              "lastname": "O."
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1695266708/knight/customer_review/hblovsk990qkjilhxrpp.jpg",
+                "ratio": 0.75
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1695266709/knight/customer_review/rjrgp7hhcmqv5lu3x2kr.jpg",
+                "ratio": 1.3333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1695266710/knight/customer_review/w80m9ssiwni6tx3vnfgq.jpg",
+                "ratio": 1.3333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1695266711/knight/customer_review/g2n99kha4s32ytknqr3v.jpg",
+                "ratio": 1.3333
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      },
+      {
+        "id": 26587,
+        "product_id": 1455,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2023-09-17T22:56:42.296+08:00",
+        "updated_at": "2024-01-27T14:30:56.668+08:00",
+        "is_featured": true,
+        "is_related": true,
+        "variant": {
+          "id": 13165,
+          "name": "Vincent Chair",
+          "price": "299.0",
+          "sku": "41960009",
+          "product_name": "Vincent Chair, Walnut",
+          "product_slug": "vincent-chair",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "299.0",
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg"
+              }
+            },
+            {
+              "position": 10,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg"
+              }
+            },
+            {
+              "position": 11,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Dining Chairs",
+              "permalink": "chairs-benches/dining-chairs",
+              "level": 2,
+              "ancestors": ["Category", "Chairs & Benches"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "vincent_fabric",
+              "presentation": "Vincent Fabric",
+              "option_value_id": 199,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 27121,
+            "created_at": "2023-09-17T22:56:42.296+08:00",
+            "updated_at": "2023-09-18T05:36:13.250+08:00",
+            "is_official": false,
+            "title": "Vincent chairs",
+            "anonymous": true,
+            "content": "Purchased 4 Vincent chairs to go with Theo table. My order arrived quickly and fully assembled. The chairs are dark walnut- high quality and very sturdy.",
+            "user": {
+              "firstname": "Castlery",
+              "lastname": "Customer"
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1694987798/knight/customer_review/gpo63j5ixjgizeiekpmp.jpg",
+                "ratio": 1.3333
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      },
+      {
+        "id": 26356,
+        "product_id": 163,
+        "status": "published",
+        "rating_product": 5,
+        "relative_product_ids": [],
+        "created_at": "2023-09-01T20:53:18.091+08:00",
+        "updated_at": "2024-01-30T19:28:25.484+08:00",
+        "is_featured": true,
+        "is_related": true,
+        "variant": {
+          "id": 575,
+          "name": "Vincent Dining Table, 150cm",
+          "price": "899.0",
+          "sku": "41960001",
+          "product_name": "Vincent Dining Table, Walnut",
+          "product_slug": "vincent-dining-table",
+          "product_type": "configurable",
+          "is_enabled": true,
+          "list_price": "899.0",
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg"
+              }
+            },
+            {
+              "position": 10,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg"
+              }
+            }
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Rectangular Dining Tables",
+              "permalink": "tables/rectangular-dining-tables",
+              "level": 2,
+              "ancestors": ["Category", "Tables"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "1_5m",
+              "presentation": "150cm",
+              "option_value_id": 50,
+              "option_type_id": 4,
+              "option_type_name": "length",
+              "option_type_presentation": "Length"
+            }
+          ]
+        },
+        "bundle_options": [],
+        "messages": [
+          {
+            "id": 26887,
+            "created_at": "2023-09-01T20:53:18.091+08:00",
+            "updated_at": "2023-09-06T10:35:11.801+08:00",
+            "is_official": false,
+            "title": "Perfect!",
+            "anonymous": true,
+            "content": "To create a dining area in a corner of my living room, I needed a not-too-large table to blend with existing furnishings. The Vincent Dining Table, with its smooth finish, rounded corners, and beautifully tapered legs fit the bill. I matched it with Carrie chairs, and when the dining set was assembled and placed, everything fit just right, seemed quite sturdy, and looked perfect! The White Glove Service was wonderful and from ordering to delivery, I have been pleased with my Castlery experience.",
+            "user": {
+              "firstname": "Castlery",
+              "lastname": "Customer"
+            },
+            "target_user": null,
+            "count_like": 0,
+            "images": [
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693595738/knight/customer_review/nd9zmaqah1chdbnlqkwa.jpg",
+                "ratio": 1.3333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693596548/knight/customer_review/ceun4prvv0pwnfk3frmz.jpg",
+                "ratio": 1.3333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693596564/knight/customer_review/xdmi9fibjygayrzdparp.jpg",
+                "ratio": 1.3333
+              },
+              {
+                "image_url": "https://res.cloudinary.com/castlery/image/upload/v1693596585/knight/customer_review/rc4lbt9nlovix5pjpyfj.jpg",
+                "ratio": 1.3333
+              }
+            ]
+          }
+        ],
+        "incentive": {
+          "level": "super_rare"
+        }
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": 26653,
+      "name": "Vincent Dining Table with 2 Chairs, Walnut and Doris Bench",
+      "sku": "TPB-000284",
+      "product_id": 5164,
+      "price": "1639.0",
+      "sketchfab_3d_model_id": null,
+      "modular_tool_url": null,
+      "furniture_tool_url": null,
+      "list_price": "1726.0",
+      "product_slug": "vincent-dining-table-with-2-chairs-walnut-and-doris-bench",
+      "product_name": "Vincent Dining Table with 2 Chairs, Walnut and Doris Bench",
+      "is_customized": false,
+      "warning_message": "",
+      "discontinued": false,
+      "tags": ["sale", "rounded_furniture", "style_midcenturymodern", "all products", "walnut_wood"],
+      "badges": ["Sale"],
+      "variant_properties": {
+        "product_details": [],
+        "product_dimensions": [],
+        "delivery_returns": [],
+        "comfort_ratings": []
+      },
+      "variant_option_values": [],
+      "images": [
+        {
+          "position": 2,
+          "type": "base",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1660818313/crusader/variants/PB-DR0164/Vincent-1.8m-Dining-Table-With-2-Chair-Walnut-With-Doris-Bench-1660818311.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1660818313/crusader/variants/PB-DR0164/Vincent-1.8m-Dining-Table-With-2-Chair-Walnut-With-Doris-Bench-1660818311.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1660818313/crusader/variants/PB-DR0164/Vincent-1.8m-Dining-Table-With-2-Chair-Walnut-With-Doris-Bench-1660818311.jpg"
+          }
+        }
+      ],
+      "assets": [
+        {
+          "position": 3,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1659926253/crusader/variants/PB-DR0164/Vincent-Dining-Table-Walnut-Sectional-Set8-1659926250.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1659926253/crusader/variants/PB-DR0164/Vincent-Dining-Table-Walnut-Sectional-Set8-1659926250.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1659926253/crusader/variants/PB-DR0164/Vincent-Dining-Table-Walnut-Sectional-Set8-1659926250.jpg"
+          }
+        },
+        {
+          "position": 4,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1652430819/crusader/variants/PB-DR0164/Doris-Bench-Dark-Granite-Set_1-Crop-1652430817.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1652430819/crusader/variants/PB-DR0164/Doris-Bench-Dark-Granite-Set_1-Crop-1652430817.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1652430819/crusader/variants/PB-DR0164/Doris-Bench-Dark-Granite-Set_1-Crop-1652430817.jpg"
+          }
+        },
+        {
+          "position": 6,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1638442255/crusader/variants/PB-DR0122/Vincent-Chair-Revamped-Lifestyle-Crop.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1638442255/crusader/variants/PB-DR0122/Vincent-Chair-Revamped-Lifestyle-Crop.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1638442255/crusader/variants/PB-DR0122/Vincent-Chair-Revamped-Lifestyle-Crop.jpg"
+          }
+        },
+        {
+          "position": 7,
+          "type": "short_video",
+          "path": "https://res.cloudinary.com/castlery/video/private/v1640588110/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Video.mp4"
+        },
+        {
+          "position": 8,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1660818327/crusader/variants/PB-DR0164/Vincent-With-Doris-Texture_UK-1660818325.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1660818327/crusader/variants/PB-DR0164/Vincent-With-Doris-Texture_UK-1660818325.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1660818327/crusader/variants/PB-DR0164/Vincent-With-Doris-Texture_UK-1660818325.jpg"
+          }
+        },
+        {
+          "position": 9,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1625414884/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D3.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1625414884/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D3.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1625414884/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D3.jpg"
+          }
+        },
+        {
+          "position": 10,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1625414889/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D4.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1625414889/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D4.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1625414889/crusader/variants/PB-DR0122/Vincent-Dining-Table-Walnut-D4.jpg"
+          }
+        },
+        {
+          "position": 11,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1625414894/crusader/variants/PB-DR0122/Vincent-Chair-Walnut--D2.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1625414894/crusader/variants/PB-DR0122/Vincent-Chair-Walnut--D2.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1625414894/crusader/variants/PB-DR0122/Vincent-Chair-Walnut--D2.jpg"
+          }
+        },
+        {
+          "position": 12,
+          "type": "lifestyle_other",
+          "links": {
+            "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1625414895/crusader/variants/PB-DR0122/Vincent-Chair-Walnut-D3.jpg",
+            "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1625414895/crusader/variants/PB-DR0122/Vincent-Chair-Walnut-D3.jpg",
+            "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1625414895/crusader/variants/PB-DR0122/Vincent-Chair-Walnut-D3.jpg"
+          }
+        }
+      ],
+      "assembly_files": []
+    }
+  ],
+  "bundle_options": [
+    {
+      "id": 333,
+      "name": "table",
+      "presentation": "Table",
+      "position": 1,
+      "default_quantity": 1,
+      "frontend_viewable": true,
+      "bundle_option_type": "configurable",
+      "option_types": [
+        {
+          "id": 4,
+          "name": "length",
+          "presentation": "Length",
+          "values": [
+            {
+              "id": 50,
+              "name": "1_5m",
+              "presentation": "150cm",
+              "image_url": "",
+              "color": null
+            },
+            {
+              "id": 47,
+              "name": "1_8m",
+              "presentation": "180cm",
+              "image_url": "",
+              "color": null
+            },
+            {
+              "id": 44,
+              "name": "2_1m",
+              "presentation": "210cm",
+              "image_url": "",
+              "color": null
+            },
+            {
+              "id": 43,
+              "name": "2_2m",
+              "presentation": "220cm",
+              "image_url": "",
+              "color": null
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": 575,
+          "name": "Vincent Dining Table, 150cm",
+          "sku": "41960001",
+          "price": "899.0",
+          "list_price": "899.0",
+          "price_modifier": "0.0",
+          "product_slug": "vincent-dining-table",
+          "product_name": "Vincent Dining Table, Walnut",
+          "tags": [
+            "Modern_Farmhouse",
+            "Coastal",
+            "",
+            "",
+            "Mid Century Modern Furniture",
+            "all products excluding limited ed",
+            "",
+            "backup bestsellers for sku unification",
+            "all_dining_table",
+            "tat_1",
+            "rounded_furniture",
+            "Mid Century Modern SG",
+            "TestSGTESTSGTES",
+            "Limited Edition",
+            "walnut_wood"
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Rectangular Dining Tables",
+              "permalink": "tables/rectangular-dining-tables",
+              "level": 2,
+              "ancestors": ["Category", "Tables"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "1_5m",
+              "presentation": "150cm",
+              "option_value_id": 50,
+              "option_type_id": 4,
+              "option_type_name": "length",
+              "option_type_presentation": "Length"
+            }
+          ],
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149739/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Front-1668149736.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149738/crusader/variants/41960001/Vincent-Dining-Table-Walnut-150cm-Angle-1668149736.jpg"
+              }
+            },
+            {
+              "position": 10,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149749/crusader/variants/41960001/Vincent-Dining-Table-Walnut-Side-1668149747.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 574,
+          "name": "Vincent Dining Table, 180cm",
+          "sku": "41960002",
+          "price": "1049.0",
+          "list_price": "1049.0",
+          "price_modifier": "150.0",
+          "product_slug": "vincent-dining-table",
+          "product_name": "Vincent Dining Table, Walnut",
+          "tags": [
+            "web_ar",
+            "Modern_Farmhouse",
+            "Coastal",
+            "",
+            "",
+            "Mid Century Modern Furniture",
+            "all products excluding limited ed",
+            "",
+            "ICU products",
+            "all_dining_table",
+            "rounded_furniture",
+            "Mid Century Modern SG",
+            "walnut_wood"
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Rectangular Dining Tables",
+              "permalink": "tables/rectangular-dining-tables",
+              "level": 2,
+              "ancestors": ["Category", "Tables"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Tables",
+              "permalink": "tables",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "1_8m",
+              "presentation": "180cm",
+              "option_value_id": 47,
+              "option_type_id": 4,
+              "option_type_name": "length",
+              "option_type_presentation": "Length"
+            }
+          ],
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149858/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Front-1668149855.jpg"
+              }
+            },
+            {
+              "position": 8,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-180cm-Angle-1668149854.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1668149857/crusader/variants/41960002/Vincent-Dining-Table-Walnut-Side-1668149854.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 334,
+      "name": "chair",
+      "presentation": "Chair",
+      "position": 2,
+      "default_quantity": 2,
+      "frontend_viewable": true,
+      "bundle_option_type": "configurable",
+      "option_types": [
+        {
+          "id": 1,
+          "name": "material",
+          "presentation": "Material",
+          "values": [
+            {
+              "id": 199,
+              "name": "vincent_fabric",
+              "presentation": "Vincent Fabric",
+              "image_url": "https://d1qikdlbmwrjn6.cloudfront.net/swatches/vincent.png",
+              "color": "black",
+              "collection": {
+                "id": 1459,
+                "name": "Swatch, Vincent Collection",
+                "description": "The Vincent fabric is a robust yet smooth fabric that holds colour very well. Perfect for high use items.",
+                "presentation": "Vincent Collection",
+                "knp_friendly": null,
+                "fabric_composition": "100% Polyester"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": 13165,
+          "name": "Vincent Chair",
+          "sku": "41960009",
+          "price": "299.0",
+          "list_price": "299.0",
+          "price_modifier": "0.0",
+          "product_slug": "vincent-chair",
+          "product_name": "Vincent Chair, Walnut",
+          "tags": [
+            "Modern_Farmhouse",
+            "Coastal",
+            "",
+            "",
+            "Mid Century Modern Furniture",
+            "all products excluding limited ed",
+            "",
+            "Holiday 2023",
+            "backup bestsellers for sku unification",
+            "tat_1",
+            "Bjorn_3",
+            "Mid Century Modern SG",
+            "TestSGTESTSGTES",
+            "walnut_wood"
+          ],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Vincent Collection",
+              "permalink": "vincent-collection",
+              "level": 1,
+              "ancestors": ["Collections"]
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Dining Chairs",
+              "permalink": "chairs-benches/dining-chairs",
+              "level": 2,
+              "ancestors": ["Category", "Chairs & Benches"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Collections",
+              "permalink": "collections",
+              "level": 0,
+              "ancestors": []
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "vincent_fabric",
+              "presentation": "Vincent Fabric",
+              "option_value_id": 199,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            }
+          ],
+          "images": [
+            {
+              "position": 3,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Angle.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Front.jpg"
+              }
+            },
+            {
+              "position": 10,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364658/crusader/variants/41960009/Vincent-Chair-Walnut-Side.jpg"
+              }
+            },
+            {
+              "position": 11,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1650364659/crusader/variants/41960009/Vincent-Chair-Walnut-Back.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 335,
+      "name": "bench",
+      "presentation": "Bench",
+      "position": 3,
+      "default_quantity": 1,
+      "frontend_viewable": true,
+      "bundle_option_type": "configurable",
+      "option_types": [
+        {
+          "id": 1,
+          "name": "material",
+          "presentation": "Material",
+          "values": [
+            {
+              "id": 291,
+              "name": "zenith_blue",
+              "presentation": "Zenith Blue",
+              "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627541548/crusader/variants/GI-4001/Doris-Zenith-Blue_1.jpg",
+              "color": null,
+              "collection": {
+                "id": 4869,
+                "name": "Swatch, Giselle Collection",
+                "description": "Soft to the touch, Giselle is a beautiful mix-match fabric with a wool-like appearance.",
+                "presentation": "Giselle Collection",
+                "knp_friendly": null,
+                "fabric_composition": "91% Polyester, 5% Cotton, 4% Nylon"
+              }
+            },
+            {
+              "id": 292,
+              "name": "dark_granite",
+              "presentation": "Dark Granite",
+              "image_url": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_800/v1627542183/crusader/variants/GI-4002/Dark-Granite_1.jpg",
+              "color": null,
+              "collection": {
+                "id": 4869,
+                "name": "Swatch, Giselle Collection",
+                "description": "Soft to the touch, Giselle is a beautiful mix-match fabric with a wool-like appearance.",
+                "presentation": "Giselle Collection",
+                "knp_friendly": null,
+                "fabric_composition": "91% Polyester, 5% Cotton, 4% Nylon"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": 25625,
+          "name": "Doris Bench, Dark Granite",
+          "sku": "54000011-GI4002",
+          "price": "229.0",
+          "list_price": "229.0",
+          "price_modifier": "0.0",
+          "product_slug": "doris-bench",
+          "product_name": "Doris Bench",
+          "tags": ["clearance_sale", "Bestseller_Sale", "all products excluding limited ed", "Mid Century Modern SG"],
+          "product_taxons": [
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            },
+            {
+              "name": "Dining Benches",
+              "permalink": "chairs-benches/dining-benches",
+              "level": 2,
+              "ancestors": ["Category", "Chairs & Benches"]
+            },
+            {
+              "name": "Category",
+              "permalink": "category",
+              "level": 0,
+              "ancestors": []
+            },
+            {
+              "name": "Chairs & Benches",
+              "permalink": "chairs-benches",
+              "level": 1,
+              "ancestors": ["Category"]
+            }
+          ],
+          "variant_option_values": [
+            {
+              "name": "dark_granite",
+              "presentation": "Dark Granite",
+              "option_value_id": 292,
+              "option_type_id": 1,
+              "option_type_name": "material",
+              "option_type_presentation": "Material"
+            }
+          ],
+          "images": [
+            {
+              "position": 1,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1623895312/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Front.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1623895312/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Front.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1623895312/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Front.jpg"
+              }
+            },
+            {
+              "position": 9,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1623895311/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Angle.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1623895311/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Angle.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1623895311/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Angle.jpg"
+              }
+            },
+            {
+              "position": 10,
+              "type": "base",
+              "links": {
+                "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1623895313/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Side.jpg",
+                "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1623895313/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Side.jpg",
+                "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1623895313/crusader/variants/54000011-GI4002/Doris-Bench-Dark-Granite-Side.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "customizations": [
+    {
+      "variant_id": 26653,
+      "option_types": "",
+      "is_customized": false,
+      "discontinued": false,
+      "swatch_id": null,
+      "batch": 1
+    }
+  ]
+}

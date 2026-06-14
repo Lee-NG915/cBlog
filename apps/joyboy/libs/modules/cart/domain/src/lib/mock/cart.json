@@ -1,0 +1,717 @@
+{
+  "count": 4,
+  "zipcode": {
+    "zipcode": "90024",
+    "countryState": "CA",
+    "city": "Los Angeles"
+  },
+  "lineItems": [
+    {
+      "id": 2331498,
+      "productType": "configurable",
+      "quantity": 1,
+      "currency": "USD",
+      "salePrice": "2299.0",
+      "cartSalePrice": "2299.0",
+      "originalPrice": "2406.38",
+      "discountPrice": "2199.0",
+      "priceExclTax": "2299.0",
+      "manualDiscountTotal": "100",
+      "total": "2299.0",
+      "originalTotal": "2299.0",
+      "isGift": false,
+      "giftPoolId": null,
+      "isPriceOutdated": false,
+      "isRegionOutdated": false,
+      "preferredSelfCollection": false,
+      "preferredStockLocationId": 90,
+      "isActive": true,
+      "isDeleted": false,
+      "stockStatus": "IN_STOCK",
+      "visitedInOffline": true,
+      "onepieceProductPageUrl": "https://www-test.castlery.com/us/products/madison-chaise-sectional-sofa?material=bisque\u0026orientation=right_facing",
+      "variant": {
+        "id": 20276,
+        "name": "Madison Chaise Sectional Sofa Right Hand Facing, Bisque",
+        "sku": "50440749-AM4001",
+        "currency": "USD",
+        "price": "2199.0",
+        "listPrice": "2199.0",
+        "maxSaleQty": 1000,
+        "assemblyType": "assembly_required",
+        "productId": 2306,
+        "productSlug": "madison-chaise-sectional-sofa",
+        "minSaleQty": 1,
+        "qtyIncrements": 1,
+        "productName": "Madison Chaise Sectional Sofa",
+        "isCustomized": false,
+        "leadTime": null,
+        "availableChannels": ["web", "pos"],
+        "images": [
+          {
+            "id": 22735,
+            "position": 5,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Front.png"
+            }
+          },
+          {
+            "id": 22742,
+            "position": 12,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Angle.png"
+            }
+          },
+          {
+            "id": 22743,
+            "position": 13,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1645672292/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Side.png"
+            }
+          },
+          {
+            "id": 22744,
+            "position": 14,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1645672293/crusader/variants/50440749-AM4001/Madison-Right-Chaise-Sectional-Sofa-Bisque-Back.png"
+            }
+          }
+        ],
+        "variantOptionValues": [
+          {
+            "name": "right_facing",
+            "presentation": "Right Facing",
+            "optionTypeName": "orientation",
+            "optionTypePresentation": "Orientation"
+          },
+          {
+            "name": "bisque",
+            "presentation": "Bisque",
+            "optionTypeName": "material",
+            "optionTypePresentation": "Material"
+          }
+        ]
+      },
+      "deliveryLeadTimePresentation": "Within Mar 14 - Mar 21",
+      "warehouseName": "Los Angeles",
+      "warrantyItem": null,
+      "bundleLineItems": [],
+      "llt": true
+    },
+    {
+      "id": 2331500,
+      "productType": "bundle",
+      "quantity": 1,
+      "currency": "USD",
+      "salePrice": "2599.0",
+      "cartSalePrice": "2599.0",
+      "originalPrice": "2735.0",
+      "discountPrice": "2599.0",
+      "priceExclTax": "2599.0",
+      "manualDiscountTotal": "0.0",
+      "total": "2844.1",
+      "originalTotal": "2980.1",
+      "isGift": false,
+      "giftPoolId": null,
+      "isPriceOutdated": false,
+      "isRegionOutdated": true,
+      "preferredSelfCollection": true,
+      "preferredStockLocationId": 31,
+      "isActive": true,
+      "isDeleted": false,
+      "stockStatus": "IN_STOCK",
+      "visitedInOffline": false,
+      "onepieceProductPageUrl": "https://www-test.castlery.com/us/products/kelsey-marble-dining-table-with-4-leather-chairs-walnut-stain?chair=20785\u0026table=20482",
+      "variant": {
+        "id": 20975,
+        "name": "Kelsey Marble Dining Table with 4 Leather Chairs, Walnut Stain",
+        "sku": "TPB-000373",
+        "currency": "USD",
+        "price": "2499.0",
+        "listPrice": "2635.0",
+        "maxSaleQty": 1000,
+        "assemblyType": "assembly_required",
+        "productId": 2746,
+        "productSlug": "kelsey-marble-dining-table-with-4-leather-chairs-walnut-stain",
+        "minSaleQty": 1,
+        "qtyIncrements": 1,
+        "productName": "Kelsey Marble Dining Table with 4 Leather Chairs, Walnut Stain",
+        "isCustomized": false,
+        "leadTime": null,
+        "availableChannels": ["web", "pos"],
+        "images": [
+          {
+            "id": 33499,
+            "position": 3,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1666689098/crusader/variants/PB-DR0166/Kelsey-Dining-Table-Walnut-With-4-Kelsey-Dining-Chairs-Caramel-1666689096.png"
+            }
+          }
+        ],
+        "variantOptionValues": []
+      },
+      "deliveryLeadTimePresentation": "Within May 27 - Jun  3",
+      "warehouseName": "Los Angeles",
+      "warrantyItem": {
+        "durationMonths": "36",
+        "warrantyOfferId": "44",
+        "warrantyDiscount": "-0.0",
+        "warrantyOfferPrice": "149.99",
+        "warrantyOfferCost": "149.99"
+      },
+      "bundleLineItems": [
+        {
+          "quantity": 1,
+          "variant": {
+            "id": 20482,
+            "name": "Kelsey Marble Dining Table 71\", Walnut Stain",
+            "sku": "52460089",
+            "currency": "USD",
+            "price": "1699.0",
+            "listPrice": "1699.0",
+            "maxSaleQty": 1000,
+            "assemblyType": "assembly_required",
+            "productId": 2368,
+            "productSlug": "kelsey-marble-dining-table-walnut-stain",
+            "minSaleQty": 1,
+            "qtyIncrements": 1,
+            "productName": "Kelsey Marble Dining Table, Walnut Stain",
+            "isCustomized": false,
+            "leadTime": null,
+            "availableChannels": ["web", "pos"],
+            "images": [
+              {
+                "id": 28802,
+                "position": 4,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1624443114/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Front.png"
+                }
+              },
+              {
+                "id": 28808,
+                "position": 11,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1624443112/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Angle.png"
+                }
+              },
+              {
+                "id": 28809,
+                "position": 12,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1624443115/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Side.png"
+                }
+              },
+              {
+                "id": 28810,
+                "position": 13,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1624443117/crusader/variants/52460084/Kelsey-Marble-Dining-Table-180cm-Walnut-Stain-Top.png"
+                }
+              }
+            ],
+            "variantOptionValues": [
+              {
+                "name": "71",
+                "presentation": "71''",
+                "optionTypeName": "length",
+                "optionTypePresentation": "Length"
+              }
+            ]
+          }
+        },
+        {
+          "quantity": 1,
+          "variant": {
+            "id": 20785,
+            "name": "Kelsey Leather Chair, Caramel (Walnut Stain)",
+            "sku": "54000072-LE4016",
+            "currency": "USD",
+            "price": "259.0",
+            "listPrice": "259.0",
+            "maxSaleQty": 1000,
+            "assemblyType": "assembly_required",
+            "productId": 2698,
+            "productSlug": "kelsey-leather-chair-walnut-stain",
+            "minSaleQty": 2,
+            "qtyIncrements": 2,
+            "productName": "Kelsey Leather Chair, Walnut Stain",
+            "isCustomized": false,
+            "leadTime": null,
+            "availableChannels": ["web", "pos"],
+            "images": [
+              {
+                "id": 33451,
+                "position": 4,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1672282913/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Angle-1672282910.png"
+                }
+              },
+              {
+                "id": 33460,
+                "position": 13,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Front-1672282939.png"
+                }
+              },
+              {
+                "id": 33461,
+                "position": 14,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Side-1672282939.png"
+                }
+              },
+              {
+                "id": 33462,
+                "position": 15,
+                "type": "base",
+                "links": {
+                  "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.jpg",
+                  "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1672282941/crusader/variants/54000072-LE4016/Kelsey-Dining-Chair-Caramel-Walnut-Back-1672282939.png"
+                }
+              }
+            ],
+            "variantOptionValues": [
+              {
+                "name": "walnut",
+                "presentation": "Walnut",
+                "optionTypeName": "wood",
+                "optionTypePresentation": "Wood"
+              },
+              {
+                "name": "caramel",
+                "presentation": "Caramel",
+                "optionTypeName": "material",
+                "optionTypePresentation": "Material"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2331501,
+      "productType": "swatch",
+      "quantity": 1,
+      "currency": "USD",
+      "salePrice": "0.0",
+      "cartSalePrice": "0.0",
+      "originalPrice": "0.0",
+      "discountPrice": "0.0",
+      "priceExclTax": "0.0",
+      "manualDiscountTotal": "0.0",
+      "total": "0.0",
+      "originalTotal": "0.0",
+      "isGift": false,
+      "giftPoolId": null,
+      "isPriceOutdated": false,
+      "isRegionOutdated": false,
+      "preferredSelfCollection": false,
+      "preferredStockLocationId": null,
+      "isActive": true,
+      "isDeleted": false,
+      "stockStatus": "IN_STOCK",
+      "visitedInOffline": false,
+      "onepieceProductPageUrl": "#",
+      "variant": {
+        "id": 21140,
+        "name": "Swatch, Haze",
+        "sku": "CA-4001",
+        "currency": "USD",
+        "price": "0.0",
+        "listPrice": "0.0",
+        "maxSaleQty": 1000,
+        "assemblyType": null,
+        "productId": 2771,
+        "productSlug": "swatch-capri-collection",
+        "minSaleQty": 1,
+        "qtyIncrements": 1,
+        "productName": "Swatch, Capri Collection",
+        "isCustomized": false,
+        "leadTime": null,
+        "availableChannels": ["web", "pos"],
+        "images": [
+          {
+            "id": 33966,
+            "position": 3,
+            "type": "base",
+            "links": {
+              "mini": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_280/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "small": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_420/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "medium": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_750/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "mini_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_560/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "small_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_840/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "medium_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1500/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "large_x2": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1995/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "mini_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_280/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "small_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_420/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "medium_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_750/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "mini_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_560/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "small_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_840/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "medium_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1500/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "large_x2_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1995/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg",
+              "public": "https://res.cloudinary.com/castlery/image/private/f_auto,q_auto/v1673945373/crusader/variants/CA-4001/Owen-3-Seater-Sofa-Haze-Det_5-1673945372.jpg"
+            }
+          }
+        ],
+        "variantOptionValues": [
+          {
+            "name": "haze",
+            "presentation": "Haze",
+            "optionTypeName": "material",
+            "optionTypePresentation": "Material"
+          }
+        ]
+      },
+      "deliveryLeadTimePresentation": "Within Mar 14 - Mar 21",
+      "warehouseName": "Los Angeles",
+      "warrantyItem": null,
+      "bundleLineItems": [],
+      "llt": false
+    }
+  ],
+  "summary": {
+    "currency": "USD",
+    "total": "5310.72",
+    "itemTotal": "4798",
+    "shipmentTotal": "0.0",
+    "taxTotal": "447.73",
+    "warrantyTotal": "149.99",
+    "serviceFeeTotal": "0.0",
+    "promoTotal": "-85.0",
+    "promotions": [
+      {
+        "name": "cristestauto",
+        "description": "",
+        "amount": "-30.0",
+        "currency": "USD"
+      },
+      {
+        "name": "test",
+        "description": "",
+        "amount": "-5.0",
+        "currency": "USD"
+      },
+      {
+        "name": "Free Gift",
+        "description": "",
+        "amount": "-0.0",
+        "currency": "USD"
+      }
+    ],
+    "coupon": {
+      "code": "HHBW9FDV",
+      "amount": "-50.0",
+      "isValid": true,
+      "invalidReason": ""
+    }
+  },
+  "addOnServiceLineItems": [],
+  "gift": [
+    {
+      "isEligible": true,
+      "unavailableReason": "",
+      "quantity": 1,
+      "state": "IN_STOCK",
+      "variant": {
+        "id": 20578,
+        "name": "Remi Ottoman",
+        "sku": "50440787-CS4002",
+        "currency": "USD",
+        "price": "0.0",
+        "listPrice": "299.0",
+        "maxSaleQty": 1,
+        "assemblyType": null,
+        "productId": null,
+        "productSlug": "remi-ottoman",
+        "minSaleQty": 1,
+        "qtyIncrements": 0,
+        "productName": "Remi Ottoman",
+        "isCustomized": false,
+        "leadTime": null,
+        "availableChannels": ["web"],
+        "images": [
+          {
+            "position": 4,
+            "type": "base",
+            "links": {
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Front-1658919656.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Front-1658919656.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Front-1658919656.jpg"
+            }
+          },
+          {
+            "position": 9,
+            "type": "base",
+            "links": {
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_1-1658919656.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_1-1658919656.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_1-1658919656.jpg"
+            }
+          },
+          {
+            "position": 10,
+            "type": "base",
+            "links": {
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_2-1658919656.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_2-1658919656.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Angle_2-1658919656.jpg"
+            }
+          },
+          {
+            "position": 11,
+            "type": "base",
+            "links": {
+              "feed": "https://res.cloudinary.com/castlery/image/private/c_fit,f_auto,q_auto,w_1200/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Side-1658919656.jpg",
+              "large": "https://res.cloudinary.com/castlery/image/private/b_rgb:FFFFFF,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Side-1658919656.jpg",
+              "large_gray": "https://res.cloudinary.com/castlery/image/private/b_rgb:F3F3F3,c_fit,f_auto,q_auto,w_1000/v1658919659/crusader/variants/50440787-CS4002/Remi-Ottoman-Ebony-Side-1658919656.jpg"
+            }
+          }
+        ],
+        "variantOptionValues": [
+          {
+            "name": "costa_ebony",
+            "presentation": "Ebony",
+            "optionTypeName": "material",
+            "optionTypePresentation": "Material"
+          }
+        ]
+      },
+      "giftPoolId": 5808
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.usp) {
+  @include mobile {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon {
+    width: auto;
+    margin-right: 10px;
+    @include mobile {
+      height: 30px;
+    }
+    @include shared {
+      height: 45px;
+    }
+  }
+
+  &__content {
+    white-space: nowrap;
+    & > h4 {
+      margin-bottom: 0;
+      font-size: 1rem;
+      @include mobile {
+        color: $color-grey;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+      @include shared {
+        font-weight: bold;
+      }
+    }
+  }
+}

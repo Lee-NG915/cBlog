@@ -1,0 +1,42 @@
+:local(.reviewPopup) {
+  padding: 120px 20px 30px;
+
+  &__header {
+    & > :first-child {
+      margin-bottom: 10px;
+    }
+
+    & > :local(.review)__buttonWrapper {
+      text-align: left;
+    }
+
+    & :local(.review)__button-outer-value {
+      left: 0;
+      transform: none;
+    }
+
+    & :local(.review)__button-container-item {
+      text-align: left;
+      padding: 0 12px;
+    }
+  }
+
+  &__button {
+    margin-top: 50px;
+    width: 100%;
+    outline: none !important;
+    border: 1px solid $color-dark-neutral;
+    padding: 10px;
+    background-color: transparent;
+  }
+
+  &__contentLoading {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 1.5rem 1.5rem 0 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+}

@@ -1,13 +1,20 @@
 {
-  "name": "cblog",
+  "name": "@cblog/blog",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:blog": "next dev",
+    "dev:backend": "pnpm --dir apps/backend dev",
+    "dev:local": "node scripts/dev-workspace.mjs",
     "build": "next build",
+    "build:blog": "next build",
     "start": "next start",
+    "start:backend": "pnpm --dir apps/backend start",
     "lint": "next lint",
-    "preview": "python3 -m http.server 4173 -d out"
+    "preview": "python3 -m http.server 4173 -d out",
+    "typecheck": "tsc --noEmit",
+    "sync:workspace-sources": "node scripts/sync-workspace-sources.mjs"
   },
   "dependencies": {
     "date-fns": "^3.0.6",

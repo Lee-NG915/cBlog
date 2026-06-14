@@ -1,0 +1,72 @@
+name: Doc Governance
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'docs/ai-specs/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  doc-governance:
+    name: Spec Governance (docs/ai-specs)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install
+        uses: ./.github/workflows/actions/install
+
+      - name: Get changed ai-specs files
+        id: changed
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+
+          CHANGED=$(git diff --name-only "$BASE"..."$HEAD" -- 'docs/ai-specs/**' | grep -v '^$' || true)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+          DOMAINS=$(echo "$CHANGED" | grep -oP 'docs/ai-specs/\K[^/]+' | sort -u || true)
+          echo "domains<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$DOMAINS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Run doc governance check
+        if: steps.changed.outputs.files != ''
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          CHANGED_FILES="${{ steps.changed.outputs.files }}"
+          DOMAINS="${{ steps.changed.outputs.domains }}"
+
+          CHANGED_CSV=$(echo "$CHANGED_FILES" | tr '\n' ',' | sed 's/,$//')
+
+          FAILED=0
+          while IFS= read -r domain; do
+            [[ -z "$domain" ]] && continue
+            echo ""
+            echo "==> Checking domain: $domain"
+            node scripts/lint/doc-governance-check.js \
+              --domain "docs/ai-specs/$domain" \
+              --changed-files "$CHANGED_CSV" \
+              --base-sha "$BASE" \
+              --head-sha "$HEAD" || FAILED=1
+          done <<< "$DOMAINS"
+
+          if [[ $FAILED -eq 1 ]]; then
+            echo "::error::Doc governance check failed. See above for violation details."
+            exit 1
+          fi
+
+      - name: No relevant changes
+        if: steps.changed.outputs.files == ''
+        run: echo "[OK] No docs/ai-specs changes — governance check skipped."

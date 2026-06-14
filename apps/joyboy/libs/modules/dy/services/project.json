@@ -1,0 +1,16 @@
+{
+  "name": "modules-dy-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/dy/services/src",
+  "projectType": "library",
+  "tags": ["dy", "type:services"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/modules/dy/services/jest.config.ts"
+      }
+    }
+  }
+}

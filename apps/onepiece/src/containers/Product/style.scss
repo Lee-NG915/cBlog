@@ -1,0 +1,26 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.wrapper) {
+  position: relative;
+}
+
+:local(.productIntro) {
+  &__place {
+    grid-area: place;
+  }
+
+  &__right {
+    grid-area: right;
+  }
+}
+
+.mulberry-inline-container {
+  margin-bottom: 30px;
+}
+
+@include mobile {
+  .mulberry-inline-container {
+    padding: 0 15px;
+  }
+}

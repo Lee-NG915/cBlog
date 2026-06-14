@@ -1,0 +1,38 @@
+{
+  "name": "modules-cart-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/cart/components/src",
+  "projectType": "library",
+  "tags": [
+    "type:components",
+    "scope:cart"
+    ],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/modules/cart/components",
+        "tsConfig": "libs/modules/cart/components/tsconfig.lib.json",
+        "project": "libs/modules/cart/components/package.json",
+        "entryFile": "libs/modules/cart/components/src/index.ts",
+        "external": [
+          "react",
+          "react-dom",
+          "react/jsx-runtime"
+        ],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/modules/cart/components/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

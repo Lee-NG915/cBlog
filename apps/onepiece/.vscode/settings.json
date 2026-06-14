@@ -1,0 +1,50 @@
+{
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.run": "onSave",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript"],
+  "cSpell.userWords": ["Castlery", "castlery", "cloudinary"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.words": [
+    "APIHOST",
+    "autodocs",
+    "behaviour",
+    "camelcase",
+    "clsx",
+    "Colros",
+    "docgen",
+    "FRIENDBUY",
+    "giveway",
+    "Hulla",
+    "Hullabalook",
+    "Inital",
+    "leadtime",
+    "livetrue",
+    "pageload",
+    "paymentmethod",
+    "Persudo",
+    "Pinterest",
+    "rickgao",
+    "searchkit",
+    "Sidemenu",
+    "stickybits",
+    "storyblok",
+    "storysource",
+    "subh",
+    "ugcs",
+    "upsdell",
+    "YOTPO",
+    "zipcode"
+  ],
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

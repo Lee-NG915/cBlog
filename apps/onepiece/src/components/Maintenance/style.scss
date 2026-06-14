@@ -1,0 +1,81 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.maintenance) {
+  &__body {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  li {
+    list-style: none;
+    display: inline-block;
+  }
+  img {
+    width: 100%;
+  }
+  a {
+    color: #fff;
+  }
+
+  color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(https://res.cloudinary.com/castlery/image/upload/w_1840,f_auto,q_auto:low/v1615429514/knight/cms/sofas-armchairs/owen%20chaise%20sectional%20sofa/royal%20gold/Owen-Right-Chaise-Sectional-Sofa-Royal-Gold-D1.jpg);
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+  width: 100vw !important;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    opacity: 0.2;
+    background: #000;
+  }
+
+  &__content {
+    margin-top: 50vh;
+    transform: translate(0, -50%);
+    &__desc {
+      margin: 0 auto;
+      max-width: 510px;
+      word-wrap: none;
+      word-break: keep-all;
+      @include mobile {
+        max-width: 90%;
+      }
+    }
+    &__contactUsBtn {
+      display: inline-block;
+      padding: 15px 30px;
+      background-color: $color-primary;
+      border-radius: 30px;
+    }
+    &__contactUsBtn:hover {
+      background-color: #934c29;
+    }
+  }
+  &__socialBtn {
+    position: absolute;
+    bottom: 40px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    a:hover {
+      color: $color-dark-accent;
+    }
+  }
+}

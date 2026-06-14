@@ -1,0 +1,40 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.wrapper) {
+  @include mobile {
+    padding: 30px $mobile-padding 50px;
+  }
+  @include shared {
+    padding: 50px 0 80px;
+  }
+
+  & > h1 {
+    @include title;
+  }
+}
+
+:local(.loading) {
+  position: relative;
+  height: 120px;
+}
+
+:local(.notice) {
+  text-align: center;
+}
+
+:local(.main) {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 350px;
+
+  & > .btn {
+    margin-top: 30px;
+    width: 200px;
+    position: relative;
+
+    &:disabled {
+      cursor: wait;
+    }
+  }
+}

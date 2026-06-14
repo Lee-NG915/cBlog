@@ -1,0 +1,513 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.feat) {
+  position: relative;
+}
+
+:local(.banner) {
+  z-index: 1;
+}
+
+:local(.description) {
+  text-align: center;
+  line-height: 1.4;
+  z-index: 2;
+
+  & > h1 {
+    display: inline;
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: italic;
+    margin-right: 5px;
+  }
+
+  & > p {
+    display: inline;
+    font-size: 1rem;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+  }
+
+  @include mobile {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+
+    &:after {
+      position: relative;
+      width: 240px;
+      margin: 8vw auto 8vw;
+      border-top: 5px solid #000;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 50%;
+    }
+  }
+  @include shared {
+    width: 550px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 22vw;
+
+    &:after {
+      margin: 0;
+      position: absolute;
+      width: 200px;
+      bottom: -60px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      border-top: 6px solid #000;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      top: 320px;
+    }
+  }
+}
+
+$left-name-1: 26.5%;
+$left-name-2: 38%;
+$left-intro-1: 32.5%;
+$left-intro-2: 44.5%;
+
+$left-name-1-mobile: 32.5%;
+$left-name-2-mobile: 22%;
+$left-intro-1-mobile: 32.5%;
+$left-intro-2-mobile: 22%;
+
+:local(.name) {
+  position: absolute;
+
+  & > h2 {
+    line-height: 1.2;
+  }
+
+  & > p {
+    font-style: italic;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  @include mobile {
+    width: 55%;
+
+    & > h2 {
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      display: inline-block;
+      background-color: #fff200;
+      text-decoration: underline;
+      padding: 3px 6px;
+      margin-left: -3px;
+    }
+
+    & > p {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    @media (min-width: 350px) {
+      & > h2 {
+        font-size: 1.8rem;
+      }
+      & > p {
+        font-size: 1rem;
+      }
+    }
+    @include media-breakpoint-up(sm) {
+      & > h2 {
+        font-size: 2.2rem;
+      }
+      & > p {
+        font-size: 1.125rem;
+      }
+    }
+    @include media-breakpoint-up(md) {
+      & > h2 {
+        font-size: 3rem;
+      }
+    }
+  }
+  @include shared {
+    width: 34%;
+
+    & > h2 {
+      margin-bottom: 3px;
+      font-size: 1.5rem;
+    }
+
+    & > p {
+      font-size: 1.125rem;
+    }
+  }
+
+  &--yonoh {
+    @include mobile {
+      top: 66vw;
+      left: $left-name-1-mobile;
+    }
+    @include shared {
+      top: auto;
+      bottom: 71%;
+      left: $left-name-1;
+    }
+  }
+
+  &--krystian {
+    @include mobile {
+      top: 44vw;
+      left: $left-name-2-mobile;
+
+      @media (min-width: 350px) {
+        width: 69%;
+      }
+      @include media-breakpoint-up(sm) {
+        top: 48vw;
+        width: 55%;
+      }
+    }
+    @include shared {
+      width: 34%;
+      top: auto;
+      bottom: 46%;
+      left: $left-name-2;
+    }
+  }
+
+  &--paolo {
+    @include mobile {
+      top: 55vw;
+      left: $left-name-1-mobile;
+
+      @media (min-width: 350px) {
+        width: 59%;
+      }
+    }
+    @include shared {
+      width: 34%;
+      top: auto;
+      bottom: 41%;
+      left: $left-name-1;
+    }
+  }
+
+  &--charles {
+    @include mobile {
+      top: 55vw;
+      left: $left-name-2-mobile;
+
+      @media (min-width: 350px) {
+        width: 69%;
+      }
+      @include media-breakpoint-up(sm) {
+        top: 60vw;
+        width: 55%;
+      }
+    }
+    @include shared {
+      width: 34%;
+      top: auto;
+      bottom: 46%;
+      left: $left-name-2;
+    }
+  }
+
+  &--emma {
+    @include mobile {
+      top: 73vw;
+      left: $left-name-1-mobile;
+
+      @media (min-width: 350px) {
+        width: 59%;
+      }
+    }
+    @include shared {
+      width: 34%;
+      top: auto;
+      bottom: 43%;
+      left: $left-name-1;
+    }
+  }
+
+  &--phil {
+    @include mobile {
+      top: 55vw;
+      left: $left-name-2-mobile;
+
+      @media (min-width: 350px) {
+        width: 69%;
+      }
+      @include media-breakpoint-up(sm) {
+        top: 60vw;
+        width: 55%;
+      }
+    }
+    @include shared {
+      width: 34%;
+      top: auto;
+      bottom: 46%;
+      left: $left-name-2;
+    }
+  }
+}
+
+:local(.intro) {
+  line-height: 1.4;
+
+  @include mobile {
+    font-size: 1rem;
+    width: 100%;
+    position: relative;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+  }
+  @include shared {
+    position: absolute;
+    font-size: 1.125rem;
+    font-weight: 600;
+    width: 31%;
+  }
+
+  &--yonoh {
+    @include mobile {
+      margin-top: -13%;
+      padding-left: $left-intro-1-mobile;
+      padding-right: 5%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 10%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 35%;
+      left: $left-intro-1;
+    }
+  }
+
+  &--krystian {
+    @include mobile {
+      margin-top: -15%;
+      padding-left: $left-intro-2-mobile;
+      padding-right: 15%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 20%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 62%;
+      left: $left-intro-2;
+    }
+  }
+
+  &--paolo {
+    @include mobile {
+      margin-top: -14%;
+      padding-left: $left-intro-1-mobile;
+      padding-right: 5%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 10%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 68%;
+      left: $left-intro-1;
+    }
+  }
+
+  &--charles {
+    @include mobile {
+      margin-top: -15%;
+      padding-left: $left-intro-2-mobile;
+      padding-right: 15%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 20%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 64%;
+      left: $left-intro-2;
+    }
+  }
+
+  &--emma {
+    @include mobile {
+      margin-top: -13%;
+      padding-left: $left-intro-1-mobile;
+      padding-right: 5%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 10%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 65.5%;
+      left: $left-intro-1;
+    }
+  }
+
+  &--phil {
+    @include mobile {
+      margin-top: -15%;
+      padding-left: $left-intro-2-mobile;
+      padding-right: 15%;
+
+      @include media-breakpoint-up(md) {
+        padding-right: 20%;
+      }
+    }
+    @include shared {
+      margin-top: 0;
+      padding: 0;
+      top: 64%;
+      left: $left-intro-2;
+    }
+  }
+}
+
+:local(.block) {
+  position: relative;
+  z-index: 2;
+
+  @include mobile {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    @include media-breakpoint-up(sm) {
+      margin-top: 80px;
+    }
+    @include media-breakpoint-up(md) {
+      margin-top: 100px;
+    }
+  }
+  @include shared {
+    margin-bottom: 80px;
+  }
+
+  &__variants {
+    .slick-slide {
+      justify-content: center;
+    }
+
+    @include mobile {
+      margin: 30px 0 0;
+    }
+    @include desktop {
+      margin: 50px 0 0;
+    }
+  }
+
+  &--yonoh {
+    @include shared {
+      margin-top: -41vw;
+
+      @media (min-width: 1115px) {
+        margin-top: -47vw;
+      }
+      @include media-breakpoint-up(xsl) {
+        margin-top: -50vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -720px;
+      }
+    }
+  }
+
+  &--krystian {
+    @include shared {
+      margin-top: -1vw;
+
+      @media (min-width: 1152px) {
+        margin-top: -6vw;
+      }
+      @include media-breakpoint-up(xsl) {
+        margin-top: -8vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -150px;
+      }
+    }
+  }
+
+  &--paolo {
+    @include shared {
+      margin-top: -2vw;
+
+      @media (min-width: 1102px) {
+        margin-top: -5vw;
+      }
+      @include media-breakpoint-up(xsl) {
+        margin-top: -8vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -120px;
+      }
+    }
+  }
+
+  &--charles {
+    @include shared {
+      margin-top: -1vw;
+
+      @media (min-width: 1152px) {
+        margin-top: -6vw;
+      }
+      @include media-breakpoint-up(xsl) {
+        margin-top: -8vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -150px;
+      }
+    }
+  }
+
+  &--emma {
+    @include shared {
+      margin-top: -2vw;
+
+      @media (min-width: 1178px) {
+        margin-top: -6vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -120px;
+      }
+    }
+  }
+
+  &--phil {
+    @include shared {
+      margin-top: -1vw;
+
+      @media (min-width: 1152px) {
+        margin-top: -6vw;
+      }
+      @include media-breakpoint-up(xsl) {
+        margin-top: -8vw;
+      }
+      @include media-breakpoint-up(xxl) {
+        margin-top: -150px;
+      }
+    }
+  }
+}

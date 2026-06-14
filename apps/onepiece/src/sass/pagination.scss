@@ -1,0 +1,66 @@
+@import './variables';
+@import './mixins';
+:local(.pag) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-top: 50px;
+
+  & > li {
+    & > a {
+      border: 1px solid transparent;
+      background-color: transparent;
+      width: 38px;
+      height: 38px;
+      line-height: 38px;
+      margin: 0 5px;
+      text-align: center;
+      border-radius: 0;
+      padding: 0;
+      @include link-style($color-dark-accent, $color-primary);
+    }
+
+    &.is-active > a {
+      cursor: default;
+      background-color: $color-primary;
+      border-color: $color-primary;
+      @include link-style($color-light-accent, $color-light-accent);
+    }
+
+    &.disabled > a {
+      @include link-style(#666, #666);
+      cursor: default;
+    }
+  }
+
+  &__prev {
+    margin-left: 0;
+  }
+
+  &__next {
+    margin-right: 0;
+  }
+
+  &__prev,
+  &__next {
+    & > a.btn {
+      & > svg {
+        vertical-align: middle;
+        margin-top: -1px;
+      }
+    }
+    & > a.btn:hover {
+      & > svg {
+        stroke: $color-primary;
+        fill: $color-primary;
+      }
+    }
+
+    &.disabled {
+      display: none;
+    }
+  }
+}

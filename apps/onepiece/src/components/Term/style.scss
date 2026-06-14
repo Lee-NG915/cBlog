@@ -1,0 +1,64 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.paragraph) {
+  & + & {
+    margin-top: 2rem;
+  }
+
+  &__row {
+    & + & {
+      margin-top: 1rem;
+    }
+    & > h4 {
+      font-size: 1.1rem;
+      color: $color-dark-neutral;
+      & > span {
+        @include desktop {
+          padding-left: 10px;
+        }
+        font-size: 1rem;
+        color: $color-grey-light;
+        font-weight: normal;
+      }
+    }
+  }
+
+  & > h3 {
+    font-family: $font-title;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+
+    @include mobile {
+      font-size: 1.2rem;
+    }
+    @include shared {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__title--center {
+    text-align: center;
+  }
+
+  & > div {
+    margin-bottom: 0;
+    color: #666;
+  }
+
+  & > .table {
+    th {
+      font-weight: 600;
+      text-align: center;
+    }
+    td {
+      text-align: center;
+      color: #666;
+    }
+  }
+
+  & > ul {
+    margin-top: 5px;
+  }
+}

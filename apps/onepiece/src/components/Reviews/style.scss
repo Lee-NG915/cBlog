@@ -1,0 +1,163 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.reviews) {
+  position: relative;
+
+  &__initializing {
+    position: relative;
+    height: 100px;
+  }
+
+  &__loading {
+    @include mobile {
+      position: relative;
+
+      & > span {
+        opacity: 0;
+      }
+
+      &.is-full {
+        height: 500px;
+      }
+    }
+    @include desktop {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__error,
+  &__loading {
+    @include mobile {
+      padding: 0.5rem 0;
+      border: 1px solid transparent;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__error {
+    text-align: center;
+    color: $color-primary;
+  }
+
+  &__loadMore {
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 0 $mobile-padding;
+  }
+
+  &__rating {
+    text-align: center;
+    margin-top: 20px;
+    @include mobile {
+      margin-bottom: 60px;
+    }
+    @include shared {
+      margin-bottom: 100px;
+    }
+    position: relative;
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: -20px;
+      transform: translate(-50%, 0);
+      width: 60px;
+      border-bottom: 1px solid #ddd;
+    }
+    &-desc {
+      margin-top: 10px;
+      @include mobile {
+        font-size: 1.125rem;
+      }
+      @include shared {
+        font-size: 1.25rem;
+      }
+    }
+    &-delimiter {
+      font-weight: normal;
+    }
+  }
+}
+
+// :local(.pagi) {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+//   margin-top: 50px;
+
+//   & > li {
+//     & > a {
+//       border: 1px solid transparent;
+//       background-color: transparent;
+//       width: 38px;
+//       height: 38px;
+//       line-height: 38px;
+//       margin: 0 5px;
+//       text-align: center;
+//       border-radius: 50%;
+//       padding: 0;
+//       @include link-style(#666, $color-primary);
+//     }
+
+//     &.is-active > a {
+//       cursor: default;
+//       background-color: $color-primary;
+//       border-color: $color-primary;
+//       @include link-style(#fff, #fff);
+//     }
+
+//     &.disabled > a {
+//       @include link-style(#666, #666);
+//       cursor: default;
+//     }
+//   }
+
+//   &__prev {
+//     margin-left: 0;
+//   }
+
+//   &__next {
+//     margin-right: 0;
+//   }
+
+//   &__prev,
+//   &__next {
+//     & > a.btn {
+//       border-color: #888;
+
+//       @include above {
+//         border-color: $color-primary;
+//       }
+//     }
+
+//     &.disabled {
+//       display: none;
+//     }
+//   }
+// }
+
+:local(.review) {
+  @include mobile {
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 10px;
+    padding: $mobile-padding;
+  }
+  @include desktop {
+    & + & {
+      border-top: 1px solid #e3e3e3;
+      margin-top: 30px;
+      padding-top: 30px;
+    }
+  }
+}

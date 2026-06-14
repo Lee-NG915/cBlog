@@ -1,0 +1,752 @@
+@import '../../../sass/variables';
+@import '../../../sass/mixins';
+
+:local(.modal) {
+  @include flex-center;
+  overflow: auto;
+
+  @include mobile {
+    background-color: #fff;
+    justify-content: flex-start;
+
+    &__container {
+      width: 100%;
+      padding: 40px $mobile-padding 30px;
+      position: relative;
+      background-color: #fff;
+    }
+
+    &__close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      background-color: transparent;
+      padding: 12px $mobile-padding;
+
+      & > svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        fill: #888;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      background-color: rgba(0, 0, 0, 0.24);
+      justify-content: space-between;
+
+      &__container {
+        width: 720px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  @include desktop {
+    &__container {
+      width: 850px;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      padding: 15px 30px 30px;
+    }
+  }
+}
+
+:local(.appointment) {
+  position: relative;
+}
+
+:local(.navigator) {
+  display: flex;
+
+  @include desktop {
+    & > .btn {
+      flex-grow: 1;
+      background-color: transparent;
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      font-weight: 600;
+
+      &:disabled {
+        opacity: 1;
+        cursor: default;
+        color: #ccc;
+      }
+
+      &:disabled.is-selected {
+        color: $color-green;
+        border-bottom: 2px solid $color-green;
+        padding-bottom: 14px;
+      }
+
+      &:not(:disabled) {
+        @include above {
+          color: $color-green;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    $box-width: 36px;
+    overflow: hidden;
+    display: block;
+    padding: 3px 0;
+
+    &__wrapper {
+      margin: 0 -12%; // related with $box-width
+      display: flex;
+    }
+
+    &__step {
+      flex-grow: 1;
+      position: relative;
+      text-align: center;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 6px;
+        background-color: $color-green;
+        top: 50%;
+        left: 0;
+        transform: translate(50%, -50%);
+      }
+
+      & > .btn {
+        position: relative;
+        padding: 0;
+        border: none;
+        width: $box-width;
+        height: $box-width;
+        line-height: $box-width;
+        border-radius: $box-width / 2;
+        background-color: $color-green;
+        color: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+        & > svg {
+          width: 14px;
+          height: 14px;
+          fill: #fff;
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          stroke-width: 20;
+          stroke: #fff;
+        }
+
+        &:disabled {
+          opacity: 1;
+        }
+      }
+
+      &:last-of-type {
+        &:before {
+          display: none;
+        }
+      }
+
+      &.is-selected {
+        &:before {
+          background-color: #ddd;
+        }
+      }
+
+      &.is-disabled {
+        & > .btn {
+          background-color: #ddd;
+        }
+
+        &:before {
+          background-color: #ddd;
+        }
+      }
+
+      &:not(.is-selected),
+      &:not(.is-disabled) {
+        & > .btn {
+          @include above {
+            background-color: darken($color-green, 6%);
+          }
+        }
+      }
+    }
+  }
+}
+
+:local(.header) {
+  text-align: center;
+  position: relative;
+  padding: 30px 0 35px;
+  font-weight: bold;
+
+  @include mobile {
+    font-size: 1.375rem;
+  }
+  @include desktop {
+    font-size: 1.625rem;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 50px;
+    border-top: 2px solid #ddd;
+  }
+}
+
+:local(.studio) {
+  &__loading {
+    height: 350px;
+    position: relative;
+  }
+
+  &__error {
+    height: 350px;
+    line-height: 350px;
+    text-align: center;
+    color: $color-primary;
+  }
+
+  &__body {
+    @include mobile {
+      @include media-breakpoint-up(md) {
+        display: flex;
+        align-items: center;
+      }
+    }
+    @include desktop {
+      display: flex;
+    }
+  }
+
+  &__map {
+    @include mobile {
+      & > img {
+        border: 1px solid #ddd;
+      }
+    }
+    @include desktop {
+      height: 100%;
+    }
+  }
+
+  &__map__wrapper {
+    @include mobile {
+      display: block;
+
+      @include media-breakpoint-up(md) {
+        width: 50%;
+        flex: 0 0 auto;
+      }
+    }
+    @include desktop {
+      width: 50%;
+      flex: 0 0 auto;
+    }
+  }
+
+  &__info {
+    @include mobile {
+      text-align: center;
+      margin-top: 20px;
+
+      & > h3 {
+        font-size: 1.2rem;
+      }
+
+      @include media-breakpoint-up(md) {
+        padding: 15px 0 15px 50px;
+        margin-top: 0;
+        text-align: left;
+        flex: 1 1 auto;
+      }
+    }
+    @include desktop {
+      padding: 15px 0 15px 50px;
+      flex: 1 1 auto;
+
+      & > h3 {
+        font-size: 1.3rem;
+      }
+    }
+
+    & > p {
+      color: #666;
+
+      & > strong {
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__retails {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+
+    @include mobile {
+      @include media-breakpoint-up(sm) {
+        justify-content: center;
+      }
+    }
+    @include desktop {
+      justify-content: center;
+    }
+
+    & > .btn {
+      background-color: transparent;
+      border: 2px solid #ccc;
+      border-radius: 0;
+      font-weight: 600;
+      padding: 0.5rem;
+
+      & + .btn {
+        margin-left: 15px;
+      }
+
+      &.is-active {
+        color: $color-green;
+        border-color: $color-green;
+      }
+
+      @include above {
+        border-color: #b3b3b3;
+      }
+    }
+  }
+}
+
+:local(.timing) {
+  &__calendar {
+    @include mobile {
+      text-align: left;
+      padding-left: 30px;
+    }
+    @include desktop {
+      text-align: right;
+    }
+    position: relative;
+    z-index: 2;
+  }
+
+  &__date {
+    margin-top: 15px;
+    padding: 0 30px;
+    position: relative;
+    z-index: 1;
+
+    .slick-prev,
+    .slick-next {
+      opacity: 0.8 !important;
+      outline: none !important;
+      width: 32px;
+      height: 32px;
+
+      @include above {
+        opacity: 1 !important;
+      }
+
+      &.slick-disabled {
+        opacity: 0 !important;
+        cursor: default;
+
+        @include above {
+          opacity: 0 !important;
+        }
+      }
+    }
+
+    .slick-prev {
+      left: -38px;
+    }
+
+    .slick-next {
+      right: -38px;
+    }
+  }
+
+  &__week {
+    display: flex;
+    margin: 0 -5px;
+    justify-content: center;
+
+    &__day {
+      flex: 0 0 auto;
+      padding: 0 5px;
+
+      & > .btn {
+        @include button-variant($color-dark-neutral, transparent, #ddd, $color-dark-neutral, transparent, #bbb);
+        background-color: transparent;
+        border-radius: 0;
+        text-align: center;
+        padding: 0.5rem 0;
+        display: block;
+        width: 100%;
+
+        & > div {
+          &:first-of-type {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #666;
+            padding: 0.5rem 0 0.1rem;
+          }
+
+          &:nth-of-type(2) {
+            font-weight: 600;
+            font-size: 2.6rem;
+            line-height: 1.2;
+          }
+        }
+      }
+
+      &.is-selected {
+        & > .btn {
+          border-color: $color-green;
+          box-shadow: inset 0px 0px 0px 2px $color-green;
+
+          & > div {
+            color: $color-green;
+          }
+        }
+      }
+    }
+  }
+
+  &__slots {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -5px;
+    // height: 134px;
+
+    @include mobile {
+      &__wrapper {
+        margin-top: 15px;
+      }
+      &__container {
+        margin-bottom: 15px;
+      }
+
+      @include media-breakpoint-up(md) {
+        &__wrapper {
+          display: flex;
+          margin: 15px -5px 0;
+        }
+        &__container {
+          padding: 0 5px;
+          margin: 0;
+          width: 33.333333%;
+        }
+      }
+    }
+    @include desktop {
+      &__wrapper {
+        display: flex;
+        margin: 30px -15px 0;
+      }
+      &__container {
+        padding: 0 15px;
+        width: 33.333333%;
+      }
+    }
+
+    &__mask {
+      border: 1px solid #ddd;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 134px;
+      height: 100%;
+
+      & > svg {
+        width: 22px;
+        height: 22px;
+        fill: #555;
+        display: block;
+        margin: 0 auto;
+      }
+
+      & > p {
+        text-transform: uppercase;
+        font-weight: 1.2rem;
+        margin: 0.3rem 0 0;
+      }
+
+      @include above {
+        border-color: #bbb;
+      }
+
+      &.is-disabled {
+        opacity: 0.4;
+        cursor: default;
+
+        @include above {
+          border-color: #ddd;
+        }
+      }
+    }
+  }
+
+  &__slot {
+    padding: 0 5px;
+    margin-bottom: 10px;
+    width: 100%;
+
+    & > .btn {
+      display: block;
+      width: 100%;
+      border-radius: 0;
+      text-transform: none;
+      padding: 6px 0;
+      @include button-variant($color-dark-neutral, transparent, #ddd, $color-green, transparent, $color-green);
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &__availableNum {
+      font-size: 14px;
+      color: $color-complimentary;
+      margin-top: 4px;
+    }
+  }
+
+  &__loading {
+    position: relative;
+    z-index: 1;
+    @include mobile {
+      height: 260px;
+    }
+    @include desktop {
+      height: 275px;
+    }
+  }
+
+  &__rsvp-time {
+    font-size: 0.875rem;
+    color: #666;
+  }
+}
+
+:local(.info) {
+  & > form {
+    display: block;
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  &__error {
+    color: $color-primary;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__submit {
+    position: relative;
+    margin-top: 15px;
+  }
+
+  &__tnc {
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    & > .btn {
+      background-color: transparent;
+      position: relative;
+      padding: 0 0 0 30px;
+      text-transform: none;
+      white-space: normal;
+      text-align: left;
+      font-size: 0.9rem;
+
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 0 1px #fff inset;
+        border: 1px solid #666;
+        left: 0;
+        top: 6px;
+      }
+
+      @include mobile {
+        line-height: 1.2;
+        font-size: 0.9rem;
+        padding-left: 25px;
+
+        &:before {
+          top: 3px;
+        }
+      }
+
+      &.is-checked {
+        &:before {
+          background-color: #666;
+        }
+      }
+
+      & > a {
+        @include link-style($color-primary, $color-primary, underline);
+      }
+    }
+  }
+}
+
+:local(.success) {
+  padding: 45px 0 30px;
+  text-align: center;
+
+  & > svg {
+    width: 80px;
+    height: 80px;
+    fill: $color-green;
+  }
+
+  & > h3 {
+    @include mobile {
+      font-size: 1.15rem;
+    }
+    @include desktop {
+      font-size: 1.5rem;
+    }
+    margin-top: 10px;
+    font-weight: 400;
+
+    & > span {
+      text-transform: uppercase;
+      font-family: $font-title;
+      font-weight: 600;
+    }
+
+    & > strong {
+      font-weight: 600;
+    }
+  }
+
+  & > hr {
+    display: block;
+    width: 30px;
+    margin: 15px auto;
+    border-color: #ccc;
+    border-top: none;
+  }
+
+  & > p {
+    color: #666;
+    margin: 0 auto;
+    @include mobile {
+      width: 90%;
+    }
+    @include desktop {
+      width: 70%;
+    }
+  }
+
+  & > .btn {
+    margin-top: 30px;
+  }
+
+  &__remind {
+    color: #666;
+    font-size: 14px;
+    line-height: 175%;
+    margin: 20px 20px 0;
+
+    & > a {
+      color: #666;
+      text-decoration: underline;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}
+
+:local(.intro) {
+  text-align: center;
+
+  @include mobile {
+    @include media-breakpoint-up(md) {
+      padding: 30px 0;
+    }
+  }
+  @include shared {
+    padding: 30px 0;
+  }
+
+  & > p {
+    width: 80%;
+    margin: 0 auto 30px;
+    color: #666;
+  }
+
+  & > .btn {
+    margin-top: 50px;
+    width: 200px;
+  }
+
+  &__icons {
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+      flex: 1 1 0;
+
+      & > img {
+        @include mobile {
+          width: 80px;
+          margin-bottom: 15px;
+
+          @include media-breakpoint-up(sm) {
+            width: 120px;
+            margin-bottom: 20px;
+          }
+        }
+        @include shared {
+          width: 120px;
+          margin-bottom: 20px;
+        }
+      }
+
+      & > p {
+        font-weight: 600;
+        margin-bottom: 0;
+
+        @include mobile {
+          font-size: 0.8rem;
+
+          @include media-breakpoint-up(sm) {
+            font-size: 1rem;
+          }
+        }
+        @include shared {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

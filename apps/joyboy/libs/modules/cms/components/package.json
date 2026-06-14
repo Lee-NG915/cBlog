@@ -1,0 +1,17 @@
+{
+  "name": "@castlery/modules-cms-components",
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.0.1",
+  "dependencies": {
+    "@storyblok/react": "4.3.4",
+    "@storyblok/richtext": "^3.0.0",
+    "dayjs": "1.10.7",
+    "stickybits": "^3.7.11",
+    "@cloudinary/react": "1.11.2",
+    "@cloudinary/url-gen": "1.10.0",
+    "@mui/joy": "^5.0.0-beta.30",
+    "react-slick": "^0.28.0",
+    "react-lazyload": "^3.2.1"
+  }
+}

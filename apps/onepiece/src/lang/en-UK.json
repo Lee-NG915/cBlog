@@ -1,0 +1,423 @@
+{
+  "common": {
+    "country_whole_name": "United Kingdom",
+    "country": "UK",
+    "country_code": "uk",
+    "studio": "Virtual Studio",
+    "telephone": {
+      "value": "18663061666",
+      "presentation": "+1 866.306.1666"
+    },
+    "whatsapp": {
+      "value": "447578175500",
+      "presentation": "+44 7578 175500"
+    },
+    "dispatch_short": "Dispatch",
+    "dispatch": "Dispatch",
+    "company": "Castlery Inc.",
+    "company_number": "United States Registered Company (EIN) 61-1937003",
+    "address": "#02-06, 19 Keppel Rd, United States 089058",
+    "registered_address": "1950 W. Corporate Way PMB 95972, Anaheim, UK 92801",
+    "address_link": "https://goo.gl/maps/pH2Zr4rms1G2",
+    "url": "https://www.castlery.com/uk",
+    "support_email": "help.us@castlery.com",
+    "first_order_off": "$50",
+    "advocate_offer": "$100",
+    "friend_offer": "$100",
+    "loyalty": "My Rewards​",
+    "choose_time": "Select delivery date range",
+    "logo": "Castlery, online furniture shop in United States",
+    "color": "Colour",
+    "length": "Length (cm)",
+    "keywords": "furniture United States, online furniture United States, furniture shop United States, furniture stores United States, furniture in United States, modern furniture United States, furniture SG, furniture, Castlery, United States",
+    "tax_policy": "Incl. VAT",
+    "currency_symbol": "£",
+    "currency_term": "US dollars",
+    "description": "Castlery is an online furniture store in the United States which looks to reinvent how furniture retail works. We design and produce furniture with great aesthetics at a competitive price point, without compromising on quality. By cutting out the middleman and keeping our inventory lean we can keep our costs down and extend the savings to you.",
+    "customized_products_text": "Customizable Fabric",
+    "acknowledgement": "null",
+    "customized_checkout_text": "customized",
+    "customized_tips_content": "Customised items in your order are made specifically for you and cannot be returned, exchanged, or refunded."
+  },
+  "category": {
+    "sofas": "Sofas",
+    "sectional-sofas": "Sectional & L-Shaped Sofas",
+    "tv-consoles": "TV Consoles",
+    "study-tables": "Desks"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/CastleryUK/",
+    "instagram": "https://www.instagram.com/castleryuk/",
+    "pinterest": "https://www.pinterest.com/castleryuk/",
+    "tiktok": "https://www.tiktok.com/@castleryus",
+    "ig-handle": "@castleryuk"
+  },
+  "pages": {
+    "health": {
+      "name": "Health"
+    },
+    "home": {
+      "name": "Home",
+      "metaDescription": "Modern and contemporary home furniture store at your fingertips. Shop online for sofas, tables, beds and more. 30-day Easy Returns. Shop Now!",
+      "metaTitle": "Modern Furniture Store Online"
+    },
+    "login": {
+      "name": "Login"
+    },
+    "signup": {
+      "name": "Sign Up",
+      "subscribe": "Yes, I want to receive marketing emails. By checking this box, I consent to receive promotional emails from Castlery about new products, special offers, and updates. I understand that I can unsubscribe at any time by clicking the “Unsubscribe” link in the marketing emails."
+    },
+    "forgot-password": {
+      "name": "Reset Password"
+    },
+    "unsubscribe": {
+      "name": "Unsubscribe"
+    },
+    "wishlist": {
+      "name": "Wishlist"
+    },
+    "wishlist-looks": {
+      "name": "Looks Wishlist"
+    },
+    "wishlist-products": {
+      "name": "Products Wishlist"
+    },
+    "app": {
+      "name": "Castlery App",
+      "metaDescription": "Furnish easier in just a few taps with Castlery App, powered by augmented reality(AR). Your dream home at your fingertips.",
+      "metaTitle": "Castlery App",
+      "metaKeywords": "AR, Castlery App, augmented reality, dream home"
+    },
+    "stay-home": {
+      "name": "Stay Home with Castlery",
+      "metaTitle": "Stay Home with Castlery"
+    },
+    "virtual-studio": {
+      "name": "Virtual Studio",
+      "metaDescription": "Explore products in our virtual studio any time you like."
+    },
+    "blog": {
+      "name": "Blog",
+      "metaDescription": "Read our blog for furniture styling tips and tricks, guides for proper cleaning and maintenance, and important factors to consider when shopping for your home."
+    },
+    "profile": {
+      "name": "Profile"
+    },
+    "orders": {
+      "name": "Orders"
+    },
+    "vouchers": {
+      "name": "Vouchers"
+    },
+    "address": {
+      "name": "Address Book"
+    },
+    "order-details": {
+      "name": "Order Details"
+    },
+    "submit-review": {
+      "name": "Submit Review"
+    },
+    "my-reviews": {
+      "name": "My Reviews"
+    },
+    "cart": {
+      "name": "Cart"
+    },
+    "checkout-account": {
+      "name": "Checkout"
+    },
+    "checkout-shipping-address": {
+      "name": "Shipping information"
+    },
+    "checkout-shipping-method": {
+      "name": "Shipping method"
+    },
+    "checkout-payment": {
+      "name": "Payment"
+    },
+    "checkout-2c2p": {
+      "name": "Payment"
+    },
+    "checkout-success": {
+      "name": "Checkout Succeed"
+    },
+    "checkout-empty": {
+      "name": "Checkout Empty Cart"
+    },
+    "contact-us": {
+      "name": "Contact Us",
+      "metaDescription": "Get in touch with us if you need support or have questions about our products, payments, delivery or returns. Email (via a form), call, live chat or read FAQs."
+    },
+    "our-story": {
+      "name": "Our Story",
+      "metaDescription": "Furniture shopping was always about filling a room with expensive design trends, but we wanted to turn the tables because everyone deserves a space to thrive."
+    },
+    "manufacturing-quality": {
+      "name": "Manufacturing & Quality"
+    },
+    "studio": {
+      "name": "Virtual Studio"
+    },
+    "swatches": {
+      "name": "Free Swatches",
+      "metaDescription": "See and feel our swatches in person. Pick up to 3 favourite swatches and we will ship them promptly to your doorstep for free!",
+      "metaKeywords": "Free swatches"
+    },
+    "zip": {
+      "name": "Zip furniture",
+      "metaDescription": "Buy now, own it now and pay later with Zip. Up to $1000 interest free always for your furniture purchase at Castlery with Zip Pay. Get started with Zip.",
+      "metaKeywords": "zip, zip pay, zip money, furniture stores"
+    },
+    "trade": {
+      "name": "Castlery Trade Program",
+      "mainIntro": " ",
+      "subTitle": " ",
+      "subIntro": "Join our Trade Program for interior designers, architects and related industry professionals.",
+      "metaDescription": "As a member of Castlery United Kingdom’s trade discount furniture program, enjoy exclusive discounts on our furniture products. Join our program today.",
+      "metaKeywords": "Trade discount, trade discount furniture"
+    },
+    "affiliate-program": {
+      "name": "Affiliate Program"
+    },
+    "delivery": {
+      "name": "Delivery",
+      "metaDescription": "Delivery is scheduled to your convenience, subject to available delivery slots. All Castlery products are packaged for safe transit & handled by professionals."
+    },
+    "accessibility": {
+      "name": "Accessibility Statement",
+      "metaDescription": "Castlery's UserWay Website Accessibility Widget (in the bottom-right corner of most pages) improves website access for some by enabling an accessibility menu."
+    },
+    "referral-terms": {
+      "name": "Referral Terms"
+    },
+    "referral-issue": {
+      "name": "Referral Issue"
+    },
+    "referral": {
+      "name": "Refer a Friend",
+      "metaDescription": "Refer a friend and give them $100 off when they make their first purchase (of minimum $1000) and get credits redeemable on your next purchase."
+    },
+    "rewards": {
+      "name": "Rewards"
+    },
+    "account-rewards": {
+      "name": "Rewards"
+    },
+    "press": {
+      "name": "In The Press",
+      "metaDescription": "Castlery is a a direct-to-consumer retailer making waves in the furniture space — read everything fresh off the press like news articles and media coverage."
+    },
+    "terms-of-use": {
+      "name": "Terms Of Use",
+      "metaDescription": "Your access to and use of the Services (APIs, email notifications, content, etc.) via Castlery's website signifies your acceptance of these Terms of Use."
+    },
+    "sales-and-refunds": {
+      "name": "Sales and Refunds",
+      "metaDescription": "Read our terms and conditions if you need to return a product purchased from us. Learn about our 30-day returns policy, changing/cancelling orders and refunds."
+    },
+    "store-credits-terms": {
+      "name": "Store Credits Terms"
+    },
+    "sitemap": {
+      "name": "Sitemap"
+    },
+    "warranty": {
+      "name": "Product Guarantee",
+      "metaDescription": "Castlery warrants all our furniture is free from defective materials and workmanship. Guarantee periods vary by product, commencing from the date of delivery."
+    },
+    "promo-terms": {
+      "name": "Promotion Terms & Conditions",
+      "metaDescription": "Read the terms and conditions for all of Castlery's current special offers and promotions. All start and end times published are at UK time."
+    },
+    "privacy-policy": {
+      "name": "Privacy Policy",
+      "metaDescription": "All information you provide to us is stored on our secure servers. Any payment transactions will be encrypted using SSL technology. Read our privacy policy."
+    },
+    "help-center": {
+      "name": "Help Center",
+      "metaDescription": "Get answers for your questions on Castlery’s order & payment methods, shipping & delivery times, refund & warranty policy, product manufacturing and more."
+    },
+    "reset-password": {
+      "name": "Reset Password"
+    },
+    "reviews": {
+      "name": "Reviews",
+      "metaTitle": "Customer Reviews",
+      "metaDescription": "Browse reviews from customers to see what shoppers think about Castlery's modern furniture products and get some styling inspiration while you're at it."
+    },
+    "at-home-with-castlery": {
+      "name": "At Home With Castlery"
+    },
+    "accident-protection-plan-faq": {
+      "name": "Accident Protection Plan"
+    },
+    "schedule-delivery": {
+      "name": "Schedule Delivery"
+    },
+    "delivery-review": {
+      "name": "Rate Your Delivery Experience"
+    },
+    "feat": {
+      "name": "Castlery Feat"
+    },
+    "interior-design": {
+      "name": "Interior Design",
+      "metaDescription": "Interior design service by Castlery. Virtual stylish design for you."
+    },
+    "designers": {
+      "name": "Castlery Designers",
+      "metaDescription": "Castlery designers, furniture designers",
+      "metaKeywords": "Castlery designers, furniture designers"
+    },
+    "designer-community": {
+      "name": "Castlery Designer Community",
+      "metaDescription": "Castlery designers community",
+      "metaKeywords": "Castlery designers, furniture designers, collections"
+    },
+    "warehouse-sale": {
+      "name": "Warehouse Sale",
+      "metaDescription": "Warehouse Sale, 60% off, 2 day only",
+      "metaKeywords": "warehouse sale, sale"
+    },
+    "warehouse-sale-tutorial": {
+      "name": "Warehouse Sale Tutorial"
+    },
+    "rsvp": {
+      "name": "New Collection Launch"
+    },
+    "new-year": {
+      "name": "New Year Pair Up Sale"
+    },
+    "mid-year-sale": {
+      "name": "Mid-Year Sale"
+    },
+    "birthday-sale": {
+      "name": "Birthday Sale"
+    },
+    "thedollop": {
+      "name": "Shop Modern Furniture Online"
+    },
+    "eventherich": {
+      "name": "Shop Modern Furniture Online"
+    },
+    "new-way-of-living": {
+      "name": "New Way Of Living"
+    },
+    "product": {
+      "name": "Product"
+    },
+    "search": {
+      "name": "Search Results",
+      "metaDescription": "Search results of Castlery",
+      "metaTitle": "Search",
+      "metaKeywords": "Search, Results"
+    },
+    "as-is": {
+      "name": "Warehouse Sale Mar 2019"
+    },
+    "asis-beds": {
+      "name": "Warehouse Sale - Beds"
+    },
+    "collections": {
+      "name": "Collections"
+    },
+    "living-room": {
+      "name": "Living Room",
+      "metaTitle": "Living Room Furniture"
+    },
+    "dining-room": {
+      "name": "Dining Room",
+      "metaTitle": "Dining Room Furniture"
+    },
+    "bedroom": {
+      "name": "Bedroom",
+      "metaTitle": "Bedroom Furniture"
+    },
+    "outdoor": {
+      "name": "Outdoor",
+      "metaDescription": "Explore outdoor furniture designs that fuel fun in the sun."
+    },
+    "home-office": {
+      "name": "Home Office",
+      "metaTitle": "Home Office Furniture"
+    },
+    "storage": {
+      "name": "Storage",
+      "metaTitle": "Storage Furniture"
+    },
+    "furniture-sets": {
+      "name": "Furniture Sets",
+      "metaTitle": "Furniture Sets"
+    },
+    "lighting": {
+      "name": "Lighting"
+    },
+    "accessories": {
+      "name": "Accessories",
+      "metaDescription": "",
+      "metaKeywords": "Home Accessories"
+    },
+    "rugs": {
+      "name": "Rugs"
+    },
+    "poufs-cushion-pillows": {
+      "name": "Poufs, Cushions & Throws"
+    },
+    "fabric-care": {
+      "name": "Fabric Care"
+    },
+    "entryway": {
+      "name": "Entryway",
+      "metaTitle": "Entryway Furniture"
+    },
+    "bedding": {
+      "name": "Bedding"
+    },
+    "tableware": {
+      "name": "Tableware"
+    },
+    "mirrors-wall-art": {
+      "name": "Mirrors & Wall Art"
+    },
+    "organisation": {
+      "name": "Organization"
+    },
+    "stl-living-room": {
+      "name": "Shop The Look - Living Room",
+      "metaTitle": "Shop The Look - Living Room",
+      "metaDescription": "Explore curated living room spaces to get inspiration for styling your Castlery furniture — be it a sofa, armchair, couch, rug, coffee table, ottoman and more!"
+    },
+    "stl-dining-room": {
+      "name": "Shop The Look - Dining Room",
+      "metaTitle": "Shop The Look - Dining Room",
+      "metaDescription": "Explore curated spaces for inspiration to style your Castlery furniture in the dining room — be it an extendable dining table, chair, rug, sideboard, or bench!"
+    },
+    "stl-bedroom": {
+      "name": "Shop The Look - Bedroom",
+      "metaTitle": "Shop The Look - Bedroom",
+      "metaDescription": "Explore curated bedroom spaces to get inspiration for styling your Castlery furniture — be it a bed frame, side table, nightstand, armchair, rug, or ottoman!"
+    },
+    "stl-outdoor": {
+      "name": "Shop The Look - Outdoor",
+      "metaTitle": "Shop The Look - Outdoor",
+      "metaDescription": "Explore curated outdoor spaces for inspiration to style your Castlery furniture — be it a dining table, chair, lounge, sofa, armchair, bench or coffee table!"
+    },
+    "stl-by-collection": {
+      "name": "Shop The Look - By Collection",
+      "metaTitle": "Shop The Look - By Collection",
+      "metaDescription": "Explore curated spaces for inspiration to style your Castlery furniture — browse by collections for the home: bedroom, living room, dining room or outdoor."
+    },
+    "furniture-configurator-tool": {
+      "name": "Furniture Configurator Tool",
+      "metaTitle": "Create Your Configuration | Furniture Configurator Tool"
+    },
+    "room-designer": {
+      "name": "Room Designer",
+      "metaTitle": "Design Your Room | Room Design Tool",
+      "metaDescription": "Plan and visualize your room layout with our free online room planner tool. Select from over 1,000 furniture products to create your dream living space.",
+      "metaKeywords": "room planner, room designer, room planner tool, room design tool, room layout planner"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "modules-retails-components",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/modules/retails/components/src",
+  "projectType": "library",
+  "tags": ["type:components", "scope:retails"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/modules/retails/components",
+        "tsConfig": "libs/modules/retails/components/tsconfig.lib.json",
+        "project": "libs/modules/retails/components/package.json",
+        "entryFile": "libs/modules/retails/components/src/index.ts",
+        "external": ["react", "react-dom", "@emotion/react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/modules/retails/components/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

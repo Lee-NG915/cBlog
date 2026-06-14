@@ -1,0 +1,57 @@
+{
+  "pages": {
+    "totalEligible": 39,
+    "covered": 35,
+    "missing": [
+      "[deviceTheme]/[region]/[locale]/page.tsx",
+      "[deviceTheme]/[region]/[locale]/quiz/[slug]/page.tsx",
+      "[deviceTheme]/[region]/page.tsx",
+      "page.tsx"
+    ],
+    "skippedBlocked": [
+      "[deviceTheme]/[region]/[locale]/(checkout)/checkout/page.tsx",
+      "[deviceTheme]/[region]/[locale]/cart/page.tsx",
+      "[deviceTheme]/[region]/[locale]/checkout/payment/page.tsx"
+    ],
+    "skippedUseClient": [
+      "[deviceTheme]/[region]/[locale]/(account)/account/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/reviews/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/rewards/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/the-castlery-club/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/forgot-password/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/login/page.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/signup/page.tsx",
+      "[deviceTheme]/[region]/[locale]/test/page.tsx"
+    ]
+  },
+  "layouts": {
+    "totalEligible": 31,
+    "covered": 17,
+    "missing": [
+      "[deviceTheme]/[region]/[locale]/(account)/account/address/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/profile/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/rewards/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/the-castlery-club/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(account)/account/vouchers/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/forgot-password/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/login/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/reset-password/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(auth)/signup/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/(pdp)/products/[slug]/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/quiz/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/reviews/layout.tsx",
+      "[deviceTheme]/[region]/layout.tsx"
+    ],
+    "skippedBlocked": [
+      "[deviceTheme]/[region]/[locale]/(checkout)/checkout/layout.tsx",
+      "[deviceTheme]/[region]/[locale]/cart/layout.tsx"
+    ],
+    "skippedRootLayout": ["layout.tsx"]
+  },
+  "summary": {
+    "eligibleTotal": 70,
+    "coveredTotal": 52,
+    "missingCount": 18
+  }
+}

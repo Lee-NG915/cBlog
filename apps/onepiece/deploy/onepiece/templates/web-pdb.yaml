@@ -1,0 +1,17 @@
+{{- if gt (.Values.web.replicaCount | int) 1 }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "onepiece.web.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "onepiece.name" . }}
+    helm.sh/chart: {{ include "onepiece.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  maxUnavailable: 20%
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "onepiece.web.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

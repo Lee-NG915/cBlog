@@ -1,6 +1,13 @@
-# cBlog
+# cBlog Monorepo
 
 基于 Next.js Static Export 的个人博客项目，部署目标是 GitHub Pages。当前重构方向只考虑 PC 端访问，内容包括技术博客、学习日志、生活随记。
+
+当前仓库已经扩展为一个本地优先的 monorepo：
+
+- 根目录：公开博客站点（`@cblog/blog`）
+- `apps/backend`：本地模拟面试后端，读取博客内容和私有代码源做追问与总结
+- `apps/joyboy`：从本机工作树同步进来的 `joyboy` 代码副本，用于本地索引
+- `apps/onepiece`：从本机工作树同步进来的 `onepiece` 代码副本，用于本地索引
 
 ## 技术方向
 
@@ -20,6 +27,34 @@ pnpm run dev
 ```
 
 访问 [http://localhost:3000](http://localhost:3000)。
+
+### 本地模拟面试
+
+先准备后端环境变量：
+
+```bash
+cp apps/backend/.env.example apps/backend/.env.local
+```
+
+至少填写：
+
+```bash
+OPENAI_API_KEY=...
+```
+
+如果你需要把本机 `joyboy` / `onepiece` 工作树重新同步进当前仓库：
+
+```bash
+pnpm run sync:workspace-sources
+```
+
+启动博客和本地面试后端：
+
+```bash
+pnpm run dev:local
+```
+
+此时博客本地导航会出现 `/interview` 路由，用于结合博客、`joyboy`、`onepiece` 与目标 JD 进行模拟面试。
 
 ## 构建与预览
 
@@ -80,12 +115,15 @@ GitHub 仓库的 Pages Source 需要选择 `GitHub Actions`。
 ## 项目结构
 
 ```text
-app/                  Next.js App Router 页面
-components/           PC 端展示组件
-content/posts/        Markdown 文章
+app/                      Next.js App Router 页面
+components/               博客前端组件
+content/posts/            Markdown 文章
+apps/backend/             本地模拟面试后端
+apps/joyboy/              本地同步的 joyboy 工作树
+apps/onepiece/            本地同步的 onepiece 工作树
 docs/content-structure.md 内容文件结构规范
-docs/refactor-plan.md 重构方案与分期边界
-lib/posts.ts          文章读取、分类、统计逻辑
-lib/site.ts           站点配置与固定分类
-public/               静态资源
+docs/refactor-plan.md     重构方案与分期边界
+lib/posts.ts              文章读取、分类、统计逻辑
+lib/site.ts               站点配置与固定分类
+public/                   静态资源
 ```

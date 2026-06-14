@@ -1,0 +1,14 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+:local(.rewards) {
+  img {
+    width: auto;
+  }
+  @include shared {
+    min-height: 550px;
+  }
+  @include mobile {
+    min-height: 965px;
+  }
+}
