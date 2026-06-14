@@ -20,6 +20,8 @@ export interface InterviewMessage {
   role: "assistant" | "candidate";
   content: string;
   createdAt: string;
+  interviewerId?: string;
+  interviewerLabel?: string;
   references?: InterviewReference[];
 }
 
@@ -29,15 +31,46 @@ export interface InterviewSummary {
   references: InterviewReference[];
 }
 
+export interface InterviewSkill {
+  id: string;
+  label: string;
+  instruction: string;
+}
+
+export interface InterviewerPresetConfig {
+  id: string;
+  label: string;
+  title: string;
+  agencyRoles: string[];
+  skills: string[];
+  skillDetails: InterviewSkill[];
+  style: string;
+  personality: string;
+  focusAreas: string[];
+  evaluationDimensions: string[];
+}
+
+export interface InterviewPreset {
+  id: string;
+  label: string;
+  summary: string;
+  interviewerIds: string[];
+  interviewers: InterviewerPresetConfig[];
+}
+
 export interface InterviewSession {
   id: string;
   createdAt: string;
   updatedAt: string;
   status: string;
   jobDescription: string;
-  mode: string;
   focusHint: string;
   scopes: string[];
+  presetId: string;
+  presetLabel: string;
+  presetSummary: string;
+  currentInterviewerIndex: number;
+  interviewers: InterviewerPresetConfig[];
   messages: InterviewMessage[];
   summary: InterviewSummary | null;
 }
@@ -45,9 +78,4 @@ export interface InterviewSession {
 export const interviewBackendUrl =
   process.env.NEXT_PUBLIC_INTERVIEW_API_BASE || "http://127.0.0.1:3334";
 
-export const interviewModes = [
-  { value: "technical", label: "技术深挖" },
-  { value: "project-deep-dive", label: "项目追问" },
-  { value: "architecture", label: "架构设计" },
-  { value: "behavioral", label: "表达与行为面" },
-] as const;
+export const defaultInterviewPresetId = "senior-frontend";

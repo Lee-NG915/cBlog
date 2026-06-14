@@ -5,9 +5,12 @@ import { serverConfig, paths } from "./config.mjs";
 import { createSession, readSession, saveSession } from "./sessions.mjs";
 import {
   generateInterviewReply,
+  generateInterviewerSwitchTurn,
   generateOpeningTurn,
   generateSessionSummary,
+  initializeSessionConfiguration,
 } from "./interview.mjs";
+import { getInterviewerPresets } from "./interviewers.mjs";
 
 fs.mkdirSync(paths.sessionsDir, { recursive: true });
 
@@ -110,13 +113,28 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
+    if (request.method === "GET" && url.pathname === "/api/interview/presets") {
+      sendJson(
+        response,
+        200,
+        {
+          presets: getInterviewerPresets(),
+        },
+        origin
+      );
+      return;
+    }
+
     if (request.method === "POST" && url.pathname === "/api/interview/sessions") {
       const body = await readJsonBody(request);
       const session = createSession({
         jobDescription: body.jobDescription || "",
-        mode: body.mode || "technical",
         focusHint: body.focusHint || "",
-        scopes: Array.isArray(body.scopes) && body.scopes.length > 0 ? body.scopes : ["blog"],
+        scopes:
+          Array.isArray(body.scopes) && body.scopes.length > 0
+            ? body.scopes
+            : ["blog"],
+        ...initializeSessionConfiguration(body),
       });
 
       const opening = await generateOpeningTurn(session);
@@ -139,7 +157,9 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    const messageMatch = url.pathname.match(/^\/api\/interview\/sessions\/([^/]+)\/message$/);
+    const messageMatch = url.pathname.match(
+      /^\/api\/interview\/sessions\/([^/]+)\/message$/
+    );
     if (request.method === "POST" && messageMatch) {
       const session = readSession(messageMatch[1]);
       if (!session) {
@@ -163,7 +183,36 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    const summaryMatch = url.pathname.match(/^\/api\/interview\/sessions\/([^/]+)\/summary$/);
+    const switchMatch = url.pathname.match(
+      /^\/api\/interview\/sessions\/([^/]+)\/switch$/
+    );
+    if (request.method === "POST" && switchMatch) {
+      const session = readSession(switchMatch[1]);
+      if (!session) {
+        sendJson(response, 404, { error: "Session not found" }, origin);
+        return;
+      }
+
+      const totalInterviewers = session.interviewers?.length || 0;
+      if (totalInterviewers === 0) {
+        sendJson(response, 400, { error: "No interviewers configured" }, origin);
+        return;
+      }
+
+      session.currentInterviewerIndex =
+        (session.currentInterviewerIndex + 1) % totalInterviewers;
+
+      const switchTurn = await generateInterviewerSwitchTurn(session);
+      session.messages.push(switchTurn);
+      saveSession(session);
+
+      sendJson(response, 200, { session }, origin);
+      return;
+    }
+
+    const summaryMatch = url.pathname.match(
+      /^\/api\/interview\/sessions\/([^/]+)\/summary$/
+    );
     if (request.method === "POST" && summaryMatch) {
       const session = readSession(summaryMatch[1]);
       if (!session) {

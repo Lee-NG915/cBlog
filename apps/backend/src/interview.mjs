@@ -1,33 +1,50 @@
 import { createChatCompletion } from "./openai.mjs";
 import { formatChunkReferences, retrieveRelevantChunks } from "./knowledge-base.mjs";
+import { resolveInterviewConfiguration } from "./interviewers.mjs";
 
-function buildInterviewerModeLabel(mode) {
-  switch (mode) {
-    case "architecture":
-      return "系统设计与架构追问";
-    case "project-deep-dive":
-      return "项目深挖与真实性验证";
-    case "behavioral":
-      return "行为面与表达复盘";
-    default:
-      return "技术深挖";
-  }
+function getCurrentInterviewer(session) {
+  return session.interviewers?.[session.currentInterviewerIndex || 0] || null;
 }
 
-function buildSystemPrompt({ session, references }) {
+function buildSkillInstructions(interviewer) {
+  return interviewer.skillDetails
+    .map((skill) => `- ${skill.label}：${skill.instruction}`)
+    .join("\n");
+}
+
+function buildSystemPrompt({ session, interviewer, references }) {
   return [
-    "你是候选人的私人工程面试官与项目教练。",
-    "你的目标不是给标准答案，而是逼候选人讲清楚：背景、约束、方案、权衡、风险、结果与个人贡献。",
-    "你必须优先基于提供的博客、代码仓库和知识片段提问与追问；如果证据不足，要明确指出缺口。",
-    "每次回复结构：1）先对候选人刚才的回答做简短点评；2）指出一个最值得深挖的点；3）提出下一个问题。",
-    "不要一次问多个主问题，不要写成长篇报告，不要显得像 AI 助手。",
-    "如果候选人的说法和资料不一致，直接指出并追问。",
-    "如果候选人的回答太泛，要逼他举具体模块、接口、文件、指标或事故例子。",
-    `当前模式：${buildInterviewerModeLabel(session.mode)}`,
-    `目标岗位 JD：\n${session.jobDescription}`,
-    `已选择的知识源：${session.scopes.join(", ") || "blog"}`,
-    `参考资料：\n${formatChunkReferences(references)}`,
-  ].join("\n\n");
+    "你现在不是通用 AI 助手，而是一个真实、有判断力的技术面试官。",
+    "",
+    "## 你的角色",
+    `- 面试官：${interviewer.label}`,
+    `- 职责定位：${interviewer.title}`,
+    `- 风格：${interviewer.style}`,
+    `- 性格：${interviewer.personality}`,
+    `- Agency role 参考：${interviewer.agencyRoles.join(", ")}`,
+    "",
+    "## 本轮必须执行的 interviewer skills",
+    buildSkillInstructions(interviewer),
+    "",
+    "## 面试上下文",
+    `- 目标岗位：${session.presetLabel}`,
+    `- 目标岗位 JD：\n${session.jobDescription}`,
+    `- 用户特别想补强的点：${session.focusHint || "未额外指定"}`,
+    `- 本轮知识源：${session.scopes.join(", ") || "blog"}`,
+    `- 本轮重点考察：${interviewer.focusAreas.join("、")}`,
+    `- 评估维度：${interviewer.evaluationDimensions.join("、")}`,
+    "",
+    "## 交互规则",
+    "- 一次只问一个主问题。",
+    "- 先对候选人刚才的回答做一句点评，再追问一个最有价值的问题。",
+    "- 如果回答太泛，必须要求候选人落到真实模块、接口、文件、状态流、指标或事故。",
+    "- 如果候选人说法和资料冲突，要直接指出冲突点。",
+    "- 不要写成长篇报告，不要像客服，不要连续抛多个选择题。",
+    "- 你的问题要让中大厂面试官愿意继续追问，而不是停留在概念背诵层面。",
+    "",
+    "## 参考资料",
+    formatChunkReferences(references),
+  ].join("\n");
 }
 
 function toChatMessages(session) {
@@ -37,19 +54,52 @@ function toChatMessages(session) {
   }));
 }
 
+function stripReferencePayload(references) {
+  return references.map(({ text: _text, score: _score, ...reference }) => reference);
+}
+
+function buildRetrievalQuery(session, interviewer, candidateAnswer = "") {
+  return [
+    session.jobDescription,
+    session.focusHint || "",
+    interviewer?.label || "",
+    interviewer?.focusAreas?.join("\n") || "",
+    candidateAnswer,
+    session.messages.slice(-6).map((message) => message.content).join("\n"),
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+export function initializeSessionConfiguration(payload) {
+  const configuration = resolveInterviewConfiguration({
+    presetId: payload.presetId,
+    interviewerIds: payload.interviewerIds,
+  });
+
+  return {
+    presetId: configuration.presetId,
+    presetLabel: configuration.presetLabel,
+    presetSummary: configuration.presetSummary,
+    interviewers: configuration.interviewers,
+    currentInterviewerIndex: 0,
+  };
+}
+
 export async function generateOpeningTurn(session) {
+  const interviewer = getCurrentInterviewer(session);
   const references = retrieveRelevantChunks({
-    query: `${session.jobDescription}\n${session.mode}\n${session.focusHint || ""}`,
+    query: buildRetrievalQuery(session, interviewer),
     scopes: session.scopes,
   });
 
   const content = await createChatCompletion({
-    system: buildSystemPrompt({ session, references }),
+    system: buildSystemPrompt({ session, interviewer, references }),
     messages: [
       {
         role: "user",
         content:
-          "请先做一句很短的开场，然后直接开始第一个问题。第一问要优先结合 JD 和候选人现有博客/项目经验的交集。",
+          "请先用一句自然的开场介绍你的面试视角，然后直接开始第一个问题。第一问要优先结合 JD、候选人的博客和项目证据，逼他讲出真实经历。",
       },
     ],
     temperature: 0.7,
@@ -58,30 +108,22 @@ export async function generateOpeningTurn(session) {
   return {
     role: "assistant",
     content,
-    references: references.map(({ text: _text, score: _score, ...reference }) => reference),
+    interviewerId: interviewer?.id || "",
+    interviewerLabel: interviewer?.label || "",
+    references: stripReferencePayload(references),
     createdAt: new Date().toISOString(),
   };
 }
 
 export async function generateInterviewReply(session, candidateAnswer) {
-  const query = [
-    session.jobDescription,
-    session.mode,
-    session.focusHint || "",
-    candidateAnswer,
-    session.messages
-      .slice(-4)
-      .map((message) => message.content)
-      .join("\n"),
-  ].join("\n\n");
-
+  const interviewer = getCurrentInterviewer(session);
   const references = retrieveRelevantChunks({
-    query,
+    query: buildRetrievalQuery(session, interviewer, candidateAnswer),
     scopes: session.scopes,
   });
 
   const content = await createChatCompletion({
-    system: buildSystemPrompt({ session, references }),
+    system: buildSystemPrompt({ session, interviewer, references }),
     messages: [
       ...toChatMessages(session),
       {
@@ -95,12 +137,52 @@ export async function generateInterviewReply(session, candidateAnswer) {
   return {
     role: "assistant",
     content,
-    references: references.map(({ text: _text, score: _score, ...reference }) => reference),
+    interviewerId: interviewer?.id || "",
+    interviewerLabel: interviewer?.label || "",
+    references: stripReferencePayload(references),
+    createdAt: new Date().toISOString(),
+  };
+}
+
+export async function generateInterviewerSwitchTurn(session) {
+  const interviewer = getCurrentInterviewer(session);
+  const references = retrieveRelevantChunks({
+    query: buildRetrievalQuery(session, interviewer),
+    scopes: session.scopes,
+  });
+
+  const content = await createChatCompletion({
+    system: buildSystemPrompt({ session, interviewer, references }),
+    messages: [
+      {
+        role: "user",
+        content:
+          "你是新切入的面试官。请先用一句话指出你最关注上一轮里候选人还没讲透的地方，然后直接提出一个更贴近你职责视角的问题。",
+      },
+    ],
+    temperature: 0.65,
+  });
+
+  return {
+    role: "assistant",
+    content,
+    interviewerId: interviewer?.id || "",
+    interviewerLabel: interviewer?.label || "",
+    references: stripReferencePayload(references),
     createdAt: new Date().toISOString(),
   };
 }
 
 export async function generateSessionSummary(session) {
+  const interviewerSummary = session.interviewers
+    .map(
+      (interviewer) =>
+        `- ${interviewer.label}: ${interviewer.focusAreas.join("、")} | 技能：${interviewer.skillDetails
+          .map((skill) => skill.label)
+          .join("、")}`
+    )
+    .join("\n");
+
   const references = retrieveRelevantChunks({
     query: [
       session.jobDescription,
@@ -123,9 +205,11 @@ export async function generateSessionSummary(session) {
       "## 总体判断",
       "## 候选人讲得好的点",
       "## 暴露出的理解缺口",
+      "## 各面试官视角下的风险点",
       "## 下一轮建议重点追问",
       "## 建议补写到博客的内容",
       "## 可用于面试表达的更强表述",
+      `本次 interviewer pack：\n${interviewerSummary}`,
       `参考资料：\n${formatChunkReferences(references)}`,
     ].join("\n\n"),
     messages: [
@@ -139,7 +223,7 @@ export async function generateSessionSummary(session) {
 
   return {
     markdown: content,
-    references: references.map(({ text: _text, score: _score, ...reference }) => reference),
+    references: stripReferencePayload(references),
     createdAt: new Date().toISOString(),
   };
 }

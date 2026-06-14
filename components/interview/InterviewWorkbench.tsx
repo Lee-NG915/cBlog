@@ -2,10 +2,11 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
+  defaultInterviewPresetId,
+  InterviewPreset,
   InterviewSession,
   InterviewSourceSummary,
   interviewBackendUrl,
-  interviewModes,
 } from "@/lib/interview";
 
 const defaultScopes = ["blog", "joyboy", "onepiece"];
@@ -30,15 +31,19 @@ async function requestJson(path: string, init?: RequestInit) {
 export default function InterviewWorkbench() {
   const [jobDescription, setJobDescription] = useState("");
   const [focusHint, setFocusHint] = useState("");
-  const [mode, setMode] = useState("project-deep-dive");
+  const [presetId, setPresetId] = useState(defaultInterviewPresetId);
+  const [presets, setPresets] = useState<InterviewPreset[]>([]);
+  const [selectedInterviewerIds, setSelectedInterviewerIds] = useState<string[]>(
+    []
+  );
   const [scopes, setScopes] = useState<string[]>(defaultScopes);
   const [sources, setSources] = useState<InterviewSourceSummary[]>([]);
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState("");
-  const [busyAction, setBusyAction] = useState<"starting" | "replying" | "summary" | "reindex" | "">("");
-
-  const hasBackend = sources.length > 0;
+  const [busyAction, setBusyAction] = useState<
+    "" | "starting" | "replying" | "summary" | "reindex" | "switching"
+  >("");
 
   useEffect(() => {
     requestJson("/api/sources")
@@ -52,7 +57,34 @@ export default function InterviewWorkbench() {
       });
   }, []);
 
+  useEffect(() => {
+    requestJson("/api/interview/presets")
+      .then((payload) => {
+        setPresets(payload.presets);
+        const nextPreset =
+          payload.presets.find(
+            (item: InterviewPreset) => item.id === defaultInterviewPresetId
+          ) || payload.presets[0];
+
+        if (nextPreset) {
+          setPresetId(nextPreset.id);
+          setSelectedInterviewerIds(nextPreset.interviewerIds);
+        }
+      })
+      .catch((requestError) => {
+        setError(
+          requestError instanceof Error
+            ? requestError.message
+            : "无法加载面试官配置。"
+        );
+      });
+  }, []);
+
   const activeScopeSet = useMemo(() => new Set(scopes), [scopes]);
+  const activePreset = useMemo(
+    () => presets.find((preset) => preset.id === presetId) || null,
+    [presets, presetId]
+  );
 
   const toggleScope = (sourceId: string) => {
     setScopes((current) =>
@@ -60,6 +92,22 @@ export default function InterviewWorkbench() {
         ? current.filter((item) => item !== sourceId)
         : [...current, sourceId]
     );
+  };
+
+  const toggleInterviewer = (interviewerId: string) => {
+    setSelectedInterviewerIds((current) =>
+      current.includes(interviewerId)
+        ? current.filter((item) => item !== interviewerId)
+        : [...current, interviewerId]
+    );
+  };
+
+  const handlePresetChange = (nextPresetId: string) => {
+    setPresetId(nextPresetId);
+    const nextPreset = presets.find((preset) => preset.id === nextPresetId);
+    if (nextPreset) {
+      setSelectedInterviewerIds(nextPreset.interviewerIds);
+    }
   };
 
   const startSession = async (event: FormEvent<HTMLFormElement>) => {
@@ -79,7 +127,8 @@ export default function InterviewWorkbench() {
         body: JSON.stringify({
           jobDescription,
           focusHint,
-          mode,
+          presetId,
+          interviewerIds: selectedInterviewerIds,
           scopes: scopes.length > 0 ? scopes : ["blog"],
         }),
       });
@@ -120,6 +169,32 @@ export default function InterviewWorkbench() {
     } catch (requestError) {
       setError(
         requestError instanceof Error ? requestError.message : "提交回答失败。"
+      );
+    } finally {
+      setBusyAction("");
+    }
+  };
+
+  const switchInterviewer = async () => {
+    if (!session) {
+      return;
+    }
+
+    setBusyAction("switching");
+    setError("");
+
+    try {
+      const payload = await requestJson(
+        `/api/interview/sessions/${session.id}/switch`,
+        {
+          method: "POST",
+        }
+      );
+
+      setSession(payload.session);
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error ? requestError.message : "切换面试官失败。"
       );
     } finally {
       setBusyAction("");
@@ -170,8 +245,12 @@ export default function InterviewWorkbench() {
     }
   };
 
+  const currentInterviewer = session
+    ? session.interviewers[session.currentInterviewerIndex]
+    : null;
+
   return (
-    <div className="grid gap-8 lg:grid-cols-[360px_minmax(0,1fr)]">
+    <div className="grid gap-8 lg:grid-cols-[380px_minmax(0,1fr)]">
       <section className="editorial-card space-y-6 p-6">
         <div className="space-y-2">
           <p className="editorial-label">Local Interview Coach</p>
@@ -186,20 +265,31 @@ export default function InterviewWorkbench() {
         <form className="space-y-5" onSubmit={startSession}>
           <label className="block space-y-2">
             <span className="font-sans text-sm font-semibold text-ink dark:text-gray-100">
-              面试模式
+              面试目标
             </span>
             <select
-              value={mode}
-              onChange={(event) => setMode(event.target.value)}
+              value={presetId}
+              onChange={(event) => handlePresetChange(event.target.value)}
               className="w-full rounded-lg border border-line-light bg-surface-light px-4 py-3 font-sans text-sm text-ink outline-none transition focus:border-primary-300 dark:border-line-dark dark:bg-surface-dark dark:text-gray-100"
             >
-              {interviewModes.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
+              {presets.map((preset) => (
+                <option key={preset.id} value={preset.id}>
+                  {preset.label}
                 </option>
               ))}
             </select>
           </label>
+
+          {activePreset && (
+            <div className="rounded-lg border border-line-light bg-background-light px-4 py-3 dark:border-line-dark dark:bg-background-dark">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-primary-700 dark:text-primary-300">
+                Preset Summary
+              </p>
+              <p className="mt-2 font-sans text-sm leading-7 text-ink-muted dark:text-gray-300">
+                {activePreset.summary}
+              </p>
+            </div>
+          )}
 
           <label className="block space-y-2">
             <span className="font-sans text-sm font-semibold text-ink dark:text-gray-100">
@@ -226,6 +316,55 @@ export default function InterviewWorkbench() {
               placeholder="例如：我对支付链路、可观测性分桶、迁移策略讲得还不够扎实。"
             />
           </label>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-sans text-sm font-semibold text-ink dark:text-gray-100">
+                面试官 Pack
+              </span>
+              <span className="font-sans text-xs text-ink-soft dark:text-gray-500">
+                可按本轮目标删减
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {activePreset?.interviewers.map((interviewer) => {
+                const checked = selectedInterviewerIds.includes(interviewer.id);
+
+                return (
+                  <label
+                    key={interviewer.id}
+                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-line-light bg-background-light px-4 py-3 dark:border-line-dark dark:bg-background-dark"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleInterviewer(interviewer.id)}
+                      className="mt-1 h-4 w-4 rounded border-line-strong"
+                    />
+                    <span className="space-y-2">
+                      <span className="block font-sans text-sm font-semibold text-ink dark:text-gray-100">
+                        {interviewer.label}
+                      </span>
+                      <span className="block font-sans text-xs leading-6 text-ink-muted dark:text-gray-400">
+                        {interviewer.focusAreas.join(" · ")}
+                      </span>
+                      <span className="flex flex-wrap gap-2">
+                        {interviewer.skillDetails.map((skill) => (
+                          <span
+                            key={skill.id}
+                            className="rounded-full border border-line-light bg-surface-light px-2.5 py-1 font-sans text-[11px] text-ink-muted dark:border-line-dark dark:bg-surface-dark dark:text-gray-300"
+                          >
+                            {skill.label}
+                          </span>
+                        ))}
+                      </span>
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
@@ -278,9 +417,10 @@ export default function InterviewWorkbench() {
           </button>
         </form>
 
-        {!hasBackend && (
+        {sources.length === 0 && (
           <p className="rounded-lg border border-amber-300/80 bg-amber-50 px-4 py-3 font-sans text-sm leading-7 text-amber-900 dark:border-amber-800/50 dark:bg-amber-950/30 dark:text-amber-100">
-            本地后端未连通。先运行 `pnpm run dev:local`，并在 `apps/backend` 环境里提供 `OPENAI_API_KEY`。
+            本地后端未连通。先运行 `pnpm run dev:local`，并在 `apps/backend`
+            环境里提供 `OPENAI_API_KEY`。
           </p>
         )}
 
@@ -297,6 +437,11 @@ export default function InterviewWorkbench() {
           <h2 className="mt-2 font-display text-3xl font-semibold text-ink dark:text-gray-100">
             {session ? "对话与追问" : "等待启动"}
           </h2>
+          {session && currentInterviewer && (
+            <p className="mt-3 font-sans text-sm leading-7 text-ink-muted dark:text-gray-300">
+              当前目标：{session.presetLabel} · 当前面试官：{currentInterviewer.label}
+            </p>
+          )}
         </div>
 
         <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
@@ -317,7 +462,9 @@ export default function InterviewWorkbench() {
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary-700 dark:text-primary-300">
-                  {message.role === "assistant" ? "Interviewer" : "Candidate"}
+                  {message.role === "assistant"
+                    ? message.interviewerLabel || "Interviewer"
+                    : "Candidate"}
                 </p>
                 <time className="font-sans text-xs text-ink-soft dark:text-gray-500">
                   {new Date(message.createdAt).toLocaleTimeString("zh-CN", {
@@ -371,6 +518,14 @@ export default function InterviewWorkbench() {
                 className="rounded-full bg-ink px-5 py-2.5 font-sans text-sm font-semibold text-background-light transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-950 dark:hover:bg-primary-200"
               >
                 {busyAction === "replying" ? "提交中…" : "提交回答"}
+              </button>
+              <button
+                type="button"
+                onClick={switchInterviewer}
+                disabled={!session || busyAction === "switching"}
+                className="rounded-full border border-line-light bg-background-light px-5 py-2.5 font-sans text-sm font-semibold text-ink transition hover:border-primary-300 hover:text-primary-800 disabled:cursor-not-allowed disabled:opacity-60 dark:border-line-dark dark:bg-background-dark dark:text-gray-200 dark:hover:border-primary-700 dark:hover:text-primary-200"
+              >
+                {busyAction === "switching" ? "切换中…" : "切换面试官"}
               </button>
               <button
                 type="button"
