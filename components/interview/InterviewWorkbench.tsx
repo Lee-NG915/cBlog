@@ -8,8 +8,55 @@ import {
   InterviewSourceSummary,
   interviewBackendUrl,
 } from "@/lib/interview";
+import { renderMarkdownToHtml } from "@/lib/markdown";
 
 const defaultScopes = ["blog", "joyboy", "onepiece"];
+
+const assistantMessageClassName =
+  "prose max-w-none [&_blockquote]:my-4 [&_h1]:mb-4 [&_h1]:mt-0 [&_h1]:text-2xl [&_h2]:mb-3 [&_h2]:mt-7 [&_h2]:border-none [&_h2]:pb-0 [&_h2]:text-xl [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:text-lg [&_li]:mb-2 [&_li]:font-sans [&_li]:text-[15px] [&_li]:leading-8 [&_ol]:mb-4 [&_ol]:pl-5 [&_p]:mb-4 [&_p]:font-sans [&_p]:text-[15px] [&_p]:leading-8 [&_pre]:text-sm [&_ul]:mb-4 [&_ul]:pl-5";
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function InterviewMarkdown({
+  markdown,
+  className,
+}: {
+  markdown: string;
+  className?: string;
+}) {
+  const [html, setHtml] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    renderMarkdownToHtml(markdown)
+      .then((nextHtml) => {
+        if (active) {
+          setHtml(nextHtml);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setHtml(
+            `<p>${escapeHtml(markdown).replaceAll("\n", "<br />")}</p>`
+          );
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [markdown]);
+
+  return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+}
 
 async function requestJson(path: string, init?: RequestInit) {
   const response = await fetch(`${interviewBackendUrl}${path}`, {
@@ -433,18 +480,33 @@ export default function InterviewWorkbench() {
 
       <section className="editorial-card flex min-h-[720px] flex-col overflow-hidden">
         <div className="border-b border-line-light px-6 py-5 dark:border-line-dark">
-          <p className="editorial-label">Session</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold text-ink dark:text-gray-100">
-            {session ? "对话与追问" : "等待启动"}
-          </h2>
-          {session && currentInterviewer && (
-            <p className="mt-3 font-sans text-sm leading-7 text-ink-muted dark:text-gray-300">
-              当前目标：{session.presetLabel} · 当前面试官：{currentInterviewer.label}
-            </p>
-          )}
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="editorial-label">Session</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold text-ink dark:text-gray-100">
+                {session ? "对话与追问" : "等待启动"}
+              </h2>
+              {session && currentInterviewer && (
+                <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-ink-muted dark:text-gray-300">
+                  当前会话会围绕 {session.presetLabel} 展开，正在从
+                  {currentInterviewer.label} 的视角追问你的真实项目理解。
+                </p>
+              )}
+            </div>
+
+            {session && currentInterviewer && (
+              <div className="flex flex-wrap gap-2">
+                <span className="editorial-pill">{session.presetLabel}</span>
+                <span className="editorial-pill">
+                  当前面试官：{currentInterviewer.label}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="mx-auto flex w-full max-w-4xl flex-col gap-5">
           {!session && (
             <p className="max-w-3xl font-sans text-sm leading-7 text-ink-muted dark:text-gray-400">
               启动后，AI 会基于你的 JD 与已同步知识源提出第一个问题。后续每次回答后，它会给出即时点评并继续追问。
@@ -454,14 +516,14 @@ export default function InterviewWorkbench() {
           {session?.messages.map((message, index) => (
             <article
               key={`${message.role}-${index}-${message.createdAt}`}
-              className={`rounded-2xl border px-5 py-4 shadow-editorial-sm ${
+              className={`max-w-3xl rounded-2xl border px-5 py-4 shadow-editorial-sm ${
                 message.role === "assistant"
                   ? "border-line-light bg-surface-light dark:border-line-dark dark:bg-surface-dark"
-                  : "border-primary-100 bg-primary-50/80 dark:border-primary-900/30 dark:bg-primary-900/20"
+                  : "ml-auto border-primary-100 bg-primary-50/80 dark:border-primary-900/30 dark:bg-primary-900/20"
               }`}
             >
               <div className="flex items-center justify-between gap-3">
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary-700 dark:text-primary-300">
+                <p className="font-sans text-xs font-semibold tracking-[0.08em] text-primary-700 dark:text-primary-300">
                   {message.role === "assistant"
                     ? message.interviewerLabel || "Interviewer"
                     : "Candidate"}
@@ -473,36 +535,24 @@ export default function InterviewWorkbench() {
                   })}
                 </time>
               </div>
-              <p className="mt-3 whitespace-pre-wrap font-sans text-sm leading-7 text-ink dark:text-gray-100">
-                {message.content}
-              </p>
 
-              {message.references && message.references.length > 0 && (
-                <div className="mt-4 space-y-2 border-t border-line-light pt-4 dark:border-line-dark">
-                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft dark:text-gray-500">
-                    参考依据
-                  </p>
-                  {message.references.map((reference) => (
-                    <div
-                      key={`${reference.sourceId}:${reference.path}:${reference.title}`}
-                      className="rounded-lg bg-background-light px-3 py-2 dark:bg-background-dark"
-                    >
-                      <p className="font-sans text-xs font-semibold text-ink dark:text-gray-100">
-                        {reference.sourceLabel} · {reference.path}
-                      </p>
-                      <p className="mt-1 font-sans text-xs leading-6 text-ink-muted dark:text-gray-400">
-                        {reference.excerpt}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+              {message.role === "assistant" ? (
+                <InterviewMarkdown
+                  markdown={message.content}
+                  className={`mt-3 ${assistantMessageClassName}`}
+                />
+              ) : (
+                <p className="mt-3 whitespace-pre-wrap font-sans text-sm leading-8 text-ink dark:text-gray-100">
+                  {message.content}
+                </p>
               )}
             </article>
           ))}
+          </div>
         </div>
 
         <div className="border-t border-line-light px-6 py-5 dark:border-line-dark">
-          <form onSubmit={submitAnswer} className="space-y-4">
+          <form onSubmit={submitAnswer} className="mx-auto max-w-4xl space-y-4">
             <textarea
               value={answer}
               onChange={(event) => setAnswer(event.target.value)}
@@ -541,9 +591,10 @@ export default function InterviewWorkbench() {
           {session?.summary && (
             <div className="mt-6 rounded-2xl border border-line-light bg-background-light p-5 dark:border-line-dark dark:bg-background-dark">
               <p className="editorial-label">Session Summary</p>
-              <div className="mt-3 whitespace-pre-wrap font-sans text-sm leading-7 text-ink dark:text-gray-100">
-                {session.summary.markdown}
-              </div>
+              <InterviewMarkdown
+                markdown={session.summary.markdown}
+                className={`mt-4 ${assistantMessageClassName}`}
+              />
             </div>
           )}
         </div>
