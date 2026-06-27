@@ -36,7 +36,7 @@ export default function RightCapitalIndexPage() {
           {notes.map((note, index) => (
             <li key={note.slug} data-reveal data-reveal-delay={(index % 4) * 80}>
               <Link
-                href={`/rightCapital/${encodeURIComponent(note.slug)}`}
+                href={`/rightCapital/${note.slug}`}
                 className="group block rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial-sm transition hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
               >
                 <div className="flex items-start gap-4">

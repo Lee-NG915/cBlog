@@ -22,17 +22,23 @@ function parseFilename(filename: string): {
   const match = stem.match(/^(\d+)\.(.+)$/);
 
   if (match) {
+    const order = Number.parseInt(match[1], 10);
     return {
-      order: Number.parseInt(match[1], 10),
+      order,
       title: match[2],
-      slug: stem,
+      slug: String(order).padStart(2, "0"),
     };
   }
+
+  const slug = stem
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   return {
     order: 999,
     title: stem,
-    slug: stem,
+    slug: slug || "note",
   };
 }
 
