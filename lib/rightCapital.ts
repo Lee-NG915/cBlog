@@ -1,0 +1,93 @@
+import fs from "fs";
+import path from "path";
+
+const notesDirectory = path.join(process.cwd(), "docs/rightCapital");
+
+export interface RightCapitalNote {
+  slug: string;
+  title: string;
+  order: number;
+  content: string;
+  excerpt: string;
+  readingTime: number;
+  filename: string;
+}
+
+function parseFilename(filename: string): {
+  order: number;
+  title: string;
+  slug: string;
+} {
+  const stem = filename.replace(/\.md$/, "");
+  const match = stem.match(/^(\d+)\.(.+)$/);
+
+  if (match) {
+    return {
+      order: Number.parseInt(match[1], 10),
+      title: match[2],
+      slug: stem,
+    };
+  }
+
+  return {
+    order: 999,
+    title: stem,
+    slug: stem,
+  };
+}
+
+function getExcerpt(content: string): string {
+  for (const line of content.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    return trimmed.length > 140 ? `${trimmed.slice(0, 140)}…` : trimmed;
+  }
+
+  return "";
+}
+
+function calculateReadingTime(content: string): number {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const cjkChars = (content.match(/[\u4e00-\u9fff]/g) || []).length;
+  const totalWords = words + Math.ceil(cjkChars / 2);
+  return Math.max(1, Math.ceil(totalWords / 250));
+}
+
+function readNoteFromFile(filename: string): RightCapitalNote {
+  const fullPath = path.join(notesDirectory, filename);
+  const content = fs.readFileSync(fullPath, "utf8");
+  const { order, title, slug } = parseFilename(filename);
+
+  return {
+    slug,
+    title,
+    order,
+    content,
+    excerpt: getExcerpt(content),
+    readingTime: calculateReadingTime(content),
+    filename,
+  };
+}
+
+export function getAllRightCapitalNotes(): RightCapitalNote[] {
+  if (!fs.existsSync(notesDirectory)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(notesDirectory)
+    .filter((file) => file.endsWith(".md"))
+    .map(readNoteFromFile)
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, "zh-CN"));
+}
+
+export function getRightCapitalNoteBySlug(slug: string): RightCapitalNote | null {
+  return getAllRightCapitalNotes().find((note) => note.slug === slug) ?? null;
+}
+
+export function getAllRightCapitalSlugs(): string[] {
+  return getAllRightCapitalNotes().map((note) => note.slug);
+}
