@@ -20,7 +20,9 @@
         transparent 32px
       );
     background-attachment: fixed;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   body.dark {
@@ -128,8 +130,8 @@
 
   .prose p {
     @apply mb-5 font-serif text-ink/90 dark:text-gray-300;
-    font-size: 1.12rem;
-    line-height: 1.95;
+    font-size: 1rem;
+    line-height: 1.25;
   }
 
   .prose h1,
@@ -149,7 +151,7 @@
   .prose li {
     @apply mb-2 font-serif text-ink/90 dark:text-gray-300;
     font-size: 1.1rem;
-    line-height: 1.85;
+    line-height: 1.25;
   }
 
   .prose a {

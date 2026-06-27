@@ -1,0 +1,248 @@
+下面是一份可以直接用于面试的介绍框架，基于你们项目（Joyboy / Castlery）里的实际实现。
+
+---
+
+## 一、30 秒开场（总览）
+
+> 我们是一个 **Nx Monorepo + Next.js App Router** 的电商项目，全局状态用 **Redux Toolkit**。核心有三块：
+> 1. **RTK Query** 管 API 请求与缓存  
+> 2. **Domain Slice** 管各业务域的 UI 状态  
+> 3. **Listener Middleware** 做跨模块副作用和埋点，形成「UI 发事件 → Listener 订阅 → 执行业务/埋点」的解耦链路  
+
+---
+
+## 二、React Toolkit 怎么介绍
+
+### 1. Store 架构
+
+可以这样说：
+
+> Store 在 `shared-redux-store` 里统一配置。用 `configureStore` 聚合各 domain 的 reducer，以及多个 RTK Query API 的 reducer。  
+> Next.js 下用 `makeStore` + `StoreProvider`（`useRef` 保证客户端单例），Web 和 POS 共用同一套 store 结构，按渠道做条件注册。
+
+关键代码点：
+
+```32:47:libs/shared/redux/store/src/store.ts
+export const makeStore = (context?: Context) => {
+  return configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: makeExtraArgument(context),
+        },
+      })
+        .prepend(listenerMiddlewareInstance.middleware)
+        .concat(middleware),
+    devTools: EcEnv.NODE_ENV === 'development',
+    preloadedState: {},
+  });
+};
+```
+
+**面试可强调：**
+- `listenerMiddleware` **prepend**，保证 listener 先于其他 middleware 处理 action
+- Thunk 注入 `extraArgument`（持久化、context 等），便于 command 访问基础设施
+- 导出 `AppDispatch`、`RootState`、`AppStartListening` 等类型，全项目类型安全
+
+---
+
+### 2. RTK Query（API 层）
+
+> 我们用 RTK Query 做数据层，不是每个页面自己 fetch。  
+> 在 `shared-redux-services` 里用 `createApi` 定义基础 API（`api`、`apiV1`、`searchApi`、`dyApi` 等），各业务模块通过 **`injectEndpoints`** 注入 endpoint。  
+> 统一 `baseQuery` 处理 token、重试、401 重登；用 **tag invalidation** 做缓存失效。
+
+```19:42:libs/shared/redux/services/src/api.ts
+export const api = createApi({
+  reducerPath: 'castlery',
+  baseQuery: baseQueryWithRetry,
+  tagTypes: Object.values(tagTypes),
+  endpoints: () => ({}),
+});
+```
+
+**面试可强调：**
+- 按 API 域拆多个 `createApi`，避免单 API 过大
+- 组件只调 generated hooks（如 `useGetXQuery`），不直接写 fetch
+- 与 Clean Architecture 对齐：API 在 services，slice 在 domain
+
+---
+
+### 3. Domain Slice（业务状态）
+
+> 各业务域（cart、product、checkout、payment…）在 `modules-*-domain` 里有独立 slice，通过 `rootReducer` 注册。  
+> 组件用 `useAppSelector` 读状态，用 `dispatch` 发 action 或 domain event。
+
+**面试可强调：**
+- 状态按 **DDD 垂直切分**，不是一个大 store
+- POS / Web 有差异时，用 feature flag 或条件 reducer 注册（如 `enableOrderV2` 切换 cart / order 链路）
+
+---
+
+### 4. 为什么用 RTK 而不是 Context / Zustand
+
+可以简短对比：
+
+| 点 | 我们的选择 |
+|---|---|
+| 跨页面共享状态 | 购物车、用户、checkout 等需要全局一致 |
+| 服务端数据缓存 | RTK Query 内置 cache、invalidation、loading/error |
+| 复杂副作用 | Listener Middleware 比 useEffect 链更清晰、可测试 |
+| 类型与 DevTools | 全链路 TypeScript + Redux DevTools |
+
+---
+
+## 三、事件监听机制怎么介绍（重点）
+
+这是项目里比较有特色的部分，建议单独讲 1–2 分钟。
+
+### 1. 技术基础：RTK Listener Middleware
+
+> 我们在 store 里创建了全局 `createListenerMiddleware`，导出 `startAppListening`。  
+> 各模块提供 `setupXxxListeners(startListening)`，在 App 启动时注册，卸载时 `unsubscribe`。
+
+注册入口（Web layout）：
+
+```35:61:apps/web/app/[deviceTheme]/[region]/layout.client.tsx
+  useEffect(() => {
+    const subscriptions: Unsubscribe[] = [
+      setupUserListeners(startAppListening, { modal }),
+      setupProductListeners(startAppListening),
+      // ...
+      setupCartListeners(startAppListening),
+      setupPaymentTrackingListeners(startAppListening),
+      setupTrackingListeners(startAppListening),
+    ];
+
+    return () => subscriptions.forEach((unsubscribe) => unsubscribe());
+  }, [modal, apiModal, enableOrderV2]);
+```
+
+**面试可强调：**
+- 集中注册、生命周期清晰（`useEffect` + cleanup）
+- 按域拆分 listener 文件，避免一个巨型 listener
+- 支持 `actionCreator`、`matcher: isAnyOf(...)`、`cancelActiveListeners`、`delay` 等高级用法
+
+---
+
+### 2. 两类 Listener（建议分开讲）
+
+#### A. 业务 Listener（跨模块副作用）
+
+例如 `cart.listener.ts`：监听用户登录、进入 App、优惠券变更等，触发 merge cart、刷新 token、拉 Yotpo 等。
+
+> UI 只 dispatch 领域事件，不关心后续要 merge 购物车还是刷新 count。  
+> 业务 listener 负责「一个 action 触发一串 command」。
+
+#### B. Tracking Listener（埋点）
+
+单向链路（你们团队规范）：
+
+```
+UI 组件
+  ↓ dispatch
+Domain Interaction Event（定义在业务 domain）
+  ↓ subscribe
+tracking/listener
+  ↓ map & forward
+trigger（createAsyncThunk）
+  ↓
+第三方（GA / DY / FB CAPI / Klaviyo / Pinterest / UTT）
+```
+
+**面试可强调的设计原则：**
+1. **UI 不直接调埋点 SDK**，只 dispatch domain event  
+2. **Event 与 UI 同模块 co-locate**（如 payment event 在 payment-domain）  
+3. **Payload 在 dispatch 时就带齐**，listener 不再读 store 补字段  
+4. **Trigger 只管渠道格式**，listener 做路由映射  
+
+---
+
+### 3. 完整例子（建议背这个）
+
+**场景：用户点击支付方式**
+
+**Step 1 — UI dispatch 领域事件**
+
+```176:176:libs/modules/payment/components/src/lib/payment-wallets/payment-wallets.tsx
+        dispatch(paymentMethodClickedEvent({ provider, category: paymentMethodClickCategory }));
+```
+
+**Step 2 — Domain 定义事件**
+
+```10:10:libs/modules/payment/domain/src/lib/events/payment-method-clicked.event.ts
+export const paymentMethodClickedEvent = createAction<PaymentMethodClickedEventPayload>('payment/paymentMethodClicked');
+```
+
+**Step 3 — Tracking Listener 订阅并转发**
+
+```14:20:libs/modules/tracking/services/src/lib/listeners/payment-tracking.listener.ts
+    startListening({
+      actionCreator: paymentMethodClickedEvent,
+      effect: async ({ payload }, { dispatch }) => {
+        await dispatch(EVENT_GA_CLICK_PAYMENT_METHOD({ category: payload.category, label: payload.provider }));
+      },
+    }),
+```
+
+**Step 4 — Trigger 调用 GA**
+
+Trigger 里是 `createAsyncThunk`，组装 GA 参数并调用 `gaTrack()`。
+
+---
+
+### 4. 和「传统埋点」的对比（面试官常问）
+
+| 传统做法 | 我们项目 |
+|---|---|
+| 组件里直接 `gaTrack()` | 组件只 `dispatch(event)` |
+| 埋点逻辑散落各页面 | 集中在 tracking/listeners + triggers |
+| 改 GA 字段要改 UI | 改 trigger/schema 即可 |
+| 难测 | listener/trigger 可单测 mock dispatch |
+
+---
+
+## 四、面试话术模板（可直接背）
+
+### RTK 部分（约 1 分钟）
+
+> 我们项目用 Redux Toolkit 做全局状态。Store 在 shared 层统一配置，按业务域拆 slice，API 用 RTK Query 的 injectEndpoints 模式，统一处理鉴权、重试和缓存失效。  
+> 另外我们用 RTK 的 Listener Middleware 做事件驱动：UI 发 domain action，listener 订阅后执行跨模块逻辑，比如登录后 merge 购物车，或把用户行为转发到 GA、Dynamic Yield 等渠道。  
+> 这样 UI 层保持薄，副作用集中、可测试，也符合我们 Monorepo 里 domain / services / components 的分层。
+
+### 事件监听部分（约 1 分钟）
+
+> 事件监听基于 RTK Listener Middleware。App 启动时在 layout 的 useEffect 里注册各模块的 setupListeners，卸载时 unsubscribe。  
+> 埋点走单向链路：UI dispatch 领域 interaction event → tracking listener 订阅 → 映射到 channel trigger → 调第三方 SDK。  
+> 领域事件用 createAction 定义在各自 domain 里，和 UI 同模块；tracking 模块只负责订阅和转发，不在 listener 里读 store 补数据。  
+> 这样新增埋点不用改 UI 逻辑，改 schema 和 trigger 就行，也有单元测试覆盖 listener 的映射关系。
+
+---
+
+## 五、面试官可能追问 + 参考答法
+
+**Q：为什么不用 EventEmitter / 自定义 pub-sub？**  
+> Action 天然进 Redux DevTools，和现有状态流一致；Listener Middleware 支持 matcher、取消、debounce，且类型安全。
+
+**Q：Listener 里能读 store 吗？**  
+> 业务 listener 可以（如 cart listener 读 customer）；**tracking listener 规范上不允许**为补 payload 读 store，payload 应在 dispatch 时带齐。
+
+**Q：和 Redux Saga 比呢？**  
+> Listener Middleware 更轻，和 RTK 一体，学习成本低；复杂异步我们主要用 `createAsyncThunk` command + listener 编排。
+
+**Q：Next.js SSR 怎么处理 store？**  
+> 客户端用 `StoreProvider` 单例；需要 SSR 预取时用 `next-redux-wrapper`，但大部分 listener 只在 client layout 注册。
+
+**Q：怎么保证埋点不重复？**  
+> listener 里用 Set 做 dedup（如 order summary view details），或用 `cancelActiveListeners` + `delay` 防重复 merge。
+
+---
+
+## 六、加分项（如果时间允许）
+
+1. **Monorepo 边界**：domain 不能依赖 components；tracking 通过 listener 订阅 domain event，避免循环依赖。  
+2. **双 App 复用**：Web / POS 共用 store 结构，listener 按 `accessInWeb` / `accessInPos` 条件注册。  
+3. **可测试性**：listener 测试里自建 `createListenerMiddleware` + `configureStore`，断言 dispatch 了正确的 trigger。  
+4. **演进中**：部分老埋点还在 `tracking.listener.ts` 里直接 matcher RTK action，新事件都走 domain event 链路。
+
