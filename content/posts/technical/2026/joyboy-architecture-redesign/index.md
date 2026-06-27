@@ -52,12 +52,12 @@ excerpt: 复盘某跨境电商品牌前端核心系统的架构重构：七年 l
 
 我定了四个维度的目标：
 
-| 维度 | 目标 |
-| --- | --- |
-| 性能 | 核心投放页 Core Web Vitals 达到「良好」，逐步推广全站 |
-| 可配置 | SEO 页、促销页、A/B 页运营可自助配置，减少研发介入 |
-| 可维护 | Clean Architecture + Nx 边界约束 + 统一组件库 |
-| 快速交付 | 不同场景匹配不同渲染策略，不一刀切 SSR |
+| 维度     | 目标                                                  |
+| -------- | ----------------------------------------------------- |
+| 性能     | 核心投放页 Core Web Vitals 达到「良好」，逐步推广全站 |
+| 可配置   | SEO 页、促销页、A/B 页运营可自助配置，减少研发介入    |
+| 可维护   | Clean Architecture + Nx 边界约束 + 统一组件库         |
+| 快速交付 | 不同场景匹配不同渲染策略，不一刀切 SSR                |
 
 ---
 
@@ -117,20 +117,20 @@ Route Group 只影响布局组织，不出现在 URL。市场级 `client-layout`
 
 ### 渲染模式选型
 
-| 渲染模式 | 适用场景 | 典型页面 |
-| --- | --- | --- |
-| CSR | 强交互、低 SEO | 门店端 POS |
-| ISR | 内容驱动、CDN 加速 | CMS 页、投放页 |
-| SSR | 个性化、实时数据 | 结账、购物车 |
-| RSC | 静态内容 + 局部交互 | 商品详情、首页 |
+| 渲染模式 | 适用场景            | 典型页面       |
+| -------- | ------------------- | -------------- |
+| CSR      | 强交互、低 SEO      | 门店端 POS     |
+| ISR      | 内容驱动、CDN 加速  | CMS 页、投放页 |
+| SSR      | 个性化、实时数据    | 结账、购物车   |
+| RSC      | 静态内容 + 局部交互 | 商品详情、首页 |
 
 ### RSC 与 Client Component 切分
 
-| 放服务端 (RSC) | 放客户端 (CC) |
-| --- | --- |
+| 放服务端 (RSC)               | 放客户端 (CC)            |
+| ---------------------------- | ------------------------ |
 | 首屏数据 fetch、SEO metadata | 表单交互、动画、即时搜索 |
-| 价格/库存等服务端可信数据 | Redux 订阅、浏览器 API |
-| 静态结构、骨架屏边界 | 第三方 SDK（支付、地图） |
+| 价格/库存等服务端可信数据    | Redux 订阅、浏览器 API   |
+| 静态结构、骨架屏边界         | 第三方 SDK（支付、地图） |
 
 几个关键实践：
 
@@ -142,7 +142,7 @@ Route Group 只影响布局组织，不出现在 URL。市场级 `client-layout`
 
 Monorepo 内按 DDD 切分模块：`domain/` 放业务规则，`services/` 编排用例，`actions/` 作为 Server Action 入口。
 
-Server Action 作为 BFF 薄层：校验输入 → 调 domain service → 返回序列化 DTO。Redux 保留给客户端跨页状态，服务端首屏数据通过 RSC props 注入，避免「双份数据源」。
+Server Action 作为 BFF(Backend-for-Frontend 中间层) 薄层：校验输入 → 调 domain service → 返回序列化 DTO。Redux 保留给客户端跨页状态，服务端首屏数据通过 RSC props 注入，避免「双份数据源」。
 
 鉴权在 [Edge Middleware](/posts/edge-middleware-auth-design/) 预判，比客户端 `useEffect` 守卫更早执行，消除首屏闪烁。
 
@@ -154,10 +154,10 @@ Server Action 作为 BFF 薄层：校验输入 → 调 domain service → 返回
 
 我设计了两层机制，避免业务代码里散落 `switch (country)`：
 
-| 层级 | 解决什么 | 典型手段 |
-| --- | --- | --- |
-| Feature Flag | 某功能开不开 | 基础设施层 SDK，按市场/渠道/环境判定 |
-| Market Strategy | 开了之后行为是什么 | 领域层工厂模式，按市场注入规则 |
+| 层级            | 解决什么           | 典型手段                             |
+| --------------- | ------------------ | ------------------------------------ |
+| Feature Flag    | 某功能开不开       | 基础设施层 SDK，按市场/渠道/环境判定 |
+| Market Strategy | 开了之后行为是什么 | 领域层工厂模式，按市场注入规则       |
 
 **原则**：核心业务规则进 MarketStrategy，灰度和实验走 Feature Flag。领域层通过适配层查询开关，不直接依赖基础设施包。
 
@@ -232,12 +232,12 @@ Clean Architecture 分层、Feature Flag 与市场策略的分离、RSC 与 Clie
 
 ## 关联阅读
 
-| 主题 | 链接 |
-| --- | --- |
+| 主题             | 链接                                                                  |
+| ---------------- | --------------------------------------------------------------------- |
 | ISR + Redis 缓存 | [Next.js ISR + Redis 共享缓存](/posts/nextjs-isr-redis-shared-cache/) |
-| 支付编排 | [电商支付链路架构](/posts/payment-pipeline-architecture/) |
-| 交易可观测性 | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/) |
-| Edge 鉴权 | [Edge Middleware 登录鉴权](/posts/edge-middleware-auth-design/) |
-| 迁移节奏 | [大型电商前端迁移](/posts/ecommerce-migration-plan/) |
-| 组件库 | [企业级电商组件库建设实践](/posts/design-system-cdd-practice/) |
-| 工程索引 | [工程实践札记索引](/posts/engineering-practice-hub/) |
+| 支付编排         | [电商支付链路架构](/posts/payment-pipeline-architecture/)             |
+| 交易可观测性     | [交易链路可观测性建设](/posts/transaction-observability-tech-plan/)   |
+| Edge 鉴权        | [Edge Middleware 登录鉴权](/posts/edge-middleware-auth-design/)       |
+| 迁移节奏         | [大型电商前端迁移](/posts/ecommerce-migration-plan/)                  |
+| 组件库           | [企业级电商组件库建设实践](/posts/design-system-cdd-practice/)        |
+| 工程索引         | [工程实践札记索引](/posts/engineering-practice-hub/)                  |
