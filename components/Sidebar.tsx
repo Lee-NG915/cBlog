@@ -108,6 +108,9 @@ export default function Sidebar({ categories }: SidebarProps) {
   };
 
   const isActive = (href: string) => {
+    if (!pathname) {
+      return false;
+    }
     if (href === "/") {
       return pathname === "/";
     }

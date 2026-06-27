@@ -20,9 +20,7 @@ interface RightCapitalNotePageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllRightCapitalSlugs().map((slug) => ({
-    slug: encodeURIComponent(slug),
-  }));
+  return getAllRightCapitalSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -128,7 +126,7 @@ export default async function RightCapitalNotePage({
                     return (
                       <Link
                         key={item.slug}
-                        href={`/rightCapital/${encodeURIComponent(item.slug)}`}
+                        href={`/rightCapital/${item.slug}`}
                         aria-current={isCurrent ? "page" : undefined}
                         className={`block rounded-md px-3 py-2 font-sans text-sm leading-5 transition ${
                           isCurrent
