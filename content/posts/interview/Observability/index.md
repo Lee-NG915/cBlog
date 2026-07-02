@@ -2,18 +2,18 @@
 title: Observability 整理
 slug: Observability
 date: 2026-04-09T17:11:00+08:00
-category: interview
+category: notes
 tags:
   - Sentry 监控
 status: draft
 excerpt:
 ---
 
-以下是对 [Observability 文档库](https://castlery.atlassian.net/wiki/spaces/EC/pages/3914072196/Observability) 及其 **17 个子文档** 的提炼，已整理成可直接用于**简历**和**面试**的表达方式。
+以下是对 [Observability 文档库](https://castlery.atlassian.net/wiki/spaces/EC/pages/3914072196/Observability) 及其 **17 个子文档** 的提炼，已整理成可直接用于**项目记录**和**技术复盘**的表达方式。
 
 ---
 
-## 一、30 秒电梯演讲（面试开场）
+## 一、30 秒快速概述（技术复盘开场）
 
 > 我在 Castlery Joyboy 多区域电商前端项目中，参与/使用了一套完整的 **Observability 工程体系**。核心目标是：**在用户感知之前发现问题，并把正确的信息路由给正确的人**。
 >
@@ -23,7 +23,7 @@ excerpt:
 
 ---
 
-## 二、体系全景（面试「介绍一下这套系统」）
+## 二、体系全景（技术复盘「介绍一下这套系统」）
 
 ### 1. 三层监控架构
 
@@ -68,7 +68,7 @@ sentry/         ← Sentry 适配层
 
 ---
 
-## 三、10 条互斥告警（面试高频考点）
+## 三、10 条互斥告警（技术复盘重点）
 
 **设计原则：** 每条规则用 `!page_type:*` / `!domain:*` / `!error_bucket:*` 排除更高优先级范围 → **同一 issue 只触发一条告警，避免告警风暴**。
 
@@ -85,7 +85,7 @@ sentry/         ← Sentry 适配层
 | 4   | Warning/Log            | 排除上层 + `!unclassified`                  | new issue only |
 | 4   | Unclassified New Issue | `error_bucket:unclassified`                 | new issue only |
 
-**关键区分（面试加分）：**
+**关键区分（技术复盘补充）：**
 
 - `api_5xx/timeout` = **浏览器 fetch** 失败
 - `upstream_5xx/timeout` = **服务端**调上游失败
@@ -93,7 +93,7 @@ sentry/         ← Sentry 适配层
 
 ---
 
-## 四、标签体系（三标签面试题）
+## 四、标签体系（三标签技术复盘题）
 
 | 标签           | 谁设置             | 作用                           |
 | -------------- | ------------------ | ------------------------------ |
@@ -120,7 +120,7 @@ sentry/         ← Sentry 适配层
 
 ## 五、Harness 工程范式（差异化亮点）
 
-这是文档体系中最适合写进简历的**工程治理**故事：
+这是文档体系中最适合写进项目记录的**工程治理**故事：
 
 | 组件       | 实现                                             | 作用         |
 | ---------- | ------------------------------------------------ | ------------ |
@@ -164,7 +164,7 @@ sentry/         ← Sentry 适配层
 
 ---
 
-## 七、简历 Bullet 模板（按参与深度选用）
+## 七、项目记录 Bullet 模板（按参与深度选用）
 
 ### 架构/平台建设向
 
@@ -185,7 +185,7 @@ sentry/         ← Sentry 适配层
 
 ---
 
-## 八、面试问答速记
+## 八、技术复盘问题速记
 
 **Q：为什么 Middleware 不上报 Sentry？**  
 A：Edge 每次请求都经过，上报会产生大量噪音和高成本；架构上永久静默，仅 stdout logger，流量监控靠 Datadog。
@@ -210,10 +210,10 @@ A：Sentry = 错误发生时告警；Datadog = 流量/指标异常（如 AddToCa
 
 ---
 
-## 九、一句话项目描述（放简历项目经历开头）
+## 九、一句话项目描述（放项目记录项目经历开头）
 
 > 负责/参与 Castlery Joyboy 前端 **Observability 工程体系**：基于 Sentry + Datadog 三层监控，自研结构化错误上报 SDK，设计 10 条互斥告警 + 9 套 Runbook + Ownership 自动路由；并通过 ESLint 插件、E2E tag 验证、CI Gate 和 AI 自动修复 Routine 实现规范的全链路自动化治理。
 
 ---
 
-如果你希望进一步个性化，我可以根据你实际参与的 PR/模块（例如 INP 分析、首屏时序、Fortress 优化等）把上述 bullets 改成**只写你亲手做过**的版本，避免面试被深挖时露馅。
+如果你希望进一步个性化，我可以根据你实际参与的 PR/模块（例如 INP 分析、首屏时序、Fortress 优化等）把上述 bullets 改成**只写你亲手做过**的版本，避免技术复盘被展开时不一致。

@@ -8,7 +8,7 @@ tags:
   - 产品分析
   - 用户画像
   - 场景细分
-status: published
+status: draft
 excerpt: 梳理如何根据报表分析出对应的商业逻辑，用户为什么消费，产品提供了什么，通过什么途径消费...
 coverCard: /images/covers/study/date-analyse-cover.png
 ---

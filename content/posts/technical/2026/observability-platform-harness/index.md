@@ -1,8 +1,8 @@
 ---
 title: 前端可观测性平台：Sentry 分桶 + ESLint 规则 + Harness 八组件范式
 slug: observability-platform-harness
-date: 2026-06-03
-updatedAt: 2026-06-07
+date: 2026-06-15
+updatedAt: 2026-06-24
 category: technical
 tags:
   - Observability
@@ -20,6 +20,10 @@ excerpt: 复盘电商 Web 可观测性体系建设：三层监控分工、error_
 这篇与 [交易链路可观测性](/posts/transaction-observability-tech-plan/) 互补：那篇讲结账漏斗 15 阶段模型，这篇讲**平台级监控分层与合规门禁**。
 
 ---
+
+## 阅读主线
+
+这篇对应 Sentry 分桶、Datadog 边界、Ownership 路由、Runbook 和 AI 修复进入 PR 的治理思路。重点是平台层负责标准化采集、分类和路由，业务层只传递上下文；AI 的角色是生成可 review 的修复建议，不是自动上线。
 
 ## 三层监控分工
 

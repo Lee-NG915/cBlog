@@ -1,8 +1,8 @@
 ---
 title: Next.js Edge Middleware 登录鉴权：从客户端守卫迁到服务端预判
 slug: edge-middleware-auth-design
-date: 2026-06-02
-updatedAt: 2026-06-07
+date: 2026-06-23
+updatedAt: 2026-06-24
 category: technical
 tags:
   - Next.js
@@ -18,6 +18,10 @@ excerpt: 复盘账号体系从 React Router 客户端守卫迁移到 App Router 
 Legacy 电商站用 React Router + HOC 做登录守卫——用户先看到页面骨架，再被 `useEffect` 踢到登录页，首屏闪烁明显，SEO 也不友好。我主导了账号体系向 Next.js App Router 的迁移：**在 Edge Middleware 完成鉴权预判**，服务端渲染前就决定跳转，同时保持登录后回跳、埋点初始化和第三方登录回调的行为一致。
 
 ---
+
+## 阅读主线
+
+这篇对应认证鉴权、cookie/token、刷新策略、CORS/安全基础和 App Router 服务端边界。阅读时先看为什么客户端守卫会闪屏，再看 Middleware 能做鉴权预判但不适合做重业务逻辑；token 刷新、登录回跳和第三方回调要保持幂等和可观测。
 
 ## 目标
 

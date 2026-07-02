@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "阅读路径",
-  description: "按长期主题浏览学习记录、工程札记、面试札记和生活手记。",
+  description: "按长期主题浏览学习记录、工程札记、专题整理和生活手记。",
   alternates: {
     canonical: "/categories/",
   },
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: "/categories/",
     siteName: siteConfig.title,
     title: `阅读路径 | ${siteConfig.title}`,
-    description: "按长期主题浏览学习记录、工程札记、面试札记和生活手记。",
+    description: "按长期主题浏览学习记录、工程札记、专题整理和生活手记。",
     locale: "zh_CN",
     images: [
       {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `阅读路径 | ${siteConfig.title}`,
-    description: "按长期主题浏览学习记录、工程札记、面试札记和生活手记。",
+    description: "按长期主题浏览学习记录、工程札记、专题整理和生活手记。",
     images: [siteConfig.ogImage],
   },
 };
@@ -47,7 +47,7 @@ export default function CategoriesPage() {
           阅读路径
         </h1>
         <p className="mt-4 max-w-2xl font-sans text-base leading-7 text-ink-muted dark:text-gray-300">
-          按长期主题浏览学习记录、工程札记、面试札记和生活手记。
+          按长期主题浏览学习记录、工程札记、专题整理和生活手记。
         </p>
       </header>
 

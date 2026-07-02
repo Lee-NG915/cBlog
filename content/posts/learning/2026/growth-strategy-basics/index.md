@@ -7,7 +7,7 @@ tags:
   - GA4
   - 产品分析
   - 增长策略
-status: published
+status: draft
 excerpt: 基于 GA4 业务数据拆解收入增长目标，把收入目标转化为关键行为、用户特征和产品动作假设。
 coverCard: /images/covers/study/date-analyse-cover.png
 ---

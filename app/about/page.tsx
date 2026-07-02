@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 
 const description =
-  "了解 Color 手记的内容方向：学习记录、工程札记、面试札记和生活手记。";
+  "了解 Color 手记的内容方向：学习记录、工程札记、专题整理和生活手记。";
 
 export const metadata: Metadata = {
   title: "关于",
@@ -53,7 +53,7 @@ export default function AboutPage() {
         <ul>
           <li>学习记录：最近在啃什么、怎么理解的、哪里还卡着。</li>
           <li>工程札记：写代码、部署、工具选用时的真实取舍。</li>
-          <li>面试札记：求职复盘、项目讲述、面试前翻一眼的笔记。</li>
+          <li>专题整理：围绕一个主题整理的复盘、问题清单和阶段性记录。</li>
           <li>生活手记：工作以外的小事，不用包装，真实就好。</li>
         </ul>
         <p>

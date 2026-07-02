@@ -7,7 +7,7 @@ tags:
   - reading
   - 必读
   - 人际沟通
-status: published
+status: draft
 excerpt: 阅读本文可以简单了解“批判性思维”的关键概念。
 ---
 

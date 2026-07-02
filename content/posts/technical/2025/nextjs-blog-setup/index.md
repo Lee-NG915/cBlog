@@ -9,7 +9,7 @@ tags:
   - GitHub Pages
   - 静态站点
   - Mermaid
-status: published
+status: draft
 excerpt: 记录当前博客如何用 Next.js App Router、Markdown 内容包、静态导出和 GitHub Pages 组成一个可维护的个人知识站点。
 coverCard: https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop
 ---

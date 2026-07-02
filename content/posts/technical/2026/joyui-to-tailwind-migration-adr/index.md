@@ -1,8 +1,8 @@
 ---
 title: ADR：从 CSS-in-JS 迁移至 Tailwind CSS 的架构决策
 slug: joyui-to-tailwind-migration-adr
-date: 2026-03-27
-updatedAt: 2026-04-08
+date: 2026-05-18
+updatedAt: 2026-05-27
 category: technical
 tags:
   - ADR
@@ -23,6 +23,10 @@ excerpt: 记录从 MUI Joy UI 迁移至 Tailwind CSS 的架构决策：RSC 与 C
 我撰写了这份 ADR 并在团队内推进讨论。最终结论：**Radix UI + Tailwind CSS + CVA（class-variance-authority）** 替代 Joy UI，渐进式迁移，Feature Flag 控制回滚。
 
 ---
+
+## 阅读主线
+
+这篇适合回答「为什么从 CSS-in-JS 迁到 Tailwind」和「组件库如何兼容 RSC」。主线不是审美偏好，而是运行时样式、客户端边界、bundle 成本和缓存稳定性共同推动的架构决策；结尾要强调渐进迁移和可回滚。
 
 ## 决策背景
 

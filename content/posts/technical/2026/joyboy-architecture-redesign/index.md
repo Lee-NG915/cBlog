@@ -1,8 +1,8 @@
 ---
 title: 企业级电商前端平台架构重构：从七年 legacy 到多端复用
 slug: ecommerce-architecture-redesign
-date: 2026-02-18
-updatedAt: 2026-06-07
+date: 2026-05-13
+updatedAt: 2026-05-14
 category: technical
 tags:
   - Architecture
@@ -24,6 +24,10 @@ excerpt: 复盘某跨境电商品牌前端核心系统的架构重构：七年 l
 我主导了整体架构方案的设计与落地推进。这篇是**总览**：模块边界、App Router 渲染策略、多市场特性分层、迁移节奏。ISR 缓存、支付编排、交易可观测性等子系统各有独立笔记，文末链过去。
 
 ---
+
+## 阅读主线
+
+这篇适合作为整套工程实践的总览：先说明 legacy 痛点，再看我如何用 Monorepo、Clean Architecture、Nx 依赖约束和 Feature Flag 把系统拆成可演进的平台。阅读时重点放在三个问题：模块之间如何通信、为什么不是严格 DDD、以及灰度迁移时如何保证新旧逻辑一致。
 
 ## 问题诊断
 

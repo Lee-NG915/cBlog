@@ -14,9 +14,9 @@ export const postCategories = [
     description: "前端工程、部署实践、工具链和架构取舍。",
   },
   {
-    slug: "interview",
-    name: "面试札记",
-    description: "求职复盘、项目讲述、面试题整理与作品集导航。",
+    slug: "notes",
+    name: "专题整理",
+    description: "围绕一个主题整理的项目复盘、问题清单和阶段性记录。",
   },
   {
     slug: "learning",

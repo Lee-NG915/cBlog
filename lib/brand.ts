@@ -60,10 +60,10 @@ export const brandCore = {
       tone: "带一点现场感",
     },
     {
-      slug: "interview",
-      name: "面试札记",
-      description: "求职复盘、怎么讲项目、面试前翻一眼的笔记。",
-      tone: "像在排练怎么开口",
+      slug: "notes",
+      name: "专题整理",
+      description: "围绕一个主题整理的复盘、问题清单和阶段性记录。",
+      tone: "像在整理一摞资料",
     },
     {
       slug: "life",

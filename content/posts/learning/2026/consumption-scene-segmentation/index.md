@@ -7,7 +7,7 @@ tags:
   - 消费场景
   - 产品分析
   - 用户画像
-status: published
+status: draft
 excerpt: 根据现有用户数据，按照“消费者+商品+使用场景”的经营视角对消费人群进行划分，学习进行细分的思考过程
 coverCard: /images/covers/study/date-analyse-cover.png
 ---
