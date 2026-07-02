@@ -1,13 +1,13 @@
 ---
 title: 电商产品学习2——细分消费场景
 slug: consumption-scene-segmentation
-date: 2026-05-18T17:20:00+08:00
+date: 2026-05-04T17:20:00+08:00
 category: learning
 tags:
   - 消费场景
   - 产品分析
   - 用户画像
-status: draft
+status: published
 excerpt: 根据现有用户数据，按照“消费者+商品+使用场景”的经营视角对消费人群进行划分，学习进行细分的思考过程
 coverCard: /images/covers/study/date-analyse-cover.png
 ---

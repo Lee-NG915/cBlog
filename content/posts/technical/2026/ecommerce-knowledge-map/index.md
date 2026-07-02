@@ -1,8 +1,8 @@
 ---
 title: 电商前端工程知识图谱：从架构到实现的交互入口
 slug: ecommerce-knowledge-map
-date: 2026-07-01
-updatedAt: 2026-07-01
+date: 2024-12-02
+updatedAt: 2024-12-11
 category: technical
 tags:
   - Knowledge Graph

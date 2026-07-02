@@ -1,7 +1,7 @@
 ---
 title: 多市场电商 Feature Flag：三层特性模型与 DDD 适配层
 slug: multi-market-feature-flag
-date: 2026-05-24
+date: 2026-05-20
 updatedAt: 2026-06-03
 category: technical
 tags:

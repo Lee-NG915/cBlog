@@ -1,8 +1,8 @@
 ---
 title: Next.js ISR + Redis 共享缓存：多实例部署下的页面加速方案
 slug: nextjs-isr-redis-shared-cache
-date: 2026-05-28
-updatedAt: 2026-06-10
+date: 2025-05-27
+updatedAt: 2025-06-10
 category: technical
 tags:
   - Next.js
@@ -78,23 +78,23 @@ flowchart TB
 
 ### 组件职责
 
-| 组件 | 职责 |
-| --- | --- |
-| Next.js ISR | 页面级静态再生，`revalidate` 控制兜底刷新周期 |
-| cache-handler | ISR 与 Redis 的桥梁：读/写页面缓存和数据缓存 |
-| Redis | 跨 Pod 共享存储，支持集群高可用 |
-| Webhook Route | 接收 CMS 变更，验签后触发精准刷新 |
-| 监控 | 缓存命中率、内存用量、过期清理告警 |
+| 组件          | 职责                                          |
+| ------------- | --------------------------------------------- |
+| Next.js ISR   | 页面级静态再生，`revalidate` 控制兜底刷新周期 |
+| cache-handler | ISR 与 Redis 的桥梁：读/写页面缓存和数据缓存  |
+| Redis         | 跨 Pod 共享存储，支持集群高可用               |
+| Webhook Route | 接收 CMS 变更，验签后触发精准刷新             |
+| 监控          | 缓存命中率、内存用量、过期清理告警            |
 
 ### 区域与环境隔离
 
 这是我坚持做的设计，后来证明省去了很多排查时间：
 
-| 维度 | 策略 |
-| --- | --- |
+| 维度 | 策略                                                            |
+| ---- | --------------------------------------------------------------- |
 | 区域 | 每个海外市场独立 Next.js 集群 + 独立 Redis，缓存 Key 带区域前缀 |
-| 环境 | test / uat / prod 使用不同 Redis 实例，test 刷新不影响生产 |
-| 版本 | 缓存 Key 包含 `env + buildId`，发版后旧版本缓存自然淘汰 |
+| 环境 | test / uat / prod 使用不同 Redis 实例，test 刷新不影响生产      |
+| 版本 | 缓存 Key 包含 `env + buildId`，发版后旧版本缓存自然淘汰         |
 
 ---
 
@@ -117,7 +117,7 @@ async function getPageData(slug: string) {
     return JSON.parse(dataCache);
   }
   const fresh = await fetchFromApi(slug);
-  await redis.set(dataKey(slug), JSON.stringify(fresh), 'EX', DATA_TTL);
+  await redis.set(dataKey(slug), JSON.stringify(fresh), "EX", DATA_TTL);
   // 标记关联页面缓存需要重建
   await invalidatePageCacheByTag(slug);
   return fresh;
@@ -187,11 +187,11 @@ sequenceDiagram
 
 投放页是这套方案的第一个落地场景，也是收益最明显的：
 
-| 布局 | 缓存策略 | 说明 |
-| --- | --- | --- |
-| Layout A | 独立 TTL + 独立 tag | 多版本 A/B 投放互不影响 |
-| Layout B | 独立 TTL + 独立 tag | 同上 |
-| Error Page | 短 TTL | 布局数据异常时降级展示 |
+| 布局       | 缓存策略            | 说明                    |
+| ---------- | ------------------- | ----------------------- |
+| Layout A   | 独立 TTL + 独立 tag | 多版本 A/B 投放互不影响 |
+| Layout B   | 独立 TTL + 独立 tag | 同上                    |
+| Error Page | 短 TTL              | 布局数据异常时降级展示  |
 
 **数据隔离原则**：CMS 布局数据和商品数据源分开缓存。商品池变更只刷数据 tag，不触发全布局重建；布局结构变更只刷布局路径。
 
@@ -201,12 +201,12 @@ sequenceDiagram
 
 上线后关注三类指标：
 
-| 指标 | 观察方式 | 预期 |
-| --- | --- | --- |
-| 缓存命中率 | Redis + APM 面板 | 热门投放页 > 85% |
-| 页面 TTFB | RUM 分区域对比 | 命中时 < 100ms |
-| 后端 QPS | API 网关监控 | 高峰时段下降 40%+ |
-| Webhook 刷新延迟 | 发布到可见的 P95 | < 5s |
+| 指标             | 观察方式         | 预期              |
+| ---------------- | ---------------- | ----------------- |
+| 缓存命中率       | Redis + APM 面板 | 热门投放页 > 85%  |
+| 页面 TTFB        | RUM 分区域对比   | 命中时 < 100ms    |
+| 后端 QPS         | API 网关监控     | 高峰时段下降 40%+ |
+| Webhook 刷新延迟 | 发布到可见的 P95 | < 5s              |
 
 同时配置了 Redis 内存用量和逐出率告警，避免缓存撑爆。
 

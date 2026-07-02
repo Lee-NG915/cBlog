@@ -1,8 +1,8 @@
 ---
 title: 电商 PLP 重构：SearchView 抽象与 InstantSearch + Elasticsearch 选型
 slug: ecommerce-plp-refactor
-date: 2026-05-25
-updatedAt: 2026-06-05
+date: 2026-05-30
+updatedAt: 2026-06-16
 category: technical
 tags:
   - PLP
@@ -24,11 +24,11 @@ excerpt: 复盘跨境电商产品列表页重构：用 SearchView 统一 PLP/CLP
 
 ## 三类列表页的边界
 
-| 类型 | 含义 | 典型场景 |
-| --- | --- | --- |
-| PLP | 运营配置的营销列表页 | 新品、促销、专题活动 |
-| CLP | 商品分类着陆页 | 客厅、卧室等固定类目 |
-| SRP | 搜索结果页 | 用户搜索关键词后的结果 |
+| 类型 | 含义                 | 典型场景               |
+| ---- | -------------------- | ---------------------- |
+| PLP  | 运营配置的营销列表页 | 新品、促销、专题活动   |
+| CLP  | 商品分类着陆页       | 客厅、卧室等固定类目   |
+| SRP  | 搜索结果页           | 用户搜索关键词后的结果 |
 
 三者的 UI 模式高度相似（筛选、排序、分页、URL 状态同步），但数据来源和 SEO 要求不同。重构的核心决策是：**抽一层 SearchView 基础组件**，三种页面只覆写数据注入和元数据策略。
 
@@ -49,11 +49,11 @@ excerpt: 复盘跨境电商产品列表页重构：用 SearchView 统一 PLP/CLP
 
 对比了四套方案：
 
-| 方案 | 开发周期 | SSR 支持 | 定制自由度 |
-| --- | --- | --- | --- |
-| React InstantSearch + Searchkit v4 | 4–6 周 | ✅ 良好 | 高 |
-| Elastic Search UI | 3–5 周 | ⚠️ App Router 支持有限 | 中 |
-| 纯自定义 | 8–12 周 | ✅ | 最高 |
+| 方案                               | 开发周期 | SSR 支持               | 定制自由度 |
+| ---------------------------------- | -------- | ---------------------- | ---------- |
+| React InstantSearch + Searchkit v4 | 4–6 周   | ✅ 良好                | 高         |
+| Elastic Search UI                  | 3–5 周   | ⚠️ App Router 支持有限 | 中         |
+| 纯自定义                           | 8–12 周  | ✅                     | 最高       |
 
 最终选择 **React InstantSearch + Searchkit v4**：
 
@@ -96,12 +96,12 @@ excerpt: 复盘跨境电商产品列表页重构：用 SearchView 统一 PLP/CLP
 
 ## 实施节奏（四阶段）
 
-| 阶段 | 范围 |
-| --- | --- |
-| P1 | SearchView 骨架 + SRP 迁移 |
-| P2 | CLP 分类页接入 |
-| P3 | PLP 运营配置页 + CMS 联动 |
-| P4 | POS 端布局适配 + 性能压测验收 |
+| 阶段 | 范围                          |
+| ---- | ----------------------------- |
+| P1   | SearchView 骨架 + SRP 迁移    |
+| P2   | CLP 分类页接入                |
+| P3   | PLP 运营配置页 + CMS 联动     |
+| P4   | POS 端布局适配 + 性能压测验收 |
 
 ---
 

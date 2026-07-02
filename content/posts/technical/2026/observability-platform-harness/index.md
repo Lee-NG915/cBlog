@@ -1,8 +1,8 @@
 ---
 title: 前端可观测性平台：Sentry 分桶 + ESLint 规则 + Harness 八组件范式
 slug: observability-platform-harness
-date: 2026-06-15
-updatedAt: 2026-06-24
+date: 2026-03-23
+updatedAt: 2023-06-24
 category: technical
 tags:
   - Observability
@@ -27,11 +27,11 @@ excerpt: 复盘电商 Web 可观测性体系建设：三层监控分工、error_
 
 ## 三层监控分工
 
-| 层 | 工具 | 覆盖 |
-| --- | --- | --- |
-| 应用错误 | Sentry | JS / Server / API 异常 |
-| 流量性能 | APM / RUM | 核心页面流量、API 量、响应时间突变 |
-| 核心链路 | 自定义指标 | 加购成功率等主动上报 |
+| 层       | 工具       | 覆盖                               |
+| -------- | ---------- | ---------------------------------- |
+| 应用错误 | Sentry     | JS / Server / API 异常             |
+| 流量性能 | APM / RUM  | 核心页面流量、API 量、响应时间突变 |
+| 核心链路 | 自定义指标 | 加购成功率等主动上报               |
 
 **互斥告警设计**：页面稳定性告警与通用错误级别告警互斥，避免同一 issue 触发多条 Oncall。
 
@@ -55,16 +55,16 @@ captureStructuredError(error, { domain: CART })
 
 把可观测性当成**可演进产品**来建，而不是一次性接入任务：
 
-| # | 组件 | 回答的问题 |
-| --- | --- | --- |
-| 1 Spec | 正确长什么样？ | 权威规范文档 |
-| 2 Static | 编写时能发现吗？ | 自定义 ESLint 插件 |
-| 3 Dynamic | 运行时能验证吗？ | beforeSend 单测 + E2E 标签断言 |
-| 4 Gate | 合并前能拦住吗？ | lint-staged + CI gate |
-| 5 Feedback | 正确的人收到反馈吗？ | IDE 红线 + PR comment |
-| 6 Evaluation | 合规率多少？ | coverage scan + baseline |
-| 7 Knowledge | 新人能维护吗？ | 规范索引 + 贡献指南 |
-| 8 Evolution | 规则怎么安全改？ | Change Protocol + 版本 bump |
+| #            | 组件                 | 回答的问题                     |
+| ------------ | -------------------- | ------------------------------ |
+| 1 Spec       | 正确长什么样？       | 权威规范文档                   |
+| 2 Static     | 编写时能发现吗？     | 自定义 ESLint 插件             |
+| 3 Dynamic    | 运行时能验证吗？     | beforeSend 单测 + E2E 标签断言 |
+| 4 Gate       | 合并前能拦住吗？     | lint-staged + CI gate          |
+| 5 Feedback   | 正确的人收到反馈吗？ | IDE 红线 + PR comment          |
+| 6 Evaluation | 合规率多少？         | coverage scan + baseline       |
+| 7 Knowledge  | 新人能维护吗？       | 规范索引 + 贡献指南            |
+| 8 Evolution  | 规则怎么安全改？     | Change Protocol + 版本 bump    |
 
 我按三期落地：先 Spec + Static + Gate（能拦住错误写法），再补 Knowledge（新人能接手），最后 Dynamic + Evaluation（能量化合规率）。
 
@@ -74,11 +74,11 @@ captureStructuredError(error, { domain: CART })
 
 ## 平台层 vs 业务层
 
-| 层级 | 本文（平台） | 交易可观测性文（业务） |
-| --- | --- | --- |
+| 层级   | 本文（平台）             | 交易可观测性文（业务）    |
+| ------ | ------------------------ | ------------------------- |
 | 关注点 | 分桶、告警路由、编码规范 | traceId 贯穿 15 阶段、SLO |
-| 受众 | 全体前端 | 结账 / 支付模块 |
-| 价值 | 报错能找对人 | 单笔交易能串起来 |
+| 受众   | 全体前端                 | 结账 / 支付模块           |
+| 价值   | 报错能找对人             | 单笔交易能串起来          |
 
 两层叠加，才能从「有监控」升级到「能回答业务问题」。
 

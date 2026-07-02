@@ -1,14 +1,14 @@
 ---
 title: 电商产品学习1——学会构建用户画像
 slug: building-user-profile
-date: 2026-05-14
+date: 2026-04-27
 category: learning
 tags:
   - GA4
   - 产品分析
   - 增长策略
   - 用户画像
-status: draft
+status: published
 excerpt: 了解用户画像，学习构建基础用户画像的方法，结合实际业务和数据进行实践
 coverCard: /images/covers/study/date-analyse-cover.png
 ---

@@ -1,14 +1,14 @@
 ---
 title: 电商产品学习3——如何分析数据报表
 slug: analyse-date-board
-date: 2026-05-18T17:21:00+08:00
+date: 2026-05-09T17:21:00+08:00
 category: learning
 tags:
   - 数据报表
   - 产品分析
   - 用户画像
   - 场景细分
-status: draft
+status: published
 excerpt: 梳理如何根据报表分析出对应的商业逻辑，用户为什么消费，产品提供了什么，通过什么途径消费...
 coverCard: /images/covers/study/date-analyse-cover.png
 ---

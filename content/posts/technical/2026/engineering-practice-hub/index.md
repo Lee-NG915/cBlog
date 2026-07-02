@@ -1,8 +1,8 @@
 ---
 title: 工程实践札记索引：我在大型电商前端项目里的思考地图
 slug: engineering-practice-hub
-date: 2026-06-24
-updatedAt: 2026-07-01
+date: 2026-07-01
+updatedAt: 2026-07-02
 category: technical
 tags:
   - Engineering

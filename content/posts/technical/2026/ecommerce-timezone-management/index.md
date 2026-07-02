@@ -1,8 +1,8 @@
 ---
 title: 多区域电商时区管理：UTC 存储 + 本地化展示的前端实践
 slug: ecommerce-timezone-management
-date: 2026-06-04
-updatedAt: 2026-06-05
+date: 2026-06-21
+updatedAt: 2026-06-24
 category: technical
 tags:
   - Timezone

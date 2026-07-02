@@ -1,8 +1,8 @@
 ---
 title: 大型前端 Monorepo 的 AI 工程化落地：AGENTS、Skills 与 Harness 八组件范式
 slug: ai-engineering-harness-practice
-date: 2026-06-05
-updatedAt: 2026-06-07
+date: 2026-02-27
+updatedAt: 2026-03-10
 category: technical
 tags:
   - AI Engineering

@@ -1,8 +1,8 @@
 ---
 title: ADR：从 CSS-in-JS 迁移至 Tailwind CSS 的架构决策
 slug: joyui-to-tailwind-migration-adr
-date: 2026-05-18
-updatedAt: 2026-05-27
+date: 2026-04-08
+updatedAt: 2026-04-18
 category: technical
 tags:
   - ADR
@@ -32,12 +32,12 @@ excerpt: 记录从 MUI Joy UI 迁移至 Tailwind CSS 的架构决策：RSC 与 C
 
 ### 触发条件
 
-| 信号 | 具体表现 |
-| --- | --- |
+| 信号         | 具体表现                                          |
+| ------------ | ------------------------------------------------- |
 | RSC 推广受阻 | 大量「纯展示」组件被迫加 `'use client'`，只为样式 |
-| 性能指标压力 | 移动端 TBT 偏高，CSS-in-JS 运行时占 ~25KB |
-| ISR 缓存异常 | 动态样式哈希导致 RSC payload 缓存命中率下降 |
-| 上游维护放缓 | Joy UI 对 RSC / Server Actions 的支持长期搁置 |
+| 性能指标压力 | 移动端 TBT 偏高，CSS-in-JS 运行时占 ~25KB         |
+| ISR 缓存异常 | 动态样式哈希导致 RSC payload 缓存命中率下降       |
+| 上游维护放缓 | Joy UI 对 RSC / Server Actions 的支持长期搁置     |
 
 ### 不迁移的代价
 
@@ -55,7 +55,7 @@ Joy UI 的样式生成依赖运行时 theme 上下文：
 
 ```jsx
 // CSS-in-JS 强制的客户端边界
-'use client';
+"use client";
 function StyledCard() {
   const theme = useTheme();
   return <Box sx={{ color: theme.palette.primary.main }}>...</Box>;
@@ -83,9 +83,7 @@ export default function RootLayout({ children }) {
     <html>
       <body>
         {/* ThemeProvider 必须是 client component */}
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
@@ -98,12 +96,12 @@ export default function RootLayout({ children }) {
 
 CSS-in-JS 在浏览器端需要：
 
-| 操作 | 典型耗时 |
-| --- | --- |
-| 解析 theme 对象 | ~2ms |
-| 样式插值计算 | ~1-3ms |
-| 生成唯一类名 | ~0.5ms |
-| 注入 style 标签 | ~1-2ms |
+| 操作            | 典型耗时 |
+| --------------- | -------- |
+| 解析 theme 对象 | ~2ms     |
+| 样式插值计算    | ~1-3ms   |
+| 生成唯一类名    | ~0.5ms   |
+| 注入 style 标签 | ~1-2ms   |
 
 单个组件不多，但一个 PDP 页面几十个组件累加，TBT 肉眼可见地涨。
 
@@ -117,24 +115,24 @@ RSC payload 里如果包含动态生成的 `className`（如 `css-1234567`），
 
 ### 评估维度
 
-| 维度 | 权重 | 说明 |
-| --- | --- | --- |
-| RSC 兼容性 | 高 | 能否让展示层留在服务端 |
-| 运行时开销 | 高 | 零运行时 CSS 优先 |
-| 包体积 | 中 | 影响 FCP / TBT |
-| 定制灵活性 | 中 | 电商品牌视觉差异大 |
-| 迁移成本 | 中 | 存量组件数量可观 |
-| 社区与维护 | 低 | 长期可维护性 |
+| 维度       | 权重 | 说明                   |
+| ---------- | ---- | ---------------------- |
+| RSC 兼容性 | 高   | 能否让展示层留在服务端 |
+| 运行时开销 | 高   | 零运行时 CSS 优先      |
+| 包体积     | 中   | 影响 FCP / TBT         |
+| 定制灵活性 | 中   | 电商品牌视觉差异大     |
+| 迁移成本   | 中   | 存量组件数量可观       |
+| 社区与维护 | 低   | 长期可维护性           |
 
 ### 候选方案
 
-| 方案 | 优势 | 劣势 | 结论 |
-| --- | --- | --- | --- |
-| 保留 Joy UI | 零迁移成本 | RSC 不兼容，性能瓶颈无解 | ❌ 否决 |
-| MUI Core v6 | 组件全、社区活跃 | 仍是 CSS-in-JS，RSC 支持不完整 | ❌ 否决 |
-| Chakra UI | 可访问性好 | 运行时 theme，同类问题 | ❌ 否决 |
-| NextUI | 原生 Tailwind、RSC 友好 | 企业级组件不够全 | ⚠️ 备选 |
-| **Radix + Tailwind + CVA** | 零运行时、完全可控、RSC 友好 | 需要自建组件层 | ✅ 采纳 |
+| 方案                       | 优势                         | 劣势                           | 结论    |
+| -------------------------- | ---------------------------- | ------------------------------ | ------- |
+| 保留 Joy UI                | 零迁移成本                   | RSC 不兼容，性能瓶颈无解       | ❌ 否决 |
+| MUI Core v6                | 组件全、社区活跃             | 仍是 CSS-in-JS，RSC 支持不完整 | ❌ 否决 |
+| Chakra UI                  | 可访问性好                   | 运行时 theme，同类问题         | ❌ 否决 |
+| NextUI                     | 原生 Tailwind、RSC 友好      | 企业级组件不够全               | ⚠️ 备选 |
+| **Radix + Tailwind + CVA** | 零运行时、完全可控、RSC 友好 | 需要自建组件层                 | ✅ 采纳 |
 
 ### 推荐方案：Radix UI + Tailwind CSS
 
@@ -147,27 +145,30 @@ RSC payload 里如果包含动态生成的 `className`（如 `css-1234567`），
 ```tsx
 // 构建时生成 CSS，零运行时开销
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        outline: 'border border-input bg-background hover:bg-accent',
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        outline: "border border-input bg-background hover:bg-accent",
       },
       size: {
-        sm: 'h-9 px-3 text-sm',
-        md: 'h-10 px-4',
-        lg: 'h-11 px-8',
+        sm: "h-9 px-3 text-sm",
+        md: "h-10 px-4",
+        lg: "h-11 px-8",
       },
     },
-    defaultVariants: { variant: 'primary', size: 'md' },
-  }
+    defaultVariants: { variant: "primary", size: "md" },
+  },
 );
 
 // 展示组件 — 可以是 Server Component
 function Button({ className, variant, size, ...props }) {
   return (
-    <button className={cn(buttonVariants({ variant, size }), className)} {...props} />
+    <button
+      className={cn(buttonVariants({ variant, size }), className)}
+      {...props}
+    />
   );
 }
 ```
@@ -183,7 +184,7 @@ function Button({ className, variant, size, ...props }) {
   --border: 214.3 31.8% 91.4%;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --primary: 210 40% 98%;
   --primary-foreground: 222.2 47.4% 11.2%;
 }
@@ -209,12 +210,12 @@ theme: {
 
 ### 渐进式，不要大爆炸
 
-| 阶段 | 周期 | 内容 |
-| --- | --- | --- |
-| 基础设施 | 2 周 | Tailwind 配置、ESLint 插件、CSS Variables 主题、Radix 原语引入 |
-| 原子组件 | 4 周 | Button、Input、Typography、Card 等基础件 |
-| 业务模式组件 | 6 周 | ProductCard、PriceDisplay、CartItem 等 |
-| 页面级替换 | 持续 | 按页面 Feature Flag 切换新旧组件 |
+| 阶段         | 周期 | 内容                                                           |
+| ------------ | ---- | -------------------------------------------------------------- |
+| 基础设施     | 2 周 | Tailwind 配置、ESLint 插件、CSS Variables 主题、Radix 原语引入 |
+| 原子组件     | 4 周 | Button、Input、Typography、Card 等基础件                       |
+| 业务模式组件 | 6 周 | ProductCard、PriceDisplay、CartItem 等                         |
+| 页面级替换   | 持续 | 按页面 Feature Flag 切换新旧组件                               |
 
 ### 共存与回滚
 
@@ -235,22 +236,22 @@ NEXT_PUBLIC_UI_VERSION=new   # 或 legacy
 
 ## 风险与缓解
 
-| 风险 | 缓解措施 |
-| --- | --- |
-| 视觉回归 | Chromatic 视觉回归测试覆盖核心组件 |
-| 团队学习成本 | Tailwind 语法培训 + 组件 Storybook 示例 |
-| 第三方组件兼容 | Radix 提供底层原语，上层自己封装 |
-| 迁移周期长 | Feature Flag 按页面切换，不影响未迁移页面 |
-| 性能不达预期 | 设定 FCP / TBT 基线，每阶段对比 PageSpeed |
+| 风险           | 缓解措施                                  |
+| -------------- | ----------------------------------------- |
+| 视觉回归       | Chromatic 视觉回归测试覆盖核心组件        |
+| 团队学习成本   | Tailwind 语法培训 + 组件 Storybook 示例   |
+| 第三方组件兼容 | Radix 提供底层原语，上层自己封装          |
+| 迁移周期长     | Feature Flag 按页面切换，不影响未迁移页面 |
+| 性能不达预期   | 设定 FCP / TBT 基线，每阶段对比 PageSpeed |
 
 ### 性能目标
 
-| 指标 | 迁移前 | 目标 |
-| --- | --- | --- |
-| JS Bundle | ~850KB | ~520KB（-40%） |
-| CSS | ~120KB | ~90KB（-25%） |
-| FCP | ~2200ms | ~1500ms |
-| TBT | ~350ms | ~210ms |
+| 指标      | 迁移前  | 目标           |
+| --------- | ------- | -------------- |
+| JS Bundle | ~850KB  | ~520KB（-40%） |
+| CSS       | ~120KB  | ~90KB（-25%）  |
+| FCP       | ~2200ms | ~1500ms        |
+| TBT       | ~350ms  | ~210ms         |
 
 ---
 

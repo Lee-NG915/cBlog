@@ -1,8 +1,8 @@
 ---
 title: 复杂 PDP 商品选择器：CMS 建模与服务端倒排索引
 slug: pdp-product-selector-indexing
-date: 2026-05-28
-updatedAt: 2026-06-04
+date: 2026-06-02
+updatedAt: 2026-06-24
 category: technical
 tags:
   - PDP

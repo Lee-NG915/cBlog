@@ -1,7 +1,7 @@
 ---
 title: Observability 整理
 slug: Observability
-date: 2026-04-09T17:11:00+08:00
+date: 2026-04-24T17:11:00+08:00
 category: notes
 tags:
   - Sentry 监控

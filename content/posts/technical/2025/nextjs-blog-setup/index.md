@@ -1,8 +1,8 @@
 ---
 title: 使用 Next.js 搭建个人博客
 slug: nextjs-blog-setup
-date: 2026-05-01
-updatedAt: 2026-05-14
+date: 2026-04-05
+updatedAt: 2026-04-30
 category: technical
 tags:
   - Next.js

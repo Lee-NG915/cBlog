@@ -1,13 +1,13 @@
 ---
 title: 《学会提问》读书笔记-1
 slug: asking-the-right-questions-1
-date: 2026-05-13
+date: 2026-04-17
 category: learning
 tags:
   - reading
   - 必读
   - 人际沟通
-status: draft
+status: published
 excerpt: 阅读本文可以简单了解“批判性思维”的关键概念。
 ---
 

@@ -1,13 +1,13 @@
 ---
 title: 《学会提问》前五章阅读心得
 slug: asking-the-right-questions-2
-date: 2026-05-14T17:20:00+08:00
+date: 2026-04-21T17:20:00+08:00
 category: learning
 tags:
   - reading
   - 必读
   - 人际沟通
-status: draft
+status: published
 excerpt: 记录自己目前对批判式思维的理解
 coverCard: /images/covers/study/image.png
 ---

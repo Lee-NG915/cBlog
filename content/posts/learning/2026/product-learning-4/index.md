@@ -1,13 +1,13 @@
 ---
 title: 电商产品学习4——前端类目和商品管理：从用户场景理解电商增长
 slug: product-learning-4
-date: 2026-05-21T17:11:00+08:00
+date: 2026-05-19T17:11:00+08:00
 category: learning
 tags:
   - 商品管理
   - 产品分析
   - 场景细分
-status: draft
+status: published
 coverCard: /images/covers/study/date-analyse-cover.png
 excerpt: 了解前端类目和后端类目的概念以及他们之间的区别，掌握item以及如何利用item实现电商增长
 ---
