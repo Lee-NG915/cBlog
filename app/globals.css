@@ -117,21 +117,21 @@
   }
 
   .prose h1 {
-    @apply mb-5 mt-10 font-display text-4xl font-semibold tracking-normal text-ink dark:text-gray-100;
+    @apply mb-4 mt-8 font-display text-3xl font-semibold leading-tight tracking-normal text-ink dark:text-gray-100 sm:mb-5 sm:mt-10 sm:text-4xl;
   }
 
   .prose h2 {
-    @apply mb-4 mt-12 border-b border-line-light pb-4 font-display text-3xl font-semibold tracking-normal text-ink dark:border-line-dark dark:text-gray-100;
+    @apply mb-4 mt-10 border-b border-line-light pb-3 font-display text-2xl font-semibold leading-snug tracking-normal text-ink dark:border-line-dark dark:text-gray-100 sm:mt-12 sm:pb-4 sm:text-3xl;
   }
 
   .prose h3 {
-    @apply mb-3 mt-8 font-display text-2xl font-semibold tracking-normal text-ink dark:text-gray-100;
+    @apply mb-3 mt-7 font-display text-xl font-semibold leading-snug tracking-normal text-ink dark:text-gray-100 sm:mt-8 sm:text-2xl;
   }
 
   .prose p {
-    @apply mb-5 font-serif text-ink/90 dark:text-gray-300;
+    @apply mb-6 font-serif text-ink/90 dark:text-gray-300;
     font-size: 1rem;
-    line-height: 1.25;
+    line-height: 1.9;
   }
 
   .prose h1,
@@ -145,13 +145,13 @@
 
   .prose ul,
   .prose ol {
-    @apply mb-4 pl-6;
+    @apply mb-6 pl-5 sm:pl-6;
   }
 
   .prose li {
-    @apply mb-2 font-serif text-ink/90 dark:text-gray-300;
-    font-size: 1.1rem;
-    line-height: 1.25;
+    @apply mb-2.5 font-serif text-ink/90 dark:text-gray-300;
+    font-size: 1rem;
+    line-height: 1.85;
   }
 
   .prose a {
@@ -163,7 +163,8 @@
   }
 
   .prose pre {
-    @apply mb-6 max-w-full overflow-x-auto rounded-lg bg-[#1f1c18] p-6 dark:bg-black;
+    @apply mb-6 max-w-full overflow-x-auto rounded-lg bg-[#1f1c18] p-4 sm:p-6 dark:bg-black;
+    -webkit-overflow-scrolling: touch;
   }
 
   .prose pre code {
@@ -178,7 +179,7 @@
   }
 
   .prose .mermaid-diagram {
-    @apply block w-full min-w-0 cursor-pointer rounded-lg border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 hover:shadow-editorial-sm dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800;
+    @apply block w-full min-w-0 cursor-pointer rounded-lg border border-line-light bg-background-light p-3 text-left transition hover:border-primary-200 hover:shadow-editorial-sm dark:border-line-dark dark:bg-background-dark dark:hover:border-primary-800 sm:p-5;
   }
 
   .prose .mermaid-diagram svg {
@@ -199,13 +200,14 @@
   }
 
   .prose blockquote {
-    @apply my-6 border-l-4 border-primary-600 bg-primary-50/70 py-4 pl-5 pr-6 font-serif italic text-ink/80 dark:bg-primary-900/20 dark:text-gray-300;
+    @apply my-6 border-l-4 border-primary-600 bg-primary-50/70 py-4 pl-4 pr-4 font-serif italic leading-8 text-ink/80 dark:bg-primary-900/20 dark:text-gray-300 sm:pl-5 sm:pr-6;
   }
 
   .prose table {
-    @apply my-8 w-full table-auto overflow-hidden rounded-lg border border-line-light font-sans text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
+    @apply my-8 block w-full max-w-full overflow-x-auto rounded-lg border border-line-light font-sans text-sm text-ink/90 dark:border-line-dark dark:text-gray-300;
     border-collapse: separate;
     border-spacing: 0;
+    -webkit-overflow-scrolling: touch;
   }
 
   .prose thead {
@@ -214,7 +216,7 @@
 
   .prose th,
   .prose td {
-    @apply border-b border-r border-line-light px-4 py-3 text-left align-top dark:border-line-dark;
+    @apply border-b border-r border-line-light px-3 py-2.5 text-left align-top dark:border-line-dark sm:px-4 sm:py-3;
     white-space: normal;
   }
 
@@ -237,5 +239,17 @@
 
   .prose hr {
     @apply my-10 border-line-light dark:border-line-dark;
+  }
+
+  @media (min-width: 640px) {
+    .prose p {
+      font-size: 1.0625rem;
+      line-height: 1.95;
+    }
+
+    .prose li {
+      font-size: 1.0625rem;
+      line-height: 1.9;
+    }
   }
 }

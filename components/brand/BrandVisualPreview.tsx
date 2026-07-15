@@ -30,7 +30,7 @@ export default function BrandVisualPreview() {
           ))}
         </div>
         <p className="mt-8 font-serif text-base leading-relaxed text-ink/90 dark:text-gray-300">
-          标题是温润的衬线，正文行距偏宽。整体想让你像坐在窗边翻笔记本，而不是刷短内容。
+          中文、英文、标题、正文和代码都使用 Maple Mono CN 的圆润字形，再用字号与字重拉开层级。正文行距偏宽，整体想让你像坐在窗边翻笔记本，而不是刷短内容。
         </p>
       </div>
 

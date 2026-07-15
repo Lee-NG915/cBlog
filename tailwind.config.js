@@ -1,4 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+const mapleFontFamily = [
+  "Maple Mono NF CN",
+  "Maple Mono",
+  "PingFang SC",
+  "Hiragino Sans GB",
+  "Microsoft YaHei",
+  "system-ui",
+  "sans-serif",
+];
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,29 +19,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
-          "PingFang SC",
-          "Hiragino Sans GB",
-          "Microsoft YaHei",
-          "Noto Sans SC",
-          "Source Han Sans SC",
-          "system-ui",
-          "sans-serif",
-        ],
-        serif: [
-          "Songti SC",
-          "STSong",
-          "Noto Serif SC",
-          "Source Han Serif SC",
-          "serif",
-        ],
-        display: [
-          "Songti SC",
-          "STSong",
-          "Noto Serif SC",
-          "Source Han Serif SC",
-          "serif",
-        ],
+        sans: mapleFontFamily,
+        mono: mapleFontFamily,
+        serif: mapleFontFamily,
+        display: mapleFontFamily,
       },
       colors: {
         primary: {

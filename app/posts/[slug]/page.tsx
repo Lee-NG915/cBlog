@@ -155,7 +155,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         )}
 
-        <header className="mb-10 pb-4">
+        <header className="mb-8 pb-2 sm:mb-10 sm:pb-4">
           <div className="mb-6 flex flex-wrap items-center gap-3" data-reveal="hero">
             <Link
               href={`/categories/${post.categorySlug}`}
@@ -170,7 +170,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
 
           <h1
-            className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.06] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl"
+            className="max-w-5xl break-words font-display text-4xl font-bold leading-[1.16] tracking-normal text-ink dark:text-gray-50 sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
             data-reveal="hero"
             data-reveal-delay="80"
           >
@@ -239,10 +239,10 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             )}
             <div
-              className={`prose min-w-0 rounded-lg border border-line-light bg-surface-light shadow-editorial dark:border-line-dark dark:bg-surface-dark ${
+              className={`prose -mx-4 min-w-0 border-y border-line-light bg-surface-light px-4 py-6 shadow-none dark:border-line-dark dark:bg-surface-dark sm:mx-0 sm:rounded-lg sm:border sm:p-8 sm:shadow-editorial ${
                 showKnowledgeGraph
-                  ? "p-6 sm:p-8 lg:p-10"
-                  : "p-5 sm:p-8 lg:p-9"
+                  ? "lg:p-10"
+                  : "lg:p-9"
               }`}
               data-reveal
               data-post-body

@@ -49,6 +49,23 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fontsapi.zeoseven.com" />
+        <link
+          rel="stylesheet"
+          href="https://fontsapi.zeoseven.com/442/main/result.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fontsapi.zeoseven.com/442/medium/result.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fontsapi.zeoseven.com/442/semi-bold/result.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fontsapi.zeoseven.com/442/bold/result.css"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html:
@@ -63,7 +80,7 @@ export default function RootLayout({
           <RevealController />
           <div className="min-h-screen">
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1180px] px-5 py-10 sm:px-7 sm:py-14">
+            <main className="mx-auto w-full max-w-[1180px] px-4 py-8 sm:px-7 sm:py-14">
               {children}
             </main>
           </div>

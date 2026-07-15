@@ -90,7 +90,7 @@ export const brandCore = {
 
   presentation: [
     "背景偏暖，像摊开笔记本，不晃眼",
-    "标题用衬线，导航和标签用无衬线，分清就好",
+    "中文、英文、标题、正文与代码统一使用圆润的 Maple Mono CN，靠字号和字重区分层级",
     "往下滚时内容轻轻浮上来，别弹来弹去",
     "卡片边框淡淡的，鼠标移上去改改颜色就行",
     "长文有目录和一条轻进度线，方便回看，不打断阅读",
@@ -155,20 +155,26 @@ export const brandCore = {
     {
       brand: "长文排版",
       token: "prose",
-      value: "行高约 1.95",
-      usage: "Markdown 正文",
+      value: "移动端行高 1.9，较宽屏约 1.95",
+      usage: "Markdown 正文；小屏减少内边距并允许宽内容横向滚动",
     },
     {
       brand: "标题字体",
-      token: "font-display / Songti SC stack",
-      value: "宋体中文栈优先，Noto 作后备",
+      token: "font-display / Maple Mono NF CN",
+      value: "Maple Mono CN 600–700",
       usage: "标题、卡片题名",
     },
     {
       brand: "界面字体",
-      token: "font-sans / PingFang SC stack",
-      value: "系统无衬线中文栈优先，Noto 作后备",
-      usage: "导航、按钮、标签",
+      token: "font-sans / Maple Mono NF CN",
+      value: "Maple Mono CN 400–600，完整中英文字形",
+      usage: "导航、按钮、标签、元信息",
+    },
+    {
+      brand: "代码字体",
+      token: "font-mono / Maple Mono NF CN",
+      value: "Maple Mono CN 400–700，支持连字与中英文 2:1 对齐",
+      usage: "行内代码、代码块",
     },
   ],
 

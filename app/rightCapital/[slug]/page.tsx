@@ -68,7 +68,7 @@ export default async function RightCapitalNotePage({
           <BackButton href="/rightCapital" label="返回笔记目录" />
         </div>
 
-        <header className="mb-10 pb-4">
+        <header className="mb-8 pb-2 sm:mb-10 sm:pb-4">
           <div className="mb-6 flex flex-wrap items-center gap-3" data-reveal="hero">
             <span className="rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
               RightCapital
@@ -79,7 +79,7 @@ export default async function RightCapitalNotePage({
           </div>
 
           <h1
-            className="max-w-5xl break-words font-display text-5xl font-bold leading-[1.06] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl"
+            className="max-w-5xl break-words font-display text-4xl font-bold leading-[1.16] tracking-normal text-ink dark:text-gray-50 sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
             data-reveal="hero"
             data-reveal-delay="80"
           >
@@ -100,7 +100,7 @@ export default async function RightCapitalNotePage({
         <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
           <div className="min-w-0 space-y-6">
             <div
-              className="prose min-w-0 rounded-lg border border-line-light bg-surface-light p-5 shadow-editorial dark:border-line-dark dark:bg-surface-dark sm:p-8 lg:p-9"
+              className="prose -mx-4 min-w-0 border-y border-line-light bg-surface-light px-4 py-6 shadow-none dark:border-line-dark dark:bg-surface-dark sm:mx-0 sm:rounded-lg sm:border sm:p-8 sm:shadow-editorial lg:p-9"
               data-reveal
               data-post-body
               dangerouslySetInnerHTML={{ __html: content }}
