@@ -49,22 +49,19 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fontsapi.zeoseven.com" />
+        <link
+          rel="preconnect"
+          href="https://fontsapi.zeoseven.com"
+          crossOrigin="anonymous"
+        />
+        {/*
+          Maple Mono NF CN is split into many unicode-range files. Loading every
+          weight duplicates those CJK requests, so the site ships one real font
+          and lets the browser synthesize emphasis without changing glyph metrics.
+        */}
         <link
           rel="stylesheet"
           href="https://fontsapi.zeoseven.com/442/main/result.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fontsapi.zeoseven.com/442/medium/result.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fontsapi.zeoseven.com/442/semi-bold/result.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fontsapi.zeoseven.com/442/bold/result.css"
         />
         <script
           dangerouslySetInnerHTML={{

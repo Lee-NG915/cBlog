@@ -2,11 +2,17 @@
 const mapleFontFamily = [
   "Maple Mono NF CN",
   "Maple Mono",
+  "ui-monospace",
+  "SFMono-Regular",
+  "Cascadia Code",
+  "Roboto Mono",
+  "Consolas",
+  "Liberation Mono",
+  "Menlo",
   "PingFang SC",
   "Hiragino Sans GB",
   "Microsoft YaHei",
-  "system-ui",
-  "sans-serif",
+  "monospace",
 ];
 
 module.exports = {

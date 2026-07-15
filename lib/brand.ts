@@ -161,19 +161,19 @@ export const brandCore = {
     {
       brand: "标题字体",
       token: "font-display / Maple Mono NF CN",
-      value: "Maple Mono CN 600–700",
+      value: "Maple Mono CN 400 + 合成强调",
       usage: "标题、卡片题名",
     },
     {
       brand: "界面字体",
       token: "font-sans / Maple Mono NF CN",
-      value: "Maple Mono CN 400–600，完整中英文字形",
+      value: "Maple Mono CN 400，完整中英文字形",
       usage: "导航、按钮、标签、元信息",
     },
     {
       brand: "代码字体",
       token: "font-mono / Maple Mono NF CN",
-      value: "Maple Mono CN 400–700，支持连字与中英文 2:1 对齐",
+      value: "Maple Mono CN 400 + 合成强调，支持连字与中英文 2:1 对齐",
       usage: "行内代码、代码块",
     },
   ],
