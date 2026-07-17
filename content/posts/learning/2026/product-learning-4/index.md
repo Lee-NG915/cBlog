@@ -8,7 +8,7 @@ tags:
   - 产品分析
   - 场景细分
 status: published
-coverCard: /images/covers/study/date-analyse-cover.png
+coverCard: /images/covers/study/product-learning-4.svg
 excerpt: 了解前端类目和后端类目的概念以及他们之间的区别，掌握item以及如何利用item实现电商增长
 ---
 

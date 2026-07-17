@@ -200,7 +200,7 @@
   }
 
   .prose blockquote {
-    @apply my-6 border-l-4 border-primary-600 bg-primary-50/70 py-4 pl-4 pr-4 font-serif italic leading-8 text-ink/80 dark:bg-primary-900/20 dark:text-gray-300 sm:pl-5 sm:pr-6;
+    @apply my-6 border-l-4 border-primary-600 bg-primary-50/70 py-4 pl-4 pr-4 font-serif leading-8 text-ink/80 dark:bg-primary-900/20 dark:text-gray-300 sm:pl-5 sm:pr-6;
   }
 
   .prose table {
@@ -234,7 +234,7 @@
   }
 
   .prose img {
-    @apply my-6 h-auto max-w-full rounded-lg;
+    @apply my-6 h-auto max-w-full rounded-lg border border-line-light/70 dark:border-line-dark dark:brightness-[0.88];
   }
 
   .prose hr {

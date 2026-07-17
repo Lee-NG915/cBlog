@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllCategories, getAllPosts } from "@/lib/posts";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale/zh-CN";
+import { getAllCategories, getAllPosts, getPostStats } from "@/lib/posts";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -36,8 +38,14 @@ export const metadata: Metadata = {
 export default function CategoriesPage() {
   const categories = getAllCategories();
   const allPosts = getAllPosts();
+  const stats = getPostStats();
   const activeCategories = categories.filter((category) => category.count > 0);
   const emptyCategories = categories.filter((category) => category.count === 0);
+  const latestUpdate = allPosts
+    .map((post) => post.updatedAt || post.date)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
 
   return (
     <div className="space-y-8">
@@ -90,14 +98,28 @@ export default function CategoriesPage() {
                   <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
                     从这里开始
                   </p>
-                  {categoryPosts.slice(0, 3).map((post) => (
-                    <p
+                  {categoryPosts.slice(0, 4).map((post) => (
+                    <div
                       key={post.slug}
-                      className="truncate font-sans text-sm text-ink-muted dark:text-gray-300"
+                      className="flex items-baseline justify-between gap-3"
                     >
-                      {post.title}
-                    </p>
+                      <p className="min-w-0 truncate font-sans text-sm text-ink-muted dark:text-gray-300">
+                        {post.title}
+                      </p>
+                      {post.date && (
+                        <time className="shrink-0 font-sans text-xs text-ink-soft dark:text-gray-500">
+                          {format(new Date(post.date), "MM.dd", {
+                            locale: zhCN,
+                          })}
+                        </time>
+                      )}
+                    </div>
                   ))}
+                  {categoryPosts.length > 4 && (
+                    <p className="font-sans text-xs font-medium text-primary-700 dark:text-primary-300">
+                      查看全部 {categoryPosts.length} 篇 →
+                    </p>
+                  )}
                 </div>
               </Link>
             );
@@ -126,6 +148,48 @@ export default function CategoriesPage() {
               </div>
             </section>
           )}
+
+          <section
+            className="editorial-card flex flex-wrap items-center gap-x-10 gap-y-6 p-6 sm:p-7"
+            data-reveal
+          >
+            <div>
+              <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
+                公开文章
+              </p>
+              <p className="mt-1.5 font-sans text-2xl font-semibold text-ink dark:text-gray-100">
+                {stats.published}
+              </p>
+            </div>
+            <div>
+              <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
+                标签
+              </p>
+              <p className="mt-1.5 font-sans text-2xl font-semibold text-ink dark:text-gray-100">
+                {stats.tags.length}
+              </p>
+            </div>
+            <div>
+              <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
+                阅读分钟
+              </p>
+              <p className="mt-1.5 font-sans text-2xl font-semibold text-ink dark:text-gray-100">
+                {stats.readingMinutes}
+              </p>
+            </div>
+            {latestUpdate && (
+              <div>
+                <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
+                  最近更新
+                </p>
+                <p className="mt-1.5 font-sans text-2xl font-semibold text-ink dark:text-gray-100">
+                  {format(new Date(latestUpdate), "yyyy.MM.dd", {
+                    locale: zhCN,
+                  })}
+                </p>
+              </div>
+            )}
+          </section>
         </div>
       )}
     </div>

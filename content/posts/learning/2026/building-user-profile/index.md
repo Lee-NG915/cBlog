@@ -10,7 +10,7 @@ tags:
   - 用户画像
 status: published
 excerpt: 了解用户画像，学习构建基础用户画像的方法，结合实际业务和数据进行实践
-coverCard: /images/covers/study/date-analyse-cover.png
+coverCard: /images/covers/study/building-user-profile.svg
 ---
 
 # 学会构建用户画像

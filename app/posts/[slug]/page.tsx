@@ -170,7 +170,11 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
 
           <h1
-            className="max-w-5xl break-words font-display text-4xl font-bold leading-[1.16] tracking-normal text-ink dark:text-gray-50 sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
+            className={`max-w-5xl break-words font-display font-bold tracking-normal text-ink dark:text-gray-50 ${
+              post.title.length > 20
+                ? "text-3xl leading-[1.22] sm:text-4xl sm:leading-[1.18] lg:text-5xl lg:leading-[1.14]"
+                : "text-4xl leading-[1.16] sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
+            }`}
             data-reveal="hero"
             data-reveal-delay="80"
           >

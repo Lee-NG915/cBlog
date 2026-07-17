@@ -97,12 +97,9 @@ export default function BrandPage() {
               <p className="font-sans text-base leading-8 text-ink/90 dark:text-gray-300">
                 {brandCore.essence}
               </p>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-x-8 gap-y-6 border-t border-line-light pt-6 dark:border-line-dark sm:grid-cols-2">
                 {brandCore.personalityPublic.map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-lg border border-line-light/80 bg-surface-strong/40 p-4 dark:border-line-dark dark:bg-surface-dark/40"
-                  >
+                  <div key={item.title}>
                     <p className="font-sans text-xs font-medium text-primary-700 dark:text-primary-300">
                       {item.title}
                     </p>

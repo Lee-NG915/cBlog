@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
 import { mainNavItems } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
@@ -35,11 +36,12 @@ export default function SiteHeader() {
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link
             href="/categories"
-            className="rounded-full border border-line-light bg-surface-light px-4 py-2 font-sans text-xs font-semibold text-ink-muted transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-300 dark:hover:border-primary-700 dark:hover:text-primary-200 sm:px-5 sm:text-sm"
+            className="hidden rounded-full border border-line-light bg-surface-light px-4 py-2 font-sans text-xs font-semibold text-ink-muted transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-300 dark:hover:border-primary-700 dark:hover:text-primary-200 sm:inline-block sm:px-5 sm:text-sm"
           >
             开始阅读
           </Link>
           <ThemeToggle />
+          <MobileNav />
         </div>
       </div>
     </header>

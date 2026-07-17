@@ -42,6 +42,20 @@ function parseFilename(filename: string): {
   };
 }
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1") // 图片
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // 链接
+    .replace(/`([^`]+)`/g, "$1") // 行内代码
+    .replace(/(\*\*|__)(.*?)\1/g, "$2") // 加粗
+    .replace(/(\*|_)(.*?)\1/g, "$2") // 斜体
+    .replace(/~~(.*?)~~/g, "$1") // 删除线
+    .replace(/^\s{0,3}>\s?/gm, "") // 引用标记
+    .replace(/<[^>]+>/g, "") // HTML 标签
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function getExcerpt(content: string): string {
   for (const line of content.split("\n")) {
     const trimmed = line.trim();
@@ -49,7 +63,12 @@ function getExcerpt(content: string): string {
       continue;
     }
 
-    return trimmed.length > 140 ? `${trimmed.slice(0, 140)}…` : trimmed;
+    const plain = stripMarkdown(trimmed);
+    if (!plain) {
+      continue;
+    }
+
+    return plain.length > 140 ? `${plain.slice(0, 140)}…` : plain;
   }
 
   return "";

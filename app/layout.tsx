@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import RevealController from "@/components/RevealController";
 import { siteConfig } from "@/lib/site";
@@ -66,6 +67,12 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
+              "try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}",
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
               "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('reveal-ready')}}catch(e){}",
           }}
         />
@@ -75,11 +82,12 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <RevealController />
-          <div className="min-h-screen">
+          <div className="flex min-h-screen flex-col">
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1180px] px-4 py-8 sm:px-7 sm:py-14">
+            <main className="mx-auto w-full max-w-[1180px] flex-grow px-4 py-8 sm:px-7 sm:py-14">
               {children}
             </main>
+            <SiteFooter />
           </div>
         </ThemeProvider>
       </body>
