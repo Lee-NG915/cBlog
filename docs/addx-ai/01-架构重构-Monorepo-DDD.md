@@ -14,6 +14,37 @@
   - `services`：接口、编排、跨对象协作
   - `components`：UI、交互、页面组合
 - 依赖方向：`components → services → domain → util/config`，禁止反向。
+
+```mermaid
+graph TD
+  subgraph "Component Layer"
+    BC[base-components<br/>Fortress 设计系统] --> SC[shared-components]
+    SC --> C[components]
+    C --> CC[composite-components]
+    CC --> CMS[cms-components]
+  end
+  subgraph "Service Layer"
+    SS[shared-services] --> S[services]
+    S --> CS[composite-services]
+  end
+  subgraph "Domain Layer"
+    SD[shared-domain] --> D[domain]
+    D --> CD[composite-domain]
+  end
+  subgraph "Foundation"
+    U[util] --- CFG[config]
+  end
+  C --> S
+  S --> D
+  D --> U
+  CC --> CS
+  CS --> CD
+  CD --> SD
+  style BC fill:#e1f5fe
+  style U fill:#fff3e0
+  style CFG fill:#fff3e0
+```
+
 - Web 与 POS：共用 domain/services 能力，展示层与终端约束分离。
 - 迁移：灰度 + 新旧共存，非一次性重写；用 Feature Flag 控风险。
 
@@ -101,6 +132,32 @@
 
 ### RSC → SSR → Hydration 三阶段
 
+```mermaid
+sequenceDiagram
+    participant SC as Server Component
+    participant SSR as SSR Engine
+    participant Browser as 浏览器
+
+    Note over SC: 阶段 1：RSC 执行
+    SC->>SC: 执行 Server Component<br/>展开为原生元素
+    SC->>SC: Client Component → 占位引用(@ref + props)
+    SC->>SSR: RSC Payload（React Flight 格式）
+
+    Note over SSR: 阶段 2：SSR
+    SSR->>SSR: RSC Payload + Client Component 代码
+    SSR->>SSR: 跑 Client Component 取初始 HTML<br/>（useState 取初值，跳过 useEffect）
+    SSR->>Browser: HTML + RSC Payload
+
+    Note over Browser: 阶段 3：Hydration
+    Browser->>Browser: 用 RSC Payload 重建组件树
+    Browser->>Browser: 只 hydrate Client Component
+    Browser->>Browser: 可交互 ✅
+
+    Note over Browser: 后续导航
+    Browser->>SC: 只请求 RSC Payload（非整页 HTML）
+    SC->>Browser: 新 Payload → diff 更新
+```
+
 | 阶段 | 产物 | 要点 |
 | --- | --- | --- |
 | RSC 执行 | RSC Payload | Server Component 展开完毕；Client Component 只记录引用 + props，不执行 |
@@ -120,6 +177,22 @@
 - 成本 ≈ 需 hydrate 的 client 子树大小 + 主线程占用 → 影响 INP/TBT。
 - 手段：默认 Server；交互才 `'use client'`；减第三方脚本；避免不必要 Context 把大树变 client。
 - 坑：服务端/客户端 markup 不一致 → hydration mismatch。
+
+---
+
+## Middleware 链路顺序（面试补充）
+
+项目中间件按顺序执行（`apps/web/middleware.ts`）：
+
+```
+apiRewrite → cors → paramResolver → geoLocation → countrySelect
+→ userAuth → home → termsAndCondition → pla → sale → quiz
+→ category → rewrite（catch-all）
+```
+
+- `paramResolverMiddleware`（第 3 个）：解析 URL region/locale → 写 `preferred_language` cookie → 设 `x-lng` header
+- `userAuthMiddleware`：看 token 过期 → 临期 refresh
+- **Middleware 层禁止 Sentry capture**（硬规则）
 
 ---
 

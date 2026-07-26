@@ -9,14 +9,35 @@
 
 ## Events Book：单向链路
 
-强制流：
-
-```
-UI / service 成功
-  → domain / interaction event（Redux）
-  → tracking listener
-  → channel trigger
-  → GA / FB CAPI / Pinterest / DY / Klaviyo / UTT…
+```mermaid
+flowchart LR
+    subgraph UI["UI / Service 层"]
+        ATC["加购成功"] --> EVT["addedCartActionSucceededEvent<br/>（cart/domain/events/）"]
+        BUY["下单成功"] --> PEVT["purchasedSucceededEvent"]
+        PAY["支付捕获"] --> WPCE["webPaymentCapturedEvent"]
+    end
+    
+    subgraph Listener["Tracking Listener"]
+        EVT --> CTL["cart-tracking.listener"]
+        PEVT --> TTL["tracking.listener"]
+        WPCE --> PTL["payment-tracking.listener"]
+    end
+    
+    subgraph Trigger["Channel Triggers"]
+        CTL --> GA["GA4"]
+        CTL --> FB["FB CAPI"]
+        CTL --> PIN["Pinterest"]
+        CTL --> DY["DY"]
+        CTL --> KLV["Klaviyo"]
+        TTL --> GA
+        TTL --> FB
+        PTL --> FB
+        PTL --> PIN
+    end
+    
+    style UI fill:#e8f5e9
+    style Listener fill:#e1f5fe
+    style Trigger fill:#fff3e0
 ```
 
 **禁止**：UI 直接 import 各渠道 trigger。
@@ -46,6 +67,8 @@ UI / service 成功
 
 - `webAddedToCartEvent`（order domain）**不是**主 ATC 埋点，勿混淆。  
 - **UTT conversion 前端派发当前注释掉**（验证未齐）——面试别说「全渠道都从前端打」。
+- `addedCartActionSucceededEvent` payload 含 `variantId / quantityDifference / atcType / scene / tracking{lineItem, cartLineItems, cartItemTotal, customer}`
+- 派发位置：`cart.helper.ts`（加购 API 成功后 dispatch）→ `cart-tracking.listener.ts` 匹配 `isAnyOf(addedCartActionSucceededEvent, updatedCartQtyActionSucceededEvent)`
 
 ### 渠道映射隔离
 
