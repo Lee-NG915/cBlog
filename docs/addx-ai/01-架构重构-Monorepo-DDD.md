@@ -92,11 +92,22 @@
 
 ## 必考：RSC vs SSR？Server Components 数据流？hydration 成本？
 
-### RSC vs SSR
+### RSC vs SSR — 关键区分
 
 - SSR：服务端渲染出 **HTML**，客户端通常要 **hydrate 整棵可交互树**。
-- RSC：组件在服务端执行，下发 ** RSC payload + 必要 client 边界**；默认不把该组件逻辑打进 client bundle。
+- RSC：组件在服务端执行，产出 **RSC Payload**（React Flight 格式），不是 HTML。
+- RSC Payload = Server Component 渲染结果（已展开为原生元素）+ Client Component 占位引用（`@ref + props`）。
 - 关系：Next App Router 里 RSC 常与 SSR/SSG/ISR 组合；RSC 管「组件跑在哪」，SSR 管「何时出 HTML」。
+
+### RSC → SSR → Hydration 三阶段
+
+| 阶段 | 产物 | 要点 |
+| --- | --- | --- |
+| RSC 执行 | RSC Payload | Server Component 展开完毕；Client Component 只记录引用 + props，不执行 |
+| SSR | HTML + RSC Payload | 拿 Payload + Client Component 代码 → 服务端再跑 Client Component（取初始 state，跳过 effect）→ 合成完整 HTML |
+| Hydration | 可交互 React 树 | 客户端用 RSC Payload 重建组件树 → 只 hydrate Client Component |
+
+- **为什么不一步出 HTML**：需要 Payload 让客户端精确重建组件树做 hydrate；后续导航只请求 Payload 不请求整页 HTML；Server Component 代码永不下发客户端。
 
 ### Server Components 数据流
 
