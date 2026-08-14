@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/sync-content-assets.mjs --dev",
+    "predev": "rm -rf .next && node scripts/sync-content-assets.mjs --dev",
     "dev": "next dev",
     "prebuild": "node scripts/sync-content-assets.mjs",
     "build": "next build",

@@ -21,13 +21,21 @@ interface CollectionNotePageProps {
   };
 }
 
-export const dynamicParams = false;
+/**
+ * dev 下 Next 以百分号编码后的请求路径比对参数，须返回编码值（中文 slug 时必需）；
+ * 生产构建须返回原始值——编码值会改变导出目录名，破坏与基线一致的 URL（MIG-002）。
+ */
+function toRouteParam(slug: string): string {
+  return process.env.NODE_ENV === "development"
+    ? encodeURIComponent(slug)
+    : slug;
+}
 
 export async function generateStaticParams() {
   return getAllCollections().flatMap((collection) =>
     getCollectionNotes(collection.slug).map((note) => ({
-      collection: collection.slug,
-      slug: note.slug,
+      collection: toRouteParam(collection.slug),
+      slug: toRouteParam(note.slug),
     }))
   );
 }
