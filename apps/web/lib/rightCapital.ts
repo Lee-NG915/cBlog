@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import { repoPath } from "./repo-root";
 
-const notesDirectory = path.join(process.cwd(), "docs/rightCapital");
+const notesDirectory = repoPath("docs/rightCapital");
 
 export interface RightCapitalNote {
   slug: string;

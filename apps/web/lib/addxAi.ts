@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import { repoPath } from "./repo-root";
 
-const notesDirectory = path.join(process.cwd(), "docs/addx-ai");
+const notesDirectory = repoPath("docs/addx-ai");
 
 /** 无数字前缀的笔记：固定顺序与 slug，便于路由稳定 */
 const META_NOTES: Record<string, { order: number; title: string; slug: string }> =

@@ -5,6 +5,7 @@ import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
 import { getCategoryBySlug, postCategories, resolveCategory } from "./site";
+import { repoPath } from "./repo-root";
 
 // 处理图片路径，添加 basePath
 function processImagePath(imagePath: string | undefined): string | undefined {
@@ -24,7 +25,7 @@ function processImagePath(imagePath: string | undefined): string | undefined {
   return imagePath;
 }
 
-const postsDirectory = path.join(process.cwd(), "content/posts");
+const postsDirectory = repoPath("content/posts");
 
 /** 仅开发环境（npm run dev）展示草稿；生产构建与静态导出仍只发已发布文章 */
 export function isDraftPreviewEnabled(): boolean {
