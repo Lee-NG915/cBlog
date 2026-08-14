@@ -11,6 +11,14 @@
 | Phase 3 专栏通用化 | ✅ | 2026-08-14 | 44 个专栏文档（rightCapital 28 + addx-ai 16）迁入 content/collections/ 并补 frontmatter；slug 与基线 44/44 全对上；通用路由 `/[collection]/[slug]` 上线，旧路由/加载器删除；**等价校验通过**（76 页、sitemap、指纹一致）；单测 19/19 |
 | Phase 4 管理端 MVP | ✅ | 2026-08-14 | 全功能上线（仪表盘/文章列表筛选/新建/CodeMirror 编辑器+实时预览含 Mermaid/元数据/状态流转/图片粘贴上传/分类 CRUD/专栏 CRUD+拖拽排序/一键发布）；API 级 E2E 自测通过：建文→回写→贴图→状态双写→白名单分类→软删除回收站，测试数据已清理；core 单测 28/28；admin typecheck 零错误；浏览器目检仪表盘/列表/编辑器正常，预览 Mermaid 渲染成功 |
 | Phase 5 查看器与性能 | ✅ | 2026-08-14 | MermaidViewer 全屏查看器（滚轮锚点缩放/拖拽/捏合/双击/工具栏/ESC）+ 图例视口懒渲染；随文档图片 sharp+WebP 管道 + manifest 引用替换；知识图谱懒加载；**等价校验通过**；文章页 first-load 106→103 kB（见 [perf-report](./perf-report.md)）；单测 28/28 |
+| 收尾交付 | ✅ | 2026-08-14 | README 重写为 monorepo 版；最终全量构建 + 等价校验通过（76 页与基线一致）；测试计划补执行记录；遗留项见下 |
+
+## 遗留项（backlog）
+
+- Playwright E2E 基建（当前以 API 级 E2E + 浏览器目检覆盖）
+- 真实浏览器手测 Mermaid 查看器交互（MMD-001~006，实现已过代码审查与 DOM 级功能验证）
+- 首次真实发布验证（PUB-005，作者首次使用管理端发布时完成）
+- 图片 srcset 多尺寸、slug 修改支持、封面图走优化管道（PRD 非目标/backlog）
 
 ## 备注与偏差记录
 
