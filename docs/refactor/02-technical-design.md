@@ -125,7 +125,7 @@ export const posts = sqliteTable("posts", {
   filePath: text("file_path").notNull().unique(), // 相对 content/
   coverImage: text("cover_image"),                // 相对路径或旧式 /images 绝对路径
   date: text("date").notNull(),                   // 展示用发布日期，可编辑
-  updatedAt: text("updated_at").notNull(),
+  updatedAt: text("updated_at"),                  // 展示用更新时间，可空（存量文件非必填）
   createdAt: text("created_at").notNull(),
 }, (t) => [index("idx_posts_status").on(t.status),
            index("idx_posts_category").on(t.categoryId)]);
@@ -138,6 +138,7 @@ export const tags = sqliteTable("tags", {
 export const postTags = sqliteTable("post_tags", {
   postId: integer("post_id").notNull().references(() => posts.id, { onDelete: "cascade" }),
   tagId: integer("tag_id").notNull().references(() => tags.id, { onDelete: "cascade" }),
+  position: integer("position").notNull().default(0),  // 保持标签在文中的原始顺序
 }, (t) => [primaryKey({ columns: [t.postId, t.tagId] })]);
 
 export const collections = sqliteTable("collections", {
@@ -165,6 +166,8 @@ export const collectionItems = sqliteTable("collection_items", {
   updatedAt: text("updated_at").notNull(),
 }, (t) => [uniqueIndex("uq_collection_slug").on(t.collectionId, t.slug)]);
 ```
+
+实现注记：pnpm 严格依赖隔离下，Next.js 对原生模块的 externals 解析要求 `better-sqlite3` 同时声明为 `apps/web` 的直接依赖（与 core 同版本，实际为同一实例）；`next.config.js` 配 `transpilePackages: ["@cblog/core"]` + `serverComponentsExternalPackages: ["better-sqlite3"]`。存量 `coverCard` 字段在解析层归一为 `coverImage`。
 
 约束与派生规则：
 

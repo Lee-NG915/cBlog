@@ -10,6 +10,10 @@ const nextConfig = {
   trailingSlash: true,
   basePath: basePath,
   assetPrefix: basePath,
+  transpilePackages: ["@cblog/core"],
+  experimental: {
+    serverComponentsExternalPackages: ["better-sqlite3"],
+  },
 };
 
 module.exports = nextConfig;

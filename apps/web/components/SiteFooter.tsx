@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { mainNavItems } from "@/lib/navigation";
-import { postCategories, siteConfig } from "@/lib/site";
+import { getOfficialCategories } from "@/lib/posts";
+import { siteConfig } from "@/lib/site";
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
+  const postCategories = getOfficialCategories();
 
   return (
     <footer className="mt-16 border-t border-line-light dark:border-line-dark sm:mt-24">

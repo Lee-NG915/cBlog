@@ -5,8 +5,12 @@
   "scripts": {
     "dev:web": "pnpm --filter @cblog/web dev",
     "dev:admin": "pnpm --filter @cblog/admin dev",
-    "build": "pnpm --filter @cblog/web build",
+    "build": "pnpm --filter @cblog/core content:check && pnpm --filter @cblog/web build",
     "lint": "pnpm --filter @cblog/web lint",
+    "test": "pnpm --filter @cblog/core test",
+    "db:migrate": "pnpm --filter @cblog/core db:migrate",
+    "content:import": "pnpm --filter @cblog/core content:import",
+    "content:check": "pnpm --filter @cblog/core content:check",
     "preview": "python3 -m http.server 4173 -d apps/web/out",
     "parity:snapshot": "node scripts/parity-snapshot.mjs snapshot apps/web/out",
     "parity:compare": "node scripts/parity-snapshot.mjs compare"
