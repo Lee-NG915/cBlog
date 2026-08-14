@@ -12,6 +12,7 @@ export const showcasePost: Post = {
   content: "",
   status: "published",
   readingTime: 6,
+  filePath: "posts/learning/2026/brand-showcase-sample/index.md",
 };
 
 export const showcaseCategory: Category = {

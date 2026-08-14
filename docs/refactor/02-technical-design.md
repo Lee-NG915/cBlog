@@ -315,7 +315,7 @@ dev 模式跳过压缩仅做镜像同步（watch 可后续加，v1 编辑图片�
 | Mermaid 懒渲染 | §8 IntersectionObserver | Phase 5 |
 | 图片压缩/WebP | §7.3 资产管道 | Phase 5（管道本体 Phase 4 随图片功能落地） |
 | 大组件懒加载 | KnowledgeGraphExplorer 等 `next/dynamic` | Phase 5 |
-| 包体基线 | `@next/bundle-analyzer`，重构前后各出一次报告 | Phase 1 / Phase 5 |
+| 包体基线 | 以 `next build` first-load JS 表格为度量口径（不引入 analyzer 依赖），重构前后对比见 [perf-report](./perf-report.md) | Phase 5 |
 
 ## 10. 实施步骤（映射 PRD §7 里程碑）
 

@@ -50,6 +50,12 @@ export function getPostHeadings(markdown: string): PostHeading[] {
 export interface MarkdownToHtmlOptions {
   basePath?: string;
   headings?: PostHeading[];
+  /**
+   * 随文档资产的 URL 前缀（FR-6.3）：提供时把正文中 `./xxx` 相对引用
+   * 重写为 `${basePath}${assetBase}/xxx`（web 构建传 /content/<文档目录>）。
+   * 管理端预览不传，由其自行重写到 /api/assets。
+   */
+  assetBase?: string;
 }
 
 export async function markdownToHtml(
@@ -63,6 +69,14 @@ export async function markdownToHtml(
   let htmlContent = result.toString();
   htmlContent = enhanceMermaidBlocks(htmlContent);
   htmlContent = addHeadingIds(htmlContent, headings);
+
+  if (options.assetBase) {
+    const assetPrefix = `${basePath}${options.assetBase}`.replace(/\/$/, "");
+    htmlContent = htmlContent.replace(
+      /(<img[^>]*\ssrc=")\.\/([^"]+)"/g,
+      `$1${assetPrefix}/$2"`
+    );
+  }
 
   if (basePath) {
     htmlContent = htmlContent.replace(

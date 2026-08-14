@@ -10,7 +10,7 @@
 | Phase 2 core + 数据库 | ✅ | 2026-08-14 | 28 篇导入（19 published/9 draft），重复导入幂等（28 未变）；driftCheck 无漂移；web 元数据切 DB 后**等价校验通过**（76 页指纹一致）；core 单测 15/15 通过 |
 | Phase 3 专栏通用化 | ✅ | 2026-08-14 | 44 个专栏文档（rightCapital 28 + addx-ai 16）迁入 content/collections/ 并补 frontmatter；slug 与基线 44/44 全对上；通用路由 `/[collection]/[slug]` 上线，旧路由/加载器删除；**等价校验通过**（76 页、sitemap、指纹一致）；单测 19/19 |
 | Phase 4 管理端 MVP | ✅ | 2026-08-14 | 全功能上线（仪表盘/文章列表筛选/新建/CodeMirror 编辑器+实时预览含 Mermaid/元数据/状态流转/图片粘贴上传/分类 CRUD/专栏 CRUD+拖拽排序/一键发布）；API 级 E2E 自测通过：建文→回写→贴图→状态双写→白名单分类→软删除回收站，测试数据已清理；core 单测 28/28；admin typecheck 零错误；浏览器目检仪表盘/列表/编辑器正常，预览 Mermaid 渲染成功 |
-| Phase 5 查看器与性能 | ⬜ | | |
+| Phase 5 查看器与性能 | ✅ | 2026-08-14 | MermaidViewer 全屏查看器（滚轮锚点缩放/拖拽/捏合/双击/工具栏/ESC）+ 图例视口懒渲染；随文档图片 sharp+WebP 管道 + manifest 引用替换；知识图谱懒加载；**等价校验通过**；文章页 first-load 106→103 kB（见 [perf-report](./perf-report.md)）；单测 28/28 |
 
 ## 备注与偏差记录
 

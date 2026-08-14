@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
 import DraftBadge from "@/components/DraftBadge";
-import KnowledgeGraphExplorer from "@/components/KnowledgeGraphExplorer";
+import KnowledgeGraphExplorer from "@/components/KnowledgeGraphExplorerLazy";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
 import PostReadingProgress from "@/components/PostReadingProgress";
 import PostTableOfContents from "@/components/PostTableOfContents";
@@ -10,6 +10,7 @@ import { isDraftPreviewEnabled } from "@/lib/posts";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import {
+  docAssetBase,
   getAllCategories,
   getAllPosts,
   getPostBySlug,
@@ -97,7 +98,11 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const headings = getPostHeadings(post.content);
-  const content = await markdownToHtml(post.content, headings);
+  const content = await markdownToHtml(
+    post.content,
+    headings,
+    docAssetBase(post.filePath)
+  );
   const hasMermaidDiagrams = content.includes("mermaid-diagram");
   const showKnowledgeGraph = post.slug === "ecommerce-knowledge-map";
   const categories = getAllCategories();

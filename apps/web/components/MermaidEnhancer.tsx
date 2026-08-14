@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import MermaidViewer from "@/components/MermaidViewer";
 
 type ExpandedDiagram = {
   title: string;
   svg: string;
 };
+
+type MermaidApi = (typeof import("mermaid"))["default"];
 
 function isDiagramLayoutReady(diagram: HTMLElement): boolean {
   const revealHost = diagram.closest<HTMLElement>("[data-reveal]");
@@ -101,97 +104,129 @@ export default function MermaidEnhancer() {
     }
 
     let isCancelled = false;
+    let mermaidPromise: Promise<MermaidApi> | null = null;
+    let renderQueue: Promise<void> = Promise.resolve();
 
-    async function renderDiagrams() {
-      const mermaidModule = await import("mermaid");
-      const mermaid = mermaidModule.default;
+    const loadMermaid = () => {
+      if (!mermaidPromise) {
+        mermaidPromise = import("mermaid").then((mermaidModule) => {
+          const mermaid = mermaidModule.default;
 
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "strict",
-        theme: "base",
-        themeVariables: {
-          background: "#FFFDF8",
-          primaryColor: "#E6F3F1",
-          primaryTextColor: "#1F2933",
-          primaryBorderColor: "#9DD1C9",
-          lineColor: "#0F766E",
-          secondaryColor: "#F7F4ED",
-          tertiaryColor: "#FFFFFF",
-          fontFamily:
-            "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
-        },
-        flowchart: {
-          useMaxWidth: false,
-          htmlLabels: true,
-          padding: 16,
-        },
-        sequence: {
-          useMaxWidth: false,
-        },
-      });
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "strict",
+            theme: "base",
+            themeVariables: {
+              background: "#FFFDF8",
+              primaryColor: "#E6F3F1",
+              primaryTextColor: "#1F2933",
+              primaryBorderColor: "#9DD1C9",
+              lineColor: "#0F766E",
+              secondaryColor: "#F7F4ED",
+              tertiaryColor: "#FFFFFF",
+              fontFamily:
+                "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+            },
+            flowchart: {
+              useMaxWidth: false,
+              htmlLabels: true,
+              padding: 16,
+            },
+            sequence: {
+              useMaxWidth: false,
+            },
+          });
 
-      if (isCancelled) {
+          return mermaid;
+        });
+      }
+
+      return mermaidPromise;
+    };
+
+    const renderDiagram = async (diagram: HTMLElement, index: number) => {
+      if (isCancelled || diagram.dataset.rendered === "true") {
         return;
       }
 
-      for (const [index, diagram] of Array.from(diagrams.entries())) {
-        if (diagram.dataset.rendered === "true") {
-          continue;
+      const source = decodeURIComponent(diagram.dataset.mermaid || "").trim();
+      if (!source) {
+        return;
+      }
+
+      try {
+        const mermaid = await loadMermaid();
+        await waitForDiagramLayout(diagram);
+
+        if (isCancelled) {
+          return;
         }
 
-        const source = decodeURIComponent(diagram.dataset.mermaid || "").trim();
-        if (!source) {
-          continue;
+        const staging = document.createElement("div");
+        staging.className = "mermaid";
+        staging.textContent = source;
+        diagram.replaceChildren(staging);
+
+        await mermaid.run({
+          nodes: [staging],
+          suppressErrors: true,
+        });
+
+        if (isCancelled) {
+          return;
         }
 
-        try {
-          await waitForDiagramLayout(diagram);
-
-          if (isCancelled) {
-            return;
-          }
-
-          const staging = document.createElement("div");
-          staging.className = "mermaid";
-          staging.textContent = source;
-          diagram.replaceChildren(staging);
-
-          await mermaid.run({
-            nodes: [staging],
-            suppressErrors: true,
-          });
-
-          if (isCancelled) {
-            return;
-          }
-
-          const svg = staging.querySelector("svg");
-          if (!svg) {
-            throw new Error("Mermaid did not produce SVG output");
-          }
-
-          const inlineSvg = prepareInlineSvg(svg);
-          const inlineSvgHtml = serializeSvg(inlineSvg);
-          const modalSvgHtml = serializeSvg(svg);
-          diagram.innerHTML = inlineSvgHtml;
-          diagram.dataset.svg = encodeURIComponent(modalSvgHtml);
-          diagram.dataset.title = diagram.dataset.title || `图例 ${index + 1}`;
-          diagram.dataset.rendered = "true";
-          diagram.classList.add("is-rendered");
-        } catch {
-          diagram.innerHTML =
-            '<span class="mermaid-error">图例渲染失败，请检查 Mermaid 语法。</span>';
-          diagram.dataset.rendered = "true";
-          diagram.classList.add("has-error");
+        const svg = staging.querySelector("svg");
+        if (!svg) {
+          throw new Error("Mermaid did not produce SVG output");
         }
+
+        const inlineSvg = prepareInlineSvg(svg);
+        const inlineSvgHtml = serializeSvg(inlineSvg);
+        const modalSvgHtml = serializeSvg(svg);
+        diagram.innerHTML = inlineSvgHtml;
+        diagram.dataset.svg = encodeURIComponent(modalSvgHtml);
+        diagram.dataset.title = diagram.dataset.title || `图例 ${index + 1}`;
+        diagram.dataset.rendered = "true";
+        diagram.classList.add("is-rendered");
+      } catch {
+        if (isCancelled) {
+          return;
+        }
+
+        diagram.innerHTML =
+          '<span class="mermaid-error">图例渲染失败，请检查 Mermaid 语法。</span>';
+        diagram.dataset.rendered = "true";
+        diagram.classList.add("has-error");
+      }
+    };
+
+    const lazyObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue;
+          }
+
+          const diagram = entry.target as HTMLElement;
+          lazyObserver.unobserve(diagram);
+
+          const index = diagrams.indexOf(diagram);
+          renderQueue = renderQueue.then(() => renderDiagram(diagram, index));
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+
+    for (const diagram of diagrams) {
+      if (diagram.dataset.rendered !== "true") {
+        lazyObserver.observe(diagram);
       }
     }
 
-    renderDiagrams();
-
     return () => {
       isCancelled = true;
+      lazyObserver.disconnect();
     };
   }, [pathname]);
 
@@ -258,34 +293,10 @@ export default function MermaidEnhancer() {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 px-6 py-8 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-label={expandedDiagram.title}
-      onClick={() => setExpandedDiagram(null)}
-    >
-      <div
-        className="max-h-full w-full max-w-6xl overflow-auto rounded-3xl border border-line-light bg-surface-light p-5 shadow-2xl dark:border-line-dark dark:bg-surface-dark"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <p className="text-sm font-semibold text-primary-700 dark:text-primary-300">
-            {expandedDiagram.title}
-          </p>
-          <button
-            type="button"
-            className="rounded-full border border-line-light px-4 py-2 text-sm text-ink-muted transition hover:border-primary-200 hover:text-primary-800 dark:border-line-dark dark:text-gray-300 dark:hover:border-primary-800 dark:hover:text-primary-200"
-            onClick={() => setExpandedDiagram(null)}
-          >
-            关闭
-          </button>
-        </div>
-        <div
-          className="overflow-x-auto"
-          dangerouslySetInnerHTML={{ __html: expandedDiagram.svg }}
-        />
-      </div>
-    </div>
+    <MermaidViewer
+      title={expandedDiagram.title}
+      svg={expandedDiagram.svg}
+      onClose={() => setExpandedDiagram(null)}
+    />
   );
 }

@@ -67,7 +67,11 @@ export default async function CollectionNotePage({
 
   const allNotes = getCollectionNotes(collection.slug);
   const headings = getPostHeadings(note.content);
-  const content = await markdownToHtml(note.content, headings);
+  const content = await markdownToHtml(
+    note.content,
+    headings,
+    `/content/collections/${collection.slug}`
+  );
   const hasMermaidDiagrams = content.includes("mermaid-diagram");
 
   return (

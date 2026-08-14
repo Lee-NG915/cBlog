@@ -15,20 +15,36 @@ import {
   type PostHeading,
 } from "@cblog/core/markdown";
 
-// 处理图片路径，添加 basePath
-function processImagePath(imagePath: string | undefined): string | undefined {
+import { rewriteOptimizedAssets } from "./content-assets";
+
+// 处理图片路径：绝对路径加 basePath；"./" 相对路径映射到随文档资产镜像 /content/<文档目录>/
+function processImagePath(
+  imagePath: string | undefined,
+  filePath?: string
+): string | undefined {
   if (!imagePath) return undefined;
 
   if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
     return imagePath;
   }
 
+  const basePath = process.env.BASE_PATH || "";
+
+  if (imagePath.startsWith("./") && filePath) {
+    const docDir = filePath.split("/").slice(0, -1).join("/");
+    return `${basePath}/content/${docDir}/${imagePath.slice(2)}`;
+  }
+
   if (imagePath.startsWith("/")) {
-    const basePath = process.env.BASE_PATH || "";
     return basePath + imagePath;
   }
 
   return imagePath;
+}
+
+/** 文档的随文档资产 URL 前缀（不含 basePath，交给渲染层拼接） */
+export function docAssetBase(filePath: string): string {
+  return `/content/${filePath.split("/").slice(0, -1).join("/")}`;
 }
 
 /** 仅开发环境（npm run dev）展示草稿；生产构建与静态导出仍只发已发布文章 */
@@ -49,13 +65,15 @@ export interface Post {
   status: "published" | "draft";
   readingTime?: number;
   coverImage?: string;
+  /** 相对 content/ 的源文件路径（服务端渲染随文档资产用，不下发客户端） */
+  filePath: string;
 }
 
-/** 列表展示用，不含正文，便于传给客户端组件 */
-export type PostSummary = Omit<Post, "content">;
+/** 列表展示用，不含正文与文件路径，便于传给客户端组件 */
+export type PostSummary = Omit<Post, "content" | "filePath">;
 
 export function toPostSummary(post: Post): PostSummary {
-  const { content: _content, ...summary } = post;
+  const { content: _content, filePath: _filePath, ...summary } = post;
   return summary;
 }
 
@@ -92,7 +110,8 @@ function metaToPost(meta: PostMeta): Post {
     // archived 已在上游过滤，此处仅剩两态
     status: meta.status === "draft" ? "draft" : "published",
     readingTime: calculateReadingTime(content),
-    coverImage: processImagePath(meta.coverImage),
+    coverImage: processImagePath(meta.coverImage, meta.filePath),
+    filePath: meta.filePath,
   };
 }
 
@@ -225,12 +244,17 @@ export function getPostHeadings(markdown: string): PostHeading[] {
 }
 
 // 将 Markdown 转换为 HTML（basePath 图片路径处理在 core 渲染层完成）
+// assetBase：随文档资产前缀（docAssetBase(filePath)），提供时重写 "./" 相对引用并应用 WebP 优化副本
 export async function markdownToHtml(
   markdown: string,
-  headings: PostHeading[] = coreGetPostHeadings(markdown)
+  headings: PostHeading[] = coreGetPostHeadings(markdown),
+  assetBase?: string
 ): Promise<string> {
-  return coreMarkdownToHtml(markdown, {
-    basePath: process.env.BASE_PATH || "",
+  const basePath = process.env.BASE_PATH || "";
+  const htmlContent = await coreMarkdownToHtml(markdown, {
+    basePath,
     headings,
+    assetBase,
   });
+  return assetBase ? rewriteOptimizedAssets(htmlContent, basePath) : htmlContent;
 }
