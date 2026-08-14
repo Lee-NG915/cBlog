@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { createDb, defaultDbPath } from "../db/client";
 import { driftCheckPosts } from "../content/import";
+import { driftCheckCollections } from "../content/collections-import";
 
 /** 漂移检测（FR-2.5）：仅告警不阻断构建，退出码恒为 0 */
 if (!fs.existsSync(defaultDbPath())) {
@@ -9,7 +10,7 @@ if (!fs.existsSync(defaultDbPath())) {
 }
 
 const handle = createDb(defaultDbPath());
-const items = driftCheckPosts(handle);
+const items = [...driftCheckPosts(handle), ...driftCheckCollections(handle)];
 
 if (items.length === 0) {
   console.log("✓ frontmatter 与数据库一致，无漂移");

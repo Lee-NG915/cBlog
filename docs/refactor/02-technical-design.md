@@ -146,6 +146,9 @@ export const collections = sqliteTable("collections", {
   slug: text("slug").notNull().unique(),          // 即 URL 一级段，如 rightCapital
   name: text("name").notNull(),
   description: text("description").notNull().default(""),
+  label: text("label").notNull().default("Collection"), // 列表页顶部小标签
+  badge: text("badge"),                           // 详情页徽标，空回退 name
+  noindex: integer("noindex").notNull().default(1), // 1=robots noindex 且不进 sitemap
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),

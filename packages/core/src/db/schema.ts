@@ -69,6 +69,12 @@ export const collections = sqliteTable("collections", {
   slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
   description: text("description").notNull().default(""),
+  /** 列表页顶部的小标签文案（存量为 "Interview Notes"） */
+  label: text("label").notNull().default("Collection"),
+  /** 详情页徽标文案，空则回退 name */
+  badge: text("badge"),
+  /** 1 = noindex,nofollow 且不进 sitemap（存量专栏均为 1，保持等价） */
+  noindex: integer("noindex").notNull().default(1),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),

@@ -32,3 +32,27 @@ export const UNCATEGORIZED = {
   description: "尚未配置到固定阅读路径的文章。",
   sortOrder: 999,
 } as const;
+
+/**
+ * 存量专栏种子（迁自原 app/rightCapital、app/addx-ai 页面文案）。
+ * noindex=1：保持原 robots noindex 且不进 sitemap 的行为。
+ */
+export const LEGACY_COLLECTION_SEEDS = [
+  {
+    slug: "rightCapital",
+    name: "RightCapital 面试笔记",
+    description: "针对 RightCapital 面试准备的笔记目录，仅通过手动输入路由访问。",
+    label: "Interview Notes",
+    badge: "RightCapital",
+    noindex: 1,
+  },
+  {
+    slug: "addx-ai",
+    name: "addx.ai 面试笔记",
+    description:
+      "针对积加科技 / addx.ai 面试准备的要点复习目录，仅通过手动输入路由访问。",
+    label: "Interview Notes",
+    badge: "addx.ai",
+    noindex: 1,
+  },
+] as const;

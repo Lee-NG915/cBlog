@@ -12,6 +12,7 @@
     "db:migrate": "tsx src/cli/migrate.ts",
     "content:import": "tsx src/cli/import.ts",
     "content:check": "tsx src/cli/check.ts",
+    "content:migrate-collections": "tsx src/cli/migrate-collections.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
