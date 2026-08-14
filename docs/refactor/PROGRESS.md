@@ -13,6 +13,14 @@
 | Phase 5 查看器与性能 | ✅ | 2026-08-14 | MermaidViewer 全屏查看器（滚轮锚点缩放/拖拽/捏合/双击/工具栏/ESC）+ 图例视口懒渲染；随文档图片 sharp+WebP 管道 + manifest 引用替换；知识图谱懒加载；**等价校验通过**；文章页 first-load 106→103 kB（见 [perf-report](./perf-report.md)）；单测 28/28 |
 | 收尾交付 | ✅ | 2026-08-14 | README 重写为 monorepo 版；最终全量构建 + 等价校验通过（76 页与基线一致）；测试计划补执行记录；遗留项见下 |
 
+## 交付后修复记录
+
+- 2026-08-14 `8d84feb`：dev 下专栏路由 500（"missing generateStaticParams" 误报）。三个成因与对策：
+  1. dev 复用生产构建残留的 `.next` 导致 static-paths worker 崩溃 → `predev` 自动清理 `.next`；
+  2. dev 以百分号编码路径比对 generateStaticParams 返回值，中文 slug 匹配失败 → 仅 dev 返回编码值（生产必须保持原样，否则导出目录名变化破坏 URL 兼容——已被等价校验拦截过一次）；
+  3. 移除冗余的 `dynamicParams = false` 导出（output:export 下隐含）。
+  验证：生产等价校验通过；"build 后直接 dev" 序列下全部专栏路由（含中文 slug）首访 200。
+
 ## 遗留项（backlog）
 
 - Playwright E2E 基建（当前以 API 级 E2E + 浏览器目检覆盖）
