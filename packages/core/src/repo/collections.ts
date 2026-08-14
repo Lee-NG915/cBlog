@@ -50,6 +50,33 @@ export function getCollectionBySlug(
   return listCollections(handle).find((item) => item.slug === slug) ?? null;
 }
 
+export function getCollectionItemById(
+  id: number,
+  handle: DbHandle = getDb()
+): (CollectionItemMeta & { sortOrder: number }) | null {
+  const row = handle.db
+    .select()
+    .from(collectionItems)
+    .all()
+    .find((item) => item.id === id);
+  if (!row) return null;
+
+  const collection = listCollections(handle).find(
+    (item) => item.id === row.collectionId
+  );
+  return {
+    id: row.id,
+    collectionId: row.collectionId,
+    collectionSlug: collection?.slug ?? "",
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt,
+    status: row.status,
+    sortOrder: row.sortOrder,
+    filePath: row.filePath,
+  };
+}
+
 /** 专栏内文档（含草稿/归档，由调用方按环境过滤），order 升序 → 标题中文序 */
 export function listCollectionItems(
   collectionSlug: string,

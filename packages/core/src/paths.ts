@@ -7,8 +7,11 @@ let cachedRoot: string | null = null;
  * 从 cwd 向上查找 pnpm-workspace.yaml 定位仓库根。
  * content/、data/、docs/ 位于仓库根，被 apps/web 与 apps/admin 共享，
  * 进程可能运行在仓库根、apps/*、packages/* 任意目录下。
+ * 测试/特殊场景可用 CBLOG_REPO_ROOT 环境变量覆盖（不参与缓存）。
  */
 export function resolveRepoRoot(): string {
+  const override = process.env.CBLOG_REPO_ROOT;
+  if (override) return override;
   if (cachedRoot) return cachedRoot;
 
   let dir = process.cwd();

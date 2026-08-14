@@ -72,3 +72,10 @@ export function readPostContent(filePath: string): string {
   const raw = fs.readFileSync(contentAbsPath(filePath), "utf8");
   return parseMarkdown(raw).content;
 }
+
+export function getPostMetaById(
+  id: number,
+  handle: DbHandle = getDb()
+): PostMeta | null {
+  return listPostMetas(handle).find((meta) => meta.id === id) ?? null;
+}

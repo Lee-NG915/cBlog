@@ -17,16 +17,60 @@ export { getDb, createDb, defaultDbPath, type DbHandle } from "./db/client";
 export * as schema from "./db/schema";
 export { POST_STATUSES, type PostStatus } from "./db/schema";
 
-// 仓储
-export { listPostMetas, readPostContent, type PostMeta } from "./repo/posts";
+// 仓储（读）
+export {
+  listPostMetas,
+  readPostContent,
+  getPostMetaById,
+  type PostMeta,
+} from "./repo/posts";
 export { listCategories, type CategoryMeta } from "./repo/categories";
 export {
   listCollections,
   getCollectionBySlug,
   listCollectionItems,
+  getCollectionItemById,
   type CollectionMeta,
   type CollectionItemMeta,
 } from "./repo/collections";
+
+// 仓储（写，管理端专用）
+export {
+  createPost,
+  savePost,
+  setPostStatus,
+  deletePost,
+  type CreatePostInput,
+  type SavePostPatch,
+} from "./repo/posts-write";
+export {
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  countPostsByCategory,
+  type CreateCategoryInput,
+  type UpdateCategoryPatch,
+} from "./repo/categories-write";
+export {
+  createCollection,
+  updateCollection,
+  deleteCollection,
+  createCollectionItem,
+  saveCollectionItem,
+  setCollectionItemStatus,
+  deleteCollectionItem,
+  reorderCollectionItems,
+  type CreateCollectionInput,
+  type UpdateCollectionPatch,
+  type CreateCollectionItemInput,
+  type SaveCollectionItemPatch,
+} from "./repo/collections-write";
+export {
+  writeFileAtomic,
+  moveToTrash,
+  saveAssetFile,
+  normalizeAssetName,
+} from "./content/files";
 
 // 内容 IO
 export {
