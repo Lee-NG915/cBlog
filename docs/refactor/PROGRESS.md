@@ -9,10 +9,16 @@
 | Phase 1 Monorepo 骨架 | ✅ | 2026-08-14 | web 迁入 apps/web；repoPath() 统一路径解析；CI artifact 路径更新；**等价校验通过**（URL 76/76、sitemap 26/26、页面指纹全一致，MIG-001） |
 | Phase 2 core + 数据库 | ✅ | 2026-08-14 | 28 篇导入（19 published/9 draft），重复导入幂等（28 未变）；driftCheck 无漂移；web 元数据切 DB 后**等价校验通过**（76 页指纹一致）；core 单测 15/15 通过 |
 | Phase 3 专栏通用化 | ✅ | 2026-08-14 | 44 个专栏文档（rightCapital 28 + addx-ai 16）迁入 content/collections/ 并补 frontmatter；slug 与基线 44/44 全对上；通用路由 `/[collection]/[slug]` 上线，旧路由/加载器删除；**等价校验通过**（76 页、sitemap、指纹一致）；单测 19/19 |
-| Phase 4 管理端 MVP | ⬜ | | |
+| Phase 4 管理端 MVP | ✅ | 2026-08-14 | 全功能上线（仪表盘/文章列表筛选/新建/CodeMirror 编辑器+实时预览含 Mermaid/元数据/状态流转/图片粘贴上传/分类 CRUD/专栏 CRUD+拖拽排序/一键发布）；API 级 E2E 自测通过：建文→回写→贴图→状态双写→白名单分类→软删除回收站，测试数据已清理；core 单测 28/28；admin typecheck 零错误；浏览器目检仪表盘/列表/编辑器正常，预览 Mermaid 渲染成功 |
 | Phase 5 查看器与性能 | ⬜ | | |
 
 ## 备注与偏差记录
+
+- Phase 4/5 实现补充（已同步技术文档）：
+  - 管理端编辑器预览的相对图片经只读接口 `/api/assets?doc=&name=` 提供（严格限制 content/ 内）；
+  - `markdownToHtml` 增加 assetBase 参数：web 构建把 `./` 相对引用重写为 `/content/<文档目录>/...`，配合 prebuild 资产镜像脚本 + WebP manifest 替换（原图保留兜底）；
+  - updatedAt 不在保存时自动更新，作为可编辑元数据字段由作者掌控；
+  - 包体分析不引入 @next/bundle-analyzer 依赖，以 next build 的 first-load JS 表格作基线对比。
 
 - 基线阶段：现有代码存在 TS 编译错误（MobileNav pathname 可空），属存量问题，已随基线提交修复。
 - Phase 1：`generate-covers.js` 随 public/ 迁入 apps/web/scripts/（内容工具，非构建链路）；confluence 相关脚本留在根 scripts/ 不动。

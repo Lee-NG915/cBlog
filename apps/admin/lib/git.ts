@@ -99,7 +99,7 @@ export function suggestCommitMessage(
 
   if (postDirs.size === 1) {
     const only = [...postDirs][0]!;
-    const slug = only.split("/").at(-2) || only.split("/").at(-1) || "content";
+    const slug = only.split("/").at(-1) || "content";
     return `content: update ${slug}`;
   }
   return `content: update ${postDirs.size || contentChanges.length} entries`;

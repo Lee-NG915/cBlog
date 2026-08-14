@@ -18,6 +18,13 @@ const STATUS_LABELS: Record<PostMeta["status"], string> = {
   archived: "已归档",
 };
 
+/** 写全量字面量，保证 Tailwind 内容扫描能命中这些组件类 */
+const STATUS_BADGES: Record<PostMeta["status"], string> = {
+  draft: "badge badge-draft",
+  published: "badge badge-published",
+  archived: "badge badge-archived",
+};
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -166,7 +173,7 @@ export default function DashboardPage() {
                     >
                       {post.title}
                     </Link>
-                    <span className={`badge badge-${post.status}`}>
+                    <span className={STATUS_BADGES[post.status]}>
                       {STATUS_LABELS[post.status]}
                     </span>
                     <span className="shrink-0 text-xs text-slate-400">
