@@ -1,0 +1,883 @@
+# AI 编排测试系统 技术设计文档（详细版）
+
+**AI-Orchestrated Testing: From Design to Evidence | 从设计到证据**
+
+| 项目 | 内容 |
+|---|---|
+| 文档版本 | v2.0（详细版） |
+| 整理日期 | 2026-08-14 |
+| 来源 | Alan《agent 深度分享&探讨会》完整会议转录 + 分享 PDF《ai-orchestrated-testing-from-design-to-evidence-v2》全 15 页 |
+| 读者 | 软件开发工程师 |
+| 运行基座 | Claude Code / Codex CLI（agent runtime）+ ClickUp（用例与 Bug 管理）+ jump house（fixture 生成 API）+ Teams（澄清记录来源） |
+
+**阅读指南**：本文按"是什么（流程设计）→ 为什么（设计原因）→ 细节与坑"组织。每个关键设计点都附有 `> 为什么这样设计` 说明，均出自 Alan 在分享中给出的原始理由。关键流程配 Mermaid 图。
+
+---
+
+## 目录
+
+1. [背景与设计动机](#1-背景与设计动机)
+2. [术语表](#2-术语表)
+3. [系统总体架构](#3-系统总体架构)
+4. [记忆系统设计（四层测试记忆）](#4-记忆系统设计四层测试记忆)
+5. [test-module：批次编排与循环执行](#5-test-module批次编排与循环执行)
+6. [test-enhance：从业务意图到可执行用例](#6-test-enhance从业务意图到可执行用例)
+7. [RUN 层：surface skills 与运行时保障](#7-run-层surface-skills-与运行时保障)
+8. [test-checker：复盘、假阳性甄别与证据闭环](#8-test-checker复盘假阳性甄别与证据闭环)
+9. [判定模型：从证据到结论](#9-判定模型从证据到结论)
+10. [Bug 提交流程](#10-bug-提交流程)
+11. [安全设计](#11-安全设计)
+12. [LEARN 层与知识运营](#12-learn-层与知识运营)
+13. [并行化与多 Agent 编排的讨论](#13-并行化与多-agent-编排的讨论)
+14. [模型选型与降本策略](#14-模型选型与降本策略)
+15. [已知问题、运营风险与路线图](#15-已知问题运营风险与路线图)
+16. [附录 A：Unique Checker 完整案例](#附录-aunique-checker-完整案例)
+17. [附录 B：一次典型批次运行 Walkthrough](#附录-b一次典型批次运行-walkthrough)
+
+---
+
+## 1. 背景与设计动机
+
+### 1.1 要解决的问题
+
+现有回归测试用例（ClickUp 管理）大多只是**业务意图（business intent）的指引**：写了"要测什么"，但普遍存在三类缺陷（这也是 test-enhance 第 2 步 DIAGNOSE 的三个评分维度）：
+
+1. **缺失前置条件**（missing setup）——例如"用户已使用过该 coupon"这种状态如何构造没有写；
+2. **模糊操作**（vague actions）——步骤描述不落到具体控件和接口；
+3. **不可观测的预期**（unobservable expectations）——"应该报错"但没有定义证据点和判定规则。
+
+Alan 对此的评价是：这**无可厚非**——测试员写用例时很难想清楚"什么东西对我最重要"，通常是在**描述一个问题**，而不是在定义**什么是我能接受的**。这两个视角本质不同，也是后文 UAT acceptance criteria 设计的出发点（见 §6.3）。
+
+直接把这种用例交给 LLM agent 执行，会出现：
+
+- **幻觉与假阳性**：两年前写的用例说"UI 上应出现某字段"，如今 UI 文案有细微变化，agent 机械判 FAIL（加拿大市场早期大量被 close 的 bug 即源于此）；
+- **上下文污染与 compact**：长链路用例执行中触发 context compacting，输出质量无法保障；
+- **不可复现**：没有固化的工作流和证据，无法复盘"agent 到底做了什么、凭什么下的结论"。
+
+### 1.2 设计目标
+
+1. 把业务意图型用例**自动增强**为"范围明确、操作具体、证据显式、判定规则明确"的可执行 AI 用例，且**原始用例保持权威、逐字保留**；
+2. 以 module 为单位批量执行：**单行失败不毁掉整批**（one failure does not erase the batch）、可断点续跑；
+3. 每次运行**留存完整证据**（录屏、trace、截图、订单号、API 记录），判定可追溯；
+4. 通过复盘（checker）识别幻觉与假阳性，形成"执行 → 复盘 → 用例回滚优化"的**自循环知识增长**；
+5. **Trust by design, governed in operation**（PDF P12）：靠设计建立可信（明确权威、显式证据、可恢复执行以降低判断漂移 drift），剩余风险交给运营治理。
+
+### 1.3 核心设计哲学：ALIGN → CONTROL → PROVE
+
+整体测试模型只有三步（PDF P13，Alan 总结）：
+
+| 步骤 | 含义 | 对应机制 |
+|---|---|---|
+| **ALIGN 对齐** | 让 agent 的预期与知识库（PRD/UAT/业务规则）的预期对齐 | test-enhance、四层记忆的 Policy 层 |
+| **CONTROL 管控** | 管控执行过程：范围有界、状态隔离、进度可见、结果明确 | test-module 的 CSV 循环、runtime harness |
+| **PROVE 取证** | 用 UI、API、订单等证据支撑结论，而非 agent 自述 | Evidence 层、test-checker |
+
+对应 PDF P6 的证据闭环：**PLAN（确认用例与界面）→ PROVE（获取证据）→ LEARN（checker 与 curation 更新指引，改进下轮）**。
+
+### 1.4 非目标（当前版本）
+
+- 完全无人值守的自我进化工作流（test-evo 实验中，进化评估机制未解决，见 §12）；
+- 大规模多 agent 并行执行（受测试环境数据依赖限制，见 §13）;
+- 云端执行（SSO / VPN 未解决，见 §15.4）。
+
+---
+
+## 2. 术语表
+
+| 术语 | 含义 |
+|---|---|
+| **Surface** | 被测界面/终端，共 3 个：**Web**（storefront 商城前端，Alan 原命名 storefront，后认为叫 web 更贴切）、**POS**（门店收银）、**Cowboy**（内部后台系统，需 VPN + Microsoft SSO） |
+| **Skill** | agent 可调用的封装能力单元（提示词 + 脚本 + 编排逻辑），存放在共享代码仓库 |
+| **Module** | ClickUp 中一个功能模块下的全部测试用例集合，批量执行的基本单位 |
+| **Enhance** | 将原始用例增强为可执行 AI 用例的过程；产物以**子用例**形式挂在原用例下 |
+| **Oracle** | 判定 PASS/FAIL 的真值依据 |
+| **Fixture** | 测试前置数据（promotion、coupon、测试用户等），由 jump house 脚本/API 生成 |
+| **Curation** | 人工预先精选并缓存的特殊测试数据清单（如 multi-shipment 商品组合） |
+| **Evidence** | 执行证据：录屏、trace、截图、订单号、API 请求记录 |
+| **BLOCKED** | 因执行就绪条件不满足而**无法触达断言**的状态，与 FAIL 严格区分 |
+| **False positive** | 假阳性：agent 判 FAIL 但实际不是缺陷 |
+| **Loop engineering** | test-module 的核心工程方法：把批次执行固化为 CSV 驱动的逐行受控循环 |
+| **jump house** | 内部 fixture 生成 API/脚本集（创建 promotion、coupon、用户等） |
+
+---
+
+## 3. 系统总体架构
+
+### 3.1 三类技能族（Skill Families，PDF P2）
+
+Alan 从宏观角度把仓库中现有 skill 分为三类：
+
+| RUN \| 执行 | ASSURE \| 保障 | LEARN \| 学习 |
+|---|---|---|
+| test-storefront-promotion（Web） | test-module（批次编排入口） | test-prd-update（PRD 变更同步） |
+| test-pos-promotion（POS） | test-enhance（用例增强） | test-curation-refresh（精选数据刷新） |
+| test-cowboy-promotion（Cowboy） | test-checker（执行复盘） | test-evo（自我进化，实验中） |
+
+各层职责与关键细节：
+
+**RUN 执行层**：3 个 surface 各一个 skill。三个 skill 的**内容编排和 harness 都做过针对该界面的定制化**——不是一个通用执行器套三个入口。
+
+**ASSURE 保障层**：
+- `test-module`：**整套 agent 架构的入口**，一个 loop engineering skill。把一整个 module 的用例编排成 CSV，为每行选择正确的执行 surface。
+- `test-enhance`：把"业务意图"增强为"可测试、可验证"的用例。
+- `test-checker`：用例 FAIL 或 BLOCKED 时做复盘——根据执行时录制的录屏和 trace 判断能否解除阻塞，或是否为 false positive；是 false positive 时建议把 FAIL 改为 PASS 或改判 BLOCKED。**Alan 在 raise bug 之前通常都会先跑一遍 test-checker**，作为提 bug 前的 harness gate。
+
+**LEARN 学习层**（"把这些 skill 更进一步进化的类"）：
+- `test-prd-update`：当 PRD 发生巨大变化时，更新 skills 内部**中央 PRD 记忆**。
+- `test-curation-refresh`：维护特殊用例所需的产品/promotion 精选清单。例如某些用例需要 multi-shipment 的产品组合——事先设置好写进 curation，用例执行时直接选用该组合，**不需要反复去测试环境现找**。
+- `test-evo`：自我进化实验（见 §12.3 的卡点）。
+
+### 3.2 端到端流程总图
+
+```mermaid
+flowchart TD
+    A["ClickUp 原始用例<br/>业务意图, 逐字保留"] --> B["test-enhance<br/>五步增强流水线"]
+    B --> C["AI 增强子用例写回 ClickUp<br/>挂在原用例下, 可多轮回滚"]
+    C --> D["test-module 入口<br/>SCOPE 选用例 → ROUTE 匹配 surface → CONFIRM 用户批准"]
+    D --> E["中间层 CSV<br/>固化本轮工作流"]
+    E --> F["RUN skills 逐行执行<br/>web / POS / cowboy<br/>每行独立 CLI session"]
+    F --> G["证据留存<br/>录屏 · trace · 截图 · 订单号<br/>每行独立运行目录"]
+    G --> H{"逐行结果"}
+    H -->|PASS| I["批次结果汇报"]
+    H -->|"PASS with caveat"| I2["人工审 caveat<br/>与 PM 确认可否接受"]
+    H -->|"FAIL / BLOCKED"| J["test-checker 复盘<br/>读录屏/trace/最新澄清"]
+    J -->|假阳性| K["建议改判 PASS 或 BLOCKED"]
+    J -->|真缺陷| L["提炼要点提 Bug 到 ClickUp"]
+    J -->|用例质量问题| M["人工确认后回滚增强用例<br/>通常 3-4 轮达到稳定"]
+    J -->|环境/fixture 问题| N["自然语言指令重跑<br/>生成新一版 CSV"]
+    M --> B
+    N --> E
+    K --> I
+    L --> I
+    I --> O["LEARN 层<br/>checker 结论与 curation 更新指引"]
+    O -.->|人工判定后合并| P["中央记忆更新"]
+```
+
+> **为什么整体是这个形状**：Alan 的类比是"整个流程更像是你在跟一个**测试员**对话——把模块派给他测，测完他告诉你多少成功多少失败，你再追问为什么 fail、为什么 block"。所以架构以"批次"为交互单位而非"步骤"，人只在批次边界介入。
+
+---
+
+## 4. 记忆系统设计（四层测试记忆）
+
+记忆系统是全部 skill 的公共基础，先于流程介绍。
+
+### 4.1 为什么不用 RAG
+
+> **为什么这样设计**：Alan 明确说明**没有用 RAG**，原因是"所有的用例都需要**精准匹配**。RAG 的问题在于它是模糊匹配/语义匹配，但在测试 business rule 的时候，模糊匹配会产生很多幻觉——我们需要**非常精准地匹配到某一条 rule**。"
+
+因此整套记忆是**结构化分层 + 精确读取**：markdown 文件、CSV、缓存文件、本地磁盘证据，不做向量检索。
+
+### 4.2 四层记忆架构（PDF P5）
+
+```mermaid
+flowchart TD
+    subgraph L1["第 1 层 · Policy 规则 — WHAT / GOAL, non-negotiable"]
+        P1["UAT acceptance criteria"]
+        P2["PRD"]
+        P3["从各种记忆中蒸馏出的 business rules"]
+    end
+    subgraph L2["第 2 层 · Procedure 流程 — HOW"]
+        Q1["各 skill 定义"]
+        Q2["UI maps, 各 surface 各一套"]
+    end
+    subgraph L3["第 3 层 · Promotion state 促销状态 — 运行时状态机"]
+        R1["当前 promotion / coupon code"]
+        R2["测试用户与 session"]
+    end
+    subgraph L4["第 4 层 · Evidence 证据 — 长期持久化"]
+        S1["结果 markdown"]
+        S2["录屏 / trace / 截图, 本地磁盘"]
+        S3["ClickUp 记录"]
+    end
+    L1 --> L2 --> L3 --> L4
+    L4 -.->|"完成后回推, 形成流转状态"| L1
+```
+
+各层细节与设计原因：
+
+| 层 | 内容 | 性质 | Alan 的原话要点 |
+|---|---|---|---|
+| **Policy 规则** | UAT acceptance criteria、PRD、蒸馏的 business rules | **non-negotiable**。定义"what to do"，是一个 goal，规定测试 agent 能接受的范畴 | "policy 更像是 what to do"；UAT criteria 优先级最高 |
+| **Procedure 流程** | skills + UI map | 定义"how"——"遇到这样的用例，我该怎么去测" | "procedure 更像是 how"，偏程序性知识 |
+| **Promotion state 促销状态** | 每个用例通过 jump house script 动态生成的 promotion，及用户/会话 | 运行时**状态机**。每次运行 promotion ID / coupon code **都可能变化**——用例里给的只是例子，真实执行需要状态机保存实际值与作用范围 | "虽然用例里会举例子，但真实执行时需要一个状态机来保存它具体的范围" |
+| **Evidence 证据** | 结果 markdown + video/trace 留存本地磁盘 | **长期记忆 / persistent**。事实包装留存，供多次运行后的复盘；完成后回推形成流转状态 | "Evidence 是更长期的一个记忆系统" |
+
+### 4.3 记忆作用域与优先级
+
+记忆按作用域分两类，**skill-local 优先级高于 centralized**：
+
+- **Centralized（中央记忆）**：业务层面、PRD 层面的共享知识；
+- **Skill-local（skill 本地记忆）**：绑定具体 surface 的知识，例如每个 surface 自己的执行 map——**各 surface 的 navigation 完全不一样**，Web 的导航地图对 POS 无用。
+
+记忆的可见性通过 **surface matching** 决定：做了 surface 匹配后，某些记忆对这个 surface 特别有用、对另一个 surface 没用，自然分离。
+
+> **为什么人工做这个分类可行**：被问到"怎么判断记忆写入后真的命中、准确率有提升"时，Alan 的回答是：这个大分类靠人为判断，"很粗犷，但基本上不会错——**错误的概率很低，就算错了，重新跑一遍成本也不高**"。即：用低成本重跑兜底，换取免去复杂的记忆命中率评估工程。
+
+### 4.4 记忆时效性的两种模式：执行期信任 vs 复盘期怀疑
+
+这是一个重要的双模式设计（Alan 称之为一种 "competing 的模式"）：
+
+| 模式 | 假设 | 原因 |
+|---|---|---|
+| **执行期** | assume 所有存在的记忆都是**最新的、有用的** | 为了尽量快，不在执行路径上做记忆校验 |
+| **复盘期** | **推翻**上述假设：记忆可能是错的 | PRD 可能没更新、curation 可能不对、最近做的 clarification 可能还没进入记忆 |
+
+复盘期因为只针对出错/被阻塞的少数用例，"执行的维度可以更大，可以拉更多信息"——checker 甚至会**按时间顺序读取 Teams 群里最新的 clarification 记录**，用它来 override 可能过期的 PRD 信息，得到"很有意思的反馈结果"。
+
+### 4.5 记忆写入治理：人管版本，AI 管内容
+
+**流程设计**：checker 复盘产生的新知识**不会自动写入 centralized memory**。复盘时允许引用最新澄清做**当次改判**；但是否沉淀进共享记忆，由人工判定后手动合并。
+
+```mermaid
+flowchart TD
+    A["checker 复盘发现新信息<br/>例如 Teams 群最新澄清"] --> B{"仅影响当次判定?"}
+    B -->|是| C["当次改判<br/>例: central memory 判 FAIL,<br/>最新聊天说明可以过 → 人判 PASS"]
+    C --> D["不写入 centralized memory"]
+    B -->|"是长期有效的规则?"| E["人工判定"]
+    E -->|确认| F["手动合并进 centralized memory<br/>人 control versioning"]
+    E -->|"临时性结论 / 噪音"| D
+```
+
+> **为什么不让 agent 自动写记忆**：Alan 给了一个具体例子——群里说"apply original price 好像有点问题，但问题不大，上线前不用改"。如果这句对话发生后就让 agent 直接更新所有记忆，**下次测试时 agent 会跳过这个检查点**，把可能出现的问题全部遗漏掉。聊天群里有大量这种"暂时不做/暂缓决策"的**临时性结论和噪音**，是否推到执行层记忆必须人为判定。
+>
+> 更长远的原因：**将来做 multi-agent 时，centralized memory 会被所有 agent 继承**，一条被污染的中央记忆会放大到全部 agent。所以原则是"**人 control versioning，不 control content**"——merging 记忆时人做小判断，内容生成交给 AI。
+>
+> 复盘则无所谓——"复盘不影响执行稳定性，你只是要知道为什么"，所以复盘期可以大胆拉取未治理的最新信息。
+
+---
+
+## 5. test-module：批次编排与循环执行
+
+### 5.1 定位与输入
+
+- **定位**：整套架构的**入口**，loop engineering skill。
+- **输入**：module 名称 + 市场（market）。
+- **多用途**：可以测整个 module（产出多个用例），也可以只测一个用例（哪怕下面只有 2 个子用例）——"是一个多用途的自动化 skill"。
+
+### 5.2 执行前三步：形成可审阅批次（PDF P3）
+
+```mermaid
+flowchart LR
+    A["1 · SCOPE 范围<br/>从 ClickUp 拉取 module 全部用例<br/>优先 AI 叶子用例<br/>跳过排除分支"] --> B["2 · ROUTE 路由<br/>按证据评分为每条用例<br/>匹配执行 surface<br/>可人为强制指定"]
+    B --> C["3 · CONFIRM 确认<br/>自然语言展示计划<br/>链接 + 评分<br/>支持微调, 批准后才执行"]
+    C --> D["生成执行 CSV, 开始执行"]
+```
+
+细节：
+
+- **SCOPE**：读取 module 名和市场后，先把 module 里的测试 case **用自然语言跟用户 confirm 一遍**；用户可做细微调整，确认（approve）后才执行。
+- **ROUTE**：同一用例可能同时存在于多个 surface（例如既在 POS 又在 Web）。可以**强制指定**某用例用哪个 skill 测试（或用哪个用例做补全）；不指定时，test-module 会**根据用例自身语义 default assign** 一个 surface。
+- **CONFIRM**：展示链接和评分，run after approval。
+
+> **为什么要"执行前确认"**：批次一旦跑起来是挂机式的（睡前挂机、醒来收结果），执行中不交互；所以把人工审阅前置到计划阶段，是唯一低成本的干预点。
+
+### 5.3 中间层 CSV：固化工作流
+
+test-module 在确认后生成一个**中间层 CSV**，把这一轮运行的工作流固化下来，后续执行都发生在这个固化的 CSV 上。
+
+**CSV 结构**（每行 = 一条用例）：
+
+| 列 | 内容 | 备注 |
+|---|---|---|
+| 1 | 用例 ID | ClickUp task ID |
+| 2 | skill 名称 | 决定该行由哪个 surface skill 执行 |
+| 3 | 市场 | US / CA … |
+| 4 | 特殊提示词（可选） | Alan："留了一个后门"，某些情况下植入定制提示，**通常不用** |
+
+> **为什么要有 CSV 这个中间产物**：
+> 1. **确定性（Deterministic）**：执行发生在固化快照上，不受会话漂移影响；
+> 2. **可审计**：一行一个用例，人能直接看懂这批要跑什么、用什么 surface；
+> 3. **可恢复（Recovery）**：重跑就是生成"另一版 CSV"，天然支持"只重跑 blocked 的行"；
+> 4. **并行的理论基础**：每行 CSV 可以调用一个单独的 session（虽然当前刻意不并行，见 §13）。
+>
+> 已知问题（同事反馈）：CSV 中生成的用例 ID 曾出现**对应错误——执行到了别人的用例**；这个映射过程目前偏黑盒，需要暴露出来（见 §15.3）。
+
+### 5.4 逐行循环执行（Loop-engineered CSV execution，PDF P4）
+
+PDF 对该循环总结为四个特性：**Bounded（每次一行）、Deterministic（预检界面与登录）、Observable state（隔离证据、逐行记录）、Recovery（安全续跑已完成工作）**；效果是"范围有界、状态隔离、进度可见、结果明确；单行失败不影响整批"。
+
+```mermaid
+flowchart TD
+    P0["Preflight 预检<br/>把本批所需的全部 surface 界面打开"] --> P1["人工介入一次:<br/>逐个完成 VPN + SSO 登录<br/>例: cowboy 需 VPN + Microsoft SSO"]
+    P1 --> P2["session 记录留存<br/>本 module 内所有用例复用, 不再重复登录"]
+    P2 --> L0{"CSV 还有未执行的行?"}
+    L0 -->|是| L1["取下一行"]
+    L1 --> L2["为该行新建独立 CLI session<br/>+ 独立运行目录"]
+    L2 --> L3{"runtime harness:<br/>fixture / coupon / promotion 有效?"}
+    L3 -->|无效| L4["判 BLOCKED<br/>提示需微调用例<br/>不再往下执行"]
+    L3 -->|有效| L5["按增强用例执行各 flow<br/>录屏 + trace 全程记录"]
+    L5 --> L6["写 checkpoint<br/>证据存入该行独立目录"]
+    L6 --> L7{"该行结果"}
+    L7 -->|"PASS / PASS with caveat"| L0
+    L7 -->|"FAIL / BLOCKED"| L8["记录结果, 不中断批次<br/>继续下一行"]
+    L4 --> L8
+    L8 --> L0
+    L0 -->|否| E1["汇总整批结果, 向用户汇报"]
+    E1 --> E2["用户按需追问 / 复盘 / 重跑<br/>自然语言: 把 blocked 的重跑一遍<br/>→ 生成新一版 CSV"]
+```
+
+各环节设计原因：
+
+**（a）Preflight + 一次性登录**
+> 执行前把所有需要的 surface 全部打开，因为有些 surface 需要手工登录（如 SSO）。以 cowboy 为例：需要先开 VPN、过 Microsoft SSO——**登录之后，这个 module 里运行的所有 session 都会被记录下来，就不用反复登录了**。这解决了多点登录的痛点。当前流程是：agent 等人把每个界面的 SSO 全部点完，才开始执行所有用例。
+
+**（b）每行独立 session + 独立运行目录**
+> 两个目的：
+> 1. **上下文隔离**：避免用例之间的 contamination（交叉污染）；PDF P12 将其列为已控制的风险——"精准用例与界面减少跨测试污染"（exact case and surface reduce cross-test carryover）。
+> 2. **压低 compact 概率**：最坏情况是"某条用例执行中途发生 context compacting，整体输出质量就很难保障"。每个用例单独 context 后，"compact 的概率已经非常低，除非这个用例过于冗长"。复杂用例（如 3 flow）如果不隔离，"这么长的链路下模型 context 可能不够，就会产生幻觉"。
+
+**（c）逐行证据留存**
+> 每次运行都有单独的运行目录，证据单独留存——所以**运行多次之后可以做进一步复盘**。test-checker 正是依赖这些"之前存储下来的数据（trace / 视频 / 截屏）"做二次验证，相当于一个 harness gate。
+
+**（d）故障隔离 + 跑完整批**
+> Alan 的运行铁律："**如果一个用例 fail 了或者 block 了，不要停，继续往下执行，至少把这一批全部执行完——全部执行完是最重要的。**" 单行失败不 erase 整批；失败原因留到批后由 checker 统一分析。
+
+**（e）自然语言驱动的恢复**
+> 跑到一半发现问题不需要手工重建 CSV：直接对话"你把那些 block 的给我重跑一遍"，agent 会**生成另外一版 CSV** 再跑一遍；"我跑了这个 module 50% 是 pass 的，pass 的我就不管了，有 2 个 fail 的，让他帮我复下盘告诉我为什么"。
+
+### 5.5 交互模型：像管理一个测试员
+
+- **批后交互，而非过程交互**：被问"是否需要持续跟 agent 交互"时，Alan 的回答是"不用——通常一批跑完我才跟他对话一次。用例没执行完之前你也不知道跟他对话什么。"
+- 典型节奏：执行完 → 问结果 → 针对 FAIL 追问复盘 → 人工看录屏确认 → 让 agent 把 bug 要点推到 ClickUp → 对 BLOCKED 问原因 → 一句话重跑。
+- **挂机模式**："如果把这个 module 做好了，我睡觉前让他去运行，一觉醒来就完成很多用例"——这也是当前不做激进并行的原因之一：串行 + 过夜已满足吞吐需求（见 §13）。
+
+---
+
+## 6. test-enhance：从业务意图到可执行用例
+
+### 6.1 五步流水线（PDF P14）
+
+原则（PDF 原文）："**The original remains authoritative; enhancement makes scope, actions, evidence and verdicts explicit.**"（原始用例保持权威；增强过程只是把范围、操作、证据与判定显式化。）
+
+```mermaid
+flowchart TD
+    S1["1 · PRESERVE 保留原文<br/>逐字保留父用例及其测试范围<br/>绝不修改原文"] --> S2["2 · DIAGNOSE 识别歧义<br/>对三类缺陷打分 Score 1:<br/>缺失前置 / 模糊操作 / 不可观测预期<br/>增强前后各评一次"]
+    S2 --> S3["3 · GROUND 对齐判定<br/>出现歧义时与 ground fact 对齐:<br/>PRD + UAT acceptance criteria<br/>确定 oracle"]
+    S3 --> S4["4 · SPECIFY 映射执行<br/>源码 + UI map + API contract<br/>编排出 execution map:<br/>真实控件 / 接口 / 状态 / 证据点"]
+    S4 --> S5["5 · VALIDATE 验证输出<br/>二次评分 Score 2<br/>确认执行器可解析具体步骤"]
+    S5 --> C{"Score 2 达标?"}
+    C -->|是| OK["生成 AI 增强子用例<br/>写回 ClickUp 挂在父用例下"]
+    C -->|"预期过低"| BLK["直接 BLOCK, 不执行<br/>判定: 与 PRD/UAT 无法对齐<br/>建议重写 test case"]
+```
+
+关键细节与原因：
+
+**第 1 步 PRESERVE——为什么保留原文而不是改写**
+> "它会保留原文，而不是直接修改原文。" 原文是**用例范围（scope）的唯一权威来源**（见 §6.2 权威层级第 02 层）。增强产物以子用例形式挂在原用例下，实践中增强用例会**不断回滚——通常回滚优化 3 到 4 轮**才达到可反复执行的稳定状态；原文不动，回滚才安全。
+
+**第 2 步 DIAGNOSE——先扫描再动手**
+> 先去扫描原文里**有没有歧义**，而不是直接开始补写。评分（Score 1）在增强前后（before/after）各用 heuristics 测一次，量化增强效果。
+
+**第 3 步 GROUND——歧义才对齐，且只跟最高权威对齐**
+> 出现歧义时，才去跟所谓 ground fact——**PRD 和 UAT acceptance criteria**——做对齐判定。这个次序保证增强不引入 PRD 之外的臆测。
+
+**第 5 步 VALIDATE——低分直接 BLOCK 的原因**
+> "如果这个用例本身的 business intent（与 PRD/UAT）就有出入，执行是没有意义的。" Alan 给的例子：有些用例是**从老的 PRD 直接复制过来的，其中某些 feature 根本没有被新的重构设定在 scope 里**。这种情况下 agent 会直接判定"与 PRD/UAT 的 acceptance 过度无法对齐"，输出"需要重写这个 test case"的判断，而不是浪费 token 去执行一个注定无效的用例。
+
+### 6.2 权威层级：不同上下文服务不同决策（PDF P15）
+
+PDF 原则："**test-enhance uses different context for different decisions. Implementation never silently overrides acceptance.**"（按不同目的使用不同上下文；实现不得静默覆盖验收标准。）
+
+| 优先级 | 层 | 来源 | 职责 | 违反时的处理 |
+|---|---|---|---|---|
+| **01 最高** | 预期行为 EXPECTED BEHAVIOR | **PRD + UAT acceptance** | PASS/FAIL 的**最高权威**，定义产品必须如何表现 | — |
+| **02** | 用例范围 CASE SCOPE | 原始父用例 | 定义本次测试的场景、触发条件、业务断言 | — |
+| **03** | 执行地图 EXECUTION MAP | 源码 + UI maps + API contracts | 定位**真实**控件、接口、状态、证据点；**说明 how to test，而非定义正确结果** | 不得 override 01/02 |
+| **04** | 执行就绪 READINESS | 市场 + 账号 + fixture + session | 决定能否**触达**断言 | 准备不足 → 判 **BLOCKED**，而非修改预期 |
+
+底线规则（PDF P15 末行）：**若 fixture 验证有效、且实际观察到的行为与 PRD/UAT 冲突 → FAIL。**
+
+> **为什么源码不能当 oracle**：分享中有同事问过"source code 有没有用"。Alan 的回答："source code 是有用的，**在执行层面非常重要**——但它不会 override PRD 或 UAT 的 acceptance，不会作为 acceptance 的 oracle。它只作用于执行层面，最终用于判定这个用例**可执行的 confidence 有多少**。" 直觉上：代码描述的是"系统现在是什么样"，而测试要验证的是"系统**应该**是什么样"——用实现验证实现是循环论证。
+>
+> **判定的完整优先级链**：PRD/UAT 的 acceptance criteria（最高）→ 用例自身的 acceptance criteria → 执行地图 / API contracts。
+
+### 6.3 UAT acceptance criteria：整个项目收益最大的一项实践
+
+**来历**：Alan 与产品经理（Stella）**通过对话** come up with 出一份 UAT acceptance criteria——"发现非常有用，是一个高层的 contract"。注意它**不是一个短小文档**——"其实挺大的"。
+
+**它和 PRD 的本质区别**（Alan 的红绿灯类比）：
+> "PRD 描述的是我怎么设计这个系统、我的需求是什么、我需要看到什么，但它**没有约束：当产品造出来之后，什么样的产品是我可以接受的**。如果我要造一个红绿灯，PRD 里只说了有红灯绿灯，**并没有说什么样的红绿灯我是能接受的**。在一些细微 edge case 里就会出现很模糊的状态；而一旦有了 acceptance criteria，模型判断就非常不一样。"
+
+**它引入了判定的"灰度"**：
+> 只有 PRD 时，"agent 会认为所有东西都是 non-negotiable，必须 100% 正确才让你过"。acceptance criteria 则定义了**哪些 non-negotiable、哪些 negotiable**——"我的优先级是下单最重要；下单完成了，但页面上出现的字跟 PRD 有出入，不是这么重要——你不应该 fail 这个事情，你可以提出来"。这个灰度"跟人的思路很一致"。
+
+**实测效果（CA → US 的对比）**：
+- 第一版（加拿大市场）没有 criteria → 阻碍率（block rate）较高，且产生大量后来被 close 的假阳性 bug；
+- US 重构时把 UAT criteria 放进了 test-enhance → **block rate 明显降低**。
+
+**补充的知识来源**：
+1. **整个 Teams 群的对话记录**也被放进 agent——"很多细小 edge case 只有在 clarification 之后才聊清楚，再推给 agent，test-enhance 就会做得更好"；
+2. **"暂缓/未决策"本身也是有效信息**——"有些东西我们暂时缓一缓、还没做决定，这也是可以告诉 agent 的"。有些 edge case 范畴太狭窄，"once in a blue moon 都不一定发生"，明确告知 agent 可避免它纠缠。
+
+### 6.4 评分机制与局限
+
+- **Score 1**：DIAGNOSE 阶段，增强前后各一次 heuristics 评分；
+- **Score 2**：VALIDATE 阶段对 execution map 的二次验证评分，过低直接 BLOCK；
+- **runtime 中的细微 evaluation harness**：三个 RUN skill 在运行期还会做轻量校验（重点针对 promotion fixture，见 §7.2）。
+
+**已知局限**（Alan 自述）：目前评分"还比较简单，主要是通过 **BDD formatting** 来做的——看用例里有没有 precondition、有没有我要的特征。但在复杂情况下这些特征就没这么准了。" 更复杂的量化机制（比如保证"微调不退步"）仍在探索，见 §12.3。
+
+### 6.5 enhance 的批处理策略：为什么 enhance 不隔离、执行必须隔离
+
+Alan 的实操方式是**按 batch 分阶段**，在不同的 codex session 里起 3 个不同阶段：
+
+1. 先把**一整个 module 的 enhancement 在同一个 session 里全部做完**；
+2. 再用另一个 agent 批量执行；
+3. 执行完这一批，再用另一个 agent 做 checker。
+
+> **为什么 enhance 阶段刻意不隔离**：
+> 1. "所有 enhancement 放在同一个 session 里，用例之间会**互相学习**——很多用例有共通性，隔离出来会失掉很多有用的 context"；用例之间本身的相互影响也能被一起分析进去。
+> 2. 可以**动态注入上下文**：例如做 enhance 时给提示词，让美国市场和加拿大市场的用例**做对比**。
+> 3. 结论："按每个用例做隔离，必要性不是太强。**最重要的是执行时隔离**（每条已经是单独 CLI session）；分析和复盘时不隔离反而更好。"
+
+（与 sub-agent 逐用例编排方案的对比讨论见 §13。）
+
+### 6.6 推导链：flow 是怎么被推出来的（PDF P8）
+
+增强不是模板套用，而是**有思维链的推导**：
+
+```mermaid
+flowchart LR
+    A["ClickUp 找到原始用例"] --> B["分析模块层级<br/>module 名 / tags / 祖先 / 兄弟范围"]
+    B --> C["找出验收结果<br/>UAT + PRD: 场景映射 / 验收 / 被引用规则"]
+    C --> D["分析产品行为<br/>UI 源码 / API 事实 / 共享业务规则"]
+    D --> E["生成执行上下文<br/>市场占位 / 共享账号 / fixture / UI map"]
+    E --> F["推导出受控 flows<br/>父用例信号 → 推导 → 形成流程"]
+```
+
+PDF P8 的推导三元组（父用例信号 → 推导 → 形成流程），以 Unique Checker 为例：
+
+| 父用例信号 | 推导（Deduction） | 形成流程 |
+|---|---|---|
+| "已使用过"必须先为真 | **确定性地建立前置条件**；使用次数只在定义的"完成订单"时点被消耗 | **FLOW A · SEED**：完成订单，消耗身份 S |
+| 已使用的身份必须被拒绝 | 换用户、换 code，但**复用身份 S**——把 Unique Checker 与"单纯 code 复用限制"隔离开 | **FLOW B · TARGET**：相同身份 S → 拒绝 |
+| **原始用例缺少对照组** | 把全部身份属性换成 D；**若 D 也被拒，说明 fixture 无效或校验过宽（over-broad）** | **FLOW C · CONTROL**：不同身份 D → 允许 |
+
+> **为什么补对照组（Flow C）是亮点**：Flow C 是 agent "找到了原始用例没有覆盖的点"——原用例只写了负向断言（应被拒绝），没有写"什么情况应该放行"。没有对照组时，一个把所有请求都拒掉的 bug 也能让原用例"通过"。这是 AI 增强真正提高测试设计质量的地方，不只是把步骤写细。完整案例见附录 A。
+
+---
+
+## 7. RUN 层：surface skills 与运行时保障
+
+### 7.1 三个 surface 的定制化
+
+- **Web（storefront）**：商城前端，不需要 SSO；
+- **POS**：门店端；
+- **Cowboy**：内部后台，需 VPN + Microsoft SSO。
+
+三个 skill 的内容编排和 harness 均针对各自界面**做过定制化**；每个 surface 有**自己的执行 map（UI 导航地图）**，互不通用（见 §4.3）。
+
+### 7.2 Runtime harness：fixture 预检
+
+三个 RUN skill 在运行时都会做轻量校验（"细微的 evaluation harness"），重点针对 promotion：
+
+- 有些用例中 promotion 只是**示例**（每次动态生成），有些用例**写死**了"我就要这样的一个 coupon/promotion"；
+- harness 会先确认生成的 fixture / coupon / promotion **有效**，无效则**阻塞、不再往下运作**，并提示"可能要重新微调这个测试用例"。
+
+> **为什么预检**："否则会浪费很多 token。" 在无效前提上跑完三个 flow 再发现问题，成本远高于开头一次校验。这与 §6.1 的"低分 BLOCK 不执行"是同一设计哲学：**尽早失败，失败要便宜**。
+
+### 7.3 确定性 Helper JS 脚本
+
+**设计**：在 skill 里内置写死的 helper JavaScript 脚本，模型只负责**识别场景并调用脚本**，数据不经过模型。
+
+**场景 1：Stripe 支付表单（安全动因）**
+> "下单时如果让模型直接去填（信用卡），有些模型会**直接拒绝**——因为牵涉到信用卡账号，它会说我做不到或我不做，**完全看模型的开放程度，我没有找到一个正确答案**。我的方式是写死一个专门针对 Stripe 填写的 JS 脚本，让模型只要看到 Stripe 的 form 出现，就直接调用那个脚本。" 脚本方案没问题的原因："**它不过模型——模型只知道'看到这件事我要用这个脚本'，所有数据不经过模型**"，同时"会大幅增强执行的稳定性"。（测试信用卡号本身也是事先编排在 skill 里的。）
+
+**场景 2：复杂 UI 操控（稳定性动因）**
+> Castlery 前端有很多"抽屉"式交互（例如先开 mini cart、再打开 free gift）。**低版本模型在两层抽屉嵌套时会出现幻觉、点不准**——"5.2 会经常出错，高版本模型错误率就很低"。对策：把点击**写死到 element 层面**（"打开这个（控件）、再点击另外一个（控件）直接对应到 element"），错误率就少很多。适用条件：**模块 UI 变动不大**时可采取这种策略。
+
+**推论（模型能力与脚本量的权衡）**
+> "如果把模型从 5 退回到 5.2，我会做的一件事就是**写更多类似脚本**——越低质量的模型，在复杂 UI 操控上越不精确。" 即：降级模型省钱的代价是确定性脚本的开发维护成本，两者此消彼长。
+
+### 7.4 上下文隔离的时效性提醒
+
+Alan 主动提示了一个工程风险：**模型每次升级都可能让隔离工程贬值**——"你开始觉得 5.5 的上下文只有这么一点，到了 5.6 上下文又增加了；你做的这些 context 隔离工程，两三个月之后可能就无效了，一次模型更新就把这些顾虑降低了一半。" 但同事补充、Alan 认同：隔离仍有**降本**价值（更小的上下文 = 更低成本），只是不要把它当成长期核心壁垒。
+
+---
+
+## 8. test-checker：复盘、假阳性甄别与证据闭环
+
+### 8.1 触发时机
+
+1. 用例出现 **FAIL 或 BLOCKED** 之后；
+2. **raise bug 之前**（Alan 的习惯："在 raise bug 之前我通常都会使用一下 test-checker，再把 bug 提出去"）——相当于提 bug 的 harness gate；
+3. 批次完成后，用户主动要求"把整个 module 的测试结果做一下复盘"。
+
+### 8.2 复盘决策流程
+
+```mermaid
+flowchart TD
+    A["输入: FAIL / BLOCKED 的用例<br/>+ 该行独立目录中的录屏 / trace / 截图"] --> B["checker 复盘<br/>复盘期可拉取比执行期更宽的信息:<br/>含 Teams 群按时间序的最新澄清"]
+    B --> C{"失败原因分类"}
+    C -->|"环境类: VPN 过期等"| D["结论: 重跑即可<br/>一句话生成新版 CSV 重跑"]
+    C -->|"fixture 类: multi-shipment /<br/>SPU+SKU 组合生成不对"| E["fixture 反向验证<br/>脚本参数 vs Cowboy UI 截屏对比"]
+    E -->|fixture 无效| F["改判 BLOCKED, 重建 fixture 重跑"]
+    E -->|fixture 有效, 行为与 PRD/UAT 冲突| G["确认为真缺陷 → FAIL"]
+    C -->|"用例质量类: 该市场本就无效 /<br/>步骤该删未删 / 缺 flow 判断"| H["建议修改用例<br/>人工判定后与 agent 沟通改写<br/>原始用例保留, 增强用例回滚一版"]
+    C -->|"假阳性: 判定依据过期<br/>如 UI 字段与两年前用例文案有出入"| I["建议 FAIL → PASS 或改判 BLOCKED<br/>当次生效, 不自动写中央记忆"]
+    G --> J["提炼要点, 提 Bug 到 ClickUp"]
+```
+
+**首轮真实数据**（US 市场经验）："第一次跑，block rate 大概 40%——第一遍 60% 跑通（pass 或 fail 出结果），另外 40% 因各种情况被阻塞。" 阻塞原因即上图的分类：VPN 过期（最容易，重跑即可）、fixture 生成不对（multi-shipment、SPU+SDU curation 错误，重跑）、用例本身质量问题（在该市场无效/不该测/步骤该划掉没划掉）。
+
+### 8.3 fixture 反向验证：执行期信任、复盘期怀疑
+
+**问题**：jump house API **并不完美**——"有时候你 pass 进去的 parameter 跟 UI 出现的结果是不一样的"，导致生成的 promotion 不是真正想要的。同事也实测发现"agent 报告的执行结果与实际查 API/日志的表现不一样"（例如某开关实际没开启，agent 以为自己开了）。还遇到过"**接口存在但就是不生效**"（已知问题但没时间修）的情况。
+
+**设计**：
+
+```mermaid
+sequenceDiagram
+    participant EX as 执行 agent
+    participant JH as jump house API
+    participant CB as Cowboy 后台 UI
+    participant CK as test-checker
+    participant HU as 人
+
+    EX->>JH: 创建 promotion / coupon / 用户 fixture
+    JH-->>EX: 返回成功
+    Note over EX: 执行期: 100% 信任 API 返回<br/>不做全量 UI 验证
+    EX->>EX: 继续执行用例各 flow
+    alt 该用例 FAIL 或 BLOCKED
+        CK->>CB: 打开 Cowboy, 截取该 fixture 最终 UI 状态截屏
+        CK->>CK: 脚本创建参数 vs UI 实际结果对比
+        alt fixture 无效
+            CK-->>HU: 结论: fixture 无效或校验过宽 → 改判 BLOCKED / 重建重跑
+        else fixture 有效
+            CK-->>HU: 行为与 PRD/UAT 冲突 → 确认 FAIL, 可提 bug
+        end
+    end
+```
+
+> **为什么不做 100% 事前验证**："如果每次（创建 fixture）都去 Cowboy 验证一遍，就把 efficiency 浪费掉了——很浪费 token，还可能**增加阻碍风险**（多一个跨 surface 依赖，见 §12.2）。我开始 100% 信任 API，只在发现 block 或 fail 的情况下，才让 checker 复盘：用脚本建立的东西，去 Cowboy 把最终产生的 UI 截屏下来做对比，判定 fixture 本身是否有效。"
+>
+> Alan 的总结（本系统对幻觉的根本态度）："**agent 产生幻觉是必然的，所以必须在它产生幻觉之后及时做另外一个复盘，再做一次回滚——这样幻觉就会降低很多。** 我们假设所有接口都是完美的，但实际情况真的会有细小的偏差。" 即：不追求消灭幻觉，而是让幻觉**可检出、可纠正、纠正便宜**。
+
+### 8.4 假阳性的历史与治理
+
+- **历史**：加拿大市场早期很多 bug 后来被 close，因为它们提在**拿到 acceptance criteria 之前**。当时原始用例优先级过高——用例说"期望在 UI 里看到这样一个字段"，实际环境中字段有细微区别（用例是两年前写的，UI 文案已变化），agent 一律判 FAIL。
+- **现在**：acceptance criteria 中有一条明确"某些 UI 字段不是特别重要，可以与用例不一致"，将原用例中"过于强硬的约束"淡化。此类情况 agent **不直接判 FAIL，而是判 BLOCKED**，并提示"这个用例可能在用例层面需要微调"——false positive 因此大幅减少。
+
+### 8.5 用例回滚机制（知识库增长）
+
+- checker 查出用例质量问题后，**很多判定由人工做**："我跟 agent 沟通——根据这个东西，你把原来的 test case 改一下"；
+- **始终保留最原始的用例**；其下的 AI 增强用例不断回滚，"可能回滚了 3 到 4 轮才优化到一个可以反复执行的状态"；
+- 典型改进例子：原用例只说"要测这样一个东西"，没判断出需要多个 flow / 需要新建用户——**被阻塞一次之后**才发现要这样做，于是回滚增强用例补上;
+- 整个流程因此是"自循环"状态——US 和加拿大市场都做了这样的调整。
+
+---
+
+## 9. 判定模型：从证据到结论
+
+### 9.1 四种结果与状态流转
+
+```mermaid
+stateDiagram-v2
+    [*] --> Enhance评分
+    Enhance评分 --> BLOCKED_预检 : Score 2 过低 / 与 PRD、UAT 无法对齐
+    Enhance评分 --> 执行中 : 评分达标
+    执行中 --> BLOCKED_运行 : fixture 无效 / 就绪不足 / 判定依据疑似过期
+    执行中 --> PASS : oracle 满足
+    执行中 --> PASS_with_caveat : 主断言过, 次要项与 PRD 有出入
+    执行中 --> FAIL : fixture 有效且行为与 PRD、UAT 冲突
+    PASS_with_caveat --> PASS : 人与 PM 确认 caveat 可接受
+    PASS_with_caveat --> FAIL : caveat 不可接受
+    BLOCKED_运行 --> 执行中 : 复盘后重跑, 新版 CSV
+    FAIL --> PASS : checker 判定假阳性, 人工确认改判
+    FAIL --> Bug提交 : checker gate 通过, 确认真缺陷
+    BLOCKED_预检 --> 用例回滚 : 人工确认后修改增强用例
+    用例回滚 --> Enhance评分
+```
+
+| 结果 | 语义 | 细节 |
+|---|---|---|
+| **PASS** | oracle 满足 | 由证据（UI + API + 订单）支撑，非 agent 自述 |
+| **PASS with caveat** | 主断言通过，但存在次要出入 | agent 列出 caveat 清单；**人直接看 caveat 是否可接受**——"如果只是 UI 字段不一样，只需跟 PM 沟通：这是我测的结果，这两个东西有区别，是否在接受范围内？在的话就不进一步追究" |
+| **FAIL** | fixture 验证有效 + 实际行为与 PRD/UAT 冲突 | 提 bug 前先过 checker gate |
+| **BLOCKED** | 就绪不足以触达断言，**或**判定依据本身需要微调 | 核心纪律：**准备不足判 BLOCKED，绝不为了让用例跑通而修改预期**（missing readiness causes BLOCKED, not a changed expectation） |
+
+> **为什么 BLOCKED 必须独立存在**：它把"产品有问题"（FAIL）和"测试没准备好/用例过期"（BLOCKED）分开。没有这个区分时，环境问题、fixture 问题、用例过期问题全部混进 FAIL，假阳性淹没真缺陷。BLOCKED 的另一个作用是**给用例改进提供信号**——被阻塞过一次之后，才知道用例还缺什么。
+
+### 9.2 PASS 判定必须由证据支撑（PDF P6 / P15）
+
+Unique Checker 案例中源码贡献的四类证据点，展示了"证据点"具体指什么：
+
+| 证据类别 | 内容 |
+|---|---|
+| Coupon 生命周期 | 定位 Apply 状态、拒绝文案的渲染、旧错误清理（stale-error cleanup） |
+| API 证据点 | 识别 coupon apply、address validation、order/create 请求 |
+| 身份与用量信号 | 定位 ZIP/地址/手机号 payload、usage counter、**消耗时点**（consumption timing） |
+| 订单证明 | 映射订单状态与标识，**证明 A/C 完成了订单而 B 没有** |
+
+---
+
+## 10. Bug 提交流程
+
+### 10.1 现状流程
+
+1. 批次跑完，用户问结果；
+2. 对 FAIL 用例让 checker 复盘（"帮我查一下这 2 个 fail 到底为什么"）；
+3. **人工看录屏**做最终判定；
+4. 确认后一句话："帮我把这 2 个 bug 的重点写下来"——**skill 内部已编排好推送逻辑，直接把 bug 推到 ClickUp**。
+
+### 10.2 已知问题：bug 报告过长
+
+同事反馈：agent 产出的 bug"内容太长——有很多它自己思考探索的东西在里面，comment 和正文都太长、不够简洁、重点不突出，开发拿去 debug 花的时间会非常多"。
+
+**Alan 的改进设计**（兼顾"人要简洁"与"agent 复盘要完整"）：
+
+- 思考链**不能完全丢弃**——"丢弃的话这些东西就只留在我的硬盘里；这些 log 在未来复盘时对 agent 非常有用"；
+- US 已做的尝试：把复杂逻辑**放进子用例**而非父用例，遮蔽掉大量信息；
+- 未来方向：**bug 下面建子 bug**——子 bug 里存放 agent 的思索过程和长篇分析；**原始 bug 的 comment 里只对重要点做提炼**。
+
+> **为什么这样设计**：报告有两类读者——人（开发要快速 debug，要提炼）和 agent（未来复盘要完整思考链）。用 ClickUp 的父子结构把两类信息物理分层，而不是在一份文本里折衷。
+
+---
+
+## 11. 安全设计
+
+### 11.1 凭据管理：数据不进模型
+
+**威胁模型**："如果让模型直接把账号贴进去，你的测试用户、全部密码都会泄露给模型——安全上不是特别好的事。"
+
+**当前方案（.env + terminal 引导）**：
+
+- 账号存 `.env`，**不 check in 到仓库**；
+- **首次运行引导**：执行 skill 时如果检测到 `.env` 没有生成过，skill 会提示用户**把一段 helper script 粘贴到 terminal**，然后引导用户把需要的账户**一个一个贴进去**，直到完成首次设置——数据在终端完成录入，不经过模型；
+- Alan 自评："agent 没有 UI，这是我能想到的、能跨过模型安全性问题的最好方法。我也在探索，没找到更好的方式绕过。"
+
+**已知不足与方向**：换人即需重配（见 §15.3 团队化问题）。Alan 认可的方向：**云端 keyvault**——"agent 直接去读 keyvault 里的配置，有 UI 界面，一次更新让所有 agent 都更新；或者有一个知识库统一读取这些设置，而不是每个人各配一遍"。
+
+### 11.2 支付数据
+
+见 §7.3：Stripe 表单由写死脚本填写，测试信用卡号事先编排在 skill 中，数据不过模型——同时解决"模型拒绝填卡"与"泄露风险"。
+
+---
+
+## 12. LEARN 层与知识运营
+
+### 12.1 test-prd-update
+
+PRD 发生巨大变化时，通过该 skill 更新 skills 内部**中央 PRD 记忆**，保证 Policy 层与最新需求同步。这对应 PDF P12 列出的运营风险 **Runtime drift（运行偏差）**："guidance drifts from source（指引偏离源头）"——PRD 更新但记忆没更新时，agent 会按过期规则判定。
+
+### 12.2 test-curation-refresh 与 data seeding
+
+**当前做法**：特殊场景所需的产品/活动（如 multi-shipment 组合），**人工提前搜寻好，写入 curation list 缓存文件**；量少时也可让 agent 通过 UI 找，但那是过渡态。
+
+**核心设计纪律：严禁引入 multi-surface UI 依赖**
+
+> Alan 详细解释了为什么执行期不做跨 surface 动态查找："你本来测的是 Web（不需要 SSO 认证）的用例；如果加一条前置'每个用例都先去 Cowboy 确认这个产品可不可以加车'，你就**多了一个 dependency——只要 Cowboy 的 SSO 一断，你测 Web 的用例全部被堵塞**。任何 UI 跨 surface（依赖）对 agent 都是**非常巨大的不稳定性**：要事先保证它的 SSO 能过、各种（状态）都对，agent 才能跑。所以我做的时候**非常小心不去做这些东西**——先人工把数据搜寻好、存进缓存文件，就能避开 multi-surface dependency。"
+
+**演进方向**：
+- 最好的形态是**类似 jump house 的脚本直接搜索出前置条件**（Alan 称之为 data seeding：做 test 前"seed 出你需要的前置条件"）；能脚本化就完全可操作；
+- 没有脚本时只能 UI 找，但"每个都这样做成本过高"；
+- 团队规划（同事补充）：**后续倾向用 API 实现前置条件**；不同模块前置不同、要跨很多系统，会分到每个 QA 头上去实现。
+
+### 12.3 test-evo 与进化评估难题
+
+**目标**：把"执行 → checker 复盘 → 修改用例"完全编排成**自我进化**工作流。
+
+**卡点**（Alan 认为是整个体系最难的开放问题）：
+
+> "我还没有一个比较好的 evaluation 机制——我们修改了一些东西之后，**怎么判定它是在进化？因为有时候模型为了解决问题，其实在退化**。这个指标挺难把握的。"
+
+已讨论的候选方案：
+
+| 方案 | 状态 / 评价 |
+|---|---|
+| BDD formatting 评分（有无 precondition 等特征） | **已实现**，但"复杂情况下这些特征就没这么准" |
+| 固定一组**已审核、已知 ground truth** 的基准用例，每次修改后回归跑分（同事提议："100 个经典问题让他再回答一次"） | 方向认可；难点在 QA 场景里 test-enhance 这类产出的 ground truth 本身难定义 |
+| LLM-as-judge | 被提出，待验证 |
+
+> **为什么在此之前保持人在环**：正因为无法自动检测退化，当前用例修改（§8.5）和记忆合并（§4.5）都保留人工确认——这不是临时妥协，而是"没有可靠 eval 之前不放权"的明确决策。
+
+---
+
+## 13. 并行化与多 Agent 编排的讨论
+
+### 13.1 现状：行级隔离、刻意串行
+
+每一行 CSV 是**单独的一个 codex CLI session**——"逻辑上我们完全可以并行，是没有问题的"。但当前刻意不并行。
+
+> **为什么不并行**（Alan 列举的三个原因）：
+> 1. **环境不支持**：测试环境（尤其 promotion 类用例）"并不特别支持并行，过度并行时很多噪音会互相污染"；
+> 2. **用户创建受限**：10 个用例并行意味着创建非常多用户；有些用例可以动态建新用户，但**有些用例的前置（如积分这类 CD requirement / precondition）必须人为创建**，动态生成过多用户会出问题；
+> 3. **依赖难分析**："用例之间的 concurrency 其实挺难分析的"——很多 dependency 在用例之间很难分清楚。
+>
+> **可并行的边界**：Alan 明确"如果只是**纯 UI 测试**（不是测 promotion）、没有这么多 data seeding requirement，完全可以并行——每一行 CSV 都可以调一个单独 session"。
+>
+> **实用主义兜底**：串行 + 睡前挂机已满足吞吐——"module 做好了睡觉前让他跑，一觉醒来完成很多用例，不用担心 concurrency"。
+
+### 13.2 sub-agent 编排的两种方案对比
+
+会上 Chris 提出一种编排：**每条用例拆 3 个 sub agent**——(1) 澄清 agent：读代码、读各处资料，只输出一个澄清后的用例；(2) 执行 agent：操作浏览器执行；(3) review agent：对执行结果和过程产出做 review。目的是让每个环节的 context 恰好最小，提高最终输出质量。
+
+Alan 的回应与当前选择：
+
+| 维度 | 逐用例 3 sub-agent（Chris 方案） | 按 batch 分三阶段（Alan 现状） |
+|---|---|---|
+| 形态 | 一条用例内：澄清 → 执行 → review 三个 sub agent 串行 | 整个 module：enhance 批 → 执行批 → checker 批，三个独立 codex session |
+| context 质量 | 每环节 context 最小 | 执行环节同样隔离（每行独立 session） |
+| 跨用例学习 | **失掉**（enhance 被逐用例隔离） | **保留**：enhance 同 session 互相学习 + 动态注入对比 context |
+| 速度 | 编排开销大 | "一个 batch 一个 batch 做会更快" |
+| 结论 | "思维很像，也是可以的" | **当前采用**；"sub agent 的好处还不明显" |
+
+**未来可能的最简并行切分**：按 surface 分流给不同 sub agent。但 Alan 指出它"没有这么容易"——很多用例会**跨 surface**（例如最后一步"去 Cowboy 的 order history 看 account 的 allocation"），一分流就复杂化了，所以暂未采用。
+
+```mermaid
+flowchart TD
+    subgraph 现行方案["Alan 现行: 按 batch 分三阶段"]
+        A1["阶段 1: test-enhance<br/>整个 module 同一 session<br/>用例互相学习 + 注入 US/CA 对比"] --> A2["阶段 2: 批量执行<br/>每行 CSV 独立 CLI session"]
+        A2 --> A3["阶段 3: test-checker<br/>批量复盘, 不隔离更利于关联分析"]
+    end
+    subgraph 备选方案["Chris 提议: 逐用例 3 sub-agent"]
+        B1["澄清 agent<br/>读码澄清, 只输出澄清后用例"] --> B2["执行 agent<br/>操作浏览器"]
+        B2 --> B3["review agent<br/>复核结果与过程产出"]
+    end
+```
+
+---
+
+## 14. 模型选型与降本策略
+
+### 14.1 混合模型：编排一致，模型可插拔
+
+| 阶段 | 模型选择 | 理由 |
+|---|---|---|
+| Enhance | **Claude 模型**（在 Claude Code 里做 test-enhance） | 分析/写作质量 |
+| Execute | **GPT 5.5 级别**（便宜档） | "从 5.5 到 5.6 在测试上基本看不出差别" |
+| 复盘（checker） | **5.6 级别**（贵档） | 判定质量要求高 |
+
+Alan 的模型能力观察："5.2 → 5.5 差别其实挺多；**5.5 以后基本没有差别**——如果（DeepSeek）V4 或 Kimi K3 能达到 5.5 的效率，再往后的 marginal benefit 会非常小，尤其在 Castlery 这个环境里看不出特别明显的差异。" 同事补充：近期模型的提升主要在 **agent 指令遵守程度**，DeepSeek V4 也专门针对长程 agent 任务优化过。
+
+### 14.2 为什么不脱离 Claude Code / Codex 自建
+
+会上被直接问到"长期在 Claude/Codex 上建设是否会有阻碍、是否需要自建 agent"：
+
+> "无论 Claude 还是 Codex，都有很好的**原生工具**。如果完全靠 API 自建，你需要重新构建更底层的记忆系统——比如执行途中读代码、把代码放入 context、**context compacting** 这些基础 infrastructure 的活就都得自己干。用例链路很长（如 3 flow 用例）时，不做 compacting 模型 context 会不够、产生幻觉；Claude/Codex 在这方面已经非常优化，我们不用再花精力。"
+>
+> 若真要迁移，更现实的备选是**开源 coding agent**：OpenCode、DeepSeek 刚出的 coding agent（分享当天刚发布）、Kimi——它们同样提供读代码 / context 管理等底层能力。**降本的正确路径是换更便宜的模型/agent 底座，而不是自建底座**；配合 §7.3 的规律（模型越弱、写死脚本越多）综合权衡。
+
+### 14.3 周期性执行愿景
+
+同事提议、Alan 认同的方向：等这批用例被优化得足够准确后，**变成 regular 的周期性执行**（如用 DeepSeek 轮询跑回归）——前提是 §12.3 的 eval 问题和 §15.4 的云端问题先解决。
+
+---
+
+## 15. 已知问题、运营风险与路线图
+
+### 15.1 PDF 提出的三大运营风险（P12）
+
+设计已解决的部分："明确权威（clear authority）、显式证据（explicit evidence）、可恢复执行（resumable execution）降低判断漂移"；**剩余风险主要在运营治理**：
+
+| 风险 | 含义 | 现有缓解 |
+|---|---|---|
+| **Runtime drift 运行偏差** | 指引偏离源头（源码/PRD 变了，记忆没变） | test-prd-update；复盘期读最新澄清 |
+| **Context isolation 上下文隔离** | 跨测试携带污染 | 精准用例与 surface 匹配、每行独立 session |
+| **Archive growth 归档增长** | 证据（录屏/trace）持续堆积 | **待解决**：需要证据生命周期规则（lifecycle rules） |
+
+### 15.2 测试环境噪音案例集（均需人工介入，Alan 自认"还没想到好方法"）
+
+1. **脏购物车（经典案例）**：测试环境某产品有问题，agent 无法预知（它选品是随机的，数据库里也找不到蛛丝马迹，因为问题可能出在另一个系统），加进购物车后出现 100013 状态（PTP 与后台 partner 系统相关），**加进去就去不掉**——"我经常让 Johnny 帮我清 cart"。一旦发生会产生一大批阻塞；
+2. **数据先天缺失**：测试环境数据部分从 production 拉取，不是每个产品都完整，"有些数据点它就是缺失"；
+3. **中断残留**：电脑断电/死机导致之前的 promotion 忘记清理，残留噪音影响后续判定；
+4. **客户端不稳定**：浏览器/工具自身更新或强制推送导致 UI 断掉，**切断执行中的用例留下"半吊子"状态**，再次执行时噪音仍在。
+
+统一对策：单行失败不停批（跑完整批最重要）+ 批后人工看录屏判断。
+
+### 15.3 团队化问题（同事反馈的"黑盒感"）
+
+| 问题 | 细节 | 方向 |
+|---|---|---|
+| 配置写死 | jump house 调用、promotion 账号写死在代码里（vibe coding 产物）；换人执行"可能只是想改个账号，却要找很久结构在哪里" | **把公共账号设置/方法抽离**（Alan："完全同意，有道理"）；keyvault / 知识库统一配置（§11.1） |
+| `.env` 不可入库 | 每个新使用者都要走一遍首次设置 | 云端 keyvault，一处更新全员生效 |
+| CSV 映射黑盒 | 生成的用例 ID 不确定对应关系，**曾执行到别人的用例** | 暴露 CSV 生成与用例映射过程 |
+| fixture 生成黑盒 | 澄清：fixture 脚本和新用户创建都是 **skill 自动调用**的，"不用逐行打代码去生成 promotion——那不科学也没效率"；但过程需要更可见 | 过程可观测化 |
+
+### 15.4 云端执行（讨论中的方案）
+
+**动机**：本地挂机限制吞吐；同事建议用 **Claude Code 云端环境**——把仓库当作 agent 的工作环境，可配环境变量 + 初始化脚本，云端服务器跑 skill/job；并且"在 Claude Code 自己的 UI 里能实时看到云端正在做什么、background 有哪些任务，执行中还能问询交互"（这正好化解 Alan"云端看不到执行过程、要等跑完看录屏很痛苦"的顾虑——他目前在本地能实时看到浏览器操作）。
+
+**待解决**：
+1. **VPN**：云端 IP 能否过内网；
+2. **SSO**：当前流程依赖人工点完所有 surface 的 SSO 才开跑（§5.4a）；云端方案候选：某些 IP 段对 SSO 做 disable（"single sign-on 在某些 IP 里可以被 disable，就会好很多"）、或拿到 access token 定期刷新（当前编排已会存 session，**首次和过期时仍需人为介入**）。
+
+### 15.5 路线图汇总
+
+| 优先级方向 | 内容 | 依赖 |
+|---|---|---|
+| 团队化 | 抽离公共配置、keyvault、CSV 映射透明化 | — |
+| Bug 报告分层 | 父 bug 提炼 + 子 bug 存思考链 | ClickUp 结构 |
+| data seeding API 化 | 前置条件脚本化，按模块分到各 QA | 跨系统接口 |
+| 云端执行 | Claude Code 云端 + SSO/VPN 方案 | IT/安全配合 |
+| 周期性回归 | 用例足够稳定后 regular 轮询执行（可用低成本模型） | eval 机制、云端 |
+| 自我进化 | test-evo 全自动闭环 | 可靠的进化 evaluation（最难） |
+
+---
+
+## 附录 A：Unique Checker 完整案例
+
+（PDF P7-P10 + 转录演示环节。这是 Alan 用来贯穿讲解的"最近一个比较复杂的用例"。）
+
+### A.1 改造前：原始用例（业务意图）
+
+- **前置条件**：用户、手机号或收货地址已使用过该 Coupon，达到使用限制；
+- **步骤**：1) 在购物车页面输入 Coupon Code；2) 点击 Apply 应用 Coupon；
+- **预期结果**：显示错误提示"Coupon Code (xxxxx) 已达到使用限制。唯一用户、手机号或收货地址仅限使用一次"；Coupon 未应用。
+
+问题：这只是"business intent 的指引"——"已使用过"这个状态怎么构造？错误提示的文案是否 non-negotiable？什么情况下应该**放行**？全都没有定义。
+
+### A.2 改造后：三条受控 flow
+
+同一 promotion、不同优惠码；**身份组合决定结果**：
+
+```mermaid
+flowchart TD
+    A["FLOW A · SEED 基准<br/>用户 A + Code A, 身份 S<br/>选地址 → 应用 coupon → 完成支付下单<br/>结果: 50 美元 coupon 生效<br/>产生支付订单 689476653<br/>promotion 用量 +1 → 身份 S 变为已使用"]
+    A --> B["FLOW B · TARGET 正向<br/>另一个用户 + 新 code<br/>但复用身份 S: 同手机号 / 同地址"]
+    A --> C["FLOW C · CONTROL 反向<br/>新 code + 身份全部换成 D:<br/>不同手机号 / 不同地址"]
+    B --> B1["预期: 拒绝 REJECT<br/>出现错误信息, coupon 在下单前被移除<br/>无支付订单产生"]
+    C --> C1["预期: 允许 ALLOW<br/>coupon 保留, 产生支付订单 689476657"]
+    B1 --> V{"PASS oracle:<br/>B 被拒绝 且 C 被允许"}
+    C1 --> V
+    V -->|同时满足| P["用例 PASS"]
+    V -->|"B 或 C 任一异常"| F["整个用例 FAIL"]
+```
+
+三条 flow 的推导逻辑（父用例信号 → 推导，详见 §6.6）：
+
+| Flow | 推导要点 | 设计原因 |
+|---|---|---|
+| **A · SEED** | 确定性建立"已使用"前置；用量只在**完成订单**时点消耗 | 前置状态不能假设存在，必须由测试自己确定性构造；消耗时点来自源码分析（consumption timing） |
+| **B · TARGET** | 换用户、换 code，**只复用身份 S** | 控制变量：把"Unique Checker 按身份拦截"与"单纯 code 重复使用限制"两个机制隔离开——若不换 code，B 被拒可能只是 code 用过了，测不到目标机制 |
+| **C · CONTROL** | 身份属性**全部**换成 D | 补上原用例缺失的对照组；**若 C 也被拒 → fixture 无效或校验过宽**，此时不是产品 PASS 而是测试自身有问题 |
+
+### A.3 执行时的实况细节（转录中的演示）
+
+- 增强后 3 个 flow 作为**子用例出现在 ClickUp** 原用例下，每个 flow 有具体步骤和各种门槛判定；
+- 执行时 agent 先从 ClickUp 读取信息 → 用户给出批准 → 生成中间层 CSV → 先把所需 surface 全部打开（演示中同时有 3 个窗口在执行）；
+- 下单时的**信用卡号是事先编排在 skill 里的测试卡号**，由 Stripe helper 脚本填写；
+- Flow B 执行中 agent 用另一账户登录、找同样商品、用同 promotion 下的新 code + 相同地址 → 看到错误信息 → "unique check 机制已生效" → 判 B pass → 自动转去 Flow C；
+- Flow C 换地址后成功下单，三 flow 完整闭环；
+- 演示录屏做了加速——"执行这 3 个 flow 挺费时间的"，agent 执行过程中的 caption（步骤说明）"还挺准确的"。
+
+### A.4 该案例体现的证据点设计（源码贡献，PDF P15）
+
+| 证据 | 用途 |
+|---|---|
+| Apply 状态 / 拒绝文案渲染 / 旧错误清理 | 判定 B 的拒绝是否真实发生（而非上一次的残留错误文案） |
+| coupon apply / address validation / order create 三个 API 请求 | 每个 flow 的接口级证据 |
+| ZIP/地址/手机号 payload、usage counter、消耗时点 | 证明身份维度与用量确实按预期变化 |
+| 订单状态与订单号 | 证明 **A、C 产生了支付订单而 B 没有**（689476653 / 689476657） |
+
+---
+
+## 附录 B：一次典型批次运行 Walkthrough
+
+1. **触发**：对话调用 test-module，给 module 名 + 市场（如 US）。
+2. **计划确认**：agent 从 ClickUp 拉取该 module 用例，自然语言 confirm 范围与 surface 分配；用户微调后批准。
+3. **固化**：生成执行 CSV（ID / skill / 市场 / 可选提示词）。
+4. **预检**：agent 打开全部所需 surface；用户逐个完成 VPN + SSO（如 Cowboy 的 Microsoft SSO）；session 留存，本批复用。
+5. **挂机执行**：逐行独立 session 执行，fixture 预检 → 执行 flow → 逐行 checkpoint + 证据留存；单行失败不停批（睡前挂机，醒来收结果）。
+6. **批后对话**："这批结果如何？"——例如 50% PASS 不管；2 个 FAIL → "帮我复下盘为什么 fail" → checker 结合录屏/trace/最新 Teams 澄清分析 → 人工看录屏确认 → "把这 2 个 bug 重点写下来" → skill 推送 ClickUp；BLOCKED → 问原因 → "把 blocked 的重跑一遍" → 新版 CSV 重跑。
+7. **知识沉淀**：checker 建议的用例修改，人工确认后回滚增强子用例（原文不动）；值得共享的结论由人工合并进中央记忆；curation 清单按需刷新——进入下一轮，整体形成 ALIGN → CONTROL → PROVE 的自循环。
