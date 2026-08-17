@@ -60,3 +60,4 @@ push 到 `main` 后 GitHub Actions 自动构建发布 GitHub Pages（`.github/wo
 - **[内容工作流手册](./CONTENT_GUIDE.md)** —— 写作、图片、状态、同步、发布的完整流程（日常必读）
 - [重构 PRD](./docs/refactor/01-prd.md) · [技术设计](./docs/refactor/02-technical-design.md) · [测试计划](./docs/refactor/03-test-plan.md)
 - [实施进度与偏差记录](./docs/refactor/PROGRESS.md) · [性能报告](./docs/refactor/perf-report.md)
+- [部署态 v2 方案](./docs/deployment/README.md) —— PostgreSQL 单一内容源、对象存储、静态优先与按需 ISR（Reviewed Draft，尚未实施）
