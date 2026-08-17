@@ -82,6 +82,7 @@ pnpm test:security
 | API-002 | P0 | 匿名读取 draft/archived/不存在 slug | 三者均返回不可区分的 404 |
 | API-003 | P0 | public list 传入 status=draft 等绕过参数 | 参数被拒绝或忽略，结果仍只有 published |
 | API-004 | P0 | published post 的 summary/detail/category/site 数据交叉比对 | slug、标题、版本和关系一致 |
+| API-005 | P0 | public API 使用只读 build token | token 只能读取 published DTO；不能调用 admin/internal API |
 | API-006 | P0 | 未登录调用任一 admin 写接口 | 401/403，数据库和对象存储零变化 |
 | API-007 | P0 | 登录用户提交错误 expectedVersion | 409 稳定错误码，返回当前版本，不覆盖 |
 | API-008 | P0 | 保存 draft | 新 revision 产生；无 publication_event |
@@ -101,8 +102,23 @@ pnpm test:security
 | WEB-203 | P0 | 构建时让 Content API 失败 | build 非零退出；上一已部署版本不受影响 |
 | WEB-204 | P0 | fixture 中含 draft/archived | 页面、列表、sitemap 均不存在这些内容 |
 | WEB-205 | P1 | 同一页面 generateMetadata + Page 获取文章 | 单次渲染使用同一 contentVersion，避免重复远端读取 |
+| WEB-206 | P0 | 分别以 `static-export` 和 `runtime-isr` production build | 两种产物均成功，路由集合一致，配置中无数据库凭证 |
 
-### 6.2 On-demand ISR
+### 6.2 Static export 与独立后端
+
+| ID | P | 步骤 | 预期 |
+|---|:---:|---|---|
+| STATIC-001 | P0 | GitHub Actions 环境只配置 Content API URL/read token 后 build | 可从独立后端生成全部 published 路由；不需要数据库网络权限 |
+| STATIC-002 | P0 | 发布新文章并由 Outbox 发送 repository dispatch | workflow 被触发；完整 artifact 部署后文章可见 |
+| STATIC-003 | P0 | 构建期间 Content API 500 | workflow 失败，线上上一 Pages artifact 不变 |
+| STATIC-004 | P0 | 连续发布多个内容事件 | 事件可合并为部署批次；最终 artifact 包含所有最高版本内容 |
+| STATIC-005 | P0 | dispatch API 返回 204，但部署随后失败 | Admin 显示“已触发/部署失败”，不能误报已上线 |
+| STATIC-006 | P0 | 重复发送成功/失败 callback | 幂等更新同一 deployment，不重复完成事件 |
+| STATIC-007 | P0 | `BASE_PATH=/cBlog` 构建并部署 | 页面、RSC/JS/CSS、图片、canonical、sitemap 和内部链接均带正确前缀/绝对 URL |
+| STATIC-008 | P0 | 将 `static-export` 与 `revalidation-webhook` 组合启动 | 配置校验失败并给出明确错误 |
+| STATIC-009 | P1 | 静态访客浏览页面并监控请求 | 正常浏览不请求 Content API，不依赖 Admin 在线 |
+
+### 6.3 On-demand ISR
 
 | ID | P | 步骤 | 预期 |
 |---|:---:|---|---|
@@ -142,7 +158,7 @@ pnpm test:security
 | ID | P | 步骤 | 预期 |
 |---|:---:|---|---|
 | AUTH-001 | P0 | 未登录访问 Admin 页面/API | 重定向登录或 401/403 |
-| AUTH-002 | P0 | 合法 OIDC 登录但 subject 不在 allowlist | 拒绝访问 |
+| AUTH-002 | P0 | GitHub OAuth 登录成功但不可变 user ID 不在 allowlist | 拒绝访问；不能用可改名的 login 绕过 |
 | AUTH-003 | P0 | allowlist 用户登录、session 过期后写入 | 过期请求拒绝，无数据变更 |
 | AUTH-004 | P1 | 跨站 Origin/缺少 CSRF 保护调用 mutation | 请求拒绝 |
 | SEC-001 | P0 | webhook 缺签名、错签名、过期时间戳 | 401/403，不触发任何失效 |
@@ -188,7 +204,7 @@ pnpm test:security
 | SEO-203 | P1 | noindex 专栏 | robots metadata 和 sitemap 排除规则保持一致；明确 noindex 不是访问控制 |
 | PERF-201 | P0 | 缓存热时请求首页/文章并观察 Content API | 普通热请求不调用 Content API |
 | PERF-202 | P1 | 比较迁移前后 Lighthouse 和首屏 JS | 不低于既有基线，Admin 依赖不进入 Web bundle |
-| PERF-203 | P1 | 发布单篇文章后观察生成日志 | 不同步生成全部文章；相关页面按访问懒生成 |
+| PERF-203 | P1 | Runtime profile 发布单篇文章后观察生成日志 | 不同步生成全部文章；相关页面按访问懒生成 |
 
 ## 12. 可观测性、备份与回滚用例（OBS/CUT）
 
@@ -207,12 +223,12 @@ pnpm test:security
 
 | 阶段 | 必须通过 |
 |---|---|
-| Phase 0 | AUTH/SEC P0 基线 |
+| Phase 0 | SEC-004 自动化；E2E-206 真实浏览器人工证据；Admin loopback 绑定 |
 | Phase 1 | DATA-001、007、008 |
 | Phase 2 | DATA-002～010、MIG-201～203 |
 | Phase 3 | API、AUTH、SEC 全部 P0 |
 | Phase 4 | WEB-201～205、MIG P0 |
-| Phase 5 | ISR P0、SEO P0、PERF-201 |
+| Phase 5 | WEB-206、STATIC P0、ISR P0、SEO P0、PERF-201 |
 | Phase 6 | REL P0、OBS-001/002、E2E-202/203/205 |
 | Phase 7 | 全部 P0 + CUT-001/002/004 |
 

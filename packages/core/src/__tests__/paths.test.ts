@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import {
   assertValidCollectionSlug,
@@ -6,6 +8,7 @@ import {
   contentRoot,
   isValidSlug,
   repoPath,
+  resolveDocumentAssetPath,
 } from "../paths";
 
 describe("slug 校验（CORE-002/008）", () => {
@@ -26,6 +29,114 @@ describe("slug 校验（CORE-002/008）", () => {
     expect(() => assertValidCollectionSlug("posts")).toThrow(/保留路由/);
     expect(() => assertValidCollectionSlug("categories")).toThrow(/保留路由/);
     expect(() => assertValidCollectionSlug("my-column")).not.toThrow();
+  });
+});
+
+describe("文档资产读取边界（SEC-004）", () => {
+  it("只允许文档同级 assets 目录内的既有文件", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "cblog-assets-"));
+    const previousRoot = process.env.CBLOG_REPO_ROOT;
+    process.env.CBLOG_REPO_ROOT = root;
+
+    try {
+      const documentDir = path.join(
+        root,
+        "content/posts/technical/2026/example"
+      );
+      const assetsDir = path.join(documentDir, "assets");
+      fs.mkdirSync(assetsDir, { recursive: true });
+      fs.writeFileSync(path.join(documentDir, "index.md"), "# Example\n");
+      fs.writeFileSync(path.join(assetsDir, "cover.png"), "png");
+
+      expect(
+        resolveDocumentAssetPath(
+          "posts/technical/2026/example/index.md",
+          "assets/cover.png"
+        )
+      ).toBe(fs.realpathSync(path.join(assetsDir, "cover.png")));
+    } finally {
+      if (previousRoot === undefined) delete process.env.CBLOG_REPO_ROOT;
+      else process.env.CBLOG_REPO_ROOT = previousRoot;
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("拒绝读取其他内容文件、绝对路径和非 Markdown 文档", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "cblog-assets-"));
+    const previousRoot = process.env.CBLOG_REPO_ROOT;
+    process.env.CBLOG_REPO_ROOT = root;
+
+    try {
+      const documentDir = path.join(
+        root,
+        "content/posts/technical/2026/example"
+      );
+      const otherDir = path.join(root, "content/collections/private");
+      fs.mkdirSync(path.join(documentDir, "assets"), { recursive: true });
+      fs.mkdirSync(otherDir, { recursive: true });
+      fs.writeFileSync(path.join(documentDir, "index.md"), "# Example\n");
+      fs.writeFileSync(path.join(otherDir, "secret.md"), "private\n");
+      fs.symlinkSync(
+        path.join(otherDir, "secret.md"),
+        path.join(documentDir, "assets/linked.png")
+      );
+
+      const document = "posts/technical/2026/example/index.md";
+      expect(() =>
+        resolveDocumentAssetPath(
+          document,
+          "../../../../collections/private/secret.md"
+        )
+      ).toThrow(/assets/);
+      expect(() =>
+        resolveDocumentAssetPath(document, path.parse(root).root)
+      ).toThrow(/非法资产路径/);
+      expect(() =>
+        resolveDocumentAssetPath(
+          "posts/technical/2026/example/not-markdown.txt",
+          "assets/cover.png"
+        )
+      ).toThrow(/非法文档路径/);
+      expect(() =>
+        resolveDocumentAssetPath(document, "assets/linked.png")
+      ).toThrow(/真实路径越界/);
+    } finally {
+      if (previousRoot === undefined) delete process.env.CBLOG_REPO_ROOT;
+      else process.env.CBLOG_REPO_ROOT = previousRoot;
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("拒绝 assets 目录通过 symlink 指向文档目录之外", () => {
+    if (process.platform === "win32") return;
+
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "cblog-assets-"));
+    const previousRoot = process.env.CBLOG_REPO_ROOT;
+    process.env.CBLOG_REPO_ROOT = root;
+
+    try {
+      const documentDir = path.join(
+        root,
+        "content/posts/technical/2026/example"
+      );
+      const outsideAssets = path.join(root, "outside-assets");
+      fs.mkdirSync(documentDir, { recursive: true });
+      fs.mkdirSync(outsideAssets, { recursive: true });
+      fs.writeFileSync(path.join(documentDir, "index.md"), "# Example\n");
+      fs.writeFileSync(path.join(outsideAssets, "secret.png"), "private\n");
+      fs.symlinkSync(outsideAssets, path.join(documentDir, "assets"), "dir");
+
+      expect(() =>
+        resolveDocumentAssetPath(
+          "posts/technical/2026/example/index.md",
+          "assets/secret.png"
+        )
+      ).toThrow(/真实路径越界/);
+    } finally {
+      if (previousRoot === undefined) delete process.env.CBLOG_REPO_ROOT;
+      else process.env.CBLOG_REPO_ROOT = previousRoot;
+      fs.rmSync(root, { recursive: true, force: true });
+    }
   });
 });
 

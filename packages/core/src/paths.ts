@@ -45,6 +45,87 @@ export function contentAbsPath(relativePosixPath: string): string {
   return path.join(contentRoot(), ...relativePosixPath.split("/"));
 }
 
+export type DocumentAssetErrorCode = "NOT_FOUND" | "FORBIDDEN";
+
+export class DocumentAssetError extends Error {
+  constructor(
+    public readonly code: DocumentAssetErrorCode,
+    message: string
+  ) {
+    super(message);
+    this.name = "DocumentAssetError";
+  }
+}
+
+/**
+ * 解析编辑器预览用的随文档资产。
+ *
+ * 只允许读取文档同级 assets/ 目录中的既有文件，并对最终真实路径再次校验，
+ * 防止 `..`、绝对路径和 symlink 逃逸到其他文章、草稿或仓库文件。
+ */
+export function resolveDocumentAssetPath(
+  documentFilePath: string,
+  assetName: string
+): string {
+  if (!documentFilePath || !assetName || path.isAbsolute(assetName)) {
+    throw new DocumentAssetError("FORBIDDEN", "非法资产路径");
+  }
+
+  const root = path.resolve(contentRoot());
+  const documentPath = path.resolve(root, ...documentFilePath.split("/"));
+  if (
+    !documentPath.startsWith(root + path.sep) ||
+    path.extname(documentPath).toLowerCase() !== ".md"
+  ) {
+    throw new DocumentAssetError("FORBIDDEN", "非法文档路径");
+  }
+  if (!fs.existsSync(documentPath) || !fs.statSync(documentPath).isFile()) {
+    throw new DocumentAssetError("NOT_FOUND", "文档不存在");
+  }
+
+  const assetsRoot = path.resolve(path.dirname(documentPath), "assets");
+  const requestedPath = path.resolve(path.dirname(documentPath), assetName);
+  if (!requestedPath.startsWith(assetsRoot + path.sep)) {
+    throw new DocumentAssetError(
+      "FORBIDDEN",
+      "资产必须位于文档 assets 目录"
+    );
+  }
+  if (!fs.existsSync(requestedPath) || !fs.statSync(requestedPath).isFile()) {
+    throw new DocumentAssetError("NOT_FOUND", "资产文件不存在");
+  }
+
+  const realRoot = fs.realpathSync(root);
+  const relativeDocumentPath = path.relative(root, documentPath);
+  const expectedRealDocumentPath = path.resolve(
+    realRoot,
+    relativeDocumentPath
+  );
+  const realDocumentPath = fs.realpathSync(documentPath);
+  const realAssetsRoot = fs.realpathSync(assetsRoot);
+  const realRequestedPath = fs.realpathSync(requestedPath);
+  const relativeAssetPath = path.relative(assetsRoot, requestedPath);
+  const expectedRealAssetsRoot = path.resolve(
+    path.dirname(expectedRealDocumentPath),
+    "assets"
+  );
+  const expectedRealRequestedPath = path.resolve(
+    expectedRealAssetsRoot,
+    relativeAssetPath
+  );
+  if (
+    realDocumentPath !== expectedRealDocumentPath ||
+    realAssetsRoot !== expectedRealAssetsRoot ||
+    realRequestedPath !== expectedRealRequestedPath ||
+    !realAssetsRoot.startsWith(realRoot + path.sep) ||
+    !realRequestedPath.startsWith(realAssetsRoot + path.sep)
+  ) {
+    throw new DocumentAssetError("FORBIDDEN", "资产真实路径越界");
+  }
+
+  return realRequestedPath;
+}
+
 const SLUG_PATTERN = /^[a-z0-9一-鿿]+(?:-[a-z0-9一-鿿]+)*$/;
 
 /**

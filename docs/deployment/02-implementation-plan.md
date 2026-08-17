@@ -1,6 +1,6 @@
 # cBlog 部署态 v2 开发方案
 
-- 版本：v0.2（2026-08-17）
+- 版本：v0.3（2026-08-17）
 - 关联文档：[技术方案](./01-technical-design.md) · [测试方案](./03-test-plan.md)
 - 实施原则：每阶段可验证、可回退；最终不保留数据库与 Markdown 同步双写
 
@@ -11,7 +11,7 @@
 - 部署后的单用户 Admin 与 Content API；
 - PostgreSQL 唯一内容源；
 - 对象存储资产；
-- Next.js 静态预生成 + On-demand ISR；
+- Next.js 静态预生成；可配置 GitHub Pages/静态托管全量构建或 Node Runtime On-demand ISR；
 - Outbox 驱动的可靠发布通知；
 - 数据库备份和 Markdown 离线导出。
 
@@ -24,7 +24,7 @@
 3. Schema 迁移采用 expand → migrate → switch → contract，切换前后至少一个应用版本向后兼容。
 4. 迁移期允许“文件源只读 + API 源影子校验”，不允许两个写入方并存。
 5. 生产密钥、OAuth secret、数据库 URL 和对象存储凭证不得进入仓库。
-6. 所有 ISR 测试在 production build 上执行。
+6. 所有 ISR 测试在 production build 上执行；Static profile 另跑真实 export artifact 测试，二者不能相互替代。
 
 ## 3. 目标代码边界
 
@@ -32,13 +32,17 @@
 apps/admin/
   app/api/v1/public/...          # published-only Content API
   app/api/v1/admin/...           # authenticated mutation API
-  lib/auth/                      # OIDC session + allowlist
+  lib/auth/                      # Auth.js GitHub session + immutable user ID allowlist
   lib/outbox/                    # claim/deliver/retry
 
 apps/web/
   app/api/revalidate/route.ts    # HMAC webhook
   lib/content-api/               # typed fetch client and cache tags
   lib/revalidation/              # domain event -> allowed tags/paths
+
+packages/publication/
+  src/drivers/                   # GitHub dispatch / generic build hook / ISR webhook
+  src/config.ts                  # profile 组合校验
 
 packages/core/
   src/domain/                    # entity, status machine, errors
@@ -61,7 +65,7 @@ scripts/
 
 任务：
 
-- 确认部署平台、数据库、对象存储、OIDC provider、域名/basePath 和 worker 形态。
+- 冻结双部署 profile：默认保留 GitHub Pages static-export，并实现可切换的 runtime-isr；确认数据库、对象存储、GitHub OAuth、域名/basePath 和 worker 形态。
 - 建立 `.env.example`，列出变量名和用途，不包含真实值。
 - 为 Admin 加鉴权边界设计；部署前关闭未认证的管理 API。
 - 修复/移除现有 `/api/assets` 任意内容文件读取能力。
@@ -69,9 +73,9 @@ scripts/
 
 退出标准：
 
-- 技术方案 §15 全部有确定结论。
-- SEC P0 用例可以在本地执行。
-- 未认证请求不能读取草稿或调用写接口。
+- 技术方案对实现默认值、双 profile 和待生产切换时填写的平台值有明确边界。
+- SEC-004 自动化通过；E2E-206 在 Phase 0 记录真实浏览器人工证据，Phase 3 建立 Playwright 后纳入回归。
+- 无鉴权的 Admin 只允许绑定 loopback；Phase 3 AUTH P0 通过前禁止部署或公网暴露。
 
 ### Phase 1：领域与 PostgreSQL 仓储（3–5 人日）
 
@@ -122,7 +126,7 @@ pnpm content:export             # DB -> 离线 Markdown 备份目录
 
 任务：
 
-- 接入 OIDC session 和单用户 allowlist。
+- 接入 Auth.js GitHub OAuth session，并按不可变 GitHub user ID 执行单用户 allowlist。
 - 把现有 API 分为 `/public`、`/admin`、`/internal` 三类。
 - Public API 只使用 published repository query，返回稳定 DTO 和 ETag/contentVersion。
 - 实现 PostgreSQL 单写 adapter，接收 `expectedVersion`，仅在 staging/集成环境启用。
@@ -170,34 +174,40 @@ GIT_PUBLISH_ENABLED=true|false
 
 回滚：停止影子 workflow/adapter，不影响仍使用文件数据源的生产站点；PostgreSQL 保留，不做反向覆盖。
 
-### Phase 5：启用 Next.js Runtime 与 ISR（3–5 人日）
+### Phase 5：Web 双 profile 与 ISR（4–6 人日）
+
+本阶段改为交付两种 Web profile，而不是永久删除 GitHub Pages 能力。
 
 任务：
 
-- 删除 `output: "export"`，调整 preview/deploy scripts 为 `next build && next start`。
-- 为所有 Content API fetch 标注缓存 tag。
-- 动态文章/专栏路由设置 `dynamicParams = true`，保留 build-time `generateStaticParams`。
+- 让 `WEB_RENDER_MODE=static-export|runtime-isr` 决定 Next 输出；静态模式产出完整 `out/`，Runtime 模式使用 `next build && next start`。
+- 为 Runtime profile 的 Content API fetch 标注缓存 tag 和 `next.revalidate`；Static profile 不声明 ISR 语义。
+- 动态文章/专栏路由不导出环境变量驱动的 route segment config：Runtime 使用默认 `dynamicParams=true`，Static 依赖完整 `generateStaticParams`。
 - 统一 posts 与 collections 的 route param 编解码策略，删除仅为 export 目录名存在的 dev/prod hack。
-- 所有内容页面显式配置 `export const revalidate = 86400` 作为事件丢失兜底。
+- 在统一 Content API adapter 中只为 Runtime fetch 配置 `next.revalidate = 86400`，避免 Static Export 引入不支持的 route segment ISR 配置。
 - 新增 `/api/revalidate`：验签、schema 校验、重放保护、领域事件映射。
+- 新增 GitHub Pages workflow 的 `repository_dispatch` 入口、并发合并/取消策略和签名部署 callback。
+- 增加 `WEB_RENDER_MODE` 与 `PUBLICATION_DRIVER` 组合校验，禁止 static + ISR webhook 等无效配置。
 - 集中实现 `planRevalidation(event)`，返回白名单 tags/paths；页面和 Admin 不自行散落拼装失效范围。
 - 配置平台共享 ISR 缓存；若自托管多副本则在本阶段完成共享 Cache Handler。
 - 验证 404、sitemap、canonical、basePath 和旧链接。
 
 退出标准：
 
-- ISR-001～ISR-016 全部通过。
+- WEB/STATIC P0 全部通过；Runtime profile 的 ISR-001～ISR-016 全部通过。
 - 新文章不重新部署即可在首次访问时生成。
+- Static profile 的新文章在一次完整、原子部署后上线；失败时旧 Pages artifact 保持可用。
 - 下线文章的缓存能被清理并返回 404。
 - 任意 webhook payload 不能失效白名单外路径。
 
-### Phase 6：Outbox 与发布闭环（3–4 人日）
+### Phase 6：Outbox 与发布闭环（4–6 人日）
 
 任务：
 
 - 在 publish/update/unpublish 事务中写 publication_events。
 - 实现 SKIP LOCKED 或等效安全 claim，防止多个 worker 重复并发处理同一行。
-- 实现 HMAC 投递、指数退避、幂等、failed 状态和手动重试。
+- 定义 publication driver 接口，实现 GitHub repository dispatch、通用 build hook 和 HMAC ISR webhook；统一指数退避、幂等、failed 状态和手动重试。
+- Static driver 对短时间连续事件做部署批次合并；dispatch 后进入 `awaiting_deploy`，通过 callback/状态查询确认后才进入 `delivered`。
 - Admin 发布页显示保存、同步、上线状态；可选预热并验证目标页面。
 - 增加结构化日志、指标和告警。
 
@@ -213,8 +223,8 @@ GIT_PUBLISH_ENABLED=true|false
 
 1. 冻结内容写入，执行最终迁移和 hash 校验。
 2. 部署只读 Content API；再次运行 Web 影子构建并与线上快照比较。
-3. 部署 Runtime Web 和 Outbox 到 staging/预发布域名；运行生产形态 E2E。
-4. 在同一维护窗口开启 PostgreSQL Admin 单写、Outbox，并切换域名/流量；不保留同步双写窗口。
+3. 同时验证 static-export artifact 和 Runtime ISR 预发布；生产选择其一，但保留另一条可回退构建能力。
+4. 在同一维护窗口开启 PostgreSQL Admin 单写、对应 publication driver，并切换域名/流量；不保留同步双写窗口。
 5. 验证首页、文章、专栏、sitemap、404、资源和一次真实发布。
 6. 观察至少一个完整发布周期，确认事件、缓存和备份。
 7. 固定 `WEB_CONTENT_SOURCE=api`，关闭 Git 发布入口，移除 filesystem adapter 以及生产对 SQLite、frontmatter 回写和 `simple-git` 的依赖。
@@ -230,7 +240,7 @@ GIT_PUBLISH_ENABLED=true|false
 
 | 当前区域 | 改造 |
 |---|---|
-| `apps/web/next.config.js` | 删除静态导出；按部署平台调整 basePath/image 配置 |
+| `apps/web/next.config.js` | 按 `WEB_RENDER_MODE` 选择静态导出或 Runtime；统一 basePath/image 配置 |
 | `apps/web/lib/posts.ts` | 改成 async Content API adapter；删除 fs/SQLite 依赖 |
 | `apps/web/lib/collections.ts` | 同上 |
 | `apps/web/app/page.tsx` | 使用 summary/site DTO 和 `post-index` tag |
@@ -242,7 +252,7 @@ GIT_PUBLISH_ENABLED=true|false
 | `apps/admin/app/api/**` | 路由分区、认证、PostgreSQL repository、稳定错误码 |
 | `apps/admin/lib/git.ts` | 观察期后删除生产发布职责 |
 | `packages/core/src/db/**` | 新增 PostgreSQL schema/migration，最终退役 SQLite runtime |
-| `.github/workflows/deploy.yml` | Phase 4 改为影子 API 构建；Phase 7 后退役 Pages 发布职责 |
+| `.github/workflows/deploy.yml` | Phase 4 增加影子 API 构建；作为 `static-export` profile 的正式发布流水线保留 |
 | 根 `package.json` / content scripts | 退役生产 `content:check` 和本地 DB 构建前置；保留独立 migration/export/verify 命令 |
 | `scripts/parity-snapshot.mjs` | 改为 API/Runtime 构建快照工具，稳定观察期后再决定是否退役 |
 
@@ -251,15 +261,28 @@ GIT_PUBLISH_ENABLED=true|false
 | 变量 | 使用方 | 敏感 | 用途 |
 |---|---|:---:|---|
 | `CONTENT_API_BASE_URL` | Web | 否 | Content API 地址 |
+| `CONTENT_API_READ_TOKEN` | Web/CI | 是 | 可选；仅能读取 published DTO 的构建 token |
 | `WEB_CONTENT_SOURCE` | Web build | 否 | 迁移期选择 filesystem/api；Phase 7 后固定为 api 并删除分支 |
+| `WEB_RENDER_MODE` | Web/CI | 否 | `static-export` 或 `runtime-isr` |
 | `DATABASE_URL` | Admin/worker | 是 | PostgreSQL 连接 |
 | `REVALIDATION_WEBHOOK_URL` | worker | 否 | Web webhook 地址 |
-| `REVALIDATION_SECRET` | Web/worker | 是 | HMAC 共享密钥 |
-| `AUTH_ISSUER/CLIENT_ID/CLIENT_SECRET` | Admin | 部分 | OIDC 登录 |
-| `ADMIN_ALLOWED_SUBJECT` | Admin | 是 | 唯一允许用户 |
+| `AUTH_GITHUB_ID/AUTH_GITHUB_SECRET` | Admin | 是 | GitHub OAuth App |
+| `AUTH_SECRET` | Admin | 是 | Auth.js session 签名/加密密钥 |
+| `AUTH_TRUST_HOST` | Admin | 否 | 自托管时显式信任反向代理 Host header |
+| `ADMIN_ALLOWED_GITHUB_ID` | Admin | 否 | 唯一允许登录的不可变 GitHub user ID |
 | `OBJECT_STORAGE_*` | Admin | 是 | bucket、endpoint、access key |
 | `SITE_URL` | Web | 否 | canonical/sitemap |
 | `BASE_PATH` | Web | 否 | 是否保留 `/cBlog` |
+| `REVALIDATION_ACTIVE_KEY_ID/REVALIDATION_ACTIVE_SECRET` | Web/worker | 是 | 当前 HMAC 签名密钥 |
+| `REVALIDATION_PREVIOUS_KEY_ID/REVALIDATION_PREVIOUS_SECRET` | Web | 是 | 轮换窗口内只用于验签的上一密钥 |
+| `PUBLICATION_DRIVER` | Worker | 否 | GitHub dispatch、通用 build hook 或 ISR webhook |
+| `GITHUB_REPOSITORY` | Worker | 否 | Static/GitHub 模式的 `owner/repository` |
+| `GITHUB_DISPATCH_EVENT` | Worker | 否 | Static/GitHub 模式下 Actions 监听的事件名 |
+| `GITHUB_DISPATCH_TOKEN` | Worker | 是 | Static/GitHub 模式的最小权限 GitHub App/fine-grained token |
+| `GENERIC_BUILD_HOOK_URL` | Worker | 是 | Generic Static 模式只接受 POST JSON 的构建入口；URL 可能包含不可公开标识 |
+| `GENERIC_BUILD_HOOK_BEARER_TOKEN` | Worker | 是 | 可选 Bearer token；不拼入 query/log |
+| `DEPLOY_CALLBACK_URL` | Worker/CI | 否 | Static 模式下 CI 回报部署结果的 Admin internal API 完整 URL |
+| `DEPLOY_CALLBACK_SECRET` | Worker/CI | 是 | Static 模式的部署结果 callback 签名密钥 |
 
 CI 应在启动时校验必填变量，禁止缺失后静默使用 localhost、仓库 DB 或默认 secret。
 
@@ -295,15 +318,15 @@ CI 应在启动时校验必填变量，禁止缺失后静默使用 localhost、�
 
 | Phase | 估算 | 外部依赖 |
 |---|---:|---|
-| 0 决策/安全 | 1–2 人日 | 平台、OIDC 决策 |
+| 0 决策/安全 | 1–2 人日 | 平台、GitHub OAuth 决策 |
 | 1 PostgreSQL/domain | 3–5 人日 | 数据库环境 |
 | 2 迁移工具 | 2–3 人日 | 对象存储 |
-| 3 Admin/API | 4–6 人日 | OIDC 配置 |
+| 3 Admin/API | 4–6 人日 | GitHub OAuth 配置 |
 | 4 Web API adapter | 2–4 人日 | Content API 可用 |
-| 5 Runtime/ISR | 3–5 人日 | ISR 部署与共享缓存 |
-| 6 Outbox/发布 | 3–4 人日 | worker/cron |
+| 5 Web profiles/ISR | 4–6 人日 | 静态托管、ISR 部署与共享缓存 |
+| 6 Outbox/发布 | 4–6 人日 | 三种 driver、部署批次与 callback |
 | 7 切换 | 2–3 人日 | 域名、DNS、备份 |
-| 合计 | 20–32 人日 | 不含平台审批等待和观察期 |
+| 合计 | 22–35 人日 | 不含平台审批等待和观察期 |
 
 单人串行实施建议按 4–6 周安排，并为生产观察与修复预留 20% 缓冲。
 
@@ -314,7 +337,7 @@ CI 应在启动时校验必填变量，禁止缺失后静默使用 localhost、�
 - Admin 线上写操作有认证、审计、版本冲突保护。
 - 已发布内容变更能按事件刷新；草稿保存不影响公开缓存。
 - Outbox 可重试、可观测、可手动恢复。
-- 新文章、分类和专栏不需要全量重新部署。
+- Runtime profile 下新文章、分类和专栏不需要全量重新部署；Static profile 下由 Outbox 自动触发完整部署，无需手工提交内容文件。
 - URL、canonical、sitemap 和 404 语义与迁移前一致。
 - 数据库和对象存储备份完成一次恢复演练。
 - Git/Markdown 仅保留备份用途，文档中不再称其为线上真源。

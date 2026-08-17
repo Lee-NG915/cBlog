@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import { fetchJson } from "@/lib/api";
+import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard";
 
 type ItemStatus = "draft" | "published" | "archived";
 
@@ -66,6 +67,8 @@ export default function CollectionItemEditPage({
   const [savedTip, setSavedTip] = useState(false);
   const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useUnsavedChangesGuard(dirty);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -90,17 +93,6 @@ export default function CollectionItemEditPage({
       cancelled = true;
     };
   }, [itemId]);
-
-  // 未保存离开提示
-  useEffect(() => {
-    if (!dirty) return;
-    const handler = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = "";
-    };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [dirty]);
 
   useEffect(() => {
     return () => {

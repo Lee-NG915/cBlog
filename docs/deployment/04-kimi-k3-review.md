@@ -14,7 +14,7 @@ K3 给出的总体结论是“需修订后实施”：数据库单一真源、�
 
 | K3 finding | 分析 | 处理 |
 |---|---|---|
-| 24h fetch revalidate 无法兜底 Full Route Cache | “完全无法兜底”的判断过于绝对。[Next.js 14 官方文档](https://nextjs.org/docs/14/app/building-your-application/data-fetching/fetching-caching-and-revalidating)说明，静态路由中 fetch 的最低 revalidation 频率会影响整个路由，Data Cache revalidation 也会使 Full Route Cache 重渲染。不过初稿确实容易让实施者混用 TTL。 | 部分采纳：统一改为 route segment `revalidate = 86400`，fetch 只声明 cache tag，并新增无事件自愈用例。 |
+| 24h fetch revalidate 无法兜底 Full Route Cache | “完全无法兜底”的判断过于绝对。[Next.js 14 官方文档](https://nextjs.org/docs/14/app/building-your-application/data-fetching/fetching-caching-and-revalidating)说明，静态路由中 fetch 的最低 revalidation 频率会影响整个路由，Data Cache revalidation 也会使 Full Route Cache 重渲染。不过初稿确实容易让实施者混用 TTL。 | 初次采纳为 route segment TTL；v0.3 为兼容 Static/Runtime 双 profile，最终改为只在 Runtime Content API adapter 使用 `next.revalidate = 86400`，Static 构建不传 ISR 选项。 |
 | Phase 3 开 PG 单写、Phase 4 仍用 GitHub Pages，存在发布真空期和错误回滚 | 成立。原计划把“代码交付”和“生产启用”混在一起。 | 完全采纳：Phase 3/4 仅 staging/影子验证，生产 v1 保持不变；Phase 7 最终迁移后一次性切 PG 单写 + Runtime Web + Outbox。 |
 | category/collection 没有完整事件契约 | 成立，当前 Footer/文章侧栏让分类导航变更影响全站。 | 完全采纳：扩充 entityType/payload；导航变化允许 root layout 懒失效；补 API/ISR 测试。 |
 | `./assets/...` 迁到对象存储缺少正文改写与导出还原规则 | 成立，单纯上传文件不足以保持渲染和备份可移植性。 | 完全采纳：数据库正文使用 `asset://<id>`，AST 迁移，渲染解析为 CDN URL，导出恢复相对路径并校验 hash。 |
@@ -27,4 +27,4 @@ K3 给出的总体结论是“需修订后实施”：数据库单一真源、�
 
 ## 3. 修订后判断
 
-v0.2 已消除生产发布真空期，补齐全局实体事件、资源可移植性和关键缓存恢复测试。方案可以进入 Phase 0 决策冻结，但仍不能直接开始生产迁移；技术方案 §15 的平台、数据库、对象存储、OIDC、域名/basePath 和 worker 选择仍是实现前置条件。
+v0.2 已消除生产发布真空期，补齐全局实体事件、资源可移植性和关键缓存恢复测试。方案可以进入 Phase 0 决策冻结，但仍不能直接开始生产迁移；技术方案 §15 的平台、数据库、对象存储、GitHub OAuth、域名/basePath 和 worker 选择仍是实现前置条件。v0.3 又补充了 Static/Runtime 双 profile，最终决策以技术方案和独立部署配置文档为准。

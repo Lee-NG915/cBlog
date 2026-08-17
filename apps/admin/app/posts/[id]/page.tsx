@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import type { PostMeta } from "@cblog/core";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import { fetchJson } from "@/lib/api";
+import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard";
 
 type PostDetail = PostMeta & { content: string };
 
@@ -75,6 +76,8 @@ export default function PostEditorPage({
   useEffect(() => {
     dirtyRef.current = dirty;
   }, [dirty]);
+
+  useUnsavedChangesGuard(dirty);
 
   const loadPost = useCallback(async () => {
     setLoading(true);
@@ -179,16 +182,8 @@ export default function PostEditorPage({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // 离开页面前提示未保存
   useEffect(() => {
-    function onBeforeUnload(event: BeforeUnloadEvent) {
-      if (!dirtyRef.current) return;
-      event.preventDefault();
-      event.returnValue = "";
-    }
-    window.addEventListener("beforeunload", onBeforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", onBeforeUnload);
       if (savedHintTimerRef.current !== null) {
         window.clearTimeout(savedHintTimerRef.current);
       }

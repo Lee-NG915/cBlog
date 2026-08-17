@@ -1,6 +1,6 @@
 # cBlog 部署态 v2 技术方案
 
-- 版本：v0.2（2026-08-17）
+- 版本：v0.3（2026-08-17）
 - 状态：Reviewed Draft，作为实施评审基线
 - 关联文档：[开发方案](./02-implementation-plan.md) · [测试方案](./03-test-plan.md)
 - 官方约束：[Next.js 14 Static Exports](https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports) · [Caching and Revalidating](https://nextjs.org/docs/14/app/building-your-application/data-fetching/fetching-caching-and-revalidating) · [revalidatePath](https://nextjs.org/docs/14/app/api-reference/functions/revalidatePath)
@@ -12,11 +12,11 @@
 - PostgreSQL 保存文章、专栏文档、元数据、Markdown 正文、修订历史和发布事件。
 - 对象存储保存图片等二进制资产；数据库只保存对象键、URL 和元数据。
 - Admin 作为部署后的轻量内容服务，提供受鉴权保护的写接口和只返回已发布内容的只读接口。
-- Web 在初次构建时通过 HTTP API 预生成已有页面；构建后新增或修改的内容通过 On-demand ISR 增量生成。
-- Admin 完成发布事务后写入 Outbox 事件，由投递器调用 Web 的签名 revalidation webhook。
+- Web 在构建时通过 HTTP API 预生成已有页面；它可独立部署到 GitHub Pages 等静态托管，或支持 Next.js Runtime 的平台。
+- Admin 完成发布事务后写入 Outbox 事件，由投递器按部署 profile 触发静态站构建或签名 ISR webhook。
 - 仓库内 Markdown 不再参与运行时读取和同步双写，只允许由数据库定期导出为离线备份。
 
-纯静态导出不支持 ISR，因此 Web 必须移除 `output: "export"`，部署到支持 Next.js Node.js Runtime 和持久化增量缓存的环境。页面仍然是静态缓存结果，而不是每个请求都查询数据库。
+纯静态导出不支持 ISR，因此提供两个明确 profile：`static-export` 保留 `output: "export"`，发布后触发完整 CI 构建；`runtime-isr` 移除静态导出并按 tag/path 增量失效。二者共用数据层和页面代码，不能在静态托管上伪装 ISR。详细配置见 [Web 独立部署配置方案](./05-deployment-profiles.md)。
 
 ## 2. 背景与当前约束
 
@@ -36,8 +36,8 @@ v2 保留现有 URL、Markdown 渲染能力、文章状态机和 UI，替换存�
 
 1. 数据库是线上内容的唯一真源，不存在同步文件双写。
 2. 已有公开页面在首次部署时静态预生成，日常访问命中 CDN/Full Route Cache。
-3. Admin 发布后只让受影响的数据和路由失效，不触发全站构建。
-4. 构建后新文章可在首次访问时生成并缓存。
+3. Runtime profile 下只失效受影响的数据和路由；Static profile 下可靠触发一次原子全站构建。
+4. Runtime profile 的新文章可在首次访问时生成；Static profile 的新文章在下一次部署完成后上线。
 5. 草稿、归档和历史修订永远不通过公开 API 或公开缓存泄漏。
 6. 发布通知丢失、接口短暂失败或重复投递时可以自动恢复。
 7. 支持数据库备份、Markdown 离线导出和可验证回滚。
@@ -59,12 +59,13 @@ v2 保留现有 URL、Markdown 渲染能力、文章状态机和 UI，替换存�
 | ADR-202 | 正文格式 | 数据库存 Markdown 原文；渲染仍复用 `@cblog/core/markdown`。 |
 | ADR-203 | 二进制资产 | 使用 S3 兼容对象存储；数据库保存对象键、MIME、尺寸、hash 和公开 URL。 |
 | ADR-204 | 服务边界 | 首期复用 `apps/admin` 作为 Admin UI + Content API，避免新建独立微服务；公开、管理、内部接口分区。 |
-| ADR-205 | 前台形态 | Next.js App Router 静态优先，移除 `output: "export"`，使用 Node.js Runtime ISR。 |
+| ADR-205 | 前台形态 | Next.js App Router 静态优先；支持 `static-export` 与 `runtime-isr` 两种互斥 profile，由构建配置选择。 |
 | ADR-206 | 缓存控制 | Web 的 Next Data Cache/Full Route Cache 是页面缓存主控；Content API 不再叠加长期 CDN 缓存。 |
-| ADR-207 | 发布通知 | 数据库事务内写 Outbox，事务外签名投递，至少一次交付；Web 端幂等处理。 |
-| ADR-208 | 身份认证 | Admin 使用 OIDC 登录并校验固定用户 ID；具体 provider 是实施前置决策。 |
+| ADR-207 | 发布通知 | 数据库事务内写 Outbox；事务外由 GitHub dispatch、通用 build hook 或 ISR webhook 适配器至少一次投递，接收端幂等处理。 |
+| ADR-208 | 身份认证 | Admin 使用 Auth.js + GitHub OAuth，并校验固定、不可变的 GitHub user ID；不使用可改名的 login 作为 allowlist。 |
 | ADR-209 | 备份 | PostgreSQL 自动备份 + 定期 Markdown 导出；导出不参与线上发布。 |
-| ADR-210 | 部署一致性 | 单实例自托管可使用默认文件缓存；多实例必须使用平台共享 ISR 缓存或自定义共享 Cache Handler。 |
+| ADR-210 | 部署一致性 | Static profile 以完整 artifact 原子替换；Runtime 单实例可使用默认缓存，多实例必须使用平台共享 ISR 缓存或共享 Cache Handler。 |
+| ADR-211 | 前后端解耦 | Web 不直连数据库、不要求与 Admin 同域；只通过 published-only API、绝对资产 URL 和发布适配器连接。 |
 
 为什么首期不新增 `apps/api`：当前规模是单作者博客，Admin UI 与内容写 API 同生命周期。通过路由分区、鉴权中间件和仓储接口即可形成安全边界；当 API 需要独立扩缩容或开放第三方客户端时，再把相同接口抽到独立服务。
 
@@ -72,12 +73,15 @@ v2 保留现有 URL、Markdown 渲染能力、文章状态机和 UI，替换存�
 
 ```mermaid
 flowchart LR
-    U["作者"] -->|OIDC| A["apps/admin<br/>Admin UI + Content API"]
+    U["作者"] -->|"GitHub OAuth"| A["apps/admin<br/>Admin UI + Content API"]
     A -->|事务写入| DB[("PostgreSQL<br/>内容唯一真源")]
     A -->|上传| OS["对象存储"]
     DB --> O["Outbox 投递器"]
     O -->|"HMAC webhook"| R["apps/web /api/revalidate"]
-    W["apps/web<br/>Next.js Runtime"] -->|"构建/ISR 时读取"| A
+    O -->|"dispatch/build hook"| CI["Static build CI"]
+    W["apps/web<br/>Static export 或 Next Runtime"] -->|"构建/ISR 时读取"| A
+    CI -->|"构建时读取"| A
+    CI --> GP["GitHub Pages / Static Host"]
     W --> C["Full Route Cache / CDN"]
     R -->|"失效 tag/path"| C
     V["访客"] --> C
@@ -89,13 +93,13 @@ flowchart LR
 
 | 单元 | 职责 | 网络暴露 |
 |---|---|---|
-| `apps/web` | 静态预生成、ISR、SEO、公开页面 | 公网 |
+| `apps/web` | 静态预生成、可选 ISR、SEO、公开页面 | 公网；可与后端不同域/供应商 |
 | `apps/admin` | Admin UI、内容 API、鉴权、Outbox 投递入口 | 公网；管理路由必须认证 |
 | PostgreSQL | 内容、修订、发布事件 | 仅服务端私网/受控连接 |
 | 对象存储 | 文章图片和封面 | 公开读或 CDN 读；写入必须签名 |
 | Outbox worker | 重试发布事件 | 可与 Admin 同进程的定时任务启动，生产建议独立 cron/worker |
 
-Web 不直连数据库。这样构建环境和 ISR 运行时只需要内容 API 地址，不需要数据库驱动、数据库网络权限或管理端写权限。
+Web 不直连数据库。这样 GitHub Actions、其他构建环境和 ISR 运行时只需要内容 API 地址与可选的 published-only read token，不需要数据库驱动、数据库网络权限或管理端写权限。正常访客访问预生成页面时不调用 Content API，因此静态 profile 不需要开放浏览器 CORS。
 
 ## 6. 数据模型
 
@@ -174,9 +178,10 @@ publication_events
   entity_id
   operation          publish | update | unpublish | archive | delete
   payload_json       slug、旧/新分类、旧/新专栏、contentVersion
-  status             pending | delivering | delivered | failed
+  status             pending | delivering | awaiting_deploy | delivered | failed
   attempt_count
   next_attempt_at
+  deployment_id      nullable；Static driver dispatch 后关联部署批次
   delivered_at
   last_error
   created_at
@@ -190,6 +195,29 @@ publication_events
 - published → draft/archived 或删除：创建 `unpublish/archive/delete`。
 
 业务更新和 Outbox 插入必须在同一数据库事务内完成。
+
+`delivered` 始终表示目标发布动作已经确认完成，而不是“HTTP 请求已被接收”。Runtime ISR webhook 成功后可以直接进入 `delivered`；Static driver 收到 dispatch/build hook 接受响应后进入 `awaiting_deploy`，只有部署 callback 或受信状态查询确认成功后才进入 `delivered`。
+
+```text
+publication_deployments
+  id                 uuid
+  driver             github-dispatch | generic-build-hook
+  status             queued | running | succeeded | failed | timed_out
+  external_id        nullable，GitHub run/deployment 或平台任务 ID
+  target             repository/站点标识
+  attempt_count
+  started_at
+  finished_at
+  last_error
+  created_at
+
+publication_deployment_events
+  deployment_id
+  event_id
+  primary key (deployment_id, event_id)
+```
+
+多个连续内容事件可以关联同一部署批次。callback 必须幂等；Static deployment 失败时相关事件进入 `failed` 或重新排队，不能误写 `delivered_at`。
 
 事件 payload 使用按 `schemaVersion + entityType` 区分的判别联合：
 
@@ -237,7 +265,7 @@ slug 在首期不可修改，因此 `previousSlug` 正常为空；保留字段�
 
 ### 7.2 管理 API
 
-现有 CRUD 路由迁到 `/api/v1/admin/**`，全部经过 OIDC session、固定用户 ID 校验、CSRF/Origin 校验和速率限制。写接口接收 `expectedVersion`。
+现有 CRUD 路由迁到 `/api/v1/admin/**`，全部经过 Auth.js session、固定 GitHub user ID 校验、CSRF/Origin 校验和速率限制。写接口接收 `expectedVersion`。
 
 “保存”和“发布”拆开：保存草稿只创建修订；发布负责状态变更和 Outbox。原 Git commit/push 发布接口在切换完成后下线。
 
@@ -268,7 +296,7 @@ Content-Type: application/json
 
 验签规则：HMAC-SHA256 覆盖原始请求体、时间戳和 key ID；时间偏差不超过 5 分钟；事件 ID 建立短期幂等记录；使用常量时间比较。轮换期 Web 同时接受 active/previous 两个 key ID，worker 只用 active key 签名，上一密钥在最长重试窗口结束后删除。接口不接受调用方直接传任意 path 或 tag，只接受领域事件，由 Web 内部映射允许失效的目标，防止滥用成全站 cache purge。
 
-## 8. Web 数据访问与 ISR
+## 8. Web 数据访问、静态导出与 ISR
 
 ### 8.1 数据访问层
 
@@ -285,16 +313,17 @@ getCollectionItem()  tag: collection-item:<collection>:<slug>
 getSitemapData()     tag: sitemap
 ```
 
-每个 `fetch` 显式使用 `cache: "force-cache"` 和 `next.tags`。所有依赖内容的静态页面显式导出 `export const revalidate = 86400`，作为丢事件后的 24 小时页面级最终兜底；正常内容更新仍由发布事件立即失效。TTL 到期只会在下一次访问时懒重建，不会同步重建全站，也不能代替 Outbox。
+数据 adapter 同时支持两种构建语义：Runtime profile 的 `fetch` 使用 `cache: "force-cache"`、`next.tags` 与 `next.revalidate = 86400` 作为丢事件兜底；Static profile 在构建期读取同一 DTO，但不声明运行时 ISR 能力，内容变更必须等待下一次完整 artifact 部署。
 
-Next.js 14 也允许单个 fetch 的较低 `next.revalidate` 影响静态路由的刷新周期，但本项目不混用两套 TTL：时间兜底统一声明在 route segment，fetch 只负责标签，降低各页面取最低值时产生的隐式行为。
+缓存选项集中由 Content API adapter 生成。路由文件不导出依赖环境变量的 `dynamicParams`/`revalidate` 表达式，因为 Next.js route segment config 必须静态可分析，且 Static Export 不支持 `dynamicParams: true`/ISR。Runtime 依赖 `dynamicParams` 的默认 `true` 行为；Static 依赖完整 `generateStaticParams()`。Phase 5 必须分别运行两种 production build 钉死该边界。
 
 `generateMetadata` 和页面主体必须复用同一个 `getPost()`，依赖 Next/React 请求记忆化，避免一次渲染读到两个版本。
 
 ### 8.2 构建与动态参数
 
 - `generateStaticParams()` 在构建时从公开 API 获取全部已发布 slug，预生成存量路由。
-- 显式保留 `dynamicParams = true`，构建后新 slug 第一次访问时生成并进入 Full Route Cache。
+- Runtime profile 不显式覆盖 `dynamicParams`，使用默认 `true`；构建后新 slug 第一次访问时生成并进入 Full Route Cache。
+- Static profile 必须在 `generateStaticParams()` 枚举全部公开 slug；构建后没有服务器可生成新路由。
 - 页面数据不存在或非 published 时调用 `notFound()`。
 - `generateStaticParams` 在 ISR 中不会重新执行；新增内容依赖 `dynamicParams`，不是依赖重新枚举 slug。
 - 本地 ISR 验证必须使用 `next build && next start`，不能用 `next dev` 代替。
@@ -315,6 +344,8 @@ Next.js 14 也允许单个 fetch 的较低 `next.revalidate` 影响静态路由�
 当前文章详情页的侧栏依赖全量文章列表。实施时应改为只请求“侧栏摘要”并标记 `post-index`，不要让每个详情页加载所有正文。列表变化后，这些详情页会在各自下一次访问时懒更新，不会同时进行全站重建。
 
 ## 9. 发布时序与一致性
+
+以下时序是 `runtime-isr` profile。`static-export` profile 将 Web revalidation 替换为 CI deployment：worker dispatch 后状态为“部署中”，只有 CI 的签名 callback 成功才标记“已上线”。
 
 ```mermaid
 sequenceDiagram
@@ -355,13 +386,20 @@ Outbox 重试建议为指数退避加抖动，例如 5s、30s、2m、10m、30m�
 
 公开已发布内容不需要管理凭证。若希望构建接口不公开，可使用只读 build token，但它不得拥有管理权限。
 
-### 10.2 多实例缓存
+### 10.2 部署 profile
+
+- `static-export`：适用于 GitHub Pages 和任意静态服务器。Outbox 触发 `repository_dispatch` 或通用 build hook；CI 完整构建并原子发布。短时间连续事件可以合并，但不得复制单篇 HTML 到旧 artifact。
+- `runtime-isr`：适用于 Vercel、Node/Docker 或兼容平台。Outbox 调用 HMAC webhook，由 Web 映射允许的 tag/path。
+- 应用启动/构建时校验 `WEB_RENDER_MODE` 与 `PUBLICATION_DRIVER` 的组合，不匹配立即失败。
+- “已触发构建/已接受失效”与“已上线”分开记录。静态 CI 通过签名 callback 回报部署结果；Runtime 可在失效后 best-effort 预热并回报。
+
+### 10.3 多实例缓存
 
 - Vercel 等原生平台：使用平台提供的共享 ISR 缓存和失效传播。
 - 单机 `next start`：默认文件缓存可作为首期方案，必须使用持久卷并备份。
 - 多副本自托管：必须实现共享 Cache Handler/Redis 和跨实例失效；未完成前限制 Web 为单副本，否则不同实例会长期展示不同版本。
 
-### 10.3 域名与 basePath
+### 10.4 域名与 basePath
 
 当前 GitHub Project Pages 可能使用 `/cBlog` basePath。迁移前必须二选一：
 
@@ -372,9 +410,9 @@ Outbox 重试建议为指数退避加抖动，例如 5s、30s、2m、10m、30m�
 
 ## 11. 安全设计
 
-1. Admin 页面和 `/api/v1/admin/**` 默认拒绝匿名访问；只允许固定 OIDC subject/user ID。
+1. Admin 页面和 `/api/v1/admin/**` 默认拒绝匿名访问；只允许固定 GitHub user ID。
 2. Web revalidation 只接受 HMAC 签名事件，不接受登录 cookie 或浏览器跨域调用。
-3. 数据库凭证只存在于 Admin 服务；Web 只有 Content API 地址和 revalidation secret。
+3. 数据库凭证只存在于 Admin 服务；Web 只有 Content API 地址和 Runtime profile 所需的 revalidation secret。
 4. 公开 API 查询层硬编码 `status = published`，并用集成测试防止 draft/archived 泄漏。
 5. 上传校验 MIME、magic bytes、大小和扩展名；对象键由服务端生成；禁止 SVG 主动内容或做净化处理。
 6. 删除现有可按相对路径读取本地内容的资产接口；线上不读取调用方指定的文件路径。
@@ -403,6 +441,7 @@ Outbox 重试建议为指数退避加抖动，例如 5s、30s、2m、10m、30m�
 |---|---|---|
 | Content API 构建时不可用 | 构建失败，线上保持上一版本 | API 恢复后重跑部署 |
 | 发布后 Web webhook 不可用 | DB 已提交；事件 pending/failed | Outbox 自动或手动重试 |
+| Static build/deploy 失败 | DB 已提交；旧 artifact 继续服务，事件为 failed | 修复 API/构建后重试同一部署批次 |
 | ISR 拉取新内容失败 | 保留最后成功缓存，不发布半成品 | 下一次访问/重试继续生成 |
 | 对象存储上传失败 | 内容事务不引用未完成资产 | 重传后再保存/发布 |
 | 数据库不可用 | Admin 进入只读/错误态；缓存页面继续服务 | 数据库恢复，不清空页面缓存 |
@@ -414,9 +453,9 @@ Outbox 重试建议为指数退避加抖动，例如 5s、30s、2m、10m、30m�
 
 否决。它会重新引入跨介质事务、漂移、删除顺序和合并冲突问题。Markdown 导出只能是异步备份，不能决定线上页面。
 
-### 14.2 保留 GitHub Pages 并实现 ISR
+### 14.2 在 GitHub Pages 上实现 ISR
 
-不可行。GitHub Pages 只能服务构建产物；可在 Admin 发布后触发完整 Actions 构建，但这不是 ISR，可作为迁移期间的临时模式。
+不可行。GitHub Pages 只能服务静态构建产物；本方案将“Admin 发布后触发完整 Actions 构建”升级为正式支持的 `static-export` profile，但明确它不是 ISR。
 
 ### 14.3 只上传某一篇文章的静态 HTML
 
@@ -426,8 +465,8 @@ Outbox 重试建议为指数退避加抖动，例如 5s、30s、2m、10m、30m�
 
 以下项目未确认前不进入生产切换：
 
-- Web/Admin 部署平台及是否原生支持共享 ISR。
+- 生产选择 `static-export` 或 `runtime-isr`，以及对应 publication driver；两种 profile 都会被实现和测试。
 - PostgreSQL 与对象存储供应商、区域、备份和费用上限。
-- Admin OIDC provider 和唯一允许登录的 subject/user ID。
+- Admin GitHub OAuth App 和唯一允许登录的 GitHub user ID。
 - 正式域名是否保留 `/cBlog` basePath，以及旧地址 301 方案。
 - Outbox worker 运行方式（平台 cron、独立 worker 或单实例内置任务）。
