@@ -2,7 +2,6 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   check,
-  date,
   foreignKey,
   index,
   integer,
@@ -90,7 +89,7 @@ export const assets = pgTable(
     objectKeyUnique: uniqueIndex("assets_object_key_unique").on(
       table.objectKey
     ),
-    sha256Idx: index("assets_sha256_idx").on(table.sha256),
+    sha256Unique: uniqueIndex("assets_sha256_unique").on(table.sha256),
     byteSizeCheck: check("assets_byte_size_nonnegative", sql`${table.byteSize} >= 0`),
   })
 );
@@ -121,8 +120,12 @@ export const posts = pgTable(
     coverAssetId: uuid("cover_asset_id").references(() => assets.id, {
       onDelete: "set null",
     }),
+    coverExternalUrl: text("cover_external_url"),
     readingMinutes: integer("reading_minutes").notNull().default(1),
-    editorialDate: date("editorial_date", { mode: "string" }),
+    editorialDate: timestamp("editorial_date", {
+      withTimezone: true,
+      mode: "string",
+    }),
     publishedAt: timestamp("published_at", {
       withTimezone: true,
       mode: "string",
@@ -140,7 +143,14 @@ export const posts = pgTable(
       table.createdAt
     ),
     categoryIdx: index("posts_category_idx").on(table.categoryId),
+    legacySourcePathUnique: uniqueIndex("posts_legacy_source_path_unique").on(
+      table.legacySourcePath
+    ),
     versionCheck: check("posts_version_positive", sql`${table.version} > 0`),
+    coverSourceCheck: check(
+      "posts_cover_source_exclusive",
+      sql`not (${table.coverAssetId} is not null and ${table.coverExternalUrl} is not null)`
+    ),
   })
 );
 
@@ -214,6 +224,9 @@ export const collectionItems = pgTable(
       table.status,
       table.sortOrder
     ),
+    legacySourcePathUnique: uniqueIndex(
+      "collection_items_legacy_source_path_unique"
+    ).on(table.legacySourcePath),
     versionCheck: check(
       "collection_items_version_positive",
       sql`${table.version} > 0`
@@ -334,3 +347,22 @@ export const publicationDeploymentEvents = pgTable(
     }).onDelete("cascade"),
   })
 );
+
+/**
+ * 一次性内容迁移的幂等凭据。记录只在整个导入事务成功时写入；同一 run id
+ * 与 source digest 可安全重放，digest 不同则拒绝复用。
+ */
+export const contentMigrationRuns = pgTable("content_migration_runs", {
+  runId: varchar("run_id", { length: 128 }).primaryKey(),
+  sourceDigest: varchar("source_digest", { length: 64 }).notNull(),
+  toolVersion: integer("tool_version").notNull().default(1),
+  reportJson: jsonb("report_json")
+    .$type<Record<string, unknown>>()
+    .notNull(),
+  appliedAt: timestamp("applied_at", {
+    withTimezone: true,
+    mode: "string",
+  })
+    .notNull()
+    .defaultNow(),
+});

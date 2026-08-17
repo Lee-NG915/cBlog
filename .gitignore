@@ -44,3 +44,7 @@ next-env.d.ts
 
 # build-time mirrored content assets
 /apps/web/public/content/
+
+# Phase 2 local content-addressed migration object store
+/data/migration-assets/
+/packages/core/data/migration-assets/

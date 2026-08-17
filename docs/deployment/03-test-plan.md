@@ -62,7 +62,7 @@ pnpm test:security
 |---|:---:|---|---|
 | DATA-001 | P0 | 在空 PostgreSQL 执行全部 migration 两次 | 首次成功；第二次无破坏且 schema 一致 |
 | DATA-002 | P0 | 迁移全部 posts/items 后比较记录数、slug、状态分布 | 新旧完全一致 |
-| DATA-003 | P0 | 比较每篇源 Markdown 与 `content_markdown` SHA-256 | 全部一致，换行规范化规则明确且稳定 |
+| DATA-003 | P0 | 比较每篇源 Markdown、revision 的 `sourceContentHash` 审计值与 `content_markdown` | 源 hash 精确保留；除 AST 定位的本地资产 URL 改写为 `asset://` 外，其余正文逐字节一致 |
 | DATA-004 | P0 | 比较标签顺序、分类关系、专栏 sortOrder | 关系与顺序完全一致 |
 | DATA-005 | P0 | 对同一 migration run id 重试 apply | 无重复实体、revision、asset 或 event |
 | DATA-006 | P0 | 人为制造一篇 hash 不一致后 verify | 命令非零退出并准确报告 slug/字段 |

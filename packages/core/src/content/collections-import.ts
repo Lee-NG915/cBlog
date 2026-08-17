@@ -77,7 +77,10 @@ export function computeItemFileMeta(
     title: (data.title as string) || fileStem,
     sortOrder,
     status: normalizeStatus(data.status),
-    excerpt: getNoteExcerpt(content),
+    excerpt:
+      typeof data.excerpt === "string" && data.excerpt.trim()
+        ? data.excerpt.trim()
+        : getNoteExcerpt(content),
     content,
   };
 }

@@ -16,7 +16,13 @@ export {
 } from "./paths";
 
 // 数据库
-export { getDb, createDb, defaultDbPath, type DbHandle } from "./db/client";
+export {
+  getDb,
+  createDb,
+  createReadonlyDb,
+  defaultDbPath,
+  type DbHandle,
+} from "./db/client";
 export * as schema from "./db/schema";
 export { POST_STATUSES, type PostStatus } from "./db/schema";
 export {

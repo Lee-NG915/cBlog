@@ -9,6 +9,23 @@ export {
   PostgresPostRepository,
   PostgresCollectionItemRepository,
 } from "./db/postgres/repositories";
+export { buildMigrationSnapshot } from "./migration/source";
+export {
+  applyMigrationSnapshot,
+  verifyMigrationSnapshot,
+  assertConfirmedMigrationTarget,
+  migrationTargetName,
+} from "./migration/runner";
+export {
+  FileSystemMigrationAssetStore,
+  type MigrationAssetStore,
+} from "./migration/assets";
+export { exportMarkdownBackup } from "./migration/export";
+export type {
+  MigrationSnapshot,
+  MigrationApplyReport,
+  MigrationVerifyReport,
+} from "./migration/types";
 export type {
   PostRepository,
   CollectionItemRepository,

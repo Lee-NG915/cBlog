@@ -19,7 +19,7 @@
 |---|---|---|
 | Phase 0 决策与安全基线 | 已完成 | [phase-00](./phase-00.md) |
 | Phase 1 PostgreSQL/domain | 已完成 | [phase-01](./phase-01.md) |
-| Phase 2 迁移与备份 | 待开始 | 待创建 |
+| Phase 2 迁移与备份 | 已完成 | [phase-02](./phase-02.md) |
 | Phase 3 Admin/API/对象存储 | 待开始 | 待创建 |
 | Phase 4 Web API 影子构建 | 待开始 | 待创建 |
 | Phase 5 Web profiles/ISR | 待开始 | 待创建 |

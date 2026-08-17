@@ -25,6 +25,14 @@ export function createDb(dbPath: string): DbHandle {
   return { db, sqlite, dbPath };
 }
 
+/** 迁移 plan/verify 使用只读 SQLite，避免扫描命令意外创建或修改源库。 */
+export function createReadonlyDb(dbPath: string): DbHandle {
+  const sqlite = new Database(dbPath, { readonly: true, fileMustExist: true });
+  sqlite.pragma("foreign_keys = ON");
+  const db = drizzle(sqlite, { schema });
+  return { db, sqlite, dbPath };
+}
+
 let defaultHandle: DbHandle | null = null;
 
 /** 默认库（data/blog.db）单例；测试请使用 createDb(临时路径) */

@@ -8,6 +8,7 @@ export interface CreatePostRecordInput {
   contentMarkdown: string;
   categoryId: string;
   coverAssetId?: string | null;
+  coverExternalUrl?: string | null;
   tags?: string[];
   editorialDate?: string | null;
   status?: ContentStatus;
@@ -20,6 +21,7 @@ export interface UpdatePostRecordInput {
   contentMarkdown?: string;
   categoryId?: string;
   coverAssetId?: string | null;
+  coverExternalUrl?: string | null;
   tags?: string[];
   editorialDate?: string | null;
 }

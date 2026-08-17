@@ -10,6 +10,7 @@ export interface PostEntity {
   status: ContentStatus;
   categoryId: string;
   coverAssetId: string | null;
+  coverExternalUrl: string | null;
   tags: string[];
   editorialDate: string | null;
   publishedAt: string | null;

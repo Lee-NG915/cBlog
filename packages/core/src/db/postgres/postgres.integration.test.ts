@@ -8,6 +8,7 @@ import {
   PostgresPostRepository,
 } from "./repositories";
 import {
+  assets,
   categories,
   collections,
   contentRevisions,
@@ -36,6 +37,7 @@ describe.skipIf(!testDatabaseUrl)("PostgreSQL repository integration", () => {
     assertSafeTestDatabase(testDatabaseUrl!);
     handle = createPostgresDb(testDatabaseUrl!, { max: 4 });
     await handle.client.unsafe("drop schema if exists public cascade");
+    await handle.client.unsafe("drop schema if exists drizzle cascade");
     await handle.client.unsafe("create schema public");
     await migratePostgres(handle);
     await migratePostgres(handle);
@@ -272,6 +274,58 @@ describe.skipIf(!testDatabaseUrl)("PostgreSQL repository integration", () => {
       "published-post",
       "published-without-date",
     ]);
+  });
+
+  it("本地封面与远程封面互斥并可显式切换", async () => {
+    const [category] = await handle.db
+      .insert(categories)
+      .values({ slug: "covers", name: "封面" })
+      .returning({ id: categories.id });
+    const [asset] = await handle.db
+      .insert(assets)
+      .values({
+        objectKey: "cover/example.png",
+        originalName: "example.png",
+        mimeType: "image/png",
+        byteSize: 1,
+        sha256: "a".repeat(64),
+        publicUrl: "https://assets.example/cover/example.png",
+      })
+      .returning({ id: assets.id });
+    const repository = new PostgresPostRepository(handle);
+    await expect(
+      repository.create({
+        slug: "invalid-cover",
+        title: "冲突封面",
+        contentMarkdown: "body",
+        categoryId: category.id,
+        coverAssetId: asset.id,
+        coverExternalUrl: "https://example.com/cover.png",
+      })
+    ).rejects.toThrow("其中一种");
+    await expect(
+      repository.create({
+        slug: "invalid-cover-protocol",
+        title: "非法远程封面",
+        contentMarkdown: "body",
+        categoryId: category.id,
+        coverExternalUrl: "javascript:alert(1)",
+      })
+    ).rejects.toThrow("HTTP(S)");
+
+    const created = await repository.create({
+      slug: "external-cover",
+      title: "远程封面",
+      contentMarkdown: "body",
+      categoryId: category.id,
+      coverExternalUrl: "https://example.com/cover.png",
+    });
+    const switched = await repository.update(created.id, {
+      expectedVersion: 1,
+      coverAssetId: asset.id,
+    });
+    expect(switched.coverAssetId).toBe(asset.id);
+    expect(switched.coverExternalUrl).toBeNull();
   });
 
   it("专栏文档也使用版本锁、revision 和 published-only 查询", async () => {

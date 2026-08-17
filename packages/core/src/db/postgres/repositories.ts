@@ -38,6 +38,18 @@ function normalizeTagNames(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
+function assertExclusiveCoverSources(
+  coverAssetId: string | null,
+  coverExternalUrl: string | null
+): void {
+  if (coverAssetId && coverExternalUrl) {
+    throw new Error("封面只能使用本地资产或外部 URL 其中一种");
+  }
+  if (coverExternalUrl && !/^https?:\/\//i.test(coverExternalUrl)) {
+    throw new Error("远程封面只允许 HTTP(S) URL");
+  }
+}
+
 export class PostgresPostRepository implements PostRepository {
   constructor(private readonly handle: PostgresDbHandle) {}
 
@@ -51,6 +63,9 @@ export class PostgresPostRepository implements PostRepository {
     const createdAt = nowIso();
     const status = input.status ?? "draft";
     const tagNames = normalizeTagNames(input.tags ?? []);
+    const coverAssetId = input.coverAssetId ?? null;
+    const coverExternalUrl = input.coverExternalUrl ?? null;
+    assertExclusiveCoverSources(coverAssetId, coverExternalUrl);
 
     const id = await this.handle.db.transaction(async (tx) => {
       const [created] = await tx
@@ -63,7 +78,8 @@ export class PostgresPostRepository implements PostRepository {
           contentHash: hash,
           status,
           categoryId: input.categoryId,
-          coverAssetId: input.coverAssetId ?? null,
+          coverAssetId,
+          coverExternalUrl,
           readingMinutes: calculateReadingTime(markdown),
           editorialDate: input.editorialDate ?? null,
           publishedAt: status === "published" ? createdAt : null,
@@ -87,7 +103,8 @@ export class PostgresPostRepository implements PostRepository {
           excerpt: input.excerpt ?? "",
           status,
           categoryId: input.categoryId,
-          coverAssetId: input.coverAssetId ?? null,
+          coverAssetId,
+          coverExternalUrl,
           editorialDate: input.editorialDate ?? null,
           tags: tagNames,
         },
@@ -153,6 +170,19 @@ export class PostgresPostRepository implements PostRepository {
       const tagNames = input.tags
         ? normalizeTagNames(input.tags)
         : await this.loadTags(tx, id);
+      const coverAssetId =
+        input.coverExternalUrl && input.coverAssetId === undefined
+          ? null
+          : input.coverAssetId === undefined
+            ? current.coverAssetId
+            : input.coverAssetId;
+      const coverExternalUrl =
+        input.coverAssetId && input.coverExternalUrl === undefined
+          ? null
+          : input.coverExternalUrl === undefined
+            ? current.coverExternalUrl
+            : input.coverExternalUrl;
+      assertExclusiveCoverSources(coverAssetId, coverExternalUrl);
 
       const [updated] = await tx
         .update(posts)
@@ -162,10 +192,8 @@ export class PostgresPostRepository implements PostRepository {
           contentMarkdown: markdown,
           contentHash: hash,
           categoryId: input.categoryId ?? current.categoryId,
-          coverAssetId:
-            input.coverAssetId === undefined
-              ? current.coverAssetId
-              : input.coverAssetId,
+          coverAssetId,
+          coverExternalUrl,
           editorialDate:
             input.editorialDate === undefined
               ? current.editorialDate
@@ -201,10 +229,8 @@ export class PostgresPostRepository implements PostRepository {
           excerpt: input.excerpt ?? current.excerpt,
           status: current.status,
           categoryId: input.categoryId ?? current.categoryId,
-          coverAssetId:
-            input.coverAssetId === undefined
-              ? current.coverAssetId
-              : input.coverAssetId,
+          coverAssetId,
+          coverExternalUrl,
           editorialDate:
             input.editorialDate === undefined
               ? current.editorialDate
@@ -268,6 +294,7 @@ export class PostgresPostRepository implements PostRepository {
           status,
           categoryId: current.categoryId,
           coverAssetId: current.coverAssetId,
+          coverExternalUrl: current.coverExternalUrl,
           editorialDate: current.editorialDate,
           tags: await this.loadTags(tx, id),
         },
