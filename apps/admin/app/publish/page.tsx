@@ -10,11 +10,13 @@ interface FileChange {
 
 interface PublishStatus {
   branch: string;
+  isDeployBranch: boolean;
   ahead: number;
   behind: number;
   tracking: string | null;
   contentChanges: FileChange[];
   otherChanges: FileChange[];
+  stagedOtherChanges: FileChange[];
   suggestedMessage: string;
 }
 
@@ -88,7 +90,10 @@ export default function PublishPage() {
   }, [loadStatus]);
 
   const canPublish =
-    !!status && (status.contentChanges.length > 0 || status.ahead > 0);
+    !!status &&
+    status.isDeployBranch &&
+    status.stagedOtherChanges.length === 0 &&
+    (status.contentChanges.length > 0 || status.ahead > 0);
 
   const handlePublish = async () => {
     if (!window.confirm("确认提交并推送？")) return;
@@ -160,6 +165,24 @@ export default function PublishPage() {
           {status.behind > 0 && (
             <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
               远端有新提交，建议先在终端 git pull
+            </div>
+          )}
+
+          {!status.isDeployBranch && (
+            <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              当前分支为 {status.branch}，不是 main。
+              只有推送到 main 才会触发 GitHub Pages
+              部署，请先在终端合并到 main 后再发布。
+            </div>
+          )}
+
+          {status.stagedOtherChanges.length > 0 && (
+            <div className="card border-red-200 bg-red-50">
+              <p className="mb-3 text-sm font-medium text-red-800">
+                以下变更已暂存（staged）且不在发布白名单内，发布会将它们一并提交，已禁止发布。请先在终端
+                git restore --staged 处理
+              </p>
+              <ChangeList changes={status.stagedOtherChanges} />
             </div>
           )}
 

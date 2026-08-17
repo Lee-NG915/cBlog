@@ -15,6 +15,11 @@
 
 ## 交付后修复记录
 
+- 2026-08-17：一键发布加固（`apps/admin/lib/git.ts` + 发布页 UI）：
+  1. 白名单只约束"新 add"，挡不住事先已 staged 的白名单外变更，`git commit` 会把它们一并提交推送 → 发布前检测暂存区，存在白名单外 staged 文件即拒绝并列出清单；
+  2. 发布不再隐式跟随当前分支：非 `main` 分支直接拒绝（只有 main 触发 GitHub Pages 部署），发布页同步显示分支警告并禁用按钮。
+  验证：admin typecheck 零错误；真实 git 场景三例通过（非 main 拦截 / main + 白名单外 staged 拦截 / main + 仅内容变更正常提交且不含白名单外改动）。
+
 - 2026-08-14 `8d84feb`：dev 下专栏路由 500（"missing generateStaticParams" 误报）。三个成因与对策：
   1. dev 复用生产构建残留的 `.next` 导致 static-paths worker 崩溃 → `predev` 自动清理 `.next`；
   2. dev 以百分号编码路径比对 generateStaticParams 返回值，中文 slug 匹配失败 → 仅 dev 返回编码值（生产必须保持原样，否则导出目录名变化破坏 URL 兼容——已被等价校验拦截过一次）；
