@@ -5,7 +5,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { fetchJson } from "@/lib/api";
 
 interface Collection {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
@@ -35,7 +35,7 @@ export default function CollectionsPage() {
   const load = useCallback(async () => {
     try {
       const data = await fetchJson<{ collections: Collection[] }>(
-        "/api/collections"
+        "/api/v1/admin/collections"
       );
       setCollections(data.collections);
     } catch (err) {
@@ -66,7 +66,7 @@ export default function CollectionsPage() {
     setCreating(true);
     setError("");
     try {
-      await fetchJson("/api/collections", {
+      await fetchJson("/api/v1/admin/collections", {
         method: "POST",
         body: JSON.stringify({
           slug: trimmedSlug,
@@ -95,7 +95,7 @@ export default function CollectionsPage() {
     if (!window.confirm(`确认删除专栏「${collection.name}」？`)) return;
     setError("");
     try {
-      await fetchJson(`/api/collections/${collection.id}`, {
+      await fetchJson(`/api/v1/admin/collections/${String(collection.id)}`, {
         method: "DELETE",
       });
       await load();
@@ -221,12 +221,12 @@ export default function CollectionsPage() {
             ) : (
               collections.map((collection) => (
                 <tr
-                  key={collection.id}
+                  key={String(collection.id)}
                   className="border-b border-slate-100 last:border-b-0"
                 >
                   <td className="px-5 py-3">
                     <Link
-                      href={`/collections/${collection.id}`}
+                      href={`/collections/${String(collection.id)}`}
                       className="font-medium text-emerald-700 hover:underline"
                     >
                       {collection.name}

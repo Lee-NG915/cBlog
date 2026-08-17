@@ -9,7 +9,8 @@ import { fetchJson } from "@/lib/api";
 export interface MarkdownEditorProps {
   value: string;
   onChange: (value: string) => void;
-  uploadFilePath?: string; // 目标文档相对 content/ 的路径；提供时启用粘贴/拖拽图片上传
+  uploadFilePath?: string; // 目标文档相对 content/ 的路径；仅文件模式需要（pg 模式可为空）
+  assetUrlMap?: Record<string, string>; // asset://<id> → 可访问 URL 的映射（pg 模式预览用）
   heightClass?: string; // 默认 "h-[70vh]"
 }
 
@@ -25,6 +26,7 @@ export default function MarkdownEditor({
   value,
   onChange,
   uploadFilePath,
+  assetUrlMap,
   heightClass = "h-[70vh]",
 }: MarkdownEditorProps): JSX.Element {
   const [html, setHtml] = useState("");
@@ -47,6 +49,16 @@ export default function MarkdownEditor({
               `src="/api/assets?doc=${encodeURIComponent(uploadFilePath)}&name=assets/`
             );
           }
+          if (assetUrlMap) {
+            // pg 模式：asset://<id> 按映射表替换为可访问 URL；无映射保持原样
+            result = result.replace(
+              /src="asset:\/\/([^"]+)"/g,
+              (match, assetId: string) => {
+                const mapped = assetUrlMap[assetId];
+                return mapped ? `src="${mapped}"` : match;
+              }
+            );
+          }
           setHtml(result);
         })
         .catch(() => {
@@ -57,7 +69,7 @@ export default function MarkdownEditor({
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [value, uploadFilePath]);
+  }, [value, uploadFilePath, assetUrlMap]);
 
   // HTML 注入后渲染 Mermaid 图例
   useEffect(() => {
@@ -112,18 +124,24 @@ export default function MarkdownEditor({
   }, [html]);
 
   async function uploadImages(files: File[]) {
-    if (!uploadFilePath || files.length === 0) return;
+    if (files.length === 0) return;
     setUploading(true);
     setUploadError("");
     try {
       for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("filePath", uploadFilePath);
-        const { src } = await fetchJson<{ src: string }>("/api/images", {
-          method: "POST",
-          body: formData,
-        });
+        // 文件模式才需要 filePath；pg 模式上传接口忽略该字段
+        if (uploadFilePath) {
+          formData.append("filePath", uploadFilePath);
+        }
+        const { src } = await fetchJson<{ src: string }>(
+          "/api/v1/admin/images",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         const view = viewRef.current;
         if (view) {
           view.dispatch(view.state.replaceSelection(`![](${src})\n`));
@@ -137,7 +155,6 @@ export default function MarkdownEditor({
   }
 
   function handlePaste(event: React.ClipboardEvent<HTMLDivElement>) {
-    if (!uploadFilePath) return;
     const files = collectImageFiles(event.clipboardData.files);
     if (files.length === 0) return;
     event.preventDefault();
@@ -146,7 +163,6 @@ export default function MarkdownEditor({
   }
 
   function handleDrop(event: React.DragEvent<HTMLDivElement>) {
-    if (!uploadFilePath) return;
     const files = collectImageFiles(event.dataTransfer.files);
     if (files.length === 0) return;
     event.preventDefault();
@@ -161,7 +177,7 @@ export default function MarkdownEditor({
         onPasteCapture={handlePaste}
         onDropCapture={handleDrop}
         onDragOver={(event) => {
-          if (uploadFilePath) event.preventDefault();
+          event.preventDefault();
         }}
       >
         <CodeMirror

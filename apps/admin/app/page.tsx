@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     let cancelled = false;
-    fetchJson<Stats>("/api/stats")
+    fetchJson<Stats>("/api/v1/admin/stats")
       .then((data) => {
         if (!cancelled) setStats(data);
       })
@@ -164,11 +164,11 @@ export default function DashboardPage() {
               <ul className="divide-y divide-slate-100">
                 {stats.recent.map((post) => (
                   <li
-                    key={post.id}
+                    key={String(post.id)}
                     className="flex items-center gap-3 py-2 text-sm"
                   >
                     <Link
-                      href={`/posts/${post.id}`}
+                      href={`/posts/${String(post.id)}`}
                       className="min-w-0 flex-1 truncate font-medium text-slate-800 transition hover:text-emerald-700"
                     >
                       {post.title}

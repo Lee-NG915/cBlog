@@ -6,7 +6,7 @@ import type { PostMeta } from "@cblog/core";
 import { fetchJson } from "@/lib/api";
 
 interface CategoryOption {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
@@ -30,7 +30,7 @@ export default function PostsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchJson<{ categories: CategoryOption[] }>("/api/categories")
+    fetchJson<{ categories: CategoryOption[] }>("/api/v1/admin/categories")
       .then((data) => setCategories(data.categories))
       .catch((err: unknown) =>
         setError(err instanceof Error ? err.message : "分类加载失败")
@@ -47,7 +47,9 @@ export default function PostsPage() {
 
     setLoading(true);
     setError("");
-    fetchJson<{ posts: PostMeta[] }>(`/api/posts${query ? `?${query}` : ""}`)
+    fetchJson<{ posts: PostMeta[] }>(
+      `/api/v1/admin/posts${query ? `?${query}` : ""}`
+    )
       .then((data) => {
         if (!cancelled) setPosts(data.posts);
       })
@@ -136,12 +138,12 @@ export default function PostsPage() {
           <tbody>
             {posts.map((post) => (
               <tr
-                key={post.id}
+                key={String(post.id)}
                 className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
               >
                 <td className="px-4 py-3">
                   <Link
-                    href={`/posts/${post.id}`}
+                    href={`/posts/${String(post.id)}`}
                     className="font-bold text-slate-800 hover:text-emerald-700"
                   >
                     {post.title}

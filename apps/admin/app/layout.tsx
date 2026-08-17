@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AdminNav from "@/components/AdminNav";
+import SessionBar from "@/components/SessionBar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body>
         <div className="flex min-h-screen">
-          <aside className="w-52 shrink-0 border-r border-slate-200 bg-slate-100 px-3 py-6">
+          <aside className="flex w-52 shrink-0 flex-col border-r border-slate-200 bg-slate-100 px-3 py-6">
             <p className="mb-6 px-3 text-base font-bold text-slate-800">
               cBlog 管理台
             </p>
@@ -29,6 +30,7 @@ export default function RootLayout({
               <br />
               前台预览请运行 pnpm dev:web
             </p>
+            <SessionBar />
           </aside>
           <main className="min-w-0 flex-1 px-8 py-6">{children}</main>
         </div>

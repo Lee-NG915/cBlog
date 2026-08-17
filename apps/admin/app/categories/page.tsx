@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { fetchJson } from "@/lib/api";
 
 interface Category {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
@@ -25,8 +25,8 @@ export default function CategoriesPage() {
   const [description, setDescription] = useState("");
   const [creating, setCreating] = useState(false);
 
-  // 行内编辑
-  const [editingId, setEditingId] = useState<number | null>(null);
+  // 行内编辑（id 统一按 string 处理，兼容数字与 uuid）
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
@@ -34,7 +34,7 @@ export default function CategoriesPage() {
   const load = useCallback(async () => {
     try {
       const data = await fetchJson<{ categories: Category[] }>(
-        "/api/categories"
+        "/api/v1/admin/categories"
       );
       setCategories(data.categories);
     } catch (err) {
@@ -65,7 +65,7 @@ export default function CategoriesPage() {
     setCreating(true);
     setError("");
     try {
-      await fetchJson("/api/categories", {
+      await fetchJson("/api/v1/admin/categories", {
         method: "POST",
         body: JSON.stringify({
           slug: trimmedSlug,
@@ -85,12 +85,12 @@ export default function CategoriesPage() {
   }
 
   function startEdit(category: Category) {
-    setEditingId(category.id);
+    setEditingId(String(category.id));
     setEditName(category.name);
     setEditDescription(category.description);
   }
 
-  async function handleSaveEdit(id: number) {
+  async function handleSaveEdit(id: number | string) {
     if (!editName.trim()) {
       setError("名称不能为空");
       return;
@@ -98,7 +98,7 @@ export default function CategoriesPage() {
     setSavingEdit(true);
     setError("");
     try {
-      await fetchJson(`/api/categories/${id}`, {
+      await fetchJson(`/api/v1/admin/categories/${String(id)}`, {
         method: "PUT",
         body: JSON.stringify({
           name: editName.trim(),
@@ -118,7 +118,9 @@ export default function CategoriesPage() {
     if (!window.confirm(`确认删除分类「${category.name}」？`)) return;
     setError("");
     try {
-      await fetchJson(`/api/categories/${category.id}`, { method: "DELETE" });
+      await fetchJson(`/api/v1/admin/categories/${String(category.id)}`, {
+        method: "DELETE",
+      });
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -208,11 +210,11 @@ export default function CategoriesPage() {
               </tr>
             ) : (
               categories.map((category) => {
-                const isEditing = editingId === category.id;
+                const isEditing = editingId === String(category.id);
                 const isFallback = category.slug === "uncategorized";
                 return (
                   <tr
-                    key={category.id}
+                    key={String(category.id)}
                     className="border-b border-slate-100 last:border-b-0"
                   >
                     <td className="px-5 py-3 font-mono text-xs text-slate-600">

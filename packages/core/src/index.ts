@@ -138,3 +138,17 @@ export {
   UNCATEGORIZED,
   LEGACY_COLLECTION_SEEDS,
 } from "./config";
+
+// Content API 公开 DTO 契约（纯类型，Web/Admin 共享）
+export type {
+  PublicPostSummaryDto,
+  PublicPostDetailDto,
+  PublicCategoryDto,
+  PublicCollectionSummaryDto,
+  PublicCollectionDetailDto,
+  PublicCollectionItemSummaryDto,
+  PublicCollectionItemDetailDto,
+  PublicSiteDto,
+  PublicSitemapDto,
+  ApiErrorBody,
+} from "./api/dto";

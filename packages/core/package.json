@@ -21,7 +21,7 @@
     "content:check": "tsx src/cli/check.ts",
     "content:migrate-collections": "tsx src/cli/migrate-collections.ts",
     "test": "vitest run",
-    "test:postgres": "vitest run src/db/postgres/postgres.integration.test.ts",
+    "test:postgres": "vitest run src/db/postgres --fileParallelism=false",
     "test:migration": "vitest run src/migration/migration.integration.test.ts",
     "typecheck": "tsc --noEmit"
   },

@@ -8,14 +8,29 @@ import MarkdownEditor from "@/components/MarkdownEditor";
 import { fetchJson } from "@/lib/api";
 import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard";
 
-type PostDetail = PostMeta & { content: string };
+/**
+ * 详情响应：id 可能是数字或 uuid 字符串；pg 模式没有 filePath；
+ * version 用于乐观并发控制（pg 模式提供）。
+ */
+type PostDetail = Omit<PostMeta, "id" | "filePath"> & {
+  id: number | string;
+  filePath?: string;
+  content: string;
+  version?: number;
+};
 
 interface CategoryOption {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
   postCount: number;
+}
+
+/** fetchJson 只暴露 message：按 message 识别乐观锁冲突（409） */
+function isVersionConflict(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err);
+  return message.includes("版本") || message.includes("VERSION_CONFLICT");
 }
 
 const STATUS_LABELS: Record<PostMeta["status"], string> = {
@@ -49,9 +64,13 @@ export default function PostEditorPage({
   const postId = params.id;
 
   const [post, setPost] = useState<PostDetail | null>(null);
+  const [assetUrlMap, setAssetUrlMap] = useState<
+    Record<string, string> | undefined
+  >(undefined);
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [conflict, setConflict] = useState(false);
 
   // 表单字段
   const [title, setTitle] = useState("");
@@ -79,38 +98,44 @@ export default function PostEditorPage({
 
   useUnsavedChangesGuard(dirty);
 
-  const loadPost = useCallback(async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await fetchJson<{ post: PostDetail }>(
-        `/api/posts/${postId}`
-      );
-      const detail = data.post;
-      setPost(detail);
-      setTitle(detail.title);
-      setDate(detail.date);
-      setUpdatedAt(detail.updatedAt ?? "");
-      setExcerpt(detail.excerpt);
-      setTagsText(detail.tags.join(", "));
-      setCoverImage(detail.coverImage ?? "");
-      setCategorySlug(detail.categorySlug);
-      setContent(detail.content);
-      setDirty(false);
-    } catch (err) {
-      setPost(null);
-      setError(err instanceof Error ? err.message : "文章加载失败");
-    } finally {
-      setLoading(false);
-    }
-  }, [postId]);
+  const loadPost = useCallback(
+    async (options?: { silent?: boolean }) => {
+      if (!options?.silent) setLoading(true);
+      setError("");
+      setConflict(false);
+      try {
+        const data = await fetchJson<{
+          post: PostDetail;
+          assetUrlMap?: Record<string, string>;
+        }>(`/api/v1/admin/posts/${postId}`);
+        const detail = data.post;
+        setPost(detail);
+        setAssetUrlMap(data.assetUrlMap);
+        setTitle(detail.title);
+        setDate(detail.date);
+        setUpdatedAt(detail.updatedAt ?? "");
+        setExcerpt(detail.excerpt);
+        setTagsText(detail.tags.join(", "));
+        setCoverImage(detail.coverImage ?? "");
+        setCategorySlug(detail.categorySlug);
+        setContent(detail.content);
+        setDirty(false);
+      } catch (err) {
+        setPost(null);
+        setError(err instanceof Error ? err.message : "文章加载失败");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [postId]
+  );
 
   useEffect(() => {
     void loadPost();
   }, [loadPost]);
 
   useEffect(() => {
-    fetchJson<{ categories: CategoryOption[] }>("/api/categories")
+    fetchJson<{ categories: CategoryOption[] }>("/api/v1/admin/categories")
       .then((data) => setCategories(data.categories))
       .catch((err: unknown) =>
         setError(err instanceof Error ? err.message : "分类加载失败")
@@ -121,8 +146,9 @@ export default function PostEditorPage({
     if (!post || saving) return;
     setSaving(true);
     setError("");
+    setConflict(false);
     try {
-      await fetchJson<{ ok: boolean }>(`/api/posts/${post.id}`, {
+      await fetchJson<{ ok: boolean }>(`/api/v1/admin/posts/${String(post.id)}`, {
         method: "PUT",
         body: JSON.stringify({
           title,
@@ -136,6 +162,9 @@ export default function PostEditorPage({
           coverImage: coverImage.trim() === "" ? null : coverImage.trim(),
           categorySlug,
           content,
+          ...(post.version !== undefined
+            ? { expectedVersion: post.version }
+            : {}),
         }),
       });
       setDirty(false);
@@ -147,8 +176,14 @@ export default function PostEditorPage({
         () => setSavedHint(false),
         2000
       );
+      // 重新 GET 拿最新 version（避免下次保存被乐观锁拒绝）
+      await loadPost({ silent: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "保存失败");
+      if (isVersionConflict(err)) {
+        setConflict(true);
+      } else {
+        setError(err instanceof Error ? err.message : "保存失败");
+      }
     } finally {
       setSaving(false);
     }
@@ -163,6 +198,7 @@ export default function PostEditorPage({
     coverImage,
     categorySlug,
     content,
+    loadPost,
   ]);
 
   const saveRef = useRef(handleSave);
@@ -200,14 +236,27 @@ export default function PostEditorPage({
     }
     setStatusChanging(true);
     setError("");
+    setConflict(false);
     try {
-      await fetchJson<{ ok: boolean }>(`/api/posts/${post.id}/status`, {
-        method: "POST",
-        body: JSON.stringify({ status: next }),
-      });
+      await fetchJson<{ ok: boolean }>(
+        `/api/v1/admin/posts/${String(post.id)}/status`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            status: next,
+            ...(post.version !== undefined
+              ? { expectedVersion: post.version }
+              : {}),
+          }),
+        }
+      );
       await loadPost();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "状态更新失败");
+      if (isVersionConflict(err)) {
+        setConflict(true);
+      } else {
+        setError(err instanceof Error ? err.message : "状态更新失败");
+      }
     } finally {
       setStatusChanging(false);
     }
@@ -218,9 +267,12 @@ export default function PostEditorPage({
     if (!window.confirm("确认删除？文件将移入回收站")) return;
     setError("");
     try {
-      await fetchJson<{ ok: boolean }>(`/api/posts/${post.id}`, {
-        method: "DELETE",
-      });
+      await fetchJson<{ ok: boolean }>(
+        `/api/v1/admin/posts/${String(post.id)}`,
+        {
+          method: "DELETE",
+        }
+      );
       setDirty(false);
       dirtyRef.current = false;
       router.push("/posts");
@@ -238,11 +290,17 @@ export default function PostEditorPage({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("filePath", post.filePath);
-      const { src } = await fetchJson<{ src: string }>("/api/images", {
-        method: "POST",
-        body: formData,
-      });
+      // pg 模式没有 filePath，接口会忽略该字段
+      if (post.filePath) {
+        formData.append("filePath", post.filePath);
+      }
+      const { src } = await fetchJson<{ src: string }>(
+        "/api/v1/admin/images",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       setCoverImage(src);
       setDirty(true);
     } catch (err) {
@@ -316,6 +374,19 @@ export default function PostEditorPage({
         </button>
       </div>
 
+      {conflict && (
+        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-md border-2 border-amber-400 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+          <span>内容已在其他会话被修改，请刷新后重试</span>
+          <button
+            type="button"
+            className="btn shrink-0"
+            onClick={() => void loadPost()}
+          >
+            刷新
+          </button>
+        </div>
+      )}
+
       {error && (
         <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
           {error}
@@ -330,6 +401,7 @@ export default function PostEditorPage({
             setDirty(true);
           }}
           uploadFilePath={post.filePath}
+          assetUrlMap={assetUrlMap}
         />
 
         <div className="card space-y-4">
@@ -446,7 +518,9 @@ export default function PostEditorPage({
           </div>
           <div className="space-y-1 border-t border-slate-100 pt-3 text-xs text-slate-400">
             <p className="break-all">slug：{post.slug}</p>
-            <p className="break-all">filePath：{post.filePath}</p>
+            {post.filePath ? (
+              <p className="break-all">filePath：{post.filePath}</p>
+            ) : null}
           </div>
         </div>
       </div>

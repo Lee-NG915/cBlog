@@ -14,7 +14,7 @@ import { fetchJson } from "@/lib/api";
 type ItemStatus = "draft" | "published" | "archived";
 
 interface Collection {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
@@ -26,15 +26,17 @@ interface Collection {
 }
 
 interface CollectionItem {
-  id: number;
-  collectionId: number;
+  id: number | string;
+  collectionId: number | string;
   collectionSlug: string;
   slug: string;
   title: string;
   excerpt: string;
   status: ItemStatus;
   sortOrder: number;
-  filePath: string;
+  filePath?: string;
+  /** postgres 模式返回，用于乐观并发控制 */
+  version?: number;
 }
 
 const SLUG_PATTERN = /^[a-z0-9一-鿿]+(?:-[a-z0-9一-鿿]+)*$/;
@@ -101,7 +103,7 @@ export default function CollectionDetailPage({
       const data = await fetchJson<{
         collection: Collection;
         items: CollectionItem[];
-      }>(`/api/collections/${collectionId}`);
+      }>(`/api/v1/admin/collections/${collectionId}`);
       setCollection(data.collection);
       setItems(data.items);
       setName(data.collection.name);
@@ -129,7 +131,7 @@ export default function CollectionDetailPage({
     setSavingInfo(true);
     setError("");
     try {
-      await fetchJson(`/api/collections/${collectionId}`, {
+      await fetchJson(`/api/v1/admin/collections/${collectionId}`, {
         method: "PUT",
         body: JSON.stringify({
           name: name.trim(),
@@ -164,7 +166,7 @@ export default function CollectionDetailPage({
     setCreating(true);
     setError("");
     try {
-      await fetchJson(`/api/collections/${collectionId}/items`, {
+      await fetchJson(`/api/v1/admin/collections/${collectionId}/items`, {
         method: "POST",
         body: JSON.stringify({ title: trimmedTitle, slug: trimmedSlug }),
       });
@@ -190,7 +192,7 @@ export default function CollectionDetailPage({
       setReordering(true);
       setError("");
       try {
-        await fetchJson(`/api/collections/${collectionId}/reorder`, {
+        await fetchJson(`/api/v1/admin/collections/${collectionId}/reorder`, {
           method: "POST",
           body: JSON.stringify({
             orderedIds: renumbered.map((item) => item.id),
@@ -240,15 +242,20 @@ export default function CollectionDetailPage({
   async function handleSetStatus(item: CollectionItem, status: ItemStatus) {
     setError("");
     try {
-      await fetchJson(`/api/collection-items/${item.id}/status`, {
-        method: "POST",
-        body: JSON.stringify({ status }),
-      });
-      setItems((current) =>
-        current.map((entry) =>
-          entry.id === item.id ? { ...entry, status } : entry
-        )
+      await fetchJson(
+        `/api/v1/admin/collection-items/${String(item.id)}/status`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            status,
+            ...(item.version !== undefined
+              ? { expectedVersion: item.version }
+              : {}),
+          }),
+        }
       );
+      // 重新加载以拿到最新 version（postgres 模式状态流转会使 version 递增）
+      await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
@@ -258,7 +265,7 @@ export default function CollectionDetailPage({
     if (!window.confirm(`确认删除文档「${item.title}」？`)) return;
     setError("");
     try {
-      await fetchJson(`/api/collection-items/${item.id}`, {
+      await fetchJson(`/api/v1/admin/collection-items/${String(item.id)}`, {
         method: "DELETE",
       });
       await load();
@@ -430,7 +437,7 @@ export default function CollectionDetailPage({
           <ul className="divide-y divide-slate-100">
             {items.map((item, index) => (
               <li
-                key={item.id}
+                key={String(item.id)}
                 draggable
                 onDragStart={() => handleDragStart(index)}
                 onDragOver={handleDragOver}
@@ -448,7 +455,7 @@ export default function CollectionDetailPage({
                   {String(item.sortOrder).padStart(2, "0")}
                 </span>
                 <Link
-                  href={`/collections/${collectionId}/items/${item.id}`}
+                  href={`/collections/${collectionId}/items/${String(item.id)}`}
                   className="min-w-0 flex-1 truncate font-medium text-emerald-700 hover:underline"
                 >
                   {item.title}

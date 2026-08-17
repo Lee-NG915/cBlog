@@ -59,10 +59,17 @@ function ChangeList({ changes }: { changes: FileChange[] }) {
   );
 }
 
+/** Git 发布链路在当前部署模式下被停用（后端返回 409）时的 message 识别 */
+function isPublishDisabled(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err);
+  return message.includes("已停用");
+}
+
 export default function PublishPage() {
   const [status, setStatus] = useState<PublishStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gitDisabled, setGitDisabled] = useState(false);
   const [message, setMessage] = useState("");
   const [publishing, setPublishing] = useState(false);
   const [success, setSuccess] = useState<PublishResult | null>(null);
@@ -71,15 +78,23 @@ export default function PublishPage() {
   const loadStatus = useCallback(async (resetMessage = false) => {
     setLoading(true);
     setError(null);
+    setGitDisabled(false);
     try {
-      const data = await fetchJson<PublishStatus>("/api/publish/status");
+      const data = await fetchJson<PublishStatus>(
+        "/api/v1/admin/publish/status"
+      );
       setStatus(data);
       if (resetMessage || !messageDirtyRef.current) {
         setMessage(data.suggestedMessage);
         messageDirtyRef.current = false;
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (isPublishDisabled(err)) {
+        setGitDisabled(true);
+        setStatus(null);
+      } else {
+        setError(err instanceof Error ? err.message : String(err));
+      }
     } finally {
       setLoading(false);
     }
@@ -101,7 +116,7 @@ export default function PublishPage() {
     setError(null);
     setSuccess(null);
     try {
-      const result = await fetchJson<PublishResult>("/api/publish", {
+      const result = await fetchJson<PublishResult>("/api/v1/admin/publish", {
         method: "POST",
         body: JSON.stringify({ message }),
       });
@@ -124,6 +139,18 @@ export default function PublishPage() {
           自动构建部署。
         </p>
       </div>
+
+      {gitDisabled && (
+        <div className="card border-slate-200 bg-slate-50">
+          <p className="text-sm font-semibold text-slate-800">
+            Git 发布已停用
+          </p>
+          <p className="mt-1 text-sm text-slate-600">
+            当前部署模式下 Git 发布已停用；v2 发布链路（Outbox）将在 Phase 6
+            接入。
+          </p>
+        </div>
+      )}
 
       {error && (
         <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { fetchJson } from "@/lib/api";
 
 interface CategoryOption {
-  id: number;
+  id: number | string;
   slug: string;
   name: string;
   description: string;
@@ -25,7 +25,7 @@ export default function NewPostPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchJson<{ categories: CategoryOption[] }>("/api/categories")
+    fetchJson<{ categories: CategoryOption[] }>("/api/v1/admin/categories")
       .then((data) => {
         // uncategorized 为系统兜底分类，新建时不可选
         const options = data.categories.filter(
@@ -59,15 +59,18 @@ export default function NewPostPage() {
     setSubmitting(true);
     setError("");
     try {
-      const { id } = await fetchJson<{ id: number }>("/api/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          title: trimmedTitle,
-          slug: trimmedSlug,
-          categorySlug,
-        }),
-      });
-      router.push(`/posts/${id}`);
+      const { id } = await fetchJson<{ id: number | string }>(
+        "/api/v1/admin/posts",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            title: trimmedTitle,
+            slug: trimmedSlug,
+            categorySlug,
+          }),
+        }
+      );
+      router.push(`/posts/${String(id)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "创建失败");
       setSubmitting(false);

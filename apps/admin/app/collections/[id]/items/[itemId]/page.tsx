@@ -9,16 +9,27 @@ import { useUnsavedChangesGuard } from "@/lib/use-unsaved-changes-guard";
 
 type ItemStatus = "draft" | "published" | "archived";
 
+/**
+ * 详情响应：id 可能是数字或 uuid 字符串；pg 模式没有 filePath；
+ * version 用于乐观并发控制（pg 模式提供）。
+ */
 interface CollectionItemDetail {
-  id: number;
-  collectionId: number;
+  id: number | string;
+  collectionId: number | string;
   slug: string;
   title: string;
   excerpt: string;
   status: ItemStatus;
   sortOrder: number;
-  filePath: string;
+  filePath?: string;
   content: string;
+  version?: number;
+}
+
+/** fetchJson 只暴露 message：按 message 识别乐观锁冲突（409） */
+function isVersionConflict(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err);
+  return message.includes("版本") || message.includes("VERSION_CONFLICT");
 }
 
 const STATUS_LABEL: Record<ItemStatus, string> = {
@@ -58,41 +69,49 @@ export default function CollectionItemEditPage({
   const { id: collectionId, itemId } = params;
 
   const [item, setItem] = useState<CollectionItemDetail | null>(null);
+  const [assetUrlMap, setAssetUrlMap] = useState<
+    Record<string, string> | undefined
+  >(undefined);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [dirty, setDirty] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [conflict, setConflict] = useState(false);
   const [savedTip, setSavedTip] = useState(false);
   const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useUnsavedChangesGuard(dirty);
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
+  const loadItem = useCallback(
+    async (options?: { silent?: boolean }) => {
+      if (!options?.silent) setLoading(true);
+      setError("");
+      setConflict(false);
       try {
-        const data = await fetchJson<{ item: CollectionItemDetail }>(
-          `/api/collection-items/${itemId}`
-        );
-        if (cancelled) return;
+        const data = await fetchJson<{
+          item: CollectionItemDetail;
+          assetUrlMap?: Record<string, string>;
+        }>(`/api/v1/admin/collection-items/${itemId}`);
         setItem(data.item);
+        setAssetUrlMap(data.assetUrlMap);
         setTitle(data.item.title);
         setContent(data.item.content);
         setDirty(false);
       } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : String(err));
-        }
+        setItem(null);
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
-        if (!cancelled) setLoading(false);
+        setLoading(false);
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [itemId]);
+    },
+    [itemId]
+  );
+
+  useEffect(() => {
+    void loadItem();
+  }, [loadItem]);
 
   useEffect(() => {
     return () => {
@@ -108,21 +127,34 @@ export default function CollectionItemEditPage({
     }
     setSaving(true);
     setError("");
+    setConflict(false);
     try {
-      await fetchJson(`/api/collection-items/${item.id}`, {
+      await fetchJson(`/api/v1/admin/collection-items/${String(item.id)}`, {
         method: "PUT",
-        body: JSON.stringify({ title: title.trim(), content }),
+        body: JSON.stringify({
+          title: title.trim(),
+          content,
+          ...(item.version !== undefined
+            ? { expectedVersion: item.version }
+            : {}),
+        }),
       });
       setDirty(false);
       setSavedTip(true);
       if (savedTimerRef.current) clearTimeout(savedTimerRef.current);
       savedTimerRef.current = setTimeout(() => setSavedTip(false), 2000);
+      // 重新 GET 拿最新 version（避免下次保存被乐观锁拒绝）
+      await loadItem({ silent: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (isVersionConflict(err)) {
+        setConflict(true);
+      } else {
+        setError(err instanceof Error ? err.message : String(err));
+      }
     } finally {
       setSaving(false);
     }
-  }, [item, saving, title, content]);
+  }, [item, saving, title, content, loadItem]);
 
   // Cmd/Ctrl+S 保存
   useEffect(() => {
@@ -138,15 +170,37 @@ export default function CollectionItemEditPage({
 
   async function handleSetStatus(status: ItemStatus) {
     if (!item) return;
+    if (
+      dirty &&
+      !window.confirm(
+        "当前有未保存的修改，切换状态将重新加载并丢失修改，是否继续？"
+      )
+    ) {
+      return;
+    }
     setError("");
+    setConflict(false);
     try {
-      await fetchJson(`/api/collection-items/${item.id}/status`, {
-        method: "POST",
-        body: JSON.stringify({ status }),
-      });
-      setItem({ ...item, status });
+      await fetchJson(
+        `/api/v1/admin/collection-items/${String(item.id)}/status`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            status,
+            ...(item.version !== undefined
+              ? { expectedVersion: item.version }
+              : {}),
+          }),
+        }
+      );
+      // 重新 GET 拿最新 version 与状态
+      await loadItem();
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (isVersionConflict(err)) {
+        setConflict(true);
+      } else {
+        setError(err instanceof Error ? err.message : String(err));
+      }
     }
   }
 
@@ -155,7 +209,7 @@ export default function CollectionItemEditPage({
     if (!window.confirm(`确认删除文档「${item.title}」？`)) return;
     setError("");
     try {
-      await fetchJson(`/api/collection-items/${item.id}`, {
+      await fetchJson(`/api/v1/admin/collection-items/${String(item.id)}`, {
         method: "DELETE",
       });
       setDirty(false);
@@ -238,6 +292,19 @@ export default function CollectionItemEditPage({
         ) : null}
       </div>
 
+      {conflict ? (
+        <div className="flex flex-wrap items-center gap-3 rounded-md border-2 border-amber-400 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+          <span>内容已在其他会话被修改，请刷新后重试</span>
+          <button
+            type="button"
+            className="btn shrink-0"
+            onClick={() => void loadItem()}
+          >
+            刷新
+          </button>
+        </div>
+      ) : null}
+
       {error ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
           {error}
@@ -251,6 +318,7 @@ export default function CollectionItemEditPage({
           setDirty(true);
         }}
         uploadFilePath={item.filePath}
+        assetUrlMap={assetUrlMap}
       />
     </div>
   );
