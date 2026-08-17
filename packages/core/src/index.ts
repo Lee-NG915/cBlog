@@ -19,6 +19,26 @@ export {
 export { getDb, createDb, defaultDbPath, type DbHandle } from "./db/client";
 export * as schema from "./db/schema";
 export { POST_STATUSES, type PostStatus } from "./db/schema";
+export {
+  CONTENT_STATUSES,
+  canTransitionContentStatus,
+  assertContentStatusTransition,
+  InvalidContentStatusTransitionError,
+  type ContentStatus,
+} from "./domain/status";
+export {
+  ContentNotFoundError,
+  VersionConflictError,
+} from "./domain/errors";
+export type { PostEntity, CollectionItemEntity } from "./domain/content";
+export type {
+  PostRepository,
+  CollectionItemRepository,
+  CreatePostRecordInput,
+  UpdatePostRecordInput,
+  CreateCollectionItemRecordInput,
+  UpdateCollectionItemRecordInput,
+} from "./repo/contracts";
 
 // 仓储（读）
 export {

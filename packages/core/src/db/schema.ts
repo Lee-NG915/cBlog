@@ -6,9 +6,12 @@ import {
   text,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import {
+  POST_STATUSES,
+  type PostStatus,
+} from "../domain/status";
 
-export const POST_STATUSES = ["draft", "published", "archived"] as const;
-export type PostStatus = (typeof POST_STATUSES)[number];
+export { POST_STATUSES, type PostStatus } from "../domain/status";
 
 export const categories = sqliteTable("categories", {
   id: integer("id").primaryKey({ autoIncrement: true }),
