@@ -64,6 +64,91 @@ export function deployCallbackSecret(): string | undefined {
   return readEnv("DEPLOY_CALLBACK_SECRET");
 }
 
+function readInt(name: string, defaultValue: number): number {
+  const value = readEnv(name);
+  if (value === undefined) return defaultValue;
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed <= 0) {
+    throw new Error(`环境变量 ${name} 只接受正整数，收到: ${value}`);
+  }
+  return parsed;
+}
+
+/** revalidation-webhook 驱动的投递目标（§4 Phase 5/6） */
+export function revalidationWebhookUrl(): string | undefined {
+  return readEnv("REVALIDATION_WEBHOOK_URL");
+}
+
+export function revalidationActiveKeyId(): string | undefined {
+  return readEnv("REVALIDATION_ACTIVE_KEY_ID");
+}
+
+export function revalidationActiveSecret(): string | undefined {
+  return readEnv("REVALIDATION_ACTIVE_SECRET");
+}
+
+/** webhook 投递成功后的 best-effort 预热基址（可选；不设则跳过预热） */
+export function publicWebBaseUrl(): string | undefined {
+  return readEnv("PUBLIC_WEB_BASE_URL")?.replace(/\/$/, "");
+}
+
+/** GitHub API 基址；测试环境指向 mock stub */
+export function githubApiBaseUrl(): string {
+  return (
+    readEnv("GITHUB_API_BASE_URL")?.replace(/\/$/, "") ??
+    "https://api.github.com"
+  );
+}
+
+export function githubRepository(): string | undefined {
+  return readEnv("GITHUB_REPOSITORY");
+}
+
+export function githubDispatchEvent(): string {
+  return readEnv("GITHUB_DISPATCH_EVENT") ?? "cblog-content-published";
+}
+
+export function githubDispatchToken(): string | undefined {
+  return readEnv("GITHUB_DISPATCH_TOKEN");
+}
+
+export function genericBuildHookUrl(): string | undefined {
+  return readEnv("GENERIC_BUILD_HOOK_URL");
+}
+
+export function genericBuildHookBearerToken(): string | undefined {
+  return readEnv("GENERIC_BUILD_HOOK_BEARER_TOKEN");
+}
+
+/** 静态驱动 debounce 窗口（秒）：从最老 pending 起等待后一次 claim */
+export function outboxBatchWindowSeconds(): number {
+  return readInt("OUTBOX_BATCH_WINDOW_SECONDS", 120);
+}
+
+/** 事件投递最大尝试次数，耗尽置 failed（REL-002） */
+export function outboxMaxAttempts(): number {
+  return readInt("OUTBOX_MAX_ATTEMPTS", 8);
+}
+
+export function outboxPollIntervalMs(): number {
+  return readInt("OUTBOX_POLL_INTERVAL_MS", 5000);
+}
+
+/** delivering 租约时长（秒）：超时未完成的认领被回收回 pending，attempt 不增 */
+export function outboxClaimTimeoutSeconds(): number {
+  return readInt("OUTBOX_CLAIM_TIMEOUT_SECONDS", 60);
+}
+
+/** 下游 webhook/dispatch/build-hook 单请求超时；必须短于 claim timeout */
+export function outboxRequestTimeoutMs(): number {
+  return readInt("OUTBOX_REQUEST_TIMEOUT_MS", 15_000);
+}
+
+/** 静态部署巡检超时（秒）：running 超时置 timed_out，关联事件回 pending */
+export function outboxDeployTimeoutSeconds(): number {
+  return readInt("OUTBOX_DEPLOY_TIMEOUT_SECONDS", 1800);
+}
+
 export function requireDatabaseUrl(): string {
   const url = readEnv("DATABASE_URL");
   if (!url) {

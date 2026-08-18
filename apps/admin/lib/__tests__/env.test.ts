@@ -4,8 +4,17 @@ import {
   assertAdminEnvConsistency,
   authTestModeEnabled,
   gitPublishEnabled,
+  githubApiBaseUrl,
+  githubDispatchEvent,
+  outboxBatchWindowSeconds,
+  outboxClaimTimeoutSeconds,
+  outboxDeployTimeoutSeconds,
+  outboxMaxAttempts,
+  outboxPollIntervalMs,
+  outboxRequestTimeoutMs,
   publicContentApiEnabled,
   publicationDriver,
+  publicWebBaseUrl,
 } from "../env";
 
 afterEach(() => {
@@ -80,5 +89,51 @@ describe("Phase 3 feature flags（§4/§6 契约）", () => {
     vi.stubEnv("GITHUB_REPOSITORY", "owner/repo");
     vi.stubEnv("GITHUB_DISPATCH_TOKEN", "tok");
     expect(() => assertAdminEnvConsistency()).not.toThrow();
+  });
+});
+
+describe("Phase 6 outbox env（§4 Phase 6 契约）", () => {
+  it("outbox 参数默认值", () => {
+    for (const name of [
+      "OUTBOX_BATCH_WINDOW_SECONDS",
+      "OUTBOX_MAX_ATTEMPTS",
+      "OUTBOX_POLL_INTERVAL_MS",
+      "OUTBOX_CLAIM_TIMEOUT_SECONDS",
+      "OUTBOX_REQUEST_TIMEOUT_MS",
+      "OUTBOX_DEPLOY_TIMEOUT_SECONDS",
+    ]) {
+      vi.stubEnv(name, "");
+    }
+    expect(outboxBatchWindowSeconds()).toBe(120);
+    expect(outboxMaxAttempts()).toBe(8);
+    expect(outboxPollIntervalMs()).toBe(5000);
+    expect(outboxClaimTimeoutSeconds()).toBe(60);
+    expect(outboxRequestTimeoutMs()).toBe(15000);
+    expect(outboxDeployTimeoutSeconds()).toBe(1800);
+  });
+
+  it("outbox 参数只接受正整数，非法值立即失败", () => {
+    vi.stubEnv("OUTBOX_MAX_ATTEMPTS", "abc");
+    expect(() => outboxMaxAttempts()).toThrow("OUTBOX_MAX_ATTEMPTS");
+    vi.stubEnv("OUTBOX_MAX_ATTEMPTS", "0");
+    expect(() => outboxMaxAttempts()).toThrow("OUTBOX_MAX_ATTEMPTS");
+    vi.stubEnv("OUTBOX_MAX_ATTEMPTS", "3");
+    expect(outboxMaxAttempts()).toBe(3);
+  });
+
+  it("GITHUB_API_BASE_URL 默认官方端点并可覆盖；dispatch event 默认值", () => {
+    vi.stubEnv("GITHUB_API_BASE_URL", "");
+    vi.stubEnv("GITHUB_DISPATCH_EVENT", "");
+    expect(githubApiBaseUrl()).toBe("https://api.github.com");
+    expect(githubDispatchEvent()).toBe("cblog-content-published");
+    vi.stubEnv("GITHUB_API_BASE_URL", "http://127.0.0.1:9999/");
+    expect(githubApiBaseUrl()).toBe("http://127.0.0.1:9999");
+  });
+
+  it("PUBLIC_WEB_BASE_URL 可选且去掉尾部斜杠", () => {
+    vi.stubEnv("PUBLIC_WEB_BASE_URL", "");
+    expect(publicWebBaseUrl()).toBeUndefined();
+    vi.stubEnv("PUBLIC_WEB_BASE_URL", "https://blog.example.com/");
+    expect(publicWebBaseUrl()).toBe("https://blog.example.com");
   });
 });

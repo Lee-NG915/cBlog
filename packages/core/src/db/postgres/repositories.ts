@@ -19,7 +19,15 @@ import { calculateNoteReadingTime } from "../../utils/notes";
 import { calculateReadingTime } from "../../utils/text";
 import type { PostgresDbHandle } from "./client";
 import {
+  buildPublicationPayload,
+  insertPublicationEvent,
+  operationForStatusChange,
+  type PostgresTx,
+} from "./publication-events";
+import {
+  categories,
   collectionItems,
+  collections,
   contentRevisions,
   posts,
   postTags,
@@ -111,6 +119,22 @@ export class PostgresPostRepository implements PostRepository {
         },
         createdAt,
       });
+
+      // 事件规则（§6.4）：直接以 published 创建即上架，写 publish 事件（contentVersion=1）；
+      // 以 draft/archived 创建不影响公开视图，不写
+      if (status === "published") {
+        await insertPublicationEvent(tx, {
+          entityType: "post",
+          entityId: created.id,
+          operation: "publish",
+          payload: buildPublicationPayload({
+            entityType: "post",
+            slug: input.slug,
+            categorySlug: await this.categorySlug(tx, input.categoryId),
+            contentVersion: 1,
+          }),
+        });
+      }
       return created.id;
     });
 
@@ -240,6 +264,26 @@ export class PostgresPostRepository implements PostRepository {
         },
         createdAt: updatedAt,
       });
+
+      // 事件规则（§6.4）：仅当更新前状态为 published 时写 update 事件；draft 的 save 不写
+      if (current.status === "published") {
+        const nextCategoryId = input.categoryId ?? current.categoryId;
+        const categoryMoved = nextCategoryId !== current.categoryId;
+        await insertPublicationEvent(tx, {
+          entityType: "post",
+          entityId: id,
+          operation: "update",
+          payload: buildPublicationPayload({
+            entityType: "post",
+            slug: current.slug,
+            categorySlug: await this.categorySlug(tx, nextCategoryId),
+            previousCategorySlug: categoryMoved
+              ? await this.categorySlug(tx, current.categoryId)
+              : undefined,
+            contentVersion: nextVersion,
+          }),
+        });
+      }
     });
     return this.requireById(id);
   }
@@ -301,8 +345,38 @@ export class PostgresPostRepository implements PostRepository {
         },
         createdAt: updatedAt,
       });
+
+      // 事件规则（§6.4）：draft→published/archived→published=publish；
+      // published→draft=unpublish；published→archived=archive；其余流转不写
+      const operation = operationForStatusChange(current.status, status);
+      if (operation) {
+        await insertPublicationEvent(tx, {
+          entityType: "post",
+          entityId: id,
+          operation,
+          payload: buildPublicationPayload({
+            entityType: "post",
+            slug: current.slug,
+            categorySlug: await this.categorySlug(tx, current.categoryId),
+            contentVersion: nextVersion,
+          }),
+        });
+      }
     });
     return this.requireById(id);
+  }
+
+  private async categorySlug(
+    tx: PostgresTx,
+    categoryId: string
+  ): Promise<string> {
+    const [row] = await tx
+      .select({ slug: categories.slug })
+      .from(categories)
+      .where(eq(categories.id, categoryId))
+      .limit(1);
+    if (!row) throw new ContentNotFoundError("category", categoryId);
+    return row.slug;
   }
 
   private async requireById(id: string): Promise<PostEntity> {
@@ -338,6 +412,8 @@ export class PostgresPostRepository implements PostRepository {
   ): Promise<void> {
     await tx.delete(postTags).where(eq(postTags.postId, postId));
 
+    // 标签同步不单独写 tag 事件（§6.4 决策）：post 事件的失效范围
+    // （post-index 等）已覆盖标签变更，再发 tag 事件只会重复失效。
     // Shared tag rows are locked in a deterministic order to avoid two post
     // updates deadlocking when the submitted tag order differs.
     const tagIds = new Map<string, string>();
@@ -429,6 +505,21 @@ export class PostgresCollectionItemRepository
         },
         createdAt,
       });
+
+      // 事件规则同 post create：直接以 published 创建写 publish 事件（contentVersion=1）
+      if ((input.status ?? "draft") === "published") {
+        await insertPublicationEvent(tx, {
+          entityType: "collection_item",
+          entityId: created.id,
+          operation: "publish",
+          payload: buildPublicationPayload({
+            entityType: "collection_item",
+            collectionSlug: await this.collectionSlug(tx, input.collectionId),
+            slug: input.slug,
+            contentVersion: 1,
+          }),
+        });
+      }
       return created.id;
     });
     return this.requireById(id);
@@ -534,6 +625,21 @@ export class PostgresCollectionItemRepository
         },
         createdAt: updatedAt,
       });
+
+      // 事件规则（§6.4）：仅当更新前状态为 published 时写 update 事件；draft 的 save 不写
+      if (current.status === "published") {
+        await insertPublicationEvent(tx, {
+          entityType: "collection_item",
+          entityId: id,
+          operation: "update",
+          payload: buildPublicationPayload({
+            entityType: "collection_item",
+            collectionSlug: await this.collectionSlug(tx, current.collectionId),
+            slug: current.slug,
+            contentVersion: nextVersion,
+          }),
+        });
+      }
     });
     return this.requireById(id);
   }
@@ -585,8 +691,37 @@ export class PostgresCollectionItemRepository
         },
         createdAt: updatedAt,
       });
+
+      // 事件规则同 post changeStatus：按 operationForStatusChange 映射，映射为 null 不写
+      const operation = operationForStatusChange(current.status, status);
+      if (operation) {
+        await insertPublicationEvent(tx, {
+          entityType: "collection_item",
+          entityId: id,
+          operation,
+          payload: buildPublicationPayload({
+            entityType: "collection_item",
+            collectionSlug: await this.collectionSlug(tx, current.collectionId),
+            slug: current.slug,
+            contentVersion: nextVersion,
+          }),
+        });
+      }
     });
     return this.requireById(id);
+  }
+
+  private async collectionSlug(
+    tx: PostgresTx,
+    collectionId: string
+  ): Promise<string> {
+    const [row] = await tx
+      .select({ slug: collections.slug })
+      .from(collections)
+      .where(eq(collections.id, collectionId))
+      .limit(1);
+    if (!row) throw new ContentNotFoundError("collection", collectionId);
+    return row.slug;
   }
 
   private async requireById(id: string): Promise<CollectionItemEntity> {

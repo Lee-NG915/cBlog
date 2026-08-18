@@ -2,6 +2,10 @@ import { asc, desc, eq, sql } from "drizzle-orm";
 import { assertValidCollectionSlug, assertValidSlug } from "../../paths";
 import type { PostgresDbHandle } from "./client";
 import {
+  buildPublicationPayload,
+  insertPublicationEvent,
+} from "./publication-events";
+import {
   assets,
   categories,
   collectionItems,
@@ -82,17 +86,31 @@ export class PostgresCategoryRepository {
       .from(categories)
       .where(sql`${categories.sortOrder} < ${UNCATEGORIZED_SORT_ORDER}`);
     const now = nowIso();
-    const [created] = await this.handle.db
-      .insert(categories)
-      .values({
-        slug,
-        name,
-        description: input.description?.trim() ?? "",
-        sortOrder: (max ?? -1) + 1,
-        createdAt: now,
-        updatedAt: now,
-      })
-      .returning({ id: categories.id });
+    // 事件规则（§6.4）：category create 写 update 事件，与业务插入同事务
+    const created = await this.handle.db.transaction(async (tx) => {
+      const [row] = await tx
+        .insert(categories)
+        .values({
+          slug,
+          name,
+          description: input.description?.trim() ?? "",
+          sortOrder: (max ?? -1) + 1,
+          createdAt: now,
+          updatedAt: now,
+        })
+        .returning({ id: categories.id, version: categories.version });
+      await insertPublicationEvent(tx, {
+        entityType: "category",
+        entityId: row.id,
+        operation: "update",
+        payload: buildPublicationPayload({
+          entityType: "category",
+          slug,
+          version: row.version,
+        }),
+      });
+      return row;
+    });
     return created.id;
   }
 
@@ -106,15 +124,29 @@ export class PostgresCategoryRepository {
       .where(eq(categories.id, id))
       .limit(1);
     if (!row) throw new Error("分类不存在");
-    await this.handle.db
-      .update(categories)
-      .set({
-        name: patch.name?.trim() || row.name,
-        description: patch.description ?? row.description,
-        sortOrder: patch.sortOrder ?? row.sortOrder,
-        updatedAt: nowIso(),
-      })
-      .where(eq(categories.id, id));
+    // 事件规则（§6.4）：category update 写 update 事件（version 用该实体的 version 列，
+    // 当前 update 不递增 version，payload 取既有值），与业务更新同事务
+    await this.handle.db.transaction(async (tx) => {
+      await tx
+        .update(categories)
+        .set({
+          name: patch.name?.trim() || row.name,
+          description: patch.description ?? row.description,
+          sortOrder: patch.sortOrder ?? row.sortOrder,
+          updatedAt: nowIso(),
+        })
+        .where(eq(categories.id, id));
+      await insertPublicationEvent(tx, {
+        entityType: "category",
+        entityId: row.id,
+        operation: "update",
+        payload: buildPublicationPayload({
+          entityType: "category",
+          slug: row.slug,
+          version: row.version,
+        }),
+      });
+    });
   }
 
   async remove(id: string): Promise<void> {
@@ -132,7 +164,20 @@ export class PostgresCategoryRepository {
       .from(posts)
       .where(eq(posts.categoryId, id));
     if (count > 0) throw new Error(`分类下还有 ${count} 篇文章，不可删除`);
-    await this.handle.db.delete(categories).where(eq(categories.id, id));
+    // 事件规则（§6.4）：category delete 写 delete 事件，与业务删除同事务
+    await this.handle.db.transaction(async (tx) => {
+      await tx.delete(categories).where(eq(categories.id, id));
+      await insertPublicationEvent(tx, {
+        entityType: "category",
+        entityId: row.id,
+        operation: "delete",
+        payload: buildPublicationPayload({
+          entityType: "category",
+          slug: row.slug,
+          version: row.version,
+        }),
+      });
+    });
   }
 }
 
@@ -204,20 +249,34 @@ export class PostgresCollectionRepository {
       .select({ max: sql<number | null>`max(${collections.sortOrder})` })
       .from(collections);
     const now = nowIso();
-    const [created] = await this.handle.db
-      .insert(collections)
-      .values({
-        slug,
-        name,
-        description: input.description?.trim() ?? "",
-        label: input.label?.trim() || "Collection",
-        badge: input.badge?.trim() || null,
-        noindex: input.noindex !== false,
-        sortOrder: (max ?? -1) + 1,
-        createdAt: now,
-        updatedAt: now,
-      })
-      .returning({ id: collections.id });
+    // 事件规则（§6.4）：collection create 写 update 事件，与业务插入同事务
+    const created = await this.handle.db.transaction(async (tx) => {
+      const [row] = await tx
+        .insert(collections)
+        .values({
+          slug,
+          name,
+          description: input.description?.trim() ?? "",
+          label: input.label?.trim() || "Collection",
+          badge: input.badge?.trim() || null,
+          noindex: input.noindex !== false,
+          sortOrder: (max ?? -1) + 1,
+          createdAt: now,
+          updatedAt: now,
+        })
+        .returning({ id: collections.id, version: collections.version });
+      await insertPublicationEvent(tx, {
+        entityType: "collection",
+        entityId: row.id,
+        operation: "update",
+        payload: buildPublicationPayload({
+          entityType: "collection",
+          slug,
+          version: row.version,
+        }),
+      });
+      return row;
+    });
     return created.id;
   }
 
@@ -238,19 +297,32 @@ export class PostgresCollectionRepository {
       .where(eq(collections.id, id))
       .limit(1);
     if (!row) throw new Error("专栏不存在");
-    await this.handle.db
-      .update(collections)
-      .set({
-        name: patch.name?.trim() || row.name,
-        description: patch.description ?? row.description,
-        label: patch.label?.trim() || row.label,
-        badge:
-          patch.badge === undefined ? row.badge : patch.badge?.trim() || null,
-        noindex: patch.noindex ?? row.noindex,
-        sortOrder: patch.sortOrder ?? row.sortOrder,
-        updatedAt: nowIso(),
-      })
-      .where(eq(collections.id, id));
+    // 事件规则（§6.4）：collection update 写 update 事件，与业务更新同事务
+    await this.handle.db.transaction(async (tx) => {
+      await tx
+        .update(collections)
+        .set({
+          name: patch.name?.trim() || row.name,
+          description: patch.description ?? row.description,
+          label: patch.label?.trim() || row.label,
+          badge:
+            patch.badge === undefined ? row.badge : patch.badge?.trim() || null,
+          noindex: patch.noindex ?? row.noindex,
+          sortOrder: patch.sortOrder ?? row.sortOrder,
+          updatedAt: nowIso(),
+        })
+        .where(eq(collections.id, id));
+      await insertPublicationEvent(tx, {
+        entityType: "collection",
+        entityId: row.id,
+        operation: "update",
+        payload: buildPublicationPayload({
+          entityType: "collection",
+          slug: row.slug,
+          version: row.version,
+        }),
+      });
+    });
   }
 
   async remove(id: string): Promise<void> {
@@ -265,12 +337,26 @@ export class PostgresCollectionRepository {
       .from(collectionItems)
       .where(eq(collectionItems.collectionId, id));
     if (count > 0) throw new Error(`专栏下还有 ${count} 个文档，不可删除`);
-    await this.handle.db.delete(collections).where(eq(collections.id, id));
+    // 事件规则（§6.4）：collection delete 写 delete 事件，与业务删除同事务
+    await this.handle.db.transaction(async (tx) => {
+      await tx.delete(collections).where(eq(collections.id, id));
+      await insertPublicationEvent(tx, {
+        entityType: "collection",
+        entityId: row.id,
+        operation: "delete",
+        payload: buildPublicationPayload({
+          entityType: "collection",
+          slug: row.slug,
+          version: row.version,
+        }),
+      });
+    });
   }
 
   /**
    * 拖拽排序：按传入顺序重排 sortOrder（1..n）。
    * 属元数据批量调整，不产生内容 revision；版本号递增以失效并发编辑。
+   * 改变公开视图文档顺序：同事务写 collection 的 update 事件（§6.4）。
    */
   async reorderItems(collectionId: string, orderedIds: string[]): Promise<void> {
     const rows = await this.handle.db
@@ -296,6 +382,22 @@ export class PostgresCollectionRepository {
           })
           .where(eq(collectionItems.id, id));
       }
+      const [collection] = await tx
+        .select({ slug: collections.slug, version: collections.version })
+        .from(collections)
+        .where(eq(collections.id, collectionId))
+        .limit(1);
+      if (!collection) throw new Error("专栏不存在");
+      await insertPublicationEvent(tx, {
+        entityType: "collection",
+        entityId: collectionId,
+        operation: "update",
+        payload: buildPublicationPayload({
+          entityType: "collection",
+          slug: collection.slug,
+          version: collection.version,
+        }),
+      });
     });
   }
 }
@@ -393,16 +495,43 @@ export class PostgresAdminContentStore {
     return all.find((row) => row.id === id) ?? null;
   }
 
-  /** 级联删除文章及其 revision/标签关联（staging 语义，Phase 6 将由 delete 事件接管） */
+  /** 级联删除文章及其 revision/标签关联；被删行状态为 published 时同事务写 delete 事件（§6.4） */
   async deletePostCascade(id: string): Promise<void> {
     await this.handle.db.transaction(async (tx) => {
+      const [post] = await tx
+        .select({
+          id: posts.id,
+          slug: posts.slug,
+          status: posts.status,
+          categoryId: posts.categoryId,
+          version: posts.version,
+        })
+        .from(posts)
+        .where(eq(posts.id, id))
+        .limit(1);
+      if (!post) throw new Error("文章不存在");
       await tx.delete(contentRevisions).where(eq(contentRevisions.postId, id));
       await tx.delete(postTags).where(eq(postTags.postId, id));
-      const deleted = await tx
-        .delete(posts)
-        .where(eq(posts.id, id))
-        .returning({ id: posts.id });
-      if (deleted.length === 0) throw new Error("文章不存在");
+      await tx.delete(posts).where(eq(posts.id, id));
+      if (post.status === "published") {
+        const [category] = await tx
+          .select({ slug: categories.slug })
+          .from(categories)
+          .where(eq(categories.id, post.categoryId))
+          .limit(1);
+        if (!category) throw new Error("文章分类不存在");
+        await insertPublicationEvent(tx, {
+          entityType: "post",
+          entityId: post.id,
+          operation: "delete",
+          payload: buildPublicationPayload({
+            entityType: "post",
+            slug: post.slug,
+            categorySlug: category.slug,
+            contentVersion: post.version,
+          }),
+        });
+      }
     });
   }
 
@@ -458,16 +587,44 @@ export class PostgresAdminContentStore {
     }));
   }
 
+  /** 级联删除专栏文档及其 revision；被删行状态为 published 时同事务写 delete 事件（§6.4） */
   async deleteItemCascade(id: string): Promise<void> {
     await this.handle.db.transaction(async (tx) => {
+      const [item] = await tx
+        .select({
+          id: collectionItems.id,
+          collectionId: collectionItems.collectionId,
+          slug: collectionItems.slug,
+          status: collectionItems.status,
+          version: collectionItems.version,
+        })
+        .from(collectionItems)
+        .where(eq(collectionItems.id, id))
+        .limit(1);
+      if (!item) throw new Error("专栏文档不存在");
       await tx
         .delete(contentRevisions)
         .where(eq(contentRevisions.collectionItemId, id));
-      const deleted = await tx
-        .delete(collectionItems)
-        .where(eq(collectionItems.id, id))
-        .returning({ id: collectionItems.id });
-      if (deleted.length === 0) throw new Error("专栏文档不存在");
+      await tx.delete(collectionItems).where(eq(collectionItems.id, id));
+      if (item.status === "published") {
+        const [collection] = await tx
+          .select({ slug: collections.slug })
+          .from(collections)
+          .where(eq(collections.id, item.collectionId))
+          .limit(1);
+        if (!collection) throw new Error("专栏不存在");
+        await insertPublicationEvent(tx, {
+          entityType: "collection_item",
+          entityId: item.id,
+          operation: "delete",
+          payload: buildPublicationPayload({
+            entityType: "collection_item",
+            collectionSlug: collection.slug,
+            slug: item.slug,
+            contentVersion: item.version,
+          }),
+        });
+      }
     });
   }
 

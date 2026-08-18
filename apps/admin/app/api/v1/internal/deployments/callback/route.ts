@@ -112,50 +112,102 @@ export async function POST(request: NextRequest) {
     }
 
     const sql = pgHandle().client;
-    const existing = await sql<
-      { id: string; status: string; finished_at: string | null }[]
-    >`select id, status, finished_at from publication_deployments where external_id = ${body.batchId} limit 1`;
-
-    if (existing.length > 0) {
-      const row = existing[0];
-      const sameReport =
-        row.status === body.status &&
-        row.finished_at !== null &&
-        Date.parse(row.finished_at) === new Date(body.reportedAt).getTime();
-      // 同批次重发：不重复插入（STATIC-006）；内容有变化时原位更新，完全重放则不写库
-      if (!sameReport) {
-        await sql`
-          update publication_deployments
-          set status = ${body.status},
-              finished_at = ${body.reportedAt},
-              last_error = ${body.detail ?? null},
-              updated_at = now()
-          where id = ${row.id}
-        `;
-      }
-      return { ok: true, idempotent: true };
-    }
-
-    try {
-      await sql`
-        insert into publication_deployments
-          (driver, status, external_id, target, finished_at, last_error)
-        values
-          (${driver}, ${body.status}, ${body.batchId},
-           ${process.env.GITHUB_REPOSITORY?.trim() || driver},
-           ${body.reportedAt}, ${body.detail ?? null})
+    // 幂等 upsert 与事件联动在同一事务内（STATIC-005/006）：
+    // 联动只迁移仍处于 awaiting_deploy 的关联事件，重复 callback 命中 0 行、零副作用
+    return await sql.begin(async (tx) => {
+      const existing = await tx<
+        { id: string; status: string; finished_at: string | null }[]
+      >`
+        select id, status, finished_at
+        from publication_deployments
+        where external_id = ${body.batchId}
+        limit 1
+        for update
       `;
-      return { ok: true, idempotent: false };
-    } catch (error) {
-      // 并发双写同 batchId：撞 external_id 唯一索引即收敛为幂等成功（STATIC-006）
-      if (
-        error instanceof Error &&
-        "code" in error &&
-        (error as { code?: string }).code === "23505"
-      ) {
-        return { ok: true, idempotent: true };
+
+      let deploymentId: string;
+      let idempotent: boolean;
+      let effectiveStatus: "succeeded" | "failed";
+      if (existing.length > 0) {
+        const row = existing[0];
+        const terminal =
+          (row.status === "succeeded" || row.status === "failed") &&
+          row.finished_at !== null;
+        // 同一部署采用 first-terminal-wins：重复、迟到或冲突 callback 都不能
+        // 让终态回退/翻转；部署平台如需重跑必须创建新的 batchId。
+        if (!terminal) {
+          await tx`
+            update publication_deployments
+            set status = ${body.status},
+                finished_at = ${body.reportedAt},
+                last_error = ${body.detail ?? null},
+                updated_at = now()
+            where id = ${row.id}
+          `;
+        }
+        deploymentId = row.id;
+        idempotent = true;
+        effectiveStatus = terminal
+          ? (row.status as "succeeded" | "failed")
+          : body.status;
+      } else {
+        // on conflict do nothing：并发双写同 batchId 撞 external_id 唯一索引时
+        // 事务保持有效，回读已存在的行收敛为幂等成功（STATIC-006）
+        const inserted = await tx<{ id: string }[]>`
+          insert into publication_deployments
+            (driver, status, external_id, target, finished_at, last_error)
+          values
+            (${driver}, ${body.status}, ${body.batchId},
+             ${process.env.GITHUB_REPOSITORY?.trim() || driver},
+             ${body.reportedAt}, ${body.detail ?? null})
+          on conflict (external_id) do nothing
+          returning id
+        `;
+        if (inserted.length > 0) {
+          deploymentId = inserted[0].id;
+          idempotent = false;
+          effectiveStatus = body.status;
+        } else {
+          const raced = await tx<{ id: string; status: string }[]>`
+            select id, status from publication_deployments where external_id = ${body.batchId} limit 1
+          `;
+          deploymentId = raced[0].id;
+          idempotent = true;
+          effectiveStatus = raced[0].status as "succeeded" | "failed";
+        }
       }
-      throw error;
-    }
+
+      // 事件联动：succeeded → 关联 awaiting_deploy 事件置 delivered 并回写 deployment_id；
+      // failed → 关联 awaiting_deploy 事件置 failed（last_error=detail）
+      const linked =
+        effectiveStatus === "succeeded"
+          ? await tx<{ id: string }[]>`
+              update publication_events
+              set status = 'delivered',
+                  delivered_at = ${body.reportedAt},
+                  deployment_id = ${deploymentId}
+              where status = 'awaiting_deploy'
+                and deployment_id = ${deploymentId}
+                and id in (
+                  select event_id from publication_deployment_events
+                  where deployment_id = ${deploymentId}
+                )
+              returning id
+            `
+          : await tx<{ id: string }[]>`
+              update publication_events
+              set status = 'failed',
+                  last_error = ${body.detail ?? null}
+              where status = 'awaiting_deploy'
+                and deployment_id = ${deploymentId}
+                and id in (
+                  select event_id from publication_deployment_events
+                  where deployment_id = ${deploymentId}
+                )
+              returning id
+            `;
+
+      return { ok: true, idempotent, linkedEvents: linked.length };
+    });
   });
 }
