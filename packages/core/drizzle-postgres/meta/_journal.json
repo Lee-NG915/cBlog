@@ -15,6 +15,13 @@
       "when": 1786949733965,
       "tag": "0001_rich_rockslide",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786962232305,
+      "tag": "0002_quick_psynapse",
+      "breakpoints": true
     }
   ]
 }

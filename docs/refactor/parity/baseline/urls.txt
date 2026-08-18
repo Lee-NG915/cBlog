@@ -33,6 +33,7 @@ posts/consumption-scene-segmentation/index.html
 posts/design-system-cdd-practice/index.html
 posts/ecommerce-architecture-redesign/index.html
 posts/ecommerce-migration-plan/index.html
+posts/ecommerce-timezone-management/index.html
 posts/edge-middleware-auth-design/index.html
 posts/engineering-practice-hub/index.html
 posts/growth-strategy-basics/index.html
@@ -42,6 +43,7 @@ posts/joyui-to-tailwind-migration-adr/index.html
 posts/nextjs-isr-redis-shared-cache/index.html
 posts/observability-platform-harness/index.html
 posts/payment-pipeline-architecture/index.html
+posts/pdp-product-selector-indexing/index.html
 posts/product-learning-4/index.html
 posts/tracking-events-book-contract/index.html
 posts/transaction-observability-tech-plan/index.html

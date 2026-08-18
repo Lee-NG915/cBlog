@@ -12,6 +12,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const isDev = process.argv.includes("--dev");
+
+// 部署态 v2 Phase 4：api 模式正文资产由 Content API 对象存储托管，
+// 本地 content/ 镜像与 WebP 管道均不适用，直接跳过（保持退出码 0）
+if (process.env.WEB_CONTENT_SOURCE === "api") {
+  console.log("WEB_CONTENT_SOURCE=api：跳过随文档资产同步");
+  process.exit(0);
+}
+
 const webRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(path.dirname(webRoot));
 const contentRoot = path.join(repoRoot, "content");

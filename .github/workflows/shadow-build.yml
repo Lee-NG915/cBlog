@@ -1,0 +1,144 @@
+name: Shadow Build (Content API)
+
+# Phase 4 影子构建：验证 WEB_CONTENT_SOURCE=api 的构建产物与 filesystem 数据源等价。
+# 不部署、不触碰生产 Pages 链路（deploy.yml）；失败保留日志与产物便于排查。
+# 数据源为 hermetic fixture server（scripts/fixture-content-api.mjs，
+# fixture 录制自 staging 真实公开 API，见 scripts/fixtures/content-api/）。
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "shadow-build"
+  cancel-in-progress: true
+
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set BASE_PATH
+        run: |
+          if [ "${{ github.event.repository.name }}" = "${{ github.repository_owner }}.github.io" ]; then
+            echo "BASE_PATH=" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_BASE_PATH=" >> $GITHUB_ENV
+          else
+            echo "BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+          fi
+
+      # 基线产物：filesystem 数据源（与生产 Pages 同一链路）
+      - name: Build (filesystem source)
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+          WEB_CONTENT_SOURCE: filesystem
+
+      - name: Snapshot (filesystem)
+        run: node scripts/parity-snapshot.mjs snapshot apps/web/out /tmp/parity-filesystem
+
+      # 影子产物：Content API 数据源（fixture server，干净检出无 fetch cache）
+      - name: Start fixture Content API
+        run: |
+          PORT=3201 node scripts/fixture-content-api.mjs 2> /tmp/fixture-requests.log &
+          echo $! > /tmp/fixture-server.pid
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:3201/api/v1/public/posts && break; sleep 1; done
+
+      - name: Build (api source, WEB-201)
+        run: pnpm --filter @cblog/web build
+        env:
+          NODE_ENV: production
+          WEB_CONTENT_SOURCE: api
+          CONTENT_API_BASE_URL: http://127.0.0.1:3201
+
+      - name: Snapshot (api)
+        run: node scripts/parity-snapshot.mjs snapshot apps/web/out /tmp/parity-api
+
+      - name: Parity compare (MIG-201/202)
+        run: node scripts/parity-snapshot.mjs compare /tmp/parity-filesystem /tmp/parity-api
+
+      # WEB-202：api 模式 bundle 不含 better-sqlite3，不读取 content/*.md
+      #（filesystem 模块图经 NormalModuleReplacementPlugin 替换为抛错 stub）
+      - name: Assert no sqlite/content reads in api build (WEB-202)
+        run: |
+          hits=$(grep -rl "better_sqlite3\|better-sqlite3\|readPostContent" apps/web/.next/server 2>/dev/null | wc -l | tr -d ' ')
+          if [ "$hits" != "0" ]; then
+            echo "WEB-202 FAIL: forbidden module references in .next/server"
+            grep -rl "better_sqlite3\|better-sqlite3\|readPostContent" apps/web/.next/server
+            exit 1
+          fi
+          echo "WEB-202 OK"
+
+      # WEB-205：构建期 memo——每个详情端点恰好请求一次
+      - name: Assert each detail endpoint fetched exactly once (WEB-205)
+        run: |
+          dup=$(grep -E "GET /api/v1/public/(posts|collections)/.+" /tmp/fixture-requests.log | sort | uniq -c | awk '$1>1' | wc -l | tr -d ' ')
+          if [ "$dup" != "0" ]; then
+            echo "WEB-205 FAIL: duplicate detail requests"
+            grep -E "GET /api/v1/public/(posts|collections)/.+" /tmp/fixture-requests.log | sort | uniq -c | awk '$1>1'
+            exit 1
+          fi
+          echo "WEB-205 OK"
+
+      # WEB-204：fixture 只含 published，产物路由/sitemap 不得出现 draft slug
+      #（slug 清单从 content/posts 动态派生，避免 draft→published 漂移后清单过期误红；
+      #  不做全文 grep——已发布正文存在指向 draft 的站内链接，会误报）
+      - name: Assert no draft slugs in output (WEB-204)
+        run: |
+          drafts=$(grep -rl '^status: *draft' content/posts --include='index.md' | sed 's|/index.md$||; s|.*/||')
+          leak=0
+          for slug in $drafts; do
+            if [ -d "apps/web/out/posts/$slug" ] || grep -qF "/posts/$slug/" apps/web/out/sitemap.xml; then
+              echo "WEB-204 FAIL: draft leaked: $slug"
+              leak=1
+            fi
+          done
+          [ "$leak" = "0" ] && echo "WEB-204 OK" || exit 1
+
+      # WEB-203：Content API 故障必须让构建非零退出
+      - name: Assert build fails when API is down (WEB-203)
+        run: |
+          kill "$(cat /tmp/fixture-server.pid)" || true
+          sleep 1
+          rm -rf apps/web/.next/cache/fetch-cache
+          if pnpm --filter @cblog/web build; then
+            echo "WEB-203 FAIL: build succeeded without Content API"
+            exit 1
+          fi
+          echo "WEB-203 OK: build failed as expected"
+        env:
+          NODE_ENV: production
+          WEB_CONTENT_SOURCE: api
+          CONTENT_API_BASE_URL: http://127.0.0.1:3201
+
+      - name: Upload shadow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shadow-build-out
+          path: |
+            apps/web/out
+            /tmp/fixture-requests.log
+          retention-days: 7

@@ -85,7 +85,8 @@ export class PostgresPostRepository implements PostRepository {
           publishedAt: status === "published" ? createdAt : null,
           version: 1,
           createdAt,
-          updatedAt: createdAt,
+          // 新建尚未有"最后修改"：updatedAt 置 NULL，首次保存时写入
+          updatedAt: null,
         })
         .returning({ id: posts.id });
 

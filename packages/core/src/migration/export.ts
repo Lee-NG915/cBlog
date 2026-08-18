@@ -160,7 +160,7 @@ export async function exportMarkdownBackup(
         title: post.title,
         slug: post.slug,
         date: post.editorialDate ?? "",
-        updatedAt: post.updatedAt,
+        updatedAt: post.updatedAt ?? undefined,
         category: category.slug,
         tags: tagsByPost.get(post.id) ?? [],
         excerpt: post.excerpt,

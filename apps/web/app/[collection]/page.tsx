@@ -5,7 +5,7 @@ import {
   getAllCollections,
   getCollection,
   getCollectionNotes,
-} from "@/lib/collections";
+} from "@/lib/content";
 import { decodePathSegment } from "@/lib/utils";
 
 interface CollectionPageProps {
@@ -25,7 +25,7 @@ function toRouteParam(slug: string): string {
 }
 
 export async function generateStaticParams() {
-  return getAllCollections().map((collection) => ({
+  return (await getAllCollections()).map((collection) => ({
     collection: toRouteParam(collection.slug),
   }));
 }
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: CollectionPageProps): Promise<Metadata> {
-  const collection = getCollection(decodePathSegment(params.collection));
+  const collection = await getCollection(decodePathSegment(params.collection));
 
   if (!collection) {
     return { title: "专栏不存在" };
@@ -47,14 +47,14 @@ export async function generateMetadata({
   };
 }
 
-export default function CollectionIndexPage({ params }: CollectionPageProps) {
-  const collection = getCollection(decodePathSegment(params.collection));
+export default async function CollectionIndexPage({ params }: CollectionPageProps) {
+  const collection = await getCollection(decodePathSegment(params.collection));
 
   if (!collection) {
     notFound();
   }
 
-  const notes = getCollectionNotes(collection.slug);
+  const notes = await getCollectionNotes(collection.slug);
 
   return (
     <div className="space-y-8">

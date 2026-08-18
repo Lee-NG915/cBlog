@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import PostCard from "@/components/PostCard";
-import type { PostSummary } from "@/lib/posts";
+import type { PostSummary } from "@/lib/content";
 
 const DEFAULT_PAGE_SIZE = 6;
 

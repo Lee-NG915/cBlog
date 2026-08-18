@@ -10,8 +10,8 @@ import {
   getCollection,
   getCollectionNote,
   getCollectionNotes,
-} from "@/lib/collections";
-import { getPostHeadings, markdownToHtml } from "@/lib/posts";
+} from "@/lib/content";
+import { getPostHeadings, markdownToHtml } from "@/lib/content";
 import { decodePathSegment } from "@/lib/utils";
 
 interface CollectionNotePageProps {
@@ -32,20 +32,24 @@ function toRouteParam(slug: string): string {
 }
 
 export async function generateStaticParams() {
-  return getAllCollections().flatMap((collection) =>
-    getCollectionNotes(collection.slug).map((note) => ({
-      collection: toRouteParam(collection.slug),
-      slug: toRouteParam(note.slug),
-    }))
+  const collections = await getAllCollections();
+  const paramSets = await Promise.all(
+    collections.map(async (collection) =>
+      (await getCollectionNotes(collection.slug)).map((note) => ({
+        collection: toRouteParam(collection.slug),
+        slug: toRouteParam(note.slug),
+      }))
+    )
   );
+  return paramSets.flat();
 }
 
 export async function generateMetadata({
   params,
 }: CollectionNotePageProps): Promise<Metadata> {
-  const collection = getCollection(decodePathSegment(params.collection));
+  const collection = await getCollection(decodePathSegment(params.collection));
   const note = collection
-    ? getCollectionNote(collection.slug, decodePathSegment(params.slug))
+    ? await getCollectionNote(collection.slug, decodePathSegment(params.slug))
     : null;
 
   if (!collection || !note) {
@@ -64,16 +68,16 @@ export async function generateMetadata({
 export default async function CollectionNotePage({
   params,
 }: CollectionNotePageProps) {
-  const collection = getCollection(decodePathSegment(params.collection));
+  const collection = await getCollection(decodePathSegment(params.collection));
   const note = collection
-    ? getCollectionNote(collection.slug, decodePathSegment(params.slug))
+    ? await getCollectionNote(collection.slug, decodePathSegment(params.slug))
     : null;
 
   if (!collection || !note) {
     notFound();
   }
 
-  const allNotes = getCollectionNotes(collection.slug);
+  const allNotes = await getCollectionNotes(collection.slug);
   const headings = getPostHeadings(note.content);
   const content = await markdownToHtml(
     note.content,

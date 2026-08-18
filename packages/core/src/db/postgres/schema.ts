@@ -132,7 +132,12 @@ export const posts = pgTable(
     }),
     version: integer("version").notNull().default(1),
     legacySourcePath: text("legacy_source_path"),
-    ...auditColumns,
+    createdAt: auditColumns.createdAt,
+    // 作者可感的最后修改时间，可空：迁移期无 frontmatter updatedAt 不虚构；保存时由写路径更新
+    updatedAt: timestamp("updated_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
   },
   (table) => ({
     slugUnique: uniqueIndex("posts_slug_unique").on(table.slug),

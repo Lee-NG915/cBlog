@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
-import { getAllCategories, getAllPosts, getPostStats } from "@/lib/posts";
+import { getAllCategories, getAllPosts, getPostStats } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CategoriesPage() {
-  const categories = getAllCategories();
-  const allPosts = getAllPosts();
-  const stats = getPostStats();
+export default async function CategoriesPage() {
+  const categories = await getAllCategories();
+  const allPosts = await getAllPosts();
+  const stats = await getPostStats();
   const activeCategories = categories.filter((category) => category.count > 0);
   const emptyCategories = categories.filter((category) => category.count === 0);
   const latestUpdate = allPosts

@@ -28,7 +28,8 @@ export interface MigrationPost {
   coverAssetId: string | null;
   coverExternalUrl: string | null;
   createdAt: string;
-  updatedAt: string;
+  /** 无 editorial updatedAt 的迁移内容为 NULL（不填导入时间） */
+  updatedAt: string | null;
 }
 
 export interface MigrationCollectionItem {

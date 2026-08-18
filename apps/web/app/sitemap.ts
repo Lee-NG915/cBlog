@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllCategories, getAllPosts } from "@/lib/posts";
+import { getAllCategories, getAllPosts } from "@/lib/content";
 import { getSiteUrl } from "@/lib/site";
 
 function toLastModified(date?: string): Date {
@@ -12,9 +12,9 @@ function toLastModified(date?: string): Date {
   return Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
+  const categories = await getAllCategories();
 
   return [
     {

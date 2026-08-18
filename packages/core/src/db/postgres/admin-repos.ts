@@ -311,7 +311,7 @@ export interface AdminPostRow {
   categoryName: string;
   tags: string[];
   editorialDate: string | null;
-  updatedAt: string;
+  updatedAt: string | null;
   coverAssetId: string | null;
   coverExternalUrl: string | null;
   version: number;

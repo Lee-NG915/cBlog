@@ -130,7 +130,9 @@ export function buildMigrationSnapshot(
       );
       const editorialDate = row.date ? timestamp(row.date) : null;
       const createdAt = timestamp(row.createdAt || editorialDate);
-      const updatedAt = timestamp(row.updatedAt || row.createdAt || editorialDate);
+      // updatedAt 是"作者可感的最后修改时间"：frontmatter 没有就置 NULL（不虚构导入时间），
+      // 审计轨迹由 content_revisions 承担；后续 PG 写路径在每次保存时写入当时时间
+      const updatedAt = row.updatedAt ? timestamp(row.updatedAt) : null;
       return {
         legacySourcePath: row.filePath,
         slug: row.slug,

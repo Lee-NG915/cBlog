@@ -2,7 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import DraftBadge from "@/components/DraftBadge";
-import type { PostSummary } from "@/lib/posts";
+import type { PostSummary } from "@/lib/content";
 import { getImagePath } from "@/lib/utils";
 
 interface PostCardProps {

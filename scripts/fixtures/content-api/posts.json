@@ -1,0 +1,362 @@
+{
+  "posts": [
+    {
+      "slug": "engineering-practice-hub",
+      "title": "工程实践札记索引：我在大型电商前端项目里的思考地图",
+      "excerpt": "把电商前端工程实践整理成可持续回看的索引：围绕架构边界、渲染缓存、设计系统、交易支付、可观测性、埋点和错误处理组织公开笔记。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Engineering",
+        "Architecture",
+        "Frontend",
+        "Index"
+      ],
+      "editorialDate": "2026-07-01 00:00:00+00",
+      "readingMinutes": 7,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "ecommerce-timezone-management",
+      "title": "多区域电商时区管理：UTC 存储 + 本地化展示的前端实践",
+      "excerpt": "复盘跨境电商时区策略：全链路 UTC 存储、前端 Luxon/Day.js 本地化展示、促销倒计时与夏令时边界，以及 B 端/C 端/服务端的分工。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Timezone",
+        "Next.js",
+        "E-commerce",
+        "i18n"
+      ],
+      "editorialDate": "2026-06-21 00:00:00+00",
+      "readingMinutes": 2,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "pdp-product-selector-indexing",
+      "title": "复杂 PDP 商品选择器：CMS 建模与服务端倒排索引",
+      "excerpt": "复盘家具电商复杂变体 PDP：Layout → Configuration → Attribute 三级联动，用 Headless CMS 建模 + 服务端预计算倒排索引实现 O(1) slug 查找与 SEO 友好。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "PDP",
+        "CMS",
+        "Next.js",
+        "Performance"
+      ],
+      "editorialDate": "2026-06-02 00:00:00+00",
+      "readingMinutes": 2,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "product-learning-4",
+      "title": "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长",
+      "excerpt": "了解前端类目和后端类目的概念以及他们之间的区别，掌握item以及如何利用item实现电商增长",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "商品管理",
+        "产品分析",
+        "场景细分"
+      ],
+      "editorialDate": "2026-05-19 09:11:00+00",
+      "readingMinutes": 7,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/42/428e6f8e40aa253098705c071485dd76eed0541a557a7e464f51098c39954173-product-learning-4.svg",
+      "contentVersion": 1
+    },
+    {
+      "slug": "analyse-date-board",
+      "title": "电商产品学习3——如何分析数据报表",
+      "excerpt": "梳理如何根据报表分析出对应的商业逻辑，用户为什么消费，产品提供了什么，通过什么途径消费...",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "数据报表",
+        "产品分析",
+        "用户画像",
+        "场景细分"
+      ],
+      "editorialDate": "2026-05-09 09:21:00+00",
+      "readingMinutes": 4,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/1b/1bccd040d4c2f9e920348a7794ea89e216c952f2cc0b1f39a90e08748e0b490a-date-analyse-cover.png",
+      "contentVersion": 1
+    },
+    {
+      "slug": "consumption-scene-segmentation",
+      "title": "电商产品学习2——细分消费场景",
+      "excerpt": "根据现有用户数据，按照“消费者+商品+使用场景”的经营视角对消费人群进行划分，学习进行细分的思考过程",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "消费场景",
+        "产品分析",
+        "用户画像"
+      ],
+      "editorialDate": "2026-05-04 09:20:00+00",
+      "readingMinutes": 4,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/0d/0d99083d24b0901265bffc77c519597521a2d42b39385bec2a407031715e7b5f-consumption-scene-segmentation.svg",
+      "contentVersion": 1
+    },
+    {
+      "slug": "building-user-profile",
+      "title": "电商产品学习1——学会构建用户画像",
+      "excerpt": "了解用户画像，学习构建基础用户画像的方法，结合实际业务和数据进行实践",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "GA4",
+        "产品分析",
+        "增长策略",
+        "用户画像"
+      ],
+      "editorialDate": "2026-04-27 00:00:00+00",
+      "readingMinutes": 5,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/da/da38eeb96a22ffa8d9a9b5be467bd1543b2caf195b95baefb49b1132862c1921-building-user-profile.svg",
+      "contentVersion": 1
+    },
+    {
+      "slug": "payment-pipeline-architecture",
+      "title": "电商支付链路架构：策略模式 + Server Action 编排实践",
+      "excerpt": "复盘多支付商电商前端的支付模块重构：整洁架构五层拆分、策略模式隔离渠道差异、ActionSchema 指令驱动 UI，以及为什么支付页不能做成「万能组件」。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Payment",
+        "Architecture",
+        "Clean Architecture",
+        "Server Actions",
+        "Stripe"
+      ],
+      "editorialDate": "2026-04-24 00:00:00+00",
+      "readingMinutes": 7,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "asking-the-right-questions-2",
+      "title": "《学会提问》前五章阅读心得",
+      "excerpt": "记录自己目前对批判式思维的理解",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "reading",
+        "必读",
+        "人际沟通"
+      ],
+      "editorialDate": "2026-04-21 09:20:00+00",
+      "readingMinutes": 7,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/e5/e57f5aa9fd02ecd580fc1623cff67b63daff05ba85349c582543ebdf60800329-image.png",
+      "contentVersion": 1
+    },
+    {
+      "slug": "transaction-observability-tech-plan",
+      "title": "交易链路可观测性建设：从故障定位到实时预警",
+      "excerpt": "复盘电商 checkout/payment 链路的可观测性建设：15 阶段交易模型、traceId 全链路串联、Sentry 与 Grafana 分工、SLO 告警，以及 Redirect 支付的 callback 闭环。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Observability",
+        "SRE",
+        "Sentry",
+        "Grafana",
+        "Payment"
+      ],
+      "editorialDate": "2026-04-18 00:00:00+00",
+      "readingMinutes": 8,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "asking-the-right-questions-1",
+      "title": "《学会提问》读书笔记-1",
+      "excerpt": "阅读本文可以简单了解“批判性思维”的关键概念。",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "reading",
+        "必读",
+        "人际沟通"
+      ],
+      "editorialDate": "2026-04-17 00:00:00+00",
+      "readingMinutes": 3,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "ecommerce-migration-plan",
+      "title": "大型电商前端迁移：我如何拆风险、定节奏、控回滚",
+      "excerpt": "复盘七年 legacy 电商前端迁移的节奏设计：按业务风险分批切换、路由级灰度、回滚窗口与质量兜底，而不是写一份月计划表。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Migration",
+        "Refactoring",
+        "Planning",
+        "Next.js"
+      ],
+      "editorialDate": "2026-04-13 00:00:00+00",
+      "readingMinutes": 5,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "growth-strategy-basics",
+      "title": "增长策略基础",
+      "excerpt": "基于 GA4 业务数据拆解收入增长目标，把收入目标转化为关键行为、用户特征和产品动作假设。",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "GA4",
+        "产品分析",
+        "增长策略"
+      ],
+      "editorialDate": "2026-04-12 00:00:00+00",
+      "readingMinutes": 4,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/c8/c8ed9a807ddd60bd51ca12d8a52c1aad12073b5d54078a9b58e0614bd2965e10-growth-strategy-basics.svg",
+      "contentVersion": 1
+    },
+    {
+      "slug": "joyui-to-tailwind-migration-adr",
+      "title": "ADR：从 CSS-in-JS 迁移至 Tailwind CSS 的架构决策",
+      "excerpt": "记录从 MUI Joy UI 迁移至 Tailwind CSS 的架构决策：RSC 与 CSS-in-JS 的运行时冲突、方案对比、渐进式迁移策略，以及谁该在什么时候推动这类基础设施变更。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "ADR",
+        "Tailwind CSS",
+        "Design System",
+        "React Server Components",
+        "Performance"
+      ],
+      "editorialDate": "2026-04-08 00:00:00+00",
+      "readingMinutes": 7,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "observability-platform-harness",
+      "title": "前端可观测性平台：Sentry 分桶 + ESLint 规则 + Harness 八组件范式",
+      "excerpt": "复盘电商 Web 可观测性体系建设：三层监控分工、error_bucket 分桶路由、ESLint 静态门禁与 Harness 八组件范式，把「报错能找对人」做成工程能力。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Observability",
+        "Sentry",
+        "ESLint",
+        "Platform Engineering"
+      ],
+      "editorialDate": "2026-03-23 00:00:00+00",
+      "readingMinutes": 4,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "tracking-events-book-contract",
+      "title": "埋点事件契约（Events Book）：让产品语言和代码实现对齐",
+      "excerpt": "复盘电商前端埋点治理：用 Events Book 在 PM、研发、QA 之间建立事件契约，配合 component → listener → trigger 单向链路，解决「同一个事件名、三种理解」的协作问题。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Tracking",
+        "Analytics",
+        "Redux",
+        "Engineering"
+      ],
+      "editorialDate": "2025-11-10 00:00:00+00",
+      "readingMinutes": 8,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "http-error-handling-strategy",
+      "title": "电商前端 HTTP 错误处理：基础设施层与业务层怎么分工",
+      "excerpt": "复盘电商前端的 HTTP 错误分层策略：基础设施层统一处理 401/429/5xx 和重试，业务层处理表单校验和场景化反馈，避免「所有 catch 都 toast 一下」。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Error Handling",
+        "RTK Query",
+        "Frontend",
+        "API"
+      ],
+      "editorialDate": "2025-09-15 00:00:00+00",
+      "readingMinutes": 7,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "ecommerce-architecture-redesign",
+      "title": "企业级电商前端平台架构重构：从七年 legacy 到多端复用",
+      "excerpt": "复盘某跨境电商品牌前端核心系统的架构重构：七年 legacy 痛点诊断、Clean Architecture 模块治理、App Router 渲染边界、多市场特性分层，以及渐进式迁移策略。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Architecture",
+        "Refactoring",
+        "Next.js",
+        "Multi-platform",
+        "Feature Flag",
+        "ISR"
+      ],
+      "editorialDate": "2025-08-20 00:00:00+00",
+      "readingMinutes": 9,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "nextjs-isr-redis-shared-cache",
+      "title": "Next.js ISR + Redis 共享缓存：多实例部署下的页面加速方案",
+      "excerpt": "复盘跨境电商站点在多实例 Next.js 部署下的缓存架构：ISR 页面缓存、Redis 跨 Pod 共享、CMS Webhook 精准刷新，以及区域/环境隔离的设计取舍。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Next.js",
+        "ISR",
+        "Redis",
+        "Cache",
+        "Performance"
+      ],
+      "editorialDate": "2025-05-27 00:00:00+00",
+      "readingMinutes": 8,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "design-system-cdd-practice",
+      "title": "企业级电商组件库建设实践：从设计系统到工程化交付",
+      "excerpt": "复盘一次企业级电商组件库建设：围绕 Token 分层、Storybook 驱动的 CDD 流程、Chromatic 视觉回归、主题兼容与 RSC 场景下的构建发布，把设计系统从文档变成可验证、可发布、可复用的工程资产。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Design System",
+        "CDD",
+        "Storybook",
+        "Visual Regression"
+      ],
+      "editorialDate": "2025-05-07 00:00:00+00",
+      "readingMinutes": 15,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/89/8922c399151bc607fb9b39952cafa75b3f9cdc59c9bc802757e4addbdcc049e6-CDD-cover.png",
+      "contentVersion": 1
+    },
+    {
+      "slug": "edge-middleware-auth-design",
+      "title": "Next.js Edge Middleware 登录鉴权：从客户端守卫迁到服务端预判",
+      "excerpt": "复盘账号体系从 React Router 客户端守卫迁移到 App Router + Edge Middleware：cookie/token 刷新、Legacy 深链兼容与登录后回跳。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Next.js",
+        "Auth",
+        "Middleware",
+        "Security"
+      ],
+      "editorialDate": "2025-01-20 00:00:00+00",
+      "readingMinutes": 3,
+      "coverUrl": null,
+      "contentVersion": 1
+    }
+  ]
+}

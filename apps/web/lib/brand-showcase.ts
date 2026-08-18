@@ -1,4 +1,4 @@
-import type { Category, Post } from "@/lib/posts";
+import type { Category, Post } from "@/lib/content";
 
 /** 品牌页组件展示用静态样例数据 */
 export const showcasePost: Post = {

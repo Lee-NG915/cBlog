@@ -1,0 +1,22 @@
+{
+  "post": {
+    "slug": "analyse-date-board",
+    "title": "电商产品学习3——如何分析数据报表",
+    "excerpt": "梳理如何根据报表分析出对应的商业逻辑，用户为什么消费，产品提供了什么，通过什么途径消费...",
+    "categorySlug": "learning",
+    "categoryName": "学习记录",
+    "tags": [
+      "数据报表",
+      "产品分析",
+      "用户画像",
+      "场景细分"
+    ],
+    "editorialDate": "2026-05-09 09:21:00+00",
+    "readingMinutes": 4,
+    "coverUrl": "http://127.0.0.1:19000/cblog/assets/1b/1bccd040d4c2f9e920348a7794ea89e216c952f2cc0b1f39a90e08748e0b490a-date-analyse-cover.png",
+    "contentVersion": 1,
+    "contentMarkdown": "\n# 将需要解决的问题公式化\n\n对于我这个产品初学者，看到的相关的数据报表只是一些简单的数字，注册用户数量、订单数量、加购数量、checkout率、payment率等，我无法关联出对应的产品逻辑。\n\n学会从数据中分析出“消费场景”这个概念是很重要的，即用户为什么买？从哪里来？买的什么？\n\n固定记住一个公式\n\n```\n场景 = 谁在买 × 为什么现在买 × 买什么组合 × 走什么路径\n```\n\n我们只需要从数据报表中找出这四个问题的答案\n\n# 各个数据模块代表的真实含义\n\n在这张图里每个模块，其实都对应场景框架的一部分：\n\nUser Profile Summary\n作用：回答“谁在买”\n例子：26-35、Female、高收入、Office/Remote Worker\n注意：这只是人群特征，不是场景本身\n\nRegistered -> ATC -> Checkout -> Ordered\n作用：回答“走到哪一步卡住了”\n例子：加购多但 checkout 少，说明不是没兴趣，而是决策没过\n\nRegistered User First UTM\n作用：回答“为什么来”\n例子：facebook / cpc 更像灵感种草，affiliate 可能更接近比较决策\n\nLast 7 Days Browsed Category/Product\n作用：回答“他在解决什么家具问题”\n例子：Beds + Storage Bed 很可能不是单纯看床，而是卧室收纳/新家布置\n\nRegistered User Behaviour Description\n作用：回答“用户行为强度和价值”\n例子：Session Count、Product Views、Cart Items Value、Email Opened\n\n所以你分析时不要问：\n**这个图里有什么结论？**\n要问：\n**这个模块能帮我回答场景定义里的哪一个问题？**\n\n# 从报表数据梳理出“场景”\n\n用一个很死板但有效的 4 步法。\n\n## 1.先列 3 到 5 个“候选场景”\n\n不要从数据开始，先从业务和商品开始想。对家具电商，最容易成立的通常是：\n\n首次置家\n卧室升级\n客厅焕新\n小空间收纳\n居家办公\n待客/餐厅布置\n用报表去找“证据组合”\n\n## 2.一个场景至少要有 4 类证据\n\n不能只看一个维度：\n\n入口证据：UTM / 渠道\n兴趣证据：浏览类目 / 浏览商品\n行为证据：ATC / Checkout / Order\n人群证据：年龄 / 收入 / 职业 / 市场\n\n## 3.把“证据组合”写成一句人话\n\n比如不是写：\n`Female 26-35, Beds, Facebook CPC`\n\n而是写：\n`26-35 岁女性，从 Facebook 被种草进入，近期集中看床和储物床，可能处于新家卧室布置或小空间收纳升级场景。`\n\n## 4.再回头看这个场景值不值得经营\n\n判断标准就 3 个：\n\n- 人够不够多\n- 转化值够不够高\n- 问题够不够集中\n\n如果三者都不明显，这个场景先不要做。\n\n# 场景分析模版\n\n| 模块              | 你要问的问题     | 产出       |\n| ----------------- | ---------------- | ---------- |\n| UTM / 渠道        | 用户为什么来     | 入口动机   |\n| 浏览类目 / 商品   | 用户在看什么问题 | 需求主题   |\n| 漏斗              | 用户卡在哪一步   | 决策阶段   |\n| 画像              | 谁更像这类用户   | 人群轮廓   |\n| 订单/AOV/行为强度 | 值不值得重点做   | 商业优先级 |\n\n最后把它整理成一句完整场景定义：\n\n**某类人，在某种触发下，为了解决某个生活问题，会浏览某些商品，并在某一步发生明显犹豫。这就是场景框架。**\n",
+    "publishedAt": "2026-05-09 09:21:00+00",
+    "updatedAt": null
+  }
+}

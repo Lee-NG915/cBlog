@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PostCard from "@/components/PostCard";
 import BackButton from "@/components/BackButton";
-import { getPostsByCategory, getAllCategories } from "@/lib/posts";
+import { getPostsByCategory, getAllCategories } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/lib/site";
 
@@ -12,14 +12,14 @@ interface CategoryPageProps {
 }
 
 export async function generateStaticParams() {
-  const categories = getAllCategories();
+  const categories = await getAllCategories();
   return categories.map((category) => ({
     category: category.slug,
   }));
 }
 
-export function generateMetadata({ params }: CategoryPageProps): Metadata {
-  const allCategories = getAllCategories();
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const allCategories = await getAllCategories();
   const currentCategory = allCategories.find((c) => c.slug === params.category);
 
   if (!currentCategory) {
@@ -63,16 +63,16 @@ export function generateMetadata({ params }: CategoryPageProps): Metadata {
   };
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const category = params.category;
-  const allCategories = getAllCategories();
+  const allCategories = await getAllCategories();
   const currentCategory = allCategories.find((c) => c.slug === category);
 
   if (!currentCategory) {
     notFound();
   }
 
-  const posts = getPostsByCategory(currentCategory.slug);
+  const posts = await getPostsByCategory(currentCategory.slug);
 
   return (
     <div className="space-y-8">

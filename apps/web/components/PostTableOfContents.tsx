@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { PostHeading } from "@/lib/posts";
+import type { PostHeading } from "@/lib/content";
 
 interface PostTableOfContentsProps {
   headings: PostHeading[];

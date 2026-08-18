@@ -23,7 +23,8 @@ export interface PublicPostDetailDto extends PublicPostSummaryDto {
   /** asset:// 引用已解析为公开 URL 的 Markdown 正文 */
   contentMarkdown: string;
   publishedAt: string | null;
-  updatedAt: string;
+  /** 作者可感的最后修改时间；迁移期无 frontmatter updatedAt 的内容为 null（不虚构） */
+  updatedAt: string | null;
 }
 
 export interface PublicCategoryDto {
@@ -79,7 +80,7 @@ export interface PublicSitemapDto {
   posts: Array<{
     slug: string;
     editorialDate: string | null;
-    updatedAt: string;
+    updatedAt: string | null;
   }>;
   categories: Array<{ slug: string }>;
   collections: Array<{

@@ -263,7 +263,7 @@ export async function applyMigrationSnapshot(
           legacySourcePath: post.legacySourcePath,
           sourceContentHash: post.sourceContentHash,
         },
-        createdAt: post.updatedAt,
+        createdAt: post.updatedAt ?? post.createdAt,
       });
     }
 

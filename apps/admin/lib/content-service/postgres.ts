@@ -52,7 +52,7 @@ export class PostgresContentService implements ContentService {
       slug: row.slug,
       title: row.title,
       date: row.editorialDate ?? "",
-      updatedAt: row.updatedAt,
+      updatedAt: row.updatedAt ?? undefined,
       categorySlug: row.categorySlug,
       category: row.categoryName,
       tags: row.tags,

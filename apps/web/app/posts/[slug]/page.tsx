@@ -6,7 +6,7 @@ import KnowledgeGraphExplorer from "@/components/KnowledgeGraphExplorerLazy";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
 import PostReadingProgress from "@/components/PostReadingProgress";
 import PostTableOfContents from "@/components/PostTableOfContents";
-import { isDraftPreviewEnabled } from "@/lib/posts";
+import { isDraftPreviewEnabled } from "@/lib/content";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale/zh-CN";
 import {
@@ -17,7 +17,7 @@ import {
   getAllPostSlugs,
   getPostHeadings,
   markdownToHtml,
-} from "@/lib/posts";
+} from "@/lib/content";
 import { notFound } from "next/navigation";
 import { decodePathSegment } from "@/lib/utils";
 import { getSeoImageUrl, getSiteUrl, siteConfig } from "@/lib/site";
@@ -29,7 +29,7 @@ interface PostPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
+  const slugs = await getAllPostSlugs();
   return slugs.map((slug) => ({
     slug: encodeURIComponent(slug),
   }));
@@ -39,7 +39,7 @@ export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
   const slug = decodePathSegment(params.slug);
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -91,7 +91,7 @@ export async function generateMetadata({
 
 export default async function PostPage({ params }: PostPageProps) {
   const slug = decodePathSegment(params.slug);
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -105,8 +105,8 @@ export default async function PostPage({ params }: PostPageProps) {
   );
   const hasMermaidDiagrams = content.includes("mermaid-diagram");
   const showKnowledgeGraph = post.slug === "ecommerce-knowledge-map";
-  const categories = getAllCategories();
-  const allPosts = getAllPosts();
+  const categories = await getAllCategories();
+  const allPosts = await getAllPosts();
   const sidebarCategories = categories.map((category) => ({
     ...category,
     posts: allPosts

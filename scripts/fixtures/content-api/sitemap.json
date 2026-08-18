@@ -1,0 +1,274 @@
+{
+  "sitemap": {
+    "posts": [
+      {
+        "slug": "engineering-practice-hub",
+        "editorialDate": "2026-07-01 00:00:00+00",
+        "updatedAt": "2026-07-02 00:00:00+00"
+      },
+      {
+        "slug": "ecommerce-timezone-management",
+        "editorialDate": "2026-06-21 00:00:00+00",
+        "updatedAt": "2026-06-24 00:00:00+00"
+      },
+      {
+        "slug": "pdp-product-selector-indexing",
+        "editorialDate": "2026-06-02 00:00:00+00",
+        "updatedAt": "2026-06-24 00:00:00+00"
+      },
+      {
+        "slug": "product-learning-4",
+        "editorialDate": "2026-05-19 09:11:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "analyse-date-board",
+        "editorialDate": "2026-05-09 09:21:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "consumption-scene-segmentation",
+        "editorialDate": "2026-05-04 09:20:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "building-user-profile",
+        "editorialDate": "2026-04-27 00:00:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "payment-pipeline-architecture",
+        "editorialDate": "2026-04-24 00:00:00+00",
+        "updatedAt": "2026-04-24 00:00:00+00"
+      },
+      {
+        "slug": "asking-the-right-questions-2",
+        "editorialDate": "2026-04-21 09:20:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "transaction-observability-tech-plan",
+        "editorialDate": "2026-04-18 00:00:00+00",
+        "updatedAt": "2026-04-23 00:00:00+00"
+      },
+      {
+        "slug": "asking-the-right-questions-1",
+        "editorialDate": "2026-04-17 00:00:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "ecommerce-migration-plan",
+        "editorialDate": "2026-04-13 00:00:00+00",
+        "updatedAt": "2026-05-27 00:00:00+00"
+      },
+      {
+        "slug": "growth-strategy-basics",
+        "editorialDate": "2026-04-12 00:00:00+00",
+        "updatedAt": null
+      },
+      {
+        "slug": "joyui-to-tailwind-migration-adr",
+        "editorialDate": "2026-04-08 00:00:00+00",
+        "updatedAt": "2026-04-18 00:00:00+00"
+      },
+      {
+        "slug": "observability-platform-harness",
+        "editorialDate": "2026-03-23 00:00:00+00",
+        "updatedAt": "2023-06-24 00:00:00+00"
+      },
+      {
+        "slug": "tracking-events-book-contract",
+        "editorialDate": "2025-11-10 00:00:00+00",
+        "updatedAt": "2025-11-15 00:00:00+00"
+      },
+      {
+        "slug": "http-error-handling-strategy",
+        "editorialDate": "2025-09-15 00:00:00+00",
+        "updatedAt": "2025-09-15 00:00:00+00"
+      },
+      {
+        "slug": "ecommerce-architecture-redesign",
+        "editorialDate": "2025-08-20 00:00:00+00",
+        "updatedAt": "2026-08-23 00:00:00+00"
+      },
+      {
+        "slug": "nextjs-isr-redis-shared-cache",
+        "editorialDate": "2025-05-27 00:00:00+00",
+        "updatedAt": "2025-06-10 00:00:00+00"
+      },
+      {
+        "slug": "design-system-cdd-practice",
+        "editorialDate": "2025-05-07 00:00:00+00",
+        "updatedAt": "2026-05-14 00:00:00+00"
+      },
+      {
+        "slug": "edge-middleware-auth-design",
+        "editorialDate": "2025-01-20 00:00:00+00",
+        "updatedAt": "2024-01-30 00:00:00+00"
+      }
+    ],
+    "categories": [
+      {
+        "slug": "technical"
+      },
+      {
+        "slug": "notes"
+      },
+      {
+        "slug": "learning"
+      },
+      {
+        "slug": "life"
+      },
+      {
+        "slug": "uncategorized"
+      }
+    ],
+    "collections": [
+      {
+        "slug": "rightCapital",
+        "noindex": true,
+        "items": [
+          {
+            "slug": "01"
+          },
+          {
+            "slug": "02"
+          },
+          {
+            "slug": "03"
+          },
+          {
+            "slug": "04"
+          },
+          {
+            "slug": "05"
+          },
+          {
+            "slug": "06"
+          },
+          {
+            "slug": "07"
+          },
+          {
+            "slug": "08"
+          },
+          {
+            "slug": "09"
+          },
+          {
+            "slug": "10"
+          },
+          {
+            "slug": "11"
+          },
+          {
+            "slug": "12"
+          },
+          {
+            "slug": "13"
+          },
+          {
+            "slug": "21"
+          },
+          {
+            "slug": "22"
+          },
+          {
+            "slug": "23"
+          },
+          {
+            "slug": "24"
+          },
+          {
+            "slug": "25"
+          },
+          {
+            "slug": "26"
+          },
+          {
+            "slug": "27"
+          },
+          {
+            "slug": "28"
+          },
+          {
+            "slug": "29"
+          },
+          {
+            "slug": "30"
+          },
+          {
+            "slug": "31"
+          },
+          {
+            "slug": "32"
+          },
+          {
+            "slug": "33"
+          },
+          {
+            "slug": "34"
+          },
+          {
+            "slug": "35"
+          }
+        ]
+      },
+      {
+        "slug": "addx-ai",
+        "noindex": true,
+        "items": [
+          {
+            "slug": "index"
+          },
+          {
+            "slug": "01"
+          },
+          {
+            "slug": "02"
+          },
+          {
+            "slug": "03"
+          },
+          {
+            "slug": "04"
+          },
+          {
+            "slug": "05"
+          },
+          {
+            "slug": "06"
+          },
+          {
+            "slug": "07"
+          },
+          {
+            "slug": "08"
+          },
+          {
+            "slug": "09"
+          },
+          {
+            "slug": "10"
+          },
+          {
+            "slug": "11"
+          },
+          {
+            "slug": "overview"
+          },
+          {
+            "slug": "company-research"
+          },
+          {
+            "slug": "ai编排测试-技术设计文档-claude"
+          },
+          {
+            "slug": "ai编排测试-技术设计文档-codex"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -17,7 +17,8 @@ export interface PostEntity {
   readingMinutes: number;
   version: number;
   createdAt: string;
-  updatedAt: string;
+  /** 作者可感的最后修改时间；无 frontmatter updatedAt 的迁移内容为 null */
+  updatedAt: string | null;
 }
 
 export interface CollectionItemEntity {

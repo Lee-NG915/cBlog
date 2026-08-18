@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Category, Post } from "@/lib/posts";
+import type { Category, Post } from "@/lib/content";
 
 interface ReadingPathCardProps {
   category: Category;

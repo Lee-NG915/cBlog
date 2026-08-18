@@ -1,14 +1,14 @@
 import Link from "next/link";
 import FeaturedPost from "@/components/FeaturedPost";
 import InfinitePostList from "@/components/InfinitePostList";
-import { getAllCategories, getAllPosts, getPostStats, toPostSummary } from "@/lib/posts";
+import { getAllCategories, getAllPosts, getPostStats, toPostSummary } from "@/lib/content";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 
-export default function Home() {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
+export default async function Home() {
+  const posts = await getAllPosts();
+  const categories = await getAllCategories();
   const activeCategories = categories.filter((category) => category.count > 0);
-  const stats = getPostStats();
+  const stats = await getPostStats();
   const featuredPost = posts[0];
   const listPosts = posts
     .slice(featuredPost ? 1 : 0)

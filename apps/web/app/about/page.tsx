@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllCategories, getPostStats } from "@/lib/posts";
+import { getAllCategories, getPostStats } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 const description =
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
-  const stats = getPostStats();
-  const categories = getAllCategories().filter(
+export default async function AboutPage() {
+  const stats = await getPostStats();
+  const categories = (await getAllCategories()).filter(
     (category) => category.count > 0,
   );
 
