@@ -1,8 +1,8 @@
 ---
 title: 从静态站到可切换部署：个人博客的架构与日常运维
 slug: personal-blog-platform-architecture
-date: "2026-08-18"
-updatedAt: "2026-08-18"
+date: '2026-08-18'
+updatedAt: '2026-08-18'
 category: technical
 tags:
   - Next.js
@@ -10,8 +10,10 @@ tags:
   - CMS
   - 架构
   - GitHub Pages
-status: draft
-excerpt: 复盘个人博客的 v1 工作流：管理端保存会双写 SQLite 与 frontmatter；本地手建 Markdown 不会自动入库，必须跑一次文件优先的导入。生产仍静态导出到 GitHub Pages，v2 已就绪但未切流。
+excerpt: >-
+  复盘个人博客的 v1 工作流：管理端保存会双写 SQLite 与 frontmatter；本地手建 Markdown
+  不会自动入库，必须跑一次文件优先的导入。生产仍静态导出到 GitHub Pages，v2 已就绪但未切流。
+status: published
 ---
 
 # 从静态站到可切换部署：个人博客的架构与日常运维
