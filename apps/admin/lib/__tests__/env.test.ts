@@ -4,6 +4,7 @@ import {
   assertAdminEnvConsistency,
   authTestModeEnabled,
   gitPublishEnabled,
+  localFilesystemAuthBypass,
   githubApiBaseUrl,
   githubDispatchEvent,
   outboxBatchWindowSeconds,
@@ -59,6 +60,20 @@ describe("Phase 3 feature flags（§4/§6 契约）", () => {
     expect(authTestModeEnabled()).toBe(true);
     vi.stubEnv("AUTH_TEST_MODE", "true");
     expect(authTestModeEnabled()).toBe(false);
+  });
+
+  it("仅 next dev + filesystem 绕过登录；生产或 postgres 必须鉴权", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("ADMIN_STORAGE", "");
+    expect(localFilesystemAuthBypass()).toBe(true);
+    vi.stubEnv("ADMIN_STORAGE", "filesystem");
+    expect(localFilesystemAuthBypass()).toBe(true);
+    vi.stubEnv("ADMIN_STORAGE", "postgres");
+    expect(localFilesystemAuthBypass()).toBe(false);
+    vi.unstubAllEnvs();
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("ADMIN_STORAGE", "filesystem");
+    expect(localFilesystemAuthBypass()).toBe(false);
   });
 
   it("PUBLICATION_DRIVER 默认 github-dispatch，非法取值立即失败", () => {

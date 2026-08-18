@@ -175,6 +175,20 @@ export function authTestModeEnabled(): boolean {
 }
 
 /**
+ * 本地 v1 写作路径：`next dev` + filesystem 不走 GitHub 登录。
+ * 安全模型仍是 loopback（`next dev -H 127.0.0.1`）。
+ * `next start` / 生产 / postgres 模式一律要鉴权，不允许静默绕过。
+ */
+export function localFilesystemAuthBypass(): boolean {
+  return (
+    process.env.NODE_ENV !== "production" && adminStorageMode() === "filesystem"
+  );
+}
+
+/** 本地 filesystem 绕过鉴权时的占位身份，供写守卫与会话栏使用 */
+export const LOCAL_DEV_ACTOR_ID = "local-dev";
+
+/**
  * 构建安全：next build 以 production 运行但不该持有运行时机密。
  * 生产缺失时返回 undefined，由 Auth.js 在处理请求时以 MissingSecret 拒绝服务（fail-closed）。
  */

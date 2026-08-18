@@ -10,7 +10,7 @@
 
 ```bash
 pnpm install
-pnpm dev:admin          # 管理端 http://127.0.0.1:3001（仅本机）
+pnpm dev:admin          # 管理端 http://127.0.0.1:3001（仅本机；filesystem 下无登录）
 pnpm dev:web            # 前台 http://localhost:3000（dev 可见草稿）
 ```
 

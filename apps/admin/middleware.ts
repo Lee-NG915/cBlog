@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { allowedGithubId } from "@/lib/env";
+import { allowedGithubId, localFilesystemAuthBypass } from "@/lib/env";
 
 /**
  * 全站鉴权边界（AUTH-001）：
@@ -14,6 +14,10 @@ import { allowedGithubId } from "@/lib/env";
  * API 返回 401 JSON；页面重定向 /login。
  */
 export default auth((request) => {
+  if (localFilesystemAuthBypass()) {
+    return NextResponse.next();
+  }
+
   const { pathname } = request.nextUrl;
 
   const isPublic =

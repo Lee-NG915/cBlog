@@ -66,7 +66,7 @@ pnpm dev:admin    # http://127.0.0.1:3001
 pnpm dev:web      # http://localhost:3000（含草稿标识）
 ```
 
-管理端只绑本机 loopback，不要改成局域网可访问。
+管理端只绑本机 loopback，不要改成局域网可访问。`pnpm dev:admin` 默认 filesystem，**不需要 GitHub 登录**；登录页只在部署管理端或 `ADMIN_STORAGE=postgres` 时出现。
 
 ### 写一篇新文章
 

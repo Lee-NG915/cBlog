@@ -1,7 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
-import { allowedGithubId, authSecret, authTestModeEnabled } from "@/lib/env";
+import {
+  allowedGithubId,
+  authSecret,
+  authTestModeEnabled,
+  LOCAL_DEV_ACTOR_ID,
+  localFilesystemAuthBypass,
+} from "@/lib/env";
 
 /**
  * Auth.js（next-auth v5）单用户鉴权（ADR-208）：
@@ -89,6 +95,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 /** 会话有效且 githubId 命中 allowlist 才视为已认证（双重校验，防 token 陈旧） */
 export async function requireAdminSession() {
+  if (localFilesystemAuthBypass()) {
+    return {
+      user: { name: "本地开发", githubId: LOCAL_DEV_ACTOR_ID },
+    };
+  }
   const session = await auth();
   const githubId = (session?.user as { githubId?: string } | undefined)
     ?.githubId;
