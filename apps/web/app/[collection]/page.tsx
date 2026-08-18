@@ -17,9 +17,12 @@ interface CollectionPageProps {
 /**
  * dev 下 Next 以百分号编码后的请求路径比对参数，须返回编码值（中文 slug 时必需）；
  * 生产构建须返回原始值——编码值会改变导出目录名，破坏与基线一致的 URL（MIG-002）。
+ * Phase 5：该 hack 的存在条件 = output:"export" + dev + 非 ASCII slug；
+ * runtime-isr 无此检查（无 export 目录名问题），dev 也返回原始值。
  */
 function toRouteParam(slug: string): string {
-  return process.env.NODE_ENV === "development"
+  return process.env.NODE_ENV === "development" &&
+    process.env.WEB_RENDER_MODE !== "runtime-isr"
     ? encodeURIComponent(slug)
     : slug;
 }

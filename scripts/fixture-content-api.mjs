@@ -23,7 +23,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURE_DIR = path.join(ROOT, "fixtures", "content-api");
+// FIXTURE_DIR 环境变量可指向可变的临时 fixture 副本（ISR 验证 harness 用）；
+// 默认使用仓库内已提交的只读 fixture
+const FIXTURE_DIR = process.env.FIXTURE_DIR
+  ? path.resolve(process.env.FIXTURE_DIR)
+  : path.join(ROOT, "fixtures", "content-api");
 const PREFIX = "/api/v1/public";
 
 function parsePort() {

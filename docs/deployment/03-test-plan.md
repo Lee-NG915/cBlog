@@ -228,7 +228,7 @@ pnpm test:security
 | Phase 2 | DATA-002～010、MIG-201～203 |
 | Phase 3 | API、AUTH、SEC 全部 P0（API-009 及 API-012 的领域事件写入属 Phase 6 Outbox 范围——02-implementation-plan §4 Phase 6 明确 publish/update/unpublish 事务才写 publication_events，随 Phase 6 验证） |
 | Phase 4 | WEB-201～205、MIG P0 |
-| Phase 5 | WEB-206、STATIC P0、ISR P0、SEO P0、PERF-201 |
+| Phase 5 | WEB-206、STATIC P0、ISR P0、SEO P0、PERF-201（STATIC-002/004/005/006 的 Outbox 自动触发 dispatch、事件合并批次与 deployment 状态机属 Phase 6 范围——02-implementation-plan §4 Phase 6，本章以接收端 + 脚本化触发验证链路，自动触发随 Phase 6 验证） |
 | Phase 6 | REL P0、OBS-001/002、E2E-202/203/205 |
 | Phase 7 | 全部 P0 + CUT-001/002/004 |
 

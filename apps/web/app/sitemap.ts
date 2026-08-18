@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { getAllCategories, getAllPosts } from "@/lib/content";
 import { getSiteUrl } from "@/lib/site";
 
+// Phase 5：runtime-isr 下 sitemap 有 TTL 兜底（配合 webhook revalidatePath 事件失效）；
+// static-export 构建下该配置被忽略，out/sitemap.xml 照常产出（已在 Phase 5 实证）。
+export const revalidate = 86400;
+
 function toLastModified(date?: string): Date {
   if (!date) {
     return new Date();

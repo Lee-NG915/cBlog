@@ -22,6 +22,6 @@
 | Phase 2 迁移与备份 | 已完成 | [phase-02](./phase-02.md) |
 | Phase 3 Admin/API/对象存储 | 已完成 | [phase-03](./phase-03.md) |
 | Phase 4 Web API 影子构建 | 已完成 | [phase-04](./phase-04.md) |
-| Phase 5 Web profiles/ISR | 待开始 | 待创建 |
+| Phase 5 Web profiles/ISR | 已完成 | [phase-05](./phase-05.md) |
 | Phase 6 Outbox 发布闭环 | 待开始 | 待创建 |
 | Phase 7 迁移、退役与交付 | 待开始 | 待创建 |

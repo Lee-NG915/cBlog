@@ -279,21 +279,31 @@ export const contentRevisions = pgTable(
   })
 );
 
-export const publicationDeployments = pgTable("publication_deployments", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  driver: deploymentDriverEnum("driver").notNull(),
-  status: deploymentStatusEnum("status").notNull().default("queued"),
-  externalId: text("external_id"),
-  target: text("target").notNull(),
-  attemptCount: integer("attempt_count").notNull().default(0),
-  startedAt: timestamp("started_at", { withTimezone: true, mode: "string" }),
-  finishedAt: timestamp("finished_at", {
-    withTimezone: true,
-    mode: "string",
-  }),
-  lastError: text("last_error"),
-  ...auditColumns,
-});
+export const publicationDeployments = pgTable(
+  "publication_deployments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    driver: deploymentDriverEnum("driver").notNull(),
+    status: deploymentStatusEnum("status").notNull().default("queued"),
+    // 驱动侧批次标识（GitHub run id / 平台任务 ID），部署 callback 的幂等键（STATIC-006）
+    externalId: text("external_id"),
+    target: text("target").notNull(),
+    attemptCount: integer("attempt_count").notNull().default(0),
+    startedAt: timestamp("started_at", { withTimezone: true, mode: "string" }),
+    finishedAt: timestamp("finished_at", {
+      withTimezone: true,
+      mode: "string",
+    }),
+    lastError: text("last_error"),
+    ...auditColumns,
+  },
+  (table) => ({
+    // Postgres 唯一索引允许多个 NULL：仅约束已回填批次的部署
+    externalIdUnique: uniqueIndex(
+      "publication_deployments_external_id_unique"
+    ).on(table.externalId),
+  })
+);
 
 export const publicationEvents = pgTable(
   "publication_events",

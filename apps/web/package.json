@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "preview": "python3 -m http.server 4173 -d out"
   },
@@ -35,6 +36,7 @@
     "postcss": "^8.4.32",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.8"
   }
 }

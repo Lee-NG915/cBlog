@@ -45,10 +45,28 @@ const READ_TOKEN = process.env.CONTENT_API_READ_TOKEN;
 /**
  * 构建期 memo：key = 完整 URL，缓存 Promise（含 rejected——构建随即失败，无需重试）。
  * generateMetadata 与 Page 渲染同一 slug 命中同一 Promise，同一端点一次构建只请求一次。
+ *
+ * Phase 5：仅 static-export（一次性构建进程）读写 memo。runtime-isr 是长驻进程，
+ * 模块级 memo 会短路 ISR——revalidateTag 后仍命中旧 Promise——必须绕过，
+ * 改由 Next Data Cache（fetch revalidate/tags）+ React 请求记忆化承担去重。
  */
 const requestMemo = new Map<string, Promise<unknown>>();
+const useRequestMemo = process.env.WEB_RENDER_MODE !== "runtime-isr";
 
-async function request<T>(url: string): Promise<T> {
+/**
+ * Phase 5：fetch 一律携带 revalidate/tags。static-export 构建期该配置被无害忽略
+ * （实测前提 2）；runtime-isr 下进入 Data Cache，供 revalidateTag 精确失效。
+ * CONTENT_API_REVALIDATE_TTL 可覆盖默认 86400（仅 ISR 验证 harness 用，缩短 TTL 等待）。
+ */
+const CACHE_REVALIDATE_SECONDS = (() => {
+  const override = Number.parseInt(
+    process.env.CONTENT_API_REVALIDATE_TTL ?? "",
+    10
+  );
+  return Number.isFinite(override) && override > 0 ? override : 86400;
+})();
+
+async function request<T>(url: string, tags: string[]): Promise<T> {
   const headers: Record<string, string> = {};
   if (READ_TOKEN) {
     headers.Authorization = `Bearer ${READ_TOKEN}`;
@@ -56,7 +74,10 @@ async function request<T>(url: string): Promise<T> {
   // 保持默认 force-cache：静态导出下 no-store 会把页面打成 dynamic 而无法导出。
   // Next Data Cache 跨构建复用响应——CI 干净检出无缓存；本地验证 WEB-203 前
   // 需先 rm -rf apps/web/.next/cache/fetch-cache（见 phase-04 日志）。
-  const response = await fetch(url, { headers });
+  const response = await fetch(url, {
+    headers,
+    next: { revalidate: CACHE_REVALIDATE_SECONDS, tags },
+  });
   if (!response.ok) {
     // WEB-203：非 2xx 直接 throw（带 URL + status），让 next build 非零退出
     throw new Error(
@@ -66,14 +87,18 @@ async function request<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-function fetchJson<T>(path: string): Promise<T> {
+function fetchJson<T>(path: string, tags: string[]): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
-  const cached = requestMemo.get(url);
-  if (cached) {
-    return cached as Promise<T>;
+  if (useRequestMemo) {
+    const cached = requestMemo.get(url);
+    if (cached) {
+      return cached as Promise<T>;
+    }
   }
-  const promise = request<T>(url);
-  requestMemo.set(url, promise);
+  const promise = request<T>(url, tags);
+  if (useRequestMemo) {
+    requestMemo.set(url, promise);
+  }
   return promise;
 }
 
@@ -81,18 +106,26 @@ function fetchJson<T>(path: string): Promise<T> {
  * 详情端点专用：404 映射为 null（getPostBySlug 等“不存在即 null”的语义；
  * API 侧 draft/archived/不存在统一 404，API-002）。其余非 2xx 仍然 throw。
  */
-async function fetchJsonOrNull<T>(path: string): Promise<T | null> {
+async function fetchJsonOrNull<T>(
+  path: string,
+  tags: string[]
+): Promise<T | null> {
   const url = `${API_BASE_URL}${path}`;
-  const cached = requestMemo.get(url);
-  if (cached) {
-    return cached as Promise<T | null>;
+  if (useRequestMemo) {
+    const cached = requestMemo.get(url);
+    if (cached) {
+      return cached as Promise<T | null>;
+    }
   }
   const promise = (async (): Promise<T | null> => {
     const headers: Record<string, string> = {};
     if (READ_TOKEN) {
       headers.Authorization = `Bearer ${READ_TOKEN}`;
     }
-    const response = await fetch(url, { headers });
+    const response = await fetch(url, {
+      headers,
+      next: { revalidate: CACHE_REVALIDATE_SECONDS, tags },
+    });
     if (response.status === 404) {
       return null;
     }
@@ -103,7 +136,9 @@ async function fetchJsonOrNull<T>(path: string): Promise<T | null> {
     }
     return (await response.json()) as T;
   })();
-  requestMemo.set(url, promise);
+  if (useRequestMemo) {
+    requestMemo.set(url, promise);
+  }
   return promise;
 }
 
@@ -245,8 +280,9 @@ interface SitemapResponse {
 
 async function listPosts(): Promise<Post[]> {
   const [{ posts }, { sitemap }] = await Promise.all([
-    fetchJson<PostsResponse>("/api/v1/public/posts"),
-    fetchJson<SitemapResponse>("/api/v1/public/sitemap"),
+    // Phase 5 tags：两个独立请求各自打标（join 关系不变）
+    fetchJson<PostsResponse>("/api/v1/public/posts", ["post-index"]),
+    fetchJson<SitemapResponse>("/api/v1/public/sitemap", ["sitemap"]),
   ]);
   // summary DTO 无 updatedAt：从 sitemap DTO 按 slug 补齐（同一份 memo 化响应），
   // 供排序键与"更新于"展示（sitemap lastModified、首页 JSON-LD、分类页 latestUpdate）；
@@ -270,7 +306,8 @@ export async function getAllPostSlugs(): Promise<string[]> {
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const data = await fetchJsonOrNull<PostResponse>(
-    `/api/v1/public/posts/${encodeURIComponent(slug)}`
+    `/api/v1/public/posts/${encodeURIComponent(slug)}`,
+    [`post:${slug}`]
   );
   return data ? detailToPost(data.post) : null;
 }
@@ -294,7 +331,8 @@ interface CategoriesResponse {
 
 async function listCategoryDtos(): Promise<PublicCategoryDto[]> {
   const { categories } = await fetchJson<CategoriesResponse>(
-    "/api/v1/public/categories"
+    "/api/v1/public/categories",
+    ["categories"]
   );
   return categories;
 }
@@ -387,14 +425,16 @@ async function fetchCollectionDetail(
   slug: string
 ): Promise<PublicCollectionDetailDto | null> {
   const data = await fetchJsonOrNull<CollectionResponse>(
-    `/api/v1/public/collections/${encodeURIComponent(slug)}`
+    `/api/v1/public/collections/${encodeURIComponent(slug)}`,
+    [`collection:${slug}`]
   );
   return data ? data.collection : null;
 }
 
 export async function getAllCollections(): Promise<CollectionMeta[]> {
   const { collections } = await fetchJson<CollectionsResponse>(
-    "/api/v1/public/collections"
+    "/api/v1/public/collections",
+    ["collections"]
   );
   return collections.map(summaryToCollection);
 }
@@ -424,7 +464,8 @@ export async function getCollectionNote(
   const data = await fetchJsonOrNull<CollectionItemResponse>(
     `/api/v1/public/collections/${encodeURIComponent(
       collectionSlug
-    )}/items/${encodeURIComponent(noteSlug)}`
+    )}/items/${encodeURIComponent(noteSlug)}`,
+    [`collection-item:${collectionSlug}:${noteSlug}`]
   );
   if (!data) {
     return null;

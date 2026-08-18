@@ -5,6 +5,7 @@ import {
   authTestModeEnabled,
   gitPublishEnabled,
   publicContentApiEnabled,
+  publicationDriver,
 } from "../env";
 
 afterEach(() => {
@@ -49,5 +50,35 @@ describe("Phase 3 feature flags（§4/§6 契约）", () => {
     expect(authTestModeEnabled()).toBe(true);
     vi.stubEnv("AUTH_TEST_MODE", "true");
     expect(authTestModeEnabled()).toBe(false);
+  });
+
+  it("PUBLICATION_DRIVER 默认 github-dispatch，非法取值立即失败", () => {
+    vi.stubEnv("PUBLICATION_DRIVER", "");
+    expect(publicationDriver()).toBe("github-dispatch");
+    vi.stubEnv("PUBLICATION_DRIVER", "revalidation-webhook");
+    expect(publicationDriver()).toBe("revalidation-webhook");
+    vi.stubEnv("PUBLICATION_DRIVER", "netlify");
+    expect(() => publicationDriver()).toThrow("PUBLICATION_DRIVER");
+  });
+
+  it("生产 postgres + github-dispatch 缺 dispatch 变量时失败；测试身份矩阵不强制", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("ADMIN_STORAGE", "postgres");
+    vi.stubEnv("DATABASE_URL", "postgresql://x:y@127.0.0.1:5432/z");
+    vi.stubEnv("ADMIN_ALLOWED_GITHUB_ID", "777001");
+    vi.stubEnv("AUTH_SECRET", "s3cret");
+    vi.stubEnv("PUBLICATION_DRIVER", "github-dispatch");
+    vi.stubEnv("GITHUB_REPOSITORY", "");
+    vi.stubEnv("GITHUB_DISPATCH_TOKEN", "");
+    expect(() => assertAdminEnvConsistency()).toThrow("GITHUB_REPOSITORY");
+
+    // AUTH_TEST_MODE=1 的 staging 契约矩阵不受生产强制约束（Phase 3 回归保护）
+    vi.stubEnv("AUTH_TEST_MODE", "1");
+    expect(() => assertAdminEnvConsistency()).not.toThrow();
+    vi.stubEnv("AUTH_TEST_MODE", "");
+
+    vi.stubEnv("GITHUB_REPOSITORY", "owner/repo");
+    vi.stubEnv("GITHUB_DISPATCH_TOKEN", "tok");
+    expect(() => assertAdminEnvConsistency()).not.toThrow();
   });
 });

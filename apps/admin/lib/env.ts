@@ -39,6 +39,31 @@ export function contentApiReadToken(): string | undefined {
   return readEnv("CONTENT_API_READ_TOKEN");
 }
 
+export type PublicationDriver =
+  | "github-dispatch"
+  | "generic-build-hook"
+  | "revalidation-webhook";
+
+/** 发布驱动（§4 Phase 5）：默认 github-dispatch 保持 v1 生产行为不变 */
+export function publicationDriver(): PublicationDriver {
+  const value = readEnv("PUBLICATION_DRIVER") ?? "github-dispatch";
+  if (
+    value !== "github-dispatch" &&
+    value !== "generic-build-hook" &&
+    value !== "revalidation-webhook"
+  ) {
+    throw new Error(
+      `PUBLICATION_DRIVER 只接受 github-dispatch|generic-build-hook|revalidation-webhook，收到: ${value}`
+    );
+  }
+  return value;
+}
+
+/** 部署结果 callback 的 HMAC 签名密钥（/api/v1/internal/deployments/callback） */
+export function deployCallbackSecret(): string | undefined {
+  return readEnv("DEPLOY_CALLBACK_SECRET");
+}
+
 export function requireDatabaseUrl(): string {
   const url = readEnv("DATABASE_URL");
   if (!url) {
@@ -117,5 +142,13 @@ export function assertAdminEnvConsistency(): void {
   if (process.env.NODE_ENV === "production" && !authTestModeEnabled()) {
     allowedGithubId();
     if (!authSecret()) throw new Error("生产环境缺少 AUTH_SECRET");
+    // 仅生产强制：staging 契约矩阵（AUTH_TEST_MODE=1）不要求 dispatch 变量
+    if (storage === "postgres" && publicationDriver() === "github-dispatch") {
+      if (!readEnv("GITHUB_REPOSITORY") || !readEnv("GITHUB_DISPATCH_TOKEN")) {
+        throw new Error(
+          "生产 github-dispatch 模式缺少 GITHUB_REPOSITORY/GITHUB_DISPATCH_TOKEN"
+        );
+      }
+    }
   }
 }
