@@ -1,171 +1,79 @@
-# 使用指南
+# 开发协作
+
+改**代码**看本文。写**文章**看 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md)。仓库总览看 [README.md](./README.md)。
+
+这是个人站点仓库，没有对外贡献流程。下面约束的是：**怎么在本机改前台 / 管理端 / 核心包，同时不把生产从 v1 文件链路误切走。**
 
 ## 本地开发
 
-1. 安装依赖：
-
 ```bash
-npm install
-# 或
 pnpm install
+pnpm dev:web              # http://localhost:3000
+pnpm dev:admin            # http://127.0.0.1:3001（强制 loopback）
+pnpm test                 # packages/core 单测，不连外部库
+pnpm --filter @cblog/admin test
+pnpm --filter @cblog/web test
+pnpm build                # content:check + 生产静态构建
 ```
 
-2. 启动开发服务器：
+包管理器只用 pnpm。工作区：`apps/*`、`packages/*`。
 
-```bash
-npm run dev
-# 或
-pnpm dev
-```
+## 包边界
 
-3. 在浏览器中打开 http://localhost:3000
+| 包 | 可以依赖 | 不要做 |
+|---|---|---|
+| `packages/core` | Node 标准库、drizzle、sqlite/pg 驱动、remark | 不要依赖 Next、React、Admin UI |
+| `apps/web` | `@cblog/core`、页面与展示组件 | 页面不要直接 `fs.readFile` 或 `getDb()`；走 `lib/content` |
+| `apps/admin` | `@cblog/core`、本机 git、可选 postgres/S3 | 生产默认不要开启公网监听；postgres 模式才走 OAuth |
 
-## 添加新文章
+Web 的内容入口是 `apps/web/lib/content/index.ts`：按 `WEB_CONTENT_SOURCE` 条件加载 `filesystem` 或 `api`。api 模式不得把 `better-sqlite3` 打进 bundle。
 
-1. 在 `content/posts/` 目录下创建新的 `.md` 文件，文件名将作为 URL slug
+Admin 的内容入口是 `apps/admin/lib/content-service/index.ts`：按 `ADMIN_STORAGE` 选择 filesystem 或 postgres。进程内单例，换模式必须重启。
 
-2. 在文件开头添加 frontmatter：
+共享 Markdown 渲染在 `@cblog/core/markdown`，前台构建和管理端预览必须走同一管道。
 
-```yaml
----
-title: 你的文章标题
-date: 2024-01-01 # 格式：YYYY-MM-DD
-category: 技术类 # 分类名称
-excerpt: 文章摘要（可选）
-coverCard: /images/covers/tech/my-cover.jpg # 封面图片（可选）
----
-```
+## 生产不变性（改代码时的红线）
 
-3. 然后编写 Markdown 内容
+当前公开流量仍是 v1。除非你正在按 [切流 runbook](./docs/deployment/07-cutover-runbook.md) 执行维护窗口，否则：
 
-## 图片管理
+- 不要把 `.env` / GitHub vars 的生产默认改成 `ADMIN_STORAGE=postgres` 或 `WEB_CONTENT_SOURCE=api`
+- 不要删除 filesystem ContentService、`apps/admin/lib/git.ts`、Web filesystem adapter、SQLite 或 `simple-git`
+- 不要让 `GIT_PUBLISH_ENABLED` 在生产变 `false`
+- `runtime-isr` 必须显式 `WEB_RUNTIME_REPLICAS=1`；未做共享 Cache Handler 前禁止多副本
+- `WEB_RENDER_MODE` 与 `PUBLICATION_DRIVER` 组合不合法时，构建必须直接失败，禁止静默降级
 
-### 目录结构
+合法组合：
 
-图片应该放在 `public/images/` 目录下，推荐的组织方式：
+| `WEB_RENDER_MODE` | 允许的 `PUBLICATION_DRIVER` |
+|---|---|
+| `static-export`（生产） | `github-dispatch`、`generic-build-hook` |
+| `runtime-isr` | `revalidation-webhook` |
 
-```
-public/images/
-├── covers/          # 文章封面图片
-│   ├── tech/       # 技术类文章封面
-│   ├── life/       # 日常生活类文章封面
-│   ├── study/      # 学习记录类文章封面
-│   └── travel/     # 旅游类文章封面
-├── posts/          # 文章内容中的图片
-│   ├── 2024/       # 按年份分类
-│   │   ├── article-1/  # 按文章 slug 分类
-│   │   └── article-2/
-│   └── 2025/
-└── assets/         # 其他资源图片（如 logo、图标等）
-```
+## 内容与代码分开提交
 
-### 使用封面图片
+管理端发布白名单只有 `content/` 和 `data/`。代码改动请单独分支、单独 PR / 提交，不要和文章发布混在一次 push 里。
 
-1. **将图片放到对应目录**：
+手改了 Markdown 的 frontmatter 或增删了文件后，先 `pnpm content:import` 再提交 `data/blog.db`，否则生产构建只能看到漂移告警，新文章不会出现。
 
-   - 技术类：`public/images/covers/tech/`
-   - 日常生活：`public/images/covers/life/`
-   - 学习记录：`public/images/covers/study/`
-   - 旅游：`public/images/covers/travel/`
+## 测试怎么选
 
-2. **在 frontmatter 中引用**：
+| 你改了什么 | 至少跑 |
+|---|---|
+| core 领域 / SQLite 导入 | `pnpm test` |
+| Admin UI 或 git 发布 | `pnpm --filter @cblog/admin test` |
+| 前台页面 / 内容适配 | `pnpm --filter @cblog/web test` 以及 `pnpm build` |
+| Postgres 仓储 | `pnpm test:postgres`（需本地测试库） |
+| 迁移 / 备份门禁 | `pnpm test:cutover`；完整演练 `pnpm cutover:drill` |
+| 双 profile 页面路由 | `pnpm profile:build` |
 
-   ```yaml
-   ---
-   title: 我的技术文章
-   category: 技术类
-   coverCard: /images/covers/tech/nextjs-blog.jpg
-   ---
-   ```
+默认 `pnpm test` **不会**连 Postgres。集成测试必须显式 URL，并拒绝非本地地址上的 schema reset。
 
-   注意：路径以 `/` 开头，从 `public` 目录开始
+## 文档放哪
 
-3. **使用外部图片**（可选）：
-   ```yaml
-   ---
-   coverCard: https://images.unsplash.com/photo-xxx
-   ---
-   ```
+- 日常写作：改 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md)
+- 架构与命令：改 [README.md](./README.md)
+- v1 重构结论：`docs/refactor/`
+- v2 方案与切流：`docs/deployment/`
+- 已完成阶段的复盘：`docs/implementation-journal/`
 
-### 在文章内容中使用图片
-
-1. **将图片放到 `posts/` 目录**：
-
-   - 建议按年份创建子目录：`public/images/posts/2024/`
-   - 或者按文章 slug 创建子目录：`public/images/posts/my-article/`
-
-2. **在 Markdown 中引用**：
-
-   ```markdown
-   ![图片描述](/images/posts/2024/my-article/screenshot.png)
-   ```
-
-3. **命名建议**：
-   - 使用小写字母和连字符：`my-image.jpg`
-   - 避免使用空格和特殊字符
-   - 使用有意义的文件名
-
-### 图片格式建议
-
-- **封面图片**：
-
-  - 推荐尺寸：1200x675px（16:9）或 1200x900px（4:3）
-  - 格式：JPG 或 PNG
-  - 文件大小：建议小于 500KB
-
-- **文章内容图片**：
-  - 根据内容需要选择合适的尺寸
-  - 格式：JPG、PNG 或 WebP
-  - 文件大小：建议小于 1MB
-
-## 文章分类
-
-目前支持以下分类（你也可以自定义）：
-
-- 技术类
-- 日常生活
-- 学习记录
-- 旅游
-
-只需在 frontmatter 的 `category` 字段中指定分类名称即可。
-
-## 部署
-
-### 首次部署
-
-1. 在 GitHub 上创建新仓库
-2. 将代码推送到仓库：
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/你的用户名/仓库名.git
-git push -u origin main
-```
-
-3. 配置 GitHub Pages：
-
-   - 进入仓库 Settings -> Pages
-   - Source 选择 "GitHub Actions"
-   - 保存设置
-
-4. GitHub Actions 会自动构建并部署，完成后可在 `https://你的用户名.github.io/仓库名/` 访问
-
-### 后续更新
-
-只需推送代码到 main 分支，GitHub Actions 会自动重新部署：
-
-```bash
-git add .
-git commit -m "Update content"
-git push
-```
-
-## 注意事项
-
-- 如果仓库名是 `你的用户名.github.io`，网站将部署在根路径
-- 如果仓库名是其他名称，网站将部署在 `/仓库名/` 路径下
-- GitHub Actions 会自动处理路径配置
-- 图片路径在本地和部署后都是一样的（从 `/` 开始）
+实施日志按阶段追加，不要回写已经冻结的 v1 结论。
