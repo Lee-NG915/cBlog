@@ -1,0 +1,142 @@
+{
+  "collection": {
+    "slug": "addx-ai",
+    "name": "addx.ai 面试笔记",
+    "description": "针对积加科技 / addx.ai 面试准备的要点复习目录，仅通过手动输入路由访问。",
+    "label": "Interview Notes",
+    "badge": "addx.ai",
+    "noindex": true,
+    "sortOrder": 1,
+    "publishedItemCount": 16,
+    "items": [
+      {
+        "slug": "index",
+        "title": "复习索引",
+        "excerpt": "用法：按文件领域复习；每题只记要点，能口述 1–3 分钟即可。",
+        "sortOrder": 0,
+        "readingMinutes": 2,
+        "contentVersion": 1
+      },
+      {
+        "slug": "01",
+        "title": "架构重构-Monorepo-DDD",
+        "excerpt": "一句话：把按页面堆叠的 legacy，迁成「业务域横向拆 + domain/services/components 纵向分层 + Nx tag 可执行约束」，灰度共存，不停业务。",
+        "sortOrder": 1,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "02",
+        "title": "组件库与设计系统",
+        "excerpt": "一句话：Token 分层 + Storybook CDD + Chromatic 门禁，统一 Web/POS/CMS 视觉语言，并兼顾 RSC、包体积与多主题。",
+        "sortOrder": 2,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "03",
+        "title": "可观测性体系",
+        "excerpt": "依据 Joyboy master（含 docs/ai-specs/observability、transaction-observability、核心代码）。",
+        "sortOrder": 3,
+        "readingMinutes": 5,
+        "contentVersion": 1
+      },
+      {
+        "slug": "04",
+        "title": "性能与缓存",
+        "excerpt": "权威：Joyboy cache-handler.js、search-client.ts、next.config.js。",
+        "sortOrder": 4,
+        "readingMinutes": 3,
+        "contentVersion": 1
+      },
+      {
+        "slug": "05",
+        "title": "埋点-FeatureFlag-隐私",
+        "excerpt": "依据 Joyboy master：docs/ai-specs/tracking、tracking-event-ops skill、redux-listener-event-design-pattern、privacy-kit。",
+        "sortOrder": 5,
+        "readingMinutes": 3,
+        "contentVersion": 1
+      },
+      {
+        "slug": "06",
+        "title": "交易鉴权与全栈边界",
+        "excerpt": "依据 Joyboy master：payment actions、re-auth baseQuery、transaction-observability、Grafana 规格。",
+        "sortOrder": 6,
+        "readingMinutes": 4,
+        "contentVersion": 1
+      },
+      {
+        "slug": "07",
+        "title": "前端基础八股",
+        "excerpt": "按真题情报：带 TTL 的 LRU 最高优先；其余按手撕 → JS → React → 浏览器 → 网络 → TS → 算法。",
+        "sortOrder": 7,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "08",
+        "title": "场景题与深挖卡片",
+        "excerpt": "每个主讲项目按：业务问题 → 约束 → 方案 → 权衡 → 验证 → 故障/复盘。目标：单项目连续答 15 分钟。",
+        "sortOrder": 8,
+        "readingMinutes": 10,
+        "contentVersion": 1
+      },
+      {
+        "slug": "09",
+        "title": "AI实践-Skill-Harness",
+        "excerpt": "依据 Joyboy .agents/skills/、AGENTS.md AI Test Workflow、docs/superpowers Sentry AI routine、docs/ai-specs/。",
+        "sortOrder": 9,
+        "readingMinutes": 5,
+        "contentVersion": 1
+      },
+      {
+        "slug": "10",
+        "title": "面试问答复盘-2026-07-27",
+        "excerpt": "使用方式：每题先看「速记句」，再脱稿口述 1–3 分钟。",
+        "sortOrder": 10,
+        "readingMinutes": 50,
+        "contentVersion": 1
+      },
+      {
+        "slug": "11",
+        "title": "CTO",
+        "excerpt": "我把团队长期重复遇到的问题，从依赖个人经验，变成了可复用、可验证、可持续治理的平台能力。",
+        "sortOrder": 11,
+        "readingMinutes": 7,
+        "contentVersion": 1
+      },
+      {
+        "slug": "overview",
+        "title": "面试准备总览",
+        "excerpt": "更新时间：2026-07-23",
+        "sortOrder": 90,
+        "readingMinutes": 25,
+        "contentVersion": 1
+      },
+      {
+        "slug": "company-research",
+        "title": "公司研究",
+        "excerpt": "调研日期：2026-07-23",
+        "sortOrder": 91,
+        "readingMinutes": 16,
+        "contentVersion": 1
+      },
+      {
+        "slug": "ai编排测试-技术设计文档-claude",
+        "title": "AI编排测试-技术设计文档-claude",
+        "excerpt": "AI-Orchestrated Testing: From Design to Evidence | 从设计到证据",
+        "sortOrder": 999,
+        "readingMinutes": 44,
+        "contentVersion": 1
+      },
+      {
+        "slug": "ai编排测试-技术设计文档-codex",
+        "title": "AI编排测试-技术设计文档-codex",
+        "excerpt": "AI-Orchestrated Testing: From Design to Evidence",
+        "sortOrder": 999,
+        "readingMinutes": 39,
+        "contentVersion": 1
+      }
+    ]
+  }
+}

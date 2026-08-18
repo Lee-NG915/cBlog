@@ -1,15 +1,15 @@
 ---
 title: 多区域电商时区管理：UTC 存储 + 本地化展示的前端实践
 slug: ecommerce-timezone-management
-date: 2026-06-21
-updatedAt: 2026-06-24
+date: 2026-06-21T00:00:00.000Z
+updatedAt: 2026-06-24T00:00:00.000Z
 category: technical
 tags:
   - Timezone
   - Next.js
   - E-commerce
   - i18n
-status: draft
+status: published
 excerpt: 复盘跨境电商时区策略：全链路 UTC 存储、前端 Luxon/Day.js 本地化展示、促销倒计时与夏令时边界，以及 B 端/C 端/服务端的分工。
 ---
 

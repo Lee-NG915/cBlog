@@ -1,0 +1,238 @@
+{
+  "collection": {
+    "slug": "rightCapital",
+    "name": "RightCapital 面试笔记",
+    "description": "针对 RightCapital 面试准备的笔记目录，仅通过手动输入路由访问。",
+    "label": "Interview Notes",
+    "badge": "RightCapital",
+    "noindex": true,
+    "sortOrder": 0,
+    "publishedItemCount": 28,
+    "items": [
+      {
+        "slug": "01",
+        "title": "自我介绍",
+        "excerpt": "您好，我叫李东海，目前在 Castlery 做高级前端工程师，主要负责 C 端电商平台的前端架构重构、组件库建设、性能优化和交易链路稳定性相关工作。",
+        "sortOrder": 1,
+        "readingMinutes": 3,
+        "contentVersion": 1
+      },
+      {
+        "slug": "02",
+        "title": "平台架构+i18n",
+        "excerpt": "我觉得这个延伸，核心不是说我不做业务了，而是我在做业务的时候，开始更多去思考“这个能力怎么沉淀成平台能力，怎么让后续需求的成本更低、风险更可控”。",
+        "sortOrder": 2,
+        "readingMinutes": 20,
+        "contentVersion": 1
+      },
+      {
+        "slug": "03",
+        "title": "Next-SSR-ISR-缓存",
+        "excerpt": "解释版本",
+        "sortOrder": 3,
+        "readingMinutes": 27,
+        "contentVersion": 1
+      },
+      {
+        "slug": "04",
+        "title": "React+浏览器加载",
+        "excerpt": "我们当前项目用的是 React 18，实际用到的主要是 React 18 这一代 的能力，而不是 19 的新 API。",
+        "sortOrder": 4,
+        "readingMinutes": 7,
+        "contentVersion": 1
+      },
+      {
+        "slug": "05",
+        "title": "TS",
+        "excerpt": "interface 更适合描述对象结构，尤其是对外暴露的契约，比如 props、API response、class 实现，它支持声明合并，扩展性更强。",
+        "sortOrder": 5,
+        "readingMinutes": 4,
+        "contentVersion": 1
+      },
+      {
+        "slug": "06",
+        "title": "组件库设计系统",
+        "excerpt": "第一步是和设计师沟通，确认出我们web整体的设计语言，包括颜色家族 字体家族 按钮 spacing 等等这些最基础最原子的规范，“统一设计语言和组件边界”，",
+        "sortOrder": 6,
+        "readingMinutes": 11,
+        "contentVersion": 1
+      },
+      {
+        "slug": "07",
+        "title": "可观测性+异常上报+Sentry",
+        "excerpt": "用法：「解释版本」用于自己理解，「面试版本」是可以直接口述的 30~60 秒回答。",
+        "sortOrder": 7,
+        "readingMinutes": 20,
+        "contentVersion": 1
+      },
+      {
+        "slug": "08",
+        "title": "Datedog",
+        "excerpt": "Web 项目里的 Datadog 分成 客户端 RUM 和 服务端 APM 两层，都是 SDK 自动采集，业务代码里没有手写 datadogRum.addAction 这类自定义埋点。",
+        "sortOrder": 8,
+        "readingMinutes": 4,
+        "contentVersion": 1
+      },
+      {
+        "slug": "09",
+        "title": "Checkout-Payment",
+        "excerpt": "基于 Joyboy 项目真实代码路径整理。定位：高级前端 + BFF 全栈水位。",
+        "sortOrder": 9,
+        "readingMinutes": 15,
+        "contentVersion": 1
+      },
+      {
+        "slug": "10",
+        "title": "浏览器、网络、安全基础",
+        "excerpt": "cookie 是浏览器存储并自动随请求携带的数据；",
+        "sortOrder": 10,
+        "readingMinutes": 2,
+        "contentVersion": 1
+      },
+      {
+        "slug": "11",
+        "title": "工程化、CICD、Git",
+        "excerpt": "pnpm 用内容寻址存储和硬链接，依赖不会在每个项目里重复复制，安装快、省磁盘；同时 node_modules 更严格，包不能随便访问未声明依赖。",
+        "sortOrder": 11,
+        "readingMinutes": 3,
+        "contentVersion": 1
+      },
+      {
+        "slug": "12",
+        "title": "性能优化",
+        "excerpt": "前端常用性能指标，我一般会分 3 组来讲：",
+        "sortOrder": 12,
+        "readingMinutes": 9,
+        "contentVersion": 1
+      },
+      {
+        "slug": "13",
+        "title": "项目难点",
+        "excerpt": "1.性能问题",
+        "sortOrder": 13,
+        "readingMinutes": 1,
+        "contentVersion": 1
+      },
+      {
+        "slug": "21",
+        "title": "Monorepo + DDD",
+        "excerpt": "理解版",
+        "sortOrder": 21,
+        "readingMinutes": 5,
+        "contentVersion": 1
+      },
+      {
+        "slug": "22",
+        "title": "ReduxToolkit",
+        "excerpt": "这部分我尽量讲得非常白话一点。",
+        "sortOrder": 22,
+        "readingMinutes": 7,
+        "contentVersion": 1
+      },
+      {
+        "slug": "23",
+        "title": "RTKQuery+Listener",
+        "excerpt": "我们是一个 Nx Monorepo + Next.js App Router 的电商项目，全局状态用 Redux Toolkit。核心有三块：",
+        "sortOrder": 23,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "24",
+        "title": "ISR+Redis缓存",
+        "excerpt": "基于 Joyboy 真实代码：apps/web/cache-handler.js、next.config.js、search-client.ts。",
+        "sortOrder": 24,
+        "readingMinutes": 11,
+        "contentVersion": 1
+      },
+      {
+        "slug": "25",
+        "title": "Sentry+AIObervability",
+        "excerpt": "Sentry + AI Observability 在我们项目里，本质上不是“让 AI 自动修 bug”，而是先把错误变成结构化、可路由、可分诊的问题，再让 AI 参与分析和生成修复建议，最后通过 PR 流程进入人工审核，而不是直接上线。",
+        "sortOrder": 25,
+        "readingMinutes": 12,
+        "contentVersion": 1
+      },
+      {
+        "slug": "26",
+        "title": "性能优化",
+        "excerpt": "我们项目里的性能优化，不是一次单点优化，而是分成了三类问题分别处理：",
+        "sortOrder": 26,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "27",
+        "title": "CDD组件化",
+        "excerpt": "这一块在你们项目里本质上不是“做了一套组件样式”，而是搭了一条完整的设计系统交付链路：Token -> Theme -> Component API -> Storybook -> Chromatic -> PR 校验。这样做的目标，是让品牌一致性、组件复用和回归验证都能工程化，…",
+        "sortOrder": 27,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "28",
+        "title": "认证与鉴权、Token 刷新、HTTP 错误治理",
+        "excerpt": "这块不是单纯“登录了就带 token 请求”这么简单，而是已经形成了一套比较完整的治理思路：",
+        "sortOrder": 28,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "29",
+        "title": "支付、交易流状态机",
+        "excerpt": "先说结论，POS payment 和 Web payment 的本质区别不是“支付方式多少”，而是前端要不要承担交易闭环控制。",
+        "sortOrder": 29,
+        "readingMinutes": 10,
+        "contentVersion": 1
+      },
+      {
+        "slug": "30",
+        "title": "埋点、FeatureFlag、隐私",
+        "excerpt": "我们做的不是“接几个埋点 SDK”，而是建立一套“可观测、可分流、可合规”的前端数据采集体系。",
+        "sortOrder": 30,
+        "readingMinutes": 14,
+        "contentVersion": 1
+      },
+      {
+        "slug": "31",
+        "title": "ISR+Redis详解",
+        "excerpt": "---",
+        "sortOrder": 31,
+        "readingMinutes": 12,
+        "contentVersion": 1
+      },
+      {
+        "slug": "32",
+        "title": "payment-tech-solution",
+        "excerpt": "读前约定：先搞清「谁干什么」，再记文件名。设计模式名词都附带一句人话。",
+        "sortOrder": 32,
+        "readingMinutes": 7,
+        "contentVersion": 1
+      },
+      {
+        "slug": "33",
+        "title": "payment-wallets",
+        "excerpt": "PaymentWallets = 支付页的「收银柜台」。它负责展示与连线；真正打第三方 API 的是 Server Action → PaymentService → Strategy（见 32）。",
+        "sortOrder": 33,
+        "readingMinutes": 6,
+        "contentVersion": 1
+      },
+      {
+        "slug": "34",
+        "title": "设计模式结合Joyboy",
+        "excerpt": "目标：能讲清「解决什么痛 → 项目里谁扮演什么 → 代价是什么」。",
+        "sortOrder": 34,
+        "readingMinutes": 7,
+        "contentVersion": 1
+      },
+      {
+        "slug": "35",
+        "title": "基础算法与逻辑题",
+        "excerpt": "面试反馈：题目偏基础算法，不难，主要考察数学和逻辑思维。",
+        "sortOrder": 35,
+        "readingMinutes": 21,
+        "contentVersion": 1
+      }
+    ]
+  }
+}

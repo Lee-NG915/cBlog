@@ -1,0 +1,12 @@
+{
+  "item": {
+    "slug": "13",
+    "title": "项目难点",
+    "excerpt": "1.性能问题",
+    "sortOrder": 13,
+    "readingMinutes": 1,
+    "contentVersion": 1,
+    "contentMarkdown": "\n## 使用的第三方集成带来的问题\n\n1.性能问题\n第三方脚本如果不在合适的时机加载会影响首屏渲染的性能\n\n2.样式问题\n某些SDK会影响全局样式问题，而且很难排查\n",
+    "updatedAt": "2026-08-14 07:28:49.411+00"
+  }
+}

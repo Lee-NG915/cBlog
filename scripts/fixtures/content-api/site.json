@@ -1,0 +1,168 @@
+{
+  "categories": [
+    {
+      "slug": "technical",
+      "name": "工程札记",
+      "description": "前端工程、部署实践、工具链和架构取舍。",
+      "sortOrder": 0,
+      "publishedCount": 14
+    },
+    {
+      "slug": "notes",
+      "name": "专题整理",
+      "description": "围绕一个主题整理的项目复盘、问题清单和阶段性记录。",
+      "sortOrder": 1,
+      "publishedCount": 0
+    },
+    {
+      "slug": "learning",
+      "name": "学习记录",
+      "description": "正在学什么、如何理解、还有哪些没想通。",
+      "sortOrder": 2,
+      "publishedCount": 7
+    },
+    {
+      "slug": "life",
+      "name": "生活手记",
+      "description": "日常观察、阅读笔记、兴趣和工作之外的生活记录。",
+      "sortOrder": 3,
+      "publishedCount": 0
+    },
+    {
+      "slug": "uncategorized",
+      "name": "未分类",
+      "description": "尚未配置到固定阅读路径的文章。",
+      "sortOrder": 999,
+      "publishedCount": 0
+    }
+  ],
+  "collections": [
+    {
+      "slug": "rightCapital",
+      "name": "RightCapital 面试笔记",
+      "description": "针对 RightCapital 面试准备的笔记目录，仅通过手动输入路由访问。",
+      "label": "Interview Notes",
+      "badge": "RightCapital",
+      "noindex": true,
+      "sortOrder": 0,
+      "publishedItemCount": 28
+    },
+    {
+      "slug": "addx-ai",
+      "name": "addx.ai 面试笔记",
+      "description": "针对积加科技 / addx.ai 面试准备的要点复习目录，仅通过手动输入路由访问。",
+      "label": "Interview Notes",
+      "badge": "addx.ai",
+      "noindex": true,
+      "sortOrder": 1,
+      "publishedItemCount": 16
+    }
+  ],
+  "stats": {
+    "publishedPosts": 21,
+    "categories": 5,
+    "collections": 2
+  },
+  "latestPosts": [
+    {
+      "slug": "engineering-practice-hub",
+      "title": "工程实践札记索引：我在大型电商前端项目里的思考地图",
+      "excerpt": "把电商前端工程实践整理成可持续回看的索引：围绕架构边界、渲染缓存、设计系统、交易支付、可观测性、埋点和错误处理组织公开笔记。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Engineering",
+        "Architecture",
+        "Frontend",
+        "Index"
+      ],
+      "editorialDate": "2026-07-01 00:00:00+00",
+      "readingMinutes": 7,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "ecommerce-timezone-management",
+      "title": "多区域电商时区管理：UTC 存储 + 本地化展示的前端实践",
+      "excerpt": "复盘跨境电商时区策略：全链路 UTC 存储、前端 Luxon/Day.js 本地化展示、促销倒计时与夏令时边界，以及 B 端/C 端/服务端的分工。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "Timezone",
+        "Next.js",
+        "E-commerce",
+        "i18n"
+      ],
+      "editorialDate": "2026-06-21 00:00:00+00",
+      "readingMinutes": 2,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "pdp-product-selector-indexing",
+      "title": "复杂 PDP 商品选择器：CMS 建模与服务端倒排索引",
+      "excerpt": "复盘家具电商复杂变体 PDP：Layout → Configuration → Attribute 三级联动，用 Headless CMS 建模 + 服务端预计算倒排索引实现 O(1) slug 查找与 SEO 友好。",
+      "categorySlug": "technical",
+      "categoryName": "工程札记",
+      "tags": [
+        "PDP",
+        "CMS",
+        "Next.js",
+        "Performance"
+      ],
+      "editorialDate": "2026-06-02 00:00:00+00",
+      "readingMinutes": 2,
+      "coverUrl": null,
+      "contentVersion": 1
+    },
+    {
+      "slug": "product-learning-4",
+      "title": "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长",
+      "excerpt": "了解前端类目和后端类目的概念以及他们之间的区别，掌握item以及如何利用item实现电商增长",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "商品管理",
+        "产品分析",
+        "场景细分"
+      ],
+      "editorialDate": "2026-05-19 09:11:00+00",
+      "readingMinutes": 7,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/42/428e6f8e40aa253098705c071485dd76eed0541a557a7e464f51098c39954173-product-learning-4.svg",
+      "contentVersion": 1
+    },
+    {
+      "slug": "analyse-date-board",
+      "title": "电商产品学习3——如何分析数据报表",
+      "excerpt": "梳理如何根据报表分析出对应的商业逻辑，用户为什么消费，产品提供了什么，通过什么途径消费...",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "数据报表",
+        "产品分析",
+        "用户画像",
+        "场景细分"
+      ],
+      "editorialDate": "2026-05-09 09:21:00+00",
+      "readingMinutes": 4,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/1b/1bccd040d4c2f9e920348a7794ea89e216c952f2cc0b1f39a90e08748e0b490a-date-analyse-cover.png",
+      "contentVersion": 1
+    },
+    {
+      "slug": "consumption-scene-segmentation",
+      "title": "电商产品学习2——细分消费场景",
+      "excerpt": "根据现有用户数据，按照“消费者+商品+使用场景”的经营视角对消费人群进行划分，学习进行细分的思考过程",
+      "categorySlug": "learning",
+      "categoryName": "学习记录",
+      "tags": [
+        "消费场景",
+        "产品分析",
+        "用户画像"
+      ],
+      "editorialDate": "2026-05-04 09:20:00+00",
+      "readingMinutes": 4,
+      "coverUrl": "http://127.0.0.1:19000/cblog/assets/0d/0d99083d24b0901265bffc77c519597521a2d42b39385bec2a407031715e7b5f-consumption-scene-segmentation.svg",
+      "contentVersion": 1
+    }
+  ]
+}

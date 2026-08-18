@@ -1,0 +1,4196 @@
+{
+  "about/index.html": {
+    "title": "关于 | Color 手记",
+    "h1s": [
+      "关于"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/brand/",
+      "/categories/technical/",
+      "/categories/learning/",
+      "/categories/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "34dab902c41e4609181e7d3190cb188cf70d0086ca01b9dfeb2858592ca46561",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/01/index.html": {
+    "title": "架构重构-Monorepo-DDD | Color 手记",
+    "h1s": [
+      "架构重构-Monorepo-DDD",
+      "01 · 架构重构：Monorepo + 域分层 + 渲染策略"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "3635fbc2a45b140f3628e392bf1722b7a9e6774e2128803d96cab38508801543",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/02/index.html": {
+    "title": "组件库与设计系统 | Color 手记",
+    "h1s": [
+      "组件库与设计系统",
+      "02 · 组件库与设计系统"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "077d60a5d594024d5ab53e270b5299fdb0979a7b176a0da3ea94b3284270ee45",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/03/index.html": {
+    "title": "可观测性体系 | Color 手记",
+    "h1s": [
+      "可观测性体系",
+      "03 · 可观测性体系（Sentry + Transaction + Grafana）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "e516186e622e28075a1581465cf8a24da210312e712b7f8fc084310ca064847f",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/04/index.html": {
+    "title": "性能与缓存 | Color 手记",
+    "h1s": [
+      "性能与缓存",
+      "04 · 性能与缓存"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "404e159d3f07af44329995a2fedd20f4aacc39583cb4dd1aecc741fd0da5f221",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/05/index.html": {
+    "title": "埋点-FeatureFlag-隐私 | Color 手记",
+    "h1s": [
+      "埋点-FeatureFlag-隐私",
+      "05 · 埋点契约 / Feature Flag / 隐私"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "4d6714cda060f4927862c11392386e30b919058d37059c1ed92853eb5481af74",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/06/index.html": {
+    "title": "交易鉴权与全栈边界 | Color 手记",
+    "h1s": [
+      "交易鉴权与全栈边界",
+      "06 · 交易、鉴权与 Transaction Observability"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "48429cc4794f623fa60f974ce1bbf8f478d06b417a07f673c6215f8f663f7772",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/07/index.html": {
+    "title": "前端基础八股 | Color 手记",
+    "h1s": [
+      "前端基础八股",
+      "07 · 前端基础八股（手撕 + 概念）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "8bf852548948a1785c0b61dafd6b27ee4ec5ceda7840cad28641eaf7d2811eed",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/08/index.html": {
+    "title": "场景题与深挖卡片 | Color 手记",
+    "h1s": [
+      "场景题与深挖卡片",
+      "08 · 场景题与深挖卡片"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "fdd076ecf5d01eaca6449f971e3509a3f63d2eaaea5c632e0107498c361a20fd",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/09/index.html": {
+    "title": "AI实践-Skill-Harness | Color 手记",
+    "h1s": [
+      "AI实践-Skill-Harness",
+      "09 · AI 实践：Skill Harness 与修复流"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "ba596fec2186fb09a3401763d42b59e19f907fc8e896dea30ad1b5854baf120e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/10/index.html": {
+    "title": "面试问答复盘-2026-07-27 | Color 手记",
+    "h1s": [
+      "面试问答复盘-2026-07-27",
+      "10 · 面试问答复盘（2026-07-27）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "a0d4efae58f01f6ddb186e5ae8ae53597623b97c44082665ba8a42975e9e9cfa",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/11/index.html": {
+    "title": "CTO | Color 手记",
+    "h1s": [
+      "CTO"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "0a390b1faa1948e263fe2cf6a238f2b07cd7ffddf0a41d678e0a425093dd8c82",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/ai编排测试-技术设计文档-claude/index.html": {
+    "title": "AI编排测试-技术设计文档-claude | Color 手记",
+    "h1s": [
+      "AI编排测试-技术设计文档-claude",
+      "AI 编排测试系统 技术设计文档（详细版）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "602ea333cfd3afb1d8103132bc5d14dd7bf61740262f25b4b7cbf90f6ae96054",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/ai编排测试-技术设计文档-codex/index.html": {
+    "title": "AI编排测试-技术设计文档-codex | Color 手记",
+    "h1s": [
+      "AI编排测试-技术设计文档-codex",
+      "AI 编排测试技术设计文档（专业复核版）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "7024c72b231f9f0362aecfec48d1eeb9556bea013f7d5534a6e51255592e4fd0",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/company-research/index.html": {
+    "title": "公司研究 | Color 手记",
+    "h1s": [
+      "公司研究",
+      "addx.ai / 积加科技公司研究"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "1cf4b55049b8548da6df59a8285e176cd82488b03bd3f6850413df22a763eba9",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/index.html": {
+    "title": "addx.ai 面试笔记 | Color 手记",
+    "h1s": [
+      "addx.ai 面试笔记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "98d2ad91018f9b87cbc16d4ba9baf64e340f2618b6faed6263b44c6daf8442dd",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/index/index.html": {
+    "title": "复习索引 | Color 手记",
+    "h1s": [
+      "复习索引",
+      "addx.ai 面试复习索引"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "c0bcb3ee043747ceb97b83d5d27e8839e1b172e54b00a7eeea4629e4bb925f54",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "addx-ai/overview/index.html": {
+    "title": "面试准备总览 | Color 手记",
+    "h1s": [
+      "面试准备总览",
+      "积加科技 addx.ai / Shopify 全栈岗位面试准备"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/addx-ai/",
+      "/addx-ai/index/",
+      "/addx-ai/01/",
+      "/addx-ai/02/",
+      "/addx-ai/03/",
+      "/addx-ai/04/",
+      "/addx-ai/05/",
+      "/addx-ai/06/",
+      "/addx-ai/07/",
+      "/addx-ai/08/",
+      "/addx-ai/09/",
+      "/addx-ai/10/",
+      "/addx-ai/11/",
+      "/addx-ai/overview/",
+      "/addx-ai/company-research/",
+      "/addx-ai/ai编排测试-技术设计文档-claude/",
+      "/addx-ai/ai编排测试-技术设计文档-codex/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "adff5451747511680fb2b001e55f4e4d4ad37ea9635b88de701a704b2079c9f3",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "brand/index.html": {
+    "title": "关于我 | Color 手记",
+    "h1s": [
+      "给自己留的一间小书房"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/learning/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/posts/brand-showcase-sample/",
+      "/",
+      "/categories/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "0943c1b793bc1bf00f70ef1ab8a036caa30e10a25cb5770d0cf0c52a2a7ac90e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "categories/index.html": {
+    "title": "阅读路径 | Color 手记",
+    "h1s": [
+      "阅读路径"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/technical/",
+      "/categories/learning/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "e114285c677a52c4dce97e793cff7cb75a02ff0ee5707471a367c097f632f4d8",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "categories/learning/index.html": {
+    "title": "学习记录 | Color 手记",
+    "h1s": [
+      "学习记录"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/posts/asking-the-right-questions-2/",
+      "/posts/asking-the-right-questions-1/",
+      "/posts/growth-strategy-basics/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "4571e9c799997460f8d642cad32d6599775210b673477300041cf89ccab6148c",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长",
+        "srcPath": "product-learning-4"
+      },
+      {
+        "alt": "电商产品学习3——如何分析数据报表",
+        "srcPath": "date-analyse-cover"
+      },
+      {
+        "alt": "电商产品学习2——细分消费场景",
+        "srcPath": "consumption-scene-segmentation"
+      },
+      {
+        "alt": "电商产品学习1——学会构建用户画像",
+        "srcPath": "building-user-profile"
+      },
+      {
+        "alt": "《学会提问》前五章阅读心得",
+        "srcPath": "image"
+      },
+      {
+        "alt": "增长策略基础",
+        "srcPath": "growth-strategy-basics"
+      }
+    ]
+  },
+  "categories/life/index.html": {
+    "title": "生活手记 | Color 手记",
+    "h1s": [
+      "生活手记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "48143f786165e5938c14e508c0a9b1687bfabab7aab8ab747ef573e1ffe587b1",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "categories/notes/index.html": {
+    "title": "专题整理 | Color 手记",
+    "h1s": [
+      "专题整理"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "6f272fdc02e85ca971fbd0b0106b822e36928af4e00b4e8edcbe7f6c9fc88bae",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "categories/technical/index.html": {
+    "title": "工程札记 | Color 手记",
+    "h1s": [
+      "工程札记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/categories/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/joyui-to-tailwind-migration-adr/",
+      "/posts/observability-platform-harness/",
+      "/posts/tracking-events-book-contract/",
+      "/posts/http-error-handling-strategy/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/posts/design-system-cdd-practice/",
+      "/posts/edge-middleware-auth-design/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "194772eb698e7387c61781922acc941de1c1c57dadc17bff800f7d5b9462bab5",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "企业级电商组件库建设实践：从设计系统到工程化交付",
+        "srcPath": "CDD-cover"
+      }
+    ]
+  },
+  "index.html": {
+    "title": "Color 手记",
+    "h1s": [
+      "Color 手记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/posts/engineering-practice-hub/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/categories/learning/",
+      "/posts/engineering-practice-hub/",
+      "/categories/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "7f6a6c60b4be686855d40c4704912c12bcbfce69136776865efa459c0e56741c",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长",
+        "srcPath": "product-learning-4"
+      },
+      {
+        "alt": "电商产品学习3——如何分析数据报表",
+        "srcPath": "date-analyse-cover"
+      },
+      {
+        "alt": "电商产品学习2——细分消费场景",
+        "srcPath": "consumption-scene-segmentation"
+      },
+      {
+        "alt": "电商产品学习1——学会构建用户画像",
+        "srcPath": "building-user-profile"
+      }
+    ]
+  },
+  "posts/analyse-date-board/index.html": {
+    "title": "电商产品学习3——如何分析数据报表 | Color 手记",
+    "h1s": [
+      "电商产品学习3——如何分析数据报表",
+      "将需要解决的问题公式化",
+      "各个数据模块代表的真实含义",
+      "从报表数据梳理出“场景”",
+      "场景分析模版"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "89f150798920cac0cbb3cbb04619c054fb3c2dc4af405f3b19221322db97ad79",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "date-analyse-cover"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "date-analyse-cover"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "date-analyse-cover"
+      }
+    ]
+  },
+  "posts/asking-the-right-questions-1/index.html": {
+    "title": "《学会提问》读书笔记-1 | Color 手记",
+    "h1s": [
+      "《学会提问》读书笔记-1"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "0920f26ce4b6d5b6200b84385dd029be3b724055d8ed7bc768d8f658929d8d76",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/asking-the-right-questions-2/index.html": {
+    "title": "《学会提问》前五章阅读心得 | Color 手记",
+    "h1s": [
+      "《学会提问》前五章阅读心得"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "379d32e7ec43cfb6187905efb847d963c6a2f2cfa26abbaf34c9cd332157b50b",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "image"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "image"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "image"
+      }
+    ]
+  },
+  "posts/building-user-profile/index.html": {
+    "title": "电商产品学习1——学会构建用户画像 | Color 手记",
+    "h1s": [
+      "电商产品学习1——学会构建用户画像",
+      "学会构建用户画像"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "b97dfe0af2a6e4584b0fed5319206d541f10d6734d37d840a81f7cd19fb2a644",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "building-user-profile"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "building-user-profile"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "building-user-profile"
+      }
+    ]
+  },
+  "posts/consumption-scene-segmentation/index.html": {
+    "title": "电商产品学习2——细分消费场景 | Color 手记",
+    "h1s": [
+      "电商产品学习2——细分消费场景",
+      "搜集数据",
+      "划分“消费者/商品/场景”",
+      "使用结构化思维进行分析",
+      "总结"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "3025a44073a6487addda4dc19e3de470fe10b0f4803b292407d3b6ace71f8444",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "consumption-scene-segmentation"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "consumption-scene-segmentation"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "consumption-scene-segmentation"
+      },
+      {
+        "alt": "消费场景细分数据示意",
+        "srcPath": "CDP-1"
+      }
+    ]
+  },
+  "posts/design-system-cdd-practice/index.html": {
+    "title": "企业级电商组件库建设实践：从设计系统到工程化交付 | Color 手记",
+    "h1s": [
+      "企业级电商组件库建设实践：从设计系统到工程化交付",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d60d6ec7b0eb8c479b011af84582ca08bf84e86f242cc55971a02130a71925f8",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "CDD-cover"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "CDD-cover"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "CDD-cover"
+      }
+    ]
+  },
+  "posts/ecommerce-architecture-redesign/index.html": {
+    "title": "企业级电商前端平台架构重构：从七年 legacy 到多端复用 | Color 手记",
+    "h1s": [
+      "企业级电商前端平台架构重构：从七年 legacy 到多端复用",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/edge-middleware-auth-design/",
+      "/posts/multi-market-feature-flag/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/posts/payment-pipeline-architecture/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/edge-middleware-auth-design/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/design-system-cdd-practice/",
+      "/posts/engineering-practice-hub/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "0b8d1360ffa8bace8639c1a78a8c012ef5e2ca4aaf89aecb0d2cb904abfd8929",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/ecommerce-migration-plan/index.html": {
+    "title": "大型电商前端迁移：我如何拆风险、定节奏、控回滚 | Color 手记",
+    "h1s": [
+      "大型电商前端迁移：我如何拆风险、定节奏、控回滚",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/posts/edge-middleware-auth-design/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "470951024c7a0bd3f4b9ccb9472fe696ca8425c4c3213724e50f1ec27ba7a117",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/ecommerce-timezone-management/index.html": {
+    "title": "多区域电商时区管理：UTC 存储 + 本地化展示的前端实践 | Color 手记",
+    "h1s": [
+      "多区域电商时区管理：UTC 存储 + 本地化展示的前端实践",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/cross-border-i18n-strategy/",
+      "/posts/multi-market-feature-flag/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "2f7acc38f59ee76b6d361f9f4609b4acdca12ef70001bac6c86bf086652b199c",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/edge-middleware-auth-design/index.html": {
+    "title": "Next.js Edge Middleware 登录鉴权：从客户端守卫迁到服务端预判 | Color 手记",
+    "h1s": [
+      "Next.js Edge Middleware 登录鉴权：从客户端守卫迁到服务端预判",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/http-error-handling-strategy/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/http-error-handling-strategy/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d23a782c811461ebf0b8d81d27095e2c42b80e18ae12e905ae4b3a9db3a4b290",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/engineering-practice-hub/index.html": {
+    "title": "工程实践札记索引：我在大型电商前端项目里的思考地图 | Color 手记",
+    "h1s": [
+      "工程实践札记索引：我在大型电商前端项目里的思考地图",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/posts/ecommerce-migration-plan/",
+      "/posts/tracking-events-book-contract/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/posts/joyui-to-tailwind-migration-adr/",
+      "/posts/design-system-cdd-practice/",
+      "/posts/joyui-to-tailwind-migration-adr/",
+      "/posts/payment-pipeline-architecture/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/observability-platform-harness/",
+      "/posts/edge-middleware-auth-design/",
+      "/posts/observability-platform-harness/",
+      "/posts/tracking-events-book-contract/",
+      "/posts/http-error-handling-strategy/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "8613221ca80a76b7d319df825f895db6f59999e547887d9532b10226c6dd1124",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/growth-strategy-basics/index.html": {
+    "title": "增长策略基础 | Color 手记",
+    "h1s": [
+      "增长策略基础",
+      "增长策略基础"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "051a5d85d8f948e970299bbca4e5aa0b1437eb6692a440ace6f51d3a45a58e29",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "growth-strategy-basics"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "growth-strategy-basics"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "growth-strategy-basics"
+      }
+    ]
+  },
+  "posts/http-error-handling-strategy/index.html": {
+    "title": "电商前端 HTTP 错误处理：基础设施层与业务层怎么分工 | Color 手记",
+    "h1s": [
+      "电商前端 HTTP 错误处理：基础设施层与业务层怎么分工",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/tracking-events-book-contract/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "44b7e1cc0894ead302494d8d0d7921639a61051cff72ed05ea5cc3cb27cbae13",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/joyboy-knowledge-map/index.html": {
+    "title": "页面已迁移",
+    "h1s": [],
+    "links": [],
+    "contentHash": "7363ad7d27356b528f050ddb9d15a468b650fe1c2de695aaf43bed43a7de0471",
+    "images": []
+  },
+  "posts/joyui-to-tailwind-migration-adr/index.html": {
+    "title": "ADR：从 CSS-in-JS 迁移至 Tailwind CSS 的架构决策 | Color 手记",
+    "h1s": [
+      "ADR：从 CSS-in-JS 迁移至 Tailwind CSS 的架构决策",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/design-system-cdd-practice/",
+      "/posts/design-system-cdd-practice/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "ca7217f59af62a8cffec405feccdc3bb6b9fba05e68da1109cf05ded8387267a",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/nextjs-isr-redis-shared-cache/index.html": {
+    "title": "Next.js ISR + Redis 共享缓存：多实例部署下的页面加速方案 | Color 手记",
+    "h1s": [
+      "Next.js ISR + Redis 共享缓存：多实例部署下的页面加速方案",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "b238ec0a0ff3d5a4462d47027dbdb7e37a5e9186f04f50b8433ad15d75153a03",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/observability-platform-harness/index.html": {
+    "title": "前端可观测性平台：Sentry 分桶 + ESLint 规则 + Harness 八组件范式 | Color 手记",
+    "h1s": [
+      "前端可观测性平台：Sentry 分桶 + ESLint 规则 + Harness 八组件范式",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/http-error-handling-strategy/",
+      "/posts/engineering-practice-hub/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "30a97f20160c7c355c9864cfbf0329804026dfe48c1673b02af3eb352f5107cd",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/payment-pipeline-architecture/index.html": {
+    "title": "电商支付链路架构：策略模式 + Server Action 编排实践 | Color 手记",
+    "h1s": [
+      "电商支付链路架构：策略模式 + Server Action 编排实践",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/http-error-handling-strategy/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "8a45746a073c6416ed32e06e5708af497997eb85956f1315b3329c51ea3ba7e2",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/pdp-product-selector-indexing/index.html": {
+    "title": "复杂 PDP 商品选择器：CMS 建模与服务端倒排索引 | Color 手记",
+    "h1s": [
+      "复杂 PDP 商品选择器：CMS 建模与服务端倒排索引",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/posts/ecommerce-plp-refactor/",
+      "/posts/nextjs-isr-redis-shared-cache/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "03efd5ef6ac2ae775d12970e0de0d1c8f1ce9b9bdab0f19c6e2b9aa5ec7455cb",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/product-learning-4/index.html": {
+    "title": "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长 | Color 手记",
+    "h1s": [
+      "电商产品学习4——前端类目和商品管理：从用户场景理解电商增长"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/learning/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "0177bf7d5da2c2a0c30136f26214ed37a336ec8953f312e6926965a775c1e82a",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "product-learning-4"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "product-learning-4"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "product-learning-4"
+      }
+    ]
+  },
+  "posts/tracking-events-book-contract/index.html": {
+    "title": "埋点事件契约（Events Book）：让产品语言和代码实现对齐 | Color 手记",
+    "h1s": [
+      "埋点事件契约（Events Book）：让产品语言和代码实现对齐",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/transaction-observability-tech-plan/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "ab7546037710a3d62a8abaab410bf43162c65d343e00f0607d294806d0a3aad8",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "posts/transaction-observability-tech-plan/index.html": {
+    "title": "交易链路可观测性建设：从故障定位到实时预警 | Color 手记",
+    "h1s": [
+      "交易链路可观测性建设：从故障定位到实时预警",
+      "前言"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/",
+      "/categories/technical/",
+      "/posts/observability-platform-harness/",
+      "/posts/observability-platform-harness/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-architecture-redesign/",
+      "/categories/",
+      "/categories/technical/",
+      "/posts/engineering-practice-hub/",
+      "/posts/ecommerce-timezone-management/",
+      "/posts/pdp-product-selector-indexing/",
+      "/posts/payment-pipeline-architecture/",
+      "/categories/learning/",
+      "/posts/product-learning-4/",
+      "/posts/analyse-date-board/",
+      "/posts/consumption-scene-segmentation/",
+      "/posts/building-user-profile/",
+      "/categories/notes/",
+      "/categories/life/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "fa8ad2f4533a6d8731ef797270ac7414e7048a96a85fc32e07dd855eafe8066c",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "jsonld:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/01/index.html": {
+    "title": "自我介绍 | Color 手记",
+    "h1s": [
+      "自我介绍"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "4269d0f3105d1b7f30908e6fafcbbcea4f56a22af98253f2623b6c1a92fe518a",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/02/index.html": {
+    "title": "平台架构+i18n | Color 手记",
+    "h1s": [
+      "平台架构+i18n"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "3e34d976ca69be2a5d5c68e7cfd2d43ea06c21cfcd9e77bb522a9fee9626119d",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/03/index.html": {
+    "title": "Next-SSR-ISR-缓存 | Color 手记",
+    "h1s": [
+      "Next-SSR-ISR-缓存"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d8918c44bde2d2ad4f49a0728e6e872c1519b79d72f47b82ae53e424af5777cc",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/04/index.html": {
+    "title": "React+浏览器加载 | Color 手记",
+    "h1s": [
+      "React+浏览器加载"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "8ee032446708c7ef8ff175fc4cfeaccb9e49aa2a186d4d1dea51a1fc0e747d6a",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/05/index.html": {
+    "title": "TS | Color 手记",
+    "h1s": [
+      "TS"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d632b7a08658689c380a8ace9414d5d998ab5730a3065d2585eda13f1d9e7af6",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/06/index.html": {
+    "title": "组件库设计系统 | Color 手记",
+    "h1s": [
+      "组件库设计系统"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "1a42a403ef3d567ff81c7abb923b4e93ca992fdea963dc6c51888befa3df983e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/07/index.html": {
+    "title": "可观测性+异常上报+Sentry | Color 手记",
+    "h1s": [
+      "可观测性+异常上报+Sentry",
+      "可观测性 + 异常上报 + Sentry（面试笔记）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "dd0da20ebb4ff981b838740013fc74a740a07d762a3f8f779d2b1ad935387b9b",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/08/index.html": {
+    "title": "Datedog | Color 手记",
+    "h1s": [
+      "Datedog"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "b5a7bb808d596096cdb74e3d619f04f0e3f432540683709b1894b81acb71f3c3",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/09/index.html": {
+    "title": "Checkout-Payment | Color 手记",
+    "h1s": [
+      "Checkout-Payment",
+      "Checkout &#x26; Payment 全链路深度拆解"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "aa6d37d47c10a3e55f533b64d0e904d606f38cb9110c2d57ffb52bb29ca0117f",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/10/index.html": {
+    "title": "浏览器、网络、安全基础 | Color 手记",
+    "h1s": [
+      "浏览器、网络、安全基础"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "06af0a5272c8fb26ae98eecd83e6687c813762f0574f674d4ed7a753c73cc3e6",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/11/index.html": {
+    "title": "工程化、CICD、Git | Color 手记",
+    "h1s": [
+      "工程化、CICD、Git"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "13fdc47227bbc017b8c891732ee00478d3ffb687ab0ed4dededb0f39e7d5d5f2",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/12/index.html": {
+    "title": "性能优化 | Color 手记",
+    "h1s": [
+      "性能优化"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "08b7b1564889869c9d8493f68cfde42992f79b2152d2f83877d1b7f20b8c15e1",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/13/index.html": {
+    "title": "项目难点 | Color 手记",
+    "h1s": [
+      "项目难点"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "4db94517397334a08afd84948030cc13f06c207104697be9692eadbab574abfc",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/21/index.html": {
+    "title": "Monorepo + DDD | Color 手记",
+    "h1s": [
+      "Monorepo + DDD"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/Users/lidonghai/castlery/joyboy/docs/architecture-review.md:19",
+      "/Users/lidonghai/castlery/joyboy/docs/architecture-review.md:33",
+      "/Users/lidonghai/castlery/joyboy/docs/architecture-review.md:68",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/domain/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/services/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/components/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/.eslintrc.base.json:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/components/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/services/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/product/domain/project.json:1",
+      "/Users/lidonghai/castlery/joyboy/.eslintrc.base.json:8",
+      "/Users/lidonghai/castlery/joyboy/docs/architecture-review.md:47",
+      "/Users/lidonghai/castlery/joyboy/docs/architecture-review.md:88",
+      "/Users/lidonghai/castlery/joyboy/docs/SHARED_TO_COMPOSITE_MIGRATION.md:1",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "51410ef38343fa5e9e846e37a16474dd7c074584cb8f5bf50aebc8d1b1a190b2",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/22/index.html": {
+    "title": "ReduxToolkit | Color 手记",
+    "h1s": [
+      "ReduxToolkit"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/Users/lidonghai/castlery/joyboy/libs/shared/redux/services/src/api.ts:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/checkout/domain/src/api/shipping.api.ts:1",
+      "/Users/lidonghai/castlery/joyboy/libs/shared/redux/store/src/store.ts:1",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/checkout/services/src/lib/checkout.listener.ts:1",
+      "/Users/lidonghai/castlery/joyboy/docs/redux-listener-event-design-pattern.md:1",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "b7c99ef227752a33e2e175b9846e42b42692d9d1d635c29639a3757fcacd9211",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/23/index.html": {
+    "title": "RTKQuery+Listener | Color 手记",
+    "h1s": [
+      "RTKQuery+Listener"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "384993a3963861c1b9f10a1e974121c97f77171a23c2513cf9fa68482a1303dd",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/24/index.html": {
+    "title": "ISR+Redis缓存 | Color 手记",
+    "h1s": [
+      "ISR+Redis缓存",
+      "ISR + Redis / 搜索缓存 · 深度笔记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "eb3979da5eb661b38051b0d543070ee727ed282e52aff08bfa781005bba65eec",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/25/index.html": {
+    "title": "Sentry+AIObervability | Color 手记",
+    "h1s": [
+      "Sentry+AIObervability",
+      "1. 这套设计到底想解决什么问题",
+      "2. Sentry 和 Datadog 的分工",
+      "3. captureStructuredError 的字段设计",
+      "4. error_bucket 怎么分",
+      "5. ownership 怎么路由",
+      "6. Runbook 怎么写",
+      "7. AI 修复为什么进入 PR，而不是自动上线",
+      "8. 如何处理隐私和误修风险",
+      "9. 你如何把这一整块串成自己的知识",
+      "10. 面试里怎么回答"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/Users/lidonghai/castlery/joyboy/docs/transaction-related/transaction-observability/README.md:107",
+      "/Users/lidonghai/castlery/joyboy/libs/shared/observability/src/lib/sentry/errors/structured-error.ts:1",
+      "/Users/lidonghai/castlery/joyboy/libs/shared/observability/src/lib/sentry/errors/error-utils.ts:101",
+      "/Users/lidonghai/castlery/joyboy/docs/observability/sentry-issue-routing-guide.md:37",
+      "/Users/lidonghai/castlery/joyboy/apps/web/instrumentation-client.ts:201",
+      "/Users/lidonghai/castlery/joyboy/docs/observability/sentry-issue-routing-guide.md:1",
+      "/Users/lidonghai/castlery/joyboy/docs/observability/sentry-ownership-rules-setup.md:1",
+      "/Users/lidonghai/castlery/joyboy/libs/shared/observability/src/lib/sentry/errors/error-utils.ts:1",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "46ad4e1b543ff6490379dec5c93f737a9aaf55fc711dc1a22c0ea560b546963e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/26/index.html": {
+    "title": "性能优化 | Color 手记",
+    "h1s": [
+      "性能优化"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/Users/lidonghai/castlery/joyboy/package.json:1",
+      "/Users/lidonghai/castlery/joyboy/apps/web/next.config.js:16",
+      "/Users/lidonghai/castlery/joyboy/docs/search-result-cache.md:1",
+      "/Users/lidonghai/castlery/joyboy/apps/web/next.config.js:16",
+      "/Users/lidonghai/castlery/joyboy/docs/LOCAL_DEV_PERFORMANCE_PLAN.md:483",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:564",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:593",
+      "/Users/lidonghai/castlery/joyboy/docs/search-result-cache.md:8",
+      "/Users/lidonghai/castlery/joyboy/docs/search-result-cache.md:10",
+      "/Users/lidonghai/castlery/joyboy/docs/search-result-cache.md:56",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:95",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:198",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:220",
+      "/Users/lidonghai/castlery/joyboy/libs/modules/search/components/src/lib/search-view/search-view-client.tsx:131",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "57c51b52cdc8254db619becf1773a54399d3c7b77ca472a22ee1cecfcbdbb5ea",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/27/index.html": {
+    "title": "CDD组件化 | Color 手记",
+    "h1s": [
+      "CDD组件化"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "e907314165b8c7fb24774ee556d514a594287c4dc95904f725e5627133dd67ea",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/28/index.html": {
+    "title": "认证与鉴权、Token 刷新、HTTP 错误治理 | Color 手记",
+    "h1s": [
+      "认证与鉴权、Token 刷新、HTTP 错误治理"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "6d6006eade732288b0d99202eb7bc57a81ae006ee2b0ae3e3d96d8e9f9816394",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/29/index.html": {
+    "title": "支付、交易流状态机 | Color 手记",
+    "h1s": [
+      "支付、交易流状态机"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "ab63eae5899794bbd486e8781b2a0f418dfb605043f73e647b73fea331a92470",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/30/index.html": {
+    "title": "埋点、FeatureFlag、隐私 | Color 手记",
+    "h1s": [
+      "埋点、FeatureFlag、隐私"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "e7d3c11986925e2026b86c07393ae3ed195c178ce82e569ae0009cc00da7c18e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/31/index.html": {
+    "title": "ISR+Redis详解 | Color 手记",
+    "h1s": [
+      "ISR+Redis详解",
+      "ISR + Redis / 搜索缓存体系 Deep Dive"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d030a981c2b6a1d43f9e9ba74bb710e43f1890e3848abd69c3ff566f926fe542",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/32/index.html": {
+    "title": "payment-tech-solution | Color 手记",
+    "h1s": [
+      "payment-tech-solution",
+      "支付模块技术方案"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "db63b93dbd76bb58a8e6cea4e038610f18319a2ca2b34ad40b5ba066992baae2",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/33/index.html": {
+    "title": "payment-wallets | Color 手记",
+    "h1s": [
+      "payment-wallets",
+      "PaymentWallets 技术实现方案"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "d0f9effe3514e4174613561438db79d2607f231cd4322186f46c5baa52f10e91",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/34/index.html": {
+    "title": "设计模式结合Joyboy | Color 手记",
+    "h1s": [
+      "设计模式结合Joyboy",
+      "Joyboy 设计模式笔记（结合真实实现）"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "9d53dba3283ce7e8087a3fa778d32fad03d7581478b94a190ff64d89121e8152",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/35/index.html": {
+    "title": "基础算法与逻辑题 | Color 手记",
+    "h1s": [
+      "基础算法与逻辑题",
+      "二面基础算法与逻辑题速记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "25e8aab5e08a062c01e339485337fa553d14e2fb39b508dd5533f96e99f96945",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  },
+  "rightCapital/index.html": {
+    "title": "RightCapital 面试笔记 | Color 手记",
+    "h1s": [
+      "RightCapital 面试笔记"
+    ],
+    "links": [
+      "/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/",
+      "/rightCapital/01/",
+      "/rightCapital/02/",
+      "/rightCapital/03/",
+      "/rightCapital/04/",
+      "/rightCapital/05/",
+      "/rightCapital/06/",
+      "/rightCapital/07/",
+      "/rightCapital/08/",
+      "/rightCapital/09/",
+      "/rightCapital/10/",
+      "/rightCapital/11/",
+      "/rightCapital/12/",
+      "/rightCapital/13/",
+      "/rightCapital/21/",
+      "/rightCapital/22/",
+      "/rightCapital/23/",
+      "/rightCapital/24/",
+      "/rightCapital/25/",
+      "/rightCapital/26/",
+      "/rightCapital/27/",
+      "/rightCapital/28/",
+      "/rightCapital/29/",
+      "/rightCapital/30/",
+      "/rightCapital/31/",
+      "/rightCapital/32/",
+      "/rightCapital/33/",
+      "/rightCapital/34/",
+      "/rightCapital/35/",
+      "/",
+      "/categories/",
+      "/about/",
+      "/categories/technical/",
+      "/categories/notes/",
+      "/categories/learning/",
+      "/categories/life/",
+      "/sitemap.xml"
+    ],
+    "contentHash": "6d2b27e7e7599bd3cfa60946f9bbd704eec430cc9ebed9b2bc720ff896ff1c0e",
+    "images": [
+      {
+        "alt": "meta:og:image",
+        "srcPath": "default"
+      },
+      {
+        "alt": "meta:twitter:image",
+        "srcPath": "default"
+      }
+    ]
+  }
+}

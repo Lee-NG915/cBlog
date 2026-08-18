@@ -1,16 +1,18 @@
 ---
 title: 复杂 PDP 商品选择器：CMS 建模与服务端倒排索引
 slug: pdp-product-selector-indexing
-date: 2026-06-02
-updatedAt: 2026-06-24
+date: '2026-06-02T00:00:00.000Z'
+updatedAt: '2026-06-24T00:00:00.000Z'
 category: technical
 tags:
   - PDP
   - CMS
   - Next.js
   - Performance
-status: draft
-excerpt: 复盘家具电商复杂变体 PDP：Layout → Configuration → Attribute 三级联动，用 Headless CMS 建模 + 服务端预计算倒排索引实现 O(1) slug 查找与 SEO 友好。
+excerpt: >-
+  复盘家具电商复杂变体 PDP：Layout → Configuration → Attribute 三级联动，用 Headless CMS 建模 +
+  服务端预计算倒排索引实现 O(1) slug 查找与 SEO 友好。
+status: published
 ---
 
 # 前言

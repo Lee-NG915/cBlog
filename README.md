@@ -1,91 +1,73 @@
 # cBlog
 
-基于 Next.js Static Export 的个人博客项目，部署目标是 GitHub Pages。当前重构方向只考虑 PC 端访问，内容包括技术博客、学习日志、生活随记。
+基于 Next.js Static Export 的个人博客 monorepo：博客前台 + 本地内容管理平台 + 轻量数据库（SQLite），部署目标是 GitHub Pages。
 
-## 技术方向
-
-- Next.js App Router + TypeScript
-- 静态站点生成（SSG），构建产物输出到 `out/`
-- Tailwind CSS 构建 PC 端界面
-- Markdown + frontmatter 管理文章内容
-- GitHub Actions 自动部署到 GitHub Pages
-
-详细重构决策见 [docs/refactor-plan.md](./docs/refactor-plan.md)。
-
-## 本地开发
-
-```bash
-pnpm install
-pnpm run dev
-```
-
-访问 [http://localhost:3000](http://localhost:3000)。
-
-## 构建与预览
-
-```bash
-pnpm run build
-pnpm run preview
-```
-
-构建产物会生成到 `out/`。`public/.nojekyll` 会随构建进入产物，保证 GitHub Pages 正常服务 `_next` 静态资源。
-
-## 内容目录
-
-文章按分类、年份和文章 slug 组织：
+## 仓库结构
 
 ```text
-content/posts/<category-slug>/<year>/<post-slug>/index.md
+apps/web/              博客前台（Next.js 静态导出，产物 apps/web/out/）
+apps/admin/            内容管理平台（仅本地运行，localhost:3001）
+packages/core/         共享核心：数据库 schema/仓储、内容读写、Markdown 渲染管道
+content/posts/         文章 md 源文件（<分类>/<年份>/<slug>/index.md，图片在同目录 assets/）
+content/collections/   专栏文档（rightCapital、addx-ai 等）
+data/blog.db           SQLite 数据库（元数据与状态的唯一真源，随仓库提交）
+docs/refactor/         重构 PRD / 技术设计 / 测试计划 / 进度与性能报告
+scripts/               仓库级工具（构建产物等价校验等）
 ```
 
-推荐 frontmatter：
+## 数据模型
 
-```yaml
----
-title: 文章标题
-slug: article-slug
-date: 2026-05-11
-updatedAt: 2026-05-11
-category: technical
-tags:
-  - Next.js
-  - GitHub Pages
-excerpt: 文章摘要
-status: published
-coverImage: /images/example.jpg
----
+- **数据库为真源**：文章/专栏的标题、日期、标签、摘要、分类、状态存 `data/blog.db`；md 文件承载正文。
+- **frontmatter 自包含**：管理端每次保存会把元数据回写进 md 的 frontmatter，文件可脱离数据库迁移；手改文件后执行 `pnpm content:import`（文件优先）重建数据库。
+- **状态机**：`draft`（dev 可见）→ `published`（生产可见）→ `archived`（全隐藏，文件保留）。
+
+## 常用命令
+
+```bash
+pnpm install            # 安装全部工作区依赖
+pnpm dev:web            # 博客前台 http://localhost:3000（dev 显示草稿）
+pnpm dev:admin          # 管理平台 http://localhost:3001
+pnpm build              # 漂移检测 + 生产构建（产物 apps/web/out/）
+pnpm preview            # 本地预览构建产物 http://localhost:4173
+pnpm test               # core 单元测试
+pnpm content:import     # 从 md 全量导入/重建数据库（幂等，文件优先）
+pnpm content:check      # frontmatter 与数据库漂移检测（仅告警）
 ```
 
-固定分类在 `lib/site.ts` 配置。文章 frontmatter 的 `category` 必须填写 ASCII slug，页面展示名由配置决定：
+产物等价校验（重构防回归工具，可继续用于大改动前后对比）：
 
-- `technical` -> 工程札记
-- `learning` -> 学习记录
-- `life` -> 生活手记
+```bash
+node scripts/parity-snapshot.mjs snapshot apps/web/out /tmp/snap-a
+node scripts/parity-snapshot.mjs compare /tmp/snap-a /tmp/snap-b
+```
 
-`status: draft` 的文章不会进入公开页面。
+## 管理平台（apps/admin）
 
-详细内容结构见 [docs/content-structure.md](./docs/content-structure.md)。
+仅本地使用、无鉴权。能力：
+
+- 文章：列表筛选（状态/分类/关键词）、新建（自动脚手架）、Markdown 编辑器 + 实时预览（含 Mermaid）、元数据编辑、状态流转、软删除（移入 `content/.trash/`）
+- 图片：编辑器内粘贴/拖拽自动保存到文章 `assets/` 目录并插入相对引用
+- 分类：新建即建目录，前台动态路由零代码生效；有文章的分类不可删除
+- 专栏：新建专栏（slug 即一级路由，保留字校验）、文档管理与拖拽排序（排序回写 frontmatter）
+- 发布：一键 git 提交推送（白名单仅 `content/`、`data/`），触发 GitHub Actions 部署
 
 ## 部署
 
-仓库已配置 `.github/workflows/deploy.yml`。推送到 `main` 后，GitHub Actions 会执行：
+push 到 `main` 后 GitHub Actions 自动构建发布 GitHub Pages（`.github/workflows/deploy.yml`）。构建时直接读取仓库内 `data/blog.db`，无需任何外部服务或 secret。
 
-1. 安装 pnpm 依赖
-2. 按仓库名设置 `BASE_PATH`
-3. 执行 `pnpm run build`
-4. 上传 `out/` 到 GitHub Pages
+生产默认仍是 v1：`ADMIN_STORAGE=filesystem`、`WEB_CONTENT_SOURCE=filesystem`、`GIT_PUBLISH_ENABLED=true`。仓库内已具备部署态 v2（PostgreSQL / Content API / Outbox / 双 profile）的代码与本地演练，但**尚未切真实流量，也不会在观察期前删除 filesystem、Git 发布或 SQLite**。切流前见 [Phase 7 runbook](./docs/deployment/07-cutover-runbook.md)。
 
-GitHub 仓库的 Pages Source 需要选择 `GitHub Actions`。
+本地备份/恢复与双 profile 预发布：
 
-## 项目结构
-
-```text
-app/                  Next.js App Router 页面
-components/           PC 端展示组件
-content/posts/        Markdown 文章
-docs/content-structure.md 内容文件结构规范
-docs/refactor-plan.md 重构方案与分期边界
-lib/posts.ts          文章读取、分类、统计逻辑
-lib/site.ts           站点配置与固定分类
-public/               静态资源
+```bash
+pnpm test:cutover      # CUT-005 确认门禁单测
+pnpm cutover:drill     # CUT-001/002/003/005 本地演练（需 Postgres + MinIO）
+pnpm profile:build     # WEB-206 fixture API 双 profile 构建
 ```
+
+## 文档
+
+- **[内容工作流手册](./CONTENT_GUIDE.md)** —— 写作、图片、状态、同步、发布的完整流程（日常必读）
+- [重构 PRD](./docs/refactor/01-prd.md) · [技术设计](./docs/refactor/02-technical-design.md) · [测试计划](./docs/refactor/03-test-plan.md)
+- [实施进度与偏差记录](./docs/refactor/PROGRESS.md) · [性能报告](./docs/refactor/perf-report.md)
+- [部署态 v2 方案](./docs/deployment/README.md) —— PostgreSQL 单一内容源、对象存储、静态优先与按需 ISR（Reviewed Draft，尚未实施）

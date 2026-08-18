@@ -1,0 +1,29 @@
+https://lee-ng915.github.io/cBlog/
+https://lee-ng915.github.io/cBlog/about/
+https://lee-ng915.github.io/cBlog/categories/
+https://lee-ng915.github.io/cBlog/categories/learning/
+https://lee-ng915.github.io/cBlog/categories/life/
+https://lee-ng915.github.io/cBlog/categories/notes/
+https://lee-ng915.github.io/cBlog/categories/technical/
+https://lee-ng915.github.io/cBlog/posts/analyse-date-board/	2026-05-09
+https://lee-ng915.github.io/cBlog/posts/asking-the-right-questions-1/	2026-04-17
+https://lee-ng915.github.io/cBlog/posts/asking-the-right-questions-2/	2026-04-21
+https://lee-ng915.github.io/cBlog/posts/building-user-profile/	2026-04-27
+https://lee-ng915.github.io/cBlog/posts/consumption-scene-segmentation/	2026-05-04
+https://lee-ng915.github.io/cBlog/posts/design-system-cdd-practice/	2026-05-14
+https://lee-ng915.github.io/cBlog/posts/ecommerce-architecture-redesign/	2026-08-23
+https://lee-ng915.github.io/cBlog/posts/ecommerce-migration-plan/	2026-05-27
+https://lee-ng915.github.io/cBlog/posts/ecommerce-timezone-management/	2026-06-24
+https://lee-ng915.github.io/cBlog/posts/edge-middleware-auth-design/	2024-01-30
+https://lee-ng915.github.io/cBlog/posts/engineering-practice-hub/	2026-07-02
+https://lee-ng915.github.io/cBlog/posts/growth-strategy-basics/	2026-04-12
+https://lee-ng915.github.io/cBlog/posts/http-error-handling-strategy/	2025-09-15
+https://lee-ng915.github.io/cBlog/posts/joyui-to-tailwind-migration-adr/	2026-04-18
+https://lee-ng915.github.io/cBlog/posts/nextjs-isr-redis-shared-cache/	2025-06-10
+https://lee-ng915.github.io/cBlog/posts/observability-platform-harness/	2023-06-24
+https://lee-ng915.github.io/cBlog/posts/payment-pipeline-architecture/	2026-04-24
+https://lee-ng915.github.io/cBlog/posts/pdp-product-selector-indexing/	2026-06-24
+https://lee-ng915.github.io/cBlog/posts/product-learning-4/	2026-05-19
+https://lee-ng915.github.io/cBlog/posts/tracking-events-book-contract/	2025-11-15
+https://lee-ng915.github.io/cBlog/posts/transaction-observability-tech-plan/	2026-04-23
+# buildday	2026-08-17

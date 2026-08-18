@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "publication_deployments_external_id_unique" ON "publication_deployments" USING btree ("external_id");

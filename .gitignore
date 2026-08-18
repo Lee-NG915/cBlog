@@ -1,19 +1,18 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.js
+.pnpm-store/
 
 # testing
-/coverage
+coverage/
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
@@ -38,4 +37,18 @@ next-env.d.ts
 /docs/joyboy/
 /docs/confluence-export/
 /docs/internal/
+/docs/projects/
 
+# content soft-delete trash (admin)
+/content/.trash/
+
+# build-time mirrored content assets
+/apps/web/public/content/
+
+# Phase 2 local content-addressed migration object store
+/data/migration-assets/
+/packages/core/data/migration-assets/
+
+# Phase 7 local PostgreSQL dump artifacts (never commit)
+*.dump
+*.dump.manifest.json

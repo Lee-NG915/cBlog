@@ -1,0 +1,68 @@
+name: Production Readiness (Live Content API)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "production-readiness"
+  cancel-in-progress: true
+
+jobs:
+  profile-build:
+    name: Build ${{ matrix.render_mode }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        render_mode: [static-export, runtime-isr]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate staging configuration
+        env:
+          CONTENT_API_BASE_URL: ${{ vars.STAGING_CONTENT_API_BASE_URL }}
+        run: |
+          if [ -z "$CONTENT_API_BASE_URL" ]; then
+            echo "::error::必须配置 vars.STAGING_CONTENT_API_BASE_URL"
+            exit 1
+          fi
+
+      - name: Build profile from live Content API
+        run: pnpm --filter @cblog/web build
+        env:
+          NODE_ENV: production
+          WEB_CONTENT_SOURCE: api
+          WEB_RENDER_MODE: ${{ matrix.render_mode }}
+          WEB_RUNTIME_REPLICAS: ${{ matrix.render_mode == 'runtime-isr' && '1' || '' }}
+          CONTENT_API_BASE_URL: ${{ vars.STAGING_CONTENT_API_BASE_URL }}
+          CONTENT_API_READ_TOKEN: ${{ secrets.STAGING_CONTENT_API_READ_TOKEN }}
+          SITE_URL: ${{ vars.STAGING_SITE_URL || 'https://lee-ng915.github.io/cBlog' }}
+          BASE_PATH: ${{ matrix.render_mode == 'static-export' && '/cBlog' || '' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ matrix.render_mode == 'static-export' && '/cBlog' || '' }}
+          PUBLICATION_DRIVER: ${{ matrix.render_mode == 'static-export' && 'github-dispatch' || 'revalidation-webhook' }}
+
+      - name: Upload static readiness artifact
+        if: matrix.render_mode == 'static-export'
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-readiness-static-export
+          path: apps/web/out
+          retention-days: 7

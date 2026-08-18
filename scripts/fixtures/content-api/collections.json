@@ -1,0 +1,24 @@
+{
+  "collections": [
+    {
+      "slug": "rightCapital",
+      "name": "RightCapital 面试笔记",
+      "description": "针对 RightCapital 面试准备的笔记目录，仅通过手动输入路由访问。",
+      "label": "Interview Notes",
+      "badge": "RightCapital",
+      "noindex": true,
+      "sortOrder": 0,
+      "publishedItemCount": 28
+    },
+    {
+      "slug": "addx-ai",
+      "name": "addx.ai 面试笔记",
+      "description": "针对积加科技 / addx.ai 面试准备的要点复习目录，仅通过手动输入路由访问。",
+      "label": "Interview Notes",
+      "badge": "addx.ai",
+      "noindex": true,
+      "sortOrder": 1,
+      "publishedItemCount": 16
+    }
+  ]
+}
