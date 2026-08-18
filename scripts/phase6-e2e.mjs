@@ -169,6 +169,7 @@ const WORKER_ENV = {
 const WEB_ENV = {
   NODE_ENV: "production",
   WEB_RENDER_MODE: "runtime-isr",
+  WEB_RUNTIME_REPLICAS: "1",
   WEB_CONTENT_SOURCE: "api",
   CONTENT_API_BASE_URL: ADMIN,
   CONTENT_API_READ_TOKEN: "test-read-token",

@@ -144,6 +144,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.700.0
+        version: 3.1111.0
       better-sqlite3:
         specifier: ^11.10.0
         version: 11.10.0

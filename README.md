@@ -55,6 +55,16 @@ node scripts/parity-snapshot.mjs compare /tmp/snap-a /tmp/snap-b
 
 push 到 `main` 后 GitHub Actions 自动构建发布 GitHub Pages（`.github/workflows/deploy.yml`）。构建时直接读取仓库内 `data/blog.db`，无需任何外部服务或 secret。
 
+生产默认仍是 v1：`ADMIN_STORAGE=filesystem`、`WEB_CONTENT_SOURCE=filesystem`、`GIT_PUBLISH_ENABLED=true`。仓库内已具备部署态 v2（PostgreSQL / Content API / Outbox / 双 profile）的代码与本地演练，但**尚未切真实流量，也不会在观察期前删除 filesystem、Git 发布或 SQLite**。切流前见 [Phase 7 runbook](./docs/deployment/07-cutover-runbook.md)。
+
+本地备份/恢复与双 profile 预发布：
+
+```bash
+pnpm test:cutover      # CUT-005 确认门禁单测
+pnpm cutover:drill     # CUT-001/002/003/005 本地演练（需 Postgres + MinIO）
+pnpm profile:build     # WEB-206 fixture API 双 profile 构建
+```
+
 ## 文档
 
 - **[内容工作流手册](./CONTENT_GUIDE.md)** —— 写作、图片、状态、同步、发布的完整流程（日常必读）

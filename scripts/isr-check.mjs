@@ -118,6 +118,7 @@ function run(cmd, args, options = {}) {
 const WEB_ENV = {
   NODE_ENV: "production",
   WEB_RENDER_MODE: "runtime-isr",
+  WEB_RUNTIME_REPLICAS: "1",
   WEB_CONTENT_SOURCE: "api",
   CONTENT_API_BASE_URL: API,
   CONTENT_API_REVALIDATE_TTL: String(TTL),

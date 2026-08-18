@@ -41,9 +41,31 @@ function validateRenderProfile(renderMode, publicationDriver) {
   return { renderMode, publicationDriver };
 }
 
+function validateRuntimeTopology(renderMode, replicasValue) {
+  if (renderMode !== "runtime-isr") return;
+  if (!replicasValue) {
+    throw new Error(
+      "[next.config] runtime-isr 必须显式设置 WEB_RUNTIME_REPLICAS=1"
+    );
+  }
+  const replicas = Number(replicasValue);
+  if (!Number.isInteger(replicas) || replicas < 1) {
+    throw new Error("[next.config] WEB_RUNTIME_REPLICAS 必须是正整数");
+  }
+  if (replicas > 1) {
+    throw new Error(
+      "[next.config] 当前未实现共享 Cache Handler，runtime-isr 仅允许 WEB_RUNTIME_REPLICAS=1"
+    );
+  }
+}
+
 const renderMode = process.env.WEB_RENDER_MODE || "static-export";
 const publicationDriver = process.env.PUBLICATION_DRIVER || "github-dispatch";
 validateRenderProfile(renderMode, publicationDriver);
+validateRuntimeTopology(
+  renderMode,
+  process.env.WEB_RUNTIME_REPLICAS
+);
 
 const isProd = process.env.NODE_ENV === "production";
 const isApiSource = process.env.WEB_CONTENT_SOURCE === "api";
@@ -88,4 +110,5 @@ const nextConfig = {
 // 避免给 config 对象增加未识别键（Next 会警告 unrecognized key）。
 const configFactory = () => nextConfig;
 configFactory.validateRenderProfile = validateRenderProfile;
+configFactory.validateRuntimeTopology = validateRuntimeTopology;
 module.exports = configFactory;

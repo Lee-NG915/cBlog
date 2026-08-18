@@ -2,7 +2,7 @@ import { createReadonlyDb, defaultDbPath } from "../db/client";
 import { closePostgresDb, createPostgresDb } from "../db/postgres/client";
 import { migratePostgres } from "../db/postgres/migrate";
 import { repoPath } from "../paths";
-import { FileSystemMigrationAssetStore } from "../migration/assets";
+import { createMigrationAssetStoreFromEnv } from "../migration/store-from-env";
 import {
   applyMigrationSnapshot,
   assertConfirmedMigrationTarget,
@@ -110,9 +110,11 @@ try {
         await migratePostgres(handle);
         const report = await applyMigrationSnapshot(handle, snapshot, {
           runId,
-          assetStore: new FileSystemMigrationAssetStore(assetDir, {
+          assetStore: createMigrationAssetStoreFromEnv({
             contentDir,
             publicDir,
+            assetDir,
+            publicBaseUrl,
           }),
         });
         console.log(JSON.stringify(report, null, 2));

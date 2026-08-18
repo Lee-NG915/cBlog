@@ -1,11 +1,14 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   assetIdFromSha256,
   FileSystemMigrationAssetStore,
+  resolveS3ForcePathStyle,
   rewriteMarkdownAssets,
+  S3MigrationAssetStore,
   type AssetScanContext,
 } from "./assets";
 import { assertConfirmedMigrationTarget, migrationTargetName } from "./runner";
@@ -111,6 +114,70 @@ describe("migration asset AST", () => {
     await store.put(asset);
     await store.put(asset);
     expect((await store.read(asset.objectKey)).toString("utf8")).toBe("local");
+  });
+
+  it("S3 store 幂等上传并在回读后复核 hash", async () => {
+    const { contentDir, publicDir, documentPath, context } = fixture();
+    rewriteMarkdownAssets(documentPath, "![local](./assets/local.png)", context);
+    const [asset] = [...context.assetsByHash.values()];
+    const objects = new Map<string, Buffer>();
+    let putCount = 0;
+    const client = {
+      async send(command: GetObjectCommand | PutObjectCommand) {
+        if (command instanceof GetObjectCommand) {
+          const value = objects.get(command.input.Key!);
+          if (!value) {
+            throw Object.assign(new Error("missing"), { name: "NoSuchKey" });
+          }
+          return {
+            Body: {
+              transformToByteArray: async () => Uint8Array.from(value),
+            },
+          };
+        }
+        putCount += 1;
+        objects.set(command.input.Key!, Buffer.from(command.input.Body as Buffer));
+        return {};
+      },
+    };
+    const store = new S3MigrationAssetStore({
+      contentDir,
+      publicDir,
+      bucket: "migration-test",
+      region: "us-east-1",
+      accessKeyId: "test",
+      secretAccessKey: "test",
+      client,
+    });
+
+    await store.put(asset);
+    await store.put(asset);
+    expect(putCount).toBe(1);
+    expect((await store.read(asset.objectKey)).toString("utf8")).toBe("local");
+  });
+
+  it("S3 store 拒绝不安全 object key", async () => {
+    const { contentDir, publicDir } = fixture();
+    const store = new S3MigrationAssetStore({
+      contentDir,
+      publicDir,
+      bucket: "migration-test",
+      region: "us-east-1",
+      accessKeyId: "test",
+      secretAccessKey: "test",
+      client: { send: async () => ({}) },
+    });
+    await expect(store.read("../escape")).rejects.toThrow("object key 越界");
+  });
+
+  it("S3 custom endpoint 默认启用 path-style，显式配置可覆盖", () => {
+    expect(resolveS3ForcePathStyle("http://127.0.0.1:9000", undefined)).toBe(
+      true
+    );
+    expect(resolveS3ForcePathStyle(undefined, undefined)).toBe(false);
+    expect(resolveS3ForcePathStyle("http://127.0.0.1:9000", false)).toBe(
+      false
+    );
   });
 
   it("linkReference 定义引用本地资产时进入 unresolved 而非静默残留", () => {

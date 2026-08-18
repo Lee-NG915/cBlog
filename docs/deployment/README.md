@@ -1,6 +1,6 @@
 # cBlog 部署态 v2 设计
 
-- 状态：Reviewed Draft，待实现
+- 状态：Phase 0–6 已实现；Phase 7 仓库内生产就绪（不切真实流量、不删除 filesystem）
 - 版本：v0.3（2026-08-17，已根据 Kimi Code K3 Review 和独立部署场景修订）
 - 适用分支：`feat/refector`
 - 目标：数据库成为唯一内容源，前台与后端独立部署；按托管能力选择静态全站构建或按内容粒度 ISR
@@ -12,6 +12,8 @@
 3. [测试方案与用例](./03-test-plan.md)
 4. [Kimi Code K3 Review 与采纳记录](./04-kimi-k3-review.md)
 5. [Web 独立部署配置方案](./05-deployment-profiles.md)
+6. [内容迁移与 Markdown 备份 Runbook](./06-migration-runbook.md)
+7. [Phase 7 生产就绪、切流与回滚 Runbook](./07-cutover-runbook.md)
 
 ## 与现有重构文档的关系
 

@@ -1,6 +1,6 @@
 # Phase 6：Outbox 与发布闭环
 
-- 状态：已完成（REL/OBS/E2E 门禁通过，待提交）
+- 状态：已完成（已提交 `54fc8d7`）
 - 日期：2026-08-18
 - 分支：`feat/refector`
 - 前置提交：`925bad6`（Phase 5）
@@ -76,7 +76,7 @@
 
 生产不变性复核：默认 `ADMIN_STORAGE=filesystem`、`GIT_PUBLISH_ENABLED=true` 与 v1 Git 发布 UI/路径未改变；PostgreSQL Outbox 与 worker 仅显式 staging 配置启用。
 
-对应提交：待用户确认后创建 Phase 6 章节提交。
+对应提交：`54fc8d7 feat(admin): phase 6 Outbox 与发布闭环`
 
 ## 5. 已知限制与 Phase 7 入口
 

@@ -48,3 +48,7 @@ next-env.d.ts
 # Phase 2 local content-addressed migration object store
 /data/migration-assets/
 /packages/core/data/migration-assets/
+
+# Phase 7 local PostgreSQL dump artifacts (never commit)
+*.dump
+*.dump.manifest.json

@@ -35,16 +35,18 @@ GitHub Pages 是静态托管，不能运行 ISR。选择 GitHub Pages 时，每�
 
 ```text
 WEB_RENDER_MODE=static-export|runtime-isr
+WEB_RUNTIME_REPLICAS=1
 WEB_CONTENT_SOURCE=filesystem|api
 CONTENT_API_BASE_URL=https://admin-api.example.com
 CONTENT_API_READ_TOKEN=optional-read-only-build-token
-SITE_URL=https://example.github.io/cBlog
+SITE_URL=https://lee-ng915.github.io/cBlog
 BASE_PATH=/cBlog
 ```
 
 - `CONTENT_API_BASE_URL` 只在构建服务器或 Next Runtime 使用，不以 `NEXT_PUBLIC_` 前缀暴露给浏览器。
 - GitHub Actions 必须能通过公网 HTTPS 访问 Content API。若接口使用只读 token，token 存在 Actions Secret，只能读取 published DTO。
 - `BASE_PATH` 为空表示根域名；GitHub Project Pages 通常为 `/<repository>`。canonical、sitemap、robots、内部链接和静态资源都从同一配置生成。
+- `WEB_RUNTIME_REPLICAS` 仅 runtime-isr 需要，且当前必须为 `1`。未实现共享 Cache Handler 前，多副本构建直接失败。
 - 构建输出不得包含数据库 URL、Admin session 或发布密钥。
 
 ### 3.2 发布驱动配置

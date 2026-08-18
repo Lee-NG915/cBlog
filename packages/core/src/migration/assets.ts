@@ -1,6 +1,12 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+  type S3ClientConfig,
+} from "@aws-sdk/client-s3";
 import { remark } from "remark";
 import type {
   MigrationAsset,
@@ -346,38 +352,65 @@ export interface MigrationAssetStore {
   read(objectKey: string): Promise<Buffer>;
 }
 
-/** Phase 2 的本地可恢复对象存储替身；Phase 3 用 S3 兼容实现替换同一接口。 */
+export interface MigrationAssetSourceRoots {
+  contentDir: string;
+  publicDir: string;
+}
+
+function readMigrationAssetSource(
+  asset: MigrationAsset,
+  sourceRoots: MigrationAssetSourceRoots
+): Buffer {
+  const sourceRoot = path.resolve(
+    asset.sourcePath.startsWith("public/")
+      ? sourceRoots.publicDir
+      : sourceRoots.contentDir
+  );
+  const sourceRelativePath = asset.sourcePath.startsWith("public/")
+    ? asset.sourcePath.slice("public/".length)
+    : asset.sourcePath;
+  const sourcePath = path.resolve(sourceRoot, sourceRelativePath);
+  if (!inside(sourceRoot, sourcePath)) throw new Error("资产源路径越界");
+  const realSourceRoot = fs.realpathSync(sourceRoot);
+  const realSourcePath = fs.realpathSync(sourcePath);
+  if (
+    realSourcePath !== realSourceRoot &&
+    !inside(realSourceRoot, realSourcePath)
+  ) {
+    throw new Error("资产源真实路径越界");
+  }
+  const body = fs.readFileSync(realSourcePath);
+  if (sha256(body) !== asset.sha256) {
+    throw new Error(`资产源 hash 校验失败: ${asset.sourcePath}`);
+  }
+  return body;
+}
+
+function assertSafeObjectKey(objectKey: string): void {
+  if (
+    !objectKey ||
+    objectKey.startsWith("/") ||
+    objectKey.includes("\\") ||
+    objectKey.split("/").includes("..")
+  ) {
+    throw new Error("资产 object key 越界");
+  }
+}
+
+/** Phase 2/staging 的本地可恢复对象存储实现。 */
 export class FileSystemMigrationAssetStore implements MigrationAssetStore {
   constructor(
     private readonly rootDir: string,
-    private readonly sourceRoots: { contentDir: string; publicDir: string }
+    private readonly sourceRoots: MigrationAssetSourceRoots
   ) {}
 
   async put(asset: MigrationAsset): Promise<void> {
-    const sourceRoot = path.resolve(
-      asset.sourcePath.startsWith("public/")
-        ? this.sourceRoots.publicDir
-        : this.sourceRoots.contentDir
-    );
-    const sourceRelativePath = asset.sourcePath.startsWith("public/")
-      ? asset.sourcePath.slice("public/".length)
-      : asset.sourcePath;
-    const sourcePath = path.resolve(sourceRoot, sourceRelativePath);
-    if (!inside(sourceRoot, sourcePath)) throw new Error("资产源路径越界");
-    // realpath 复核：拒绝 content/public 内 symlink 指向根目录之外（与 scan 阶段同级防护）
-    const realSourceRoot = fs.realpathSync(sourceRoot);
-    const realSourcePath = fs.realpathSync(sourcePath);
-    if (
-      realSourcePath !== realSourceRoot &&
-      !inside(realSourceRoot, realSourcePath)
-    ) {
-      throw new Error("资产源真实路径越界");
-    }
+    const body = readMigrationAssetSource(asset, this.sourceRoots);
     const destination = path.resolve(this.rootDir, asset.objectKey);
     const root = path.resolve(this.rootDir);
     if (!inside(root, destination)) throw new Error("资产 object key 越界");
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    if (!fs.existsSync(destination)) fs.copyFileSync(realSourcePath, destination);
+    if (!fs.existsSync(destination)) fs.writeFileSync(destination, body);
     const storedHash = sha256(fs.readFileSync(destination));
     if (storedHash !== asset.sha256) {
       throw new Error(`对象 hash 校验失败: ${asset.objectKey}`);
@@ -389,5 +422,118 @@ export class FileSystemMigrationAssetStore implements MigrationAssetStore {
     const source = path.resolve(root, objectKey);
     if (!inside(root, source)) throw new Error("资产 object key 越界");
     return fs.promises.readFile(source);
+  }
+}
+
+interface S3CommandSender {
+  send(command: GetObjectCommand | PutObjectCommand): Promise<unknown>;
+}
+
+export interface S3MigrationAssetStoreConfig
+  extends MigrationAssetSourceRoots {
+  bucket: string;
+  region: string;
+  endpoint?: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  forcePathStyle?: boolean;
+  client?: S3CommandSender;
+}
+
+export function resolveS3ForcePathStyle(
+  endpoint: string | undefined,
+  configured: boolean | undefined
+): boolean {
+  return configured ?? Boolean(endpoint);
+}
+
+async function objectBodyToBuffer(body: unknown): Promise<Buffer> {
+  if (!body) throw new Error("S3 对象响应缺少 body");
+  if (
+    typeof body === "object" &&
+    "transformToByteArray" in body &&
+    typeof body.transformToByteArray === "function"
+  ) {
+    return Buffer.from(await body.transformToByteArray());
+  }
+  const chunks: Buffer[] = [];
+  for await (const chunk of body as AsyncIterable<Uint8Array>) {
+    chunks.push(Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
+
+function isMissingObject(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) return false;
+  const value = error as {
+    name?: string;
+    $metadata?: { httpStatusCode?: number };
+  };
+  return (
+    value.name === "NoSuchKey" ||
+    value.name === "NotFound" ||
+    value.$metadata?.httpStatusCode === 404
+  );
+}
+
+/**
+ * Phase 7 生产迁移对象存储：直接写入 S3 compatible bucket，并在上传后重新读取
+ * 校验 SHA-256。object key 由内容 hash 生成，因此同一迁移可安全幂等重放。
+ */
+export class S3MigrationAssetStore implements MigrationAssetStore {
+  private readonly client: S3CommandSender;
+
+  constructor(private readonly config: S3MigrationAssetStoreConfig) {
+    if (!config.bucket.trim()) throw new Error("S3 migration bucket 不能为空");
+    this.client =
+      config.client ??
+      new S3Client({
+        region: config.region,
+        endpoint: config.endpoint,
+        forcePathStyle: resolveS3ForcePathStyle(
+          config.endpoint,
+          config.forcePathStyle
+        ),
+        credentials: {
+          accessKeyId: config.accessKeyId,
+          secretAccessKey: config.secretAccessKey,
+        },
+      } satisfies S3ClientConfig);
+  }
+
+  async put(asset: MigrationAsset): Promise<void> {
+    assertSafeObjectKey(asset.objectKey);
+    const body = readMigrationAssetSource(asset, this.config);
+    try {
+      const existing = await this.read(asset.objectKey);
+      if (sha256(existing) === asset.sha256) return;
+    } catch (error) {
+      if (!isMissingObject(error)) throw error;
+    }
+
+    await this.client.send(
+      new PutObjectCommand({
+        Bucket: this.config.bucket,
+        Key: asset.objectKey,
+        Body: body,
+        ContentType: asset.mimeType,
+        Metadata: { sha256: asset.sha256 },
+      })
+    );
+    const stored = await this.read(asset.objectKey);
+    if (sha256(stored) !== asset.sha256) {
+      throw new Error(`S3 对象 hash 校验失败: ${asset.objectKey}`);
+    }
+  }
+
+  async read(objectKey: string): Promise<Buffer> {
+    assertSafeObjectKey(objectKey);
+    const response = (await this.client.send(
+      new GetObjectCommand({
+        Bucket: this.config.bucket,
+        Key: objectKey,
+      })
+    )) as { Body?: unknown };
+    return objectBodyToBuffer(response.Body);
   }
 }

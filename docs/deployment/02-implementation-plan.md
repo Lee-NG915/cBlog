@@ -217,17 +217,19 @@ GIT_PUBLISH_ENABLED=true|false
 - Web 暂时离线后恢复，pending 事件无需人工改库即可完成。
 - 重复事件不会造成错误或无限重建。
 
-### Phase 7：生产迁移与旧链路退役（2–3 人日 + 观察期）
+### Phase 7：生产就绪、切流准备与观察期后再退役（2–3 人日 + 观察期）
+
+本章仓库内交付生产就绪基线与本地/staging 演练；**不切真实流量、不改生产默认 flag、不删除 filesystem / Git 发布 / SQLite / `simple-git`**。真实切流按 [07-cutover-runbook](./07-cutover-runbook.md) 在维护窗口单独执行。旧链路在观察至少一个完整发布周期后再开独立变更退役。
 
 步骤：
 
-1. 冻结内容写入，执行最终迁移和 hash 校验。
+1. 冻结内容写入，执行最终迁移和 hash 校验（生产冻结迁移使用 `MIGRATION_ASSET_STORE=s3`）。
 2. 部署只读 Content API；再次运行 Web 影子构建并与线上快照比较。
 3. 同时验证 static-export artifact 和 Runtime ISR 预发布；生产选择其一，但保留另一条可回退构建能力。
 4. 在同一维护窗口开启 PostgreSQL Admin 单写、对应 publication driver，并切换域名/流量；不保留同步双写窗口。
 5. 验证首页、文章、专栏、sitemap、404、资源和一次真实发布。
 6. 观察至少一个完整发布周期，确认事件、缓存和备份。
-7. 固定 `WEB_CONTENT_SOURCE=api`，关闭 Git 发布入口，移除 filesystem adapter 以及生产对 SQLite、frontmatter 回写和 `simple-git` 的依赖。
+7. 观察期通过后再开独立变更：固定生产 `WEB_CONTENT_SOURCE=api`，关闭 Git 发布入口，移除 filesystem adapter 以及生产对 SQLite、frontmatter 回写和 `simple-git` 的依赖。本章不得提前删除这些路径。
 8. 保留迁移前仓库 tag、数据库备份和回滚 runbook。
 
 退出标准：
@@ -262,8 +264,9 @@ GIT_PUBLISH_ENABLED=true|false
 |---|---|:---:|---|
 | `CONTENT_API_BASE_URL` | Web | 否 | Content API 地址 |
 | `CONTENT_API_READ_TOKEN` | Web/CI | 是 | 可选；仅能读取 published DTO 的构建 token |
-| `WEB_CONTENT_SOURCE` | Web build | 否 | 迁移期选择 filesystem/api；Phase 7 后固定为 api 并删除分支 |
+| `WEB_CONTENT_SOURCE` | Web build | 否 | 迁移期选择 filesystem/api；观察期后再固定为 api 并删除分支 |
 | `WEB_RENDER_MODE` | Web/CI | 否 | `static-export` 或 `runtime-isr` |
+| `WEB_RUNTIME_REPLICAS` | Web | 否 | runtime-isr 必须显式 `1`；多副本前需共享 Cache Handler |
 | `DATABASE_URL` | Admin/worker | 是 | PostgreSQL 连接 |
 | `REVALIDATION_WEBHOOK_URL` | worker | 否 | Web webhook 地址 |
 | `AUTH_GITHUB_ID/AUTH_GITHUB_SECRET` | Admin | 是 | GitHub OAuth App |
