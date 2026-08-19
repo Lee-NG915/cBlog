@@ -55,4 +55,13 @@ export const LEGACY_COLLECTION_SEEDS = [
     badge: "addx.ai",
     noindex: 1,
   },
+  {
+    slug: "promotion",
+    name: "促销系统笔记",
+    description:
+      "海外独立站优惠活动与优惠券业务逻辑，面向前端理解配置、计算、互斥和结算体验。",
+    label: "Business Notes",
+    badge: "Promotion",
+    noindex: 1,
+  },
 ] as const;
