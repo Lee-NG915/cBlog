@@ -64,4 +64,13 @@ export const LEGACY_COLLECTION_SEEDS = [
     badge: "Promotion",
     noindex: 1,
   },
+  {
+    slug: "transaction-observability",
+    name: "交易模块可观测性",
+    description:
+      "Checkout / Payment 前端可观测性技术方案：事件模型、字段协议、Sentry、Grafana 与 SLO。",
+    label: "Tech Specs",
+    badge: "Txn Observability",
+    noindex: 1,
+  },
 ] as const;
