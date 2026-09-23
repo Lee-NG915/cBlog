@@ -25,6 +25,12 @@ export function database(filename = path.join(stateDir, "notes.db")) {
         "utf8",
       ),
     );
+  sqlite.exec(
+    readFileSync(
+      path.join(root, "apps/api/migrations/0003_build_jobs.sql"),
+      "utf8",
+    ),
+  );
   class Statement {
     constructor(sql, values = []) {
       this.sql = sql;

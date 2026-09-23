@@ -1,0 +1,61 @@
+name: Publish database snapshot
+run-name: knowledge-${{ inputs.job_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: Immutable build job ID issued by the admin
+        required: true
+        type: string
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+# Same lock as the legacy Pages workflow. Backend additionally allows only one
+# active publication, so delayed/reordered GitHub runs cannot deploy old snapshots.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: vars.KNOWLEDGE_PIPELINE == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      KNOWLEDGE_API_ORIGIN: ${{ vars.KNOWLEDGE_API_ORIGIN }}
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+      BUILD_PIPELINE_SECRET: ${{ secrets.BUILD_PIPELINE_SECRET }}
+      BUILD_JOB_ID: ${{ inputs.job_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.4.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Claim saved snapshot job
+        id: claim
+        run: node scripts/knowledge/ci-publish.mjs claim
+      - name: Download fixed snapshot and build existing blog
+        run: node scripts/knowledge/ci-publish.mjs build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/out
+      - name: Confirm deployment eligibility
+        run: node scripts/knowledge/ci-publish.mjs deploying
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Verify live version and acknowledge publication
+        run: node scripts/knowledge/ci-publish.mjs succeeded
+      - name: Report build failure
+        if: ${{ failure() && steps.claim.outcome == 'success' && steps.deployment.outcome != 'success' }}
+        run: node scripts/knowledge/ci-publish.mjs failed
+      # Cancellation or failed success callback is reconciled explicitly by the
+      # owner after GitHub reports completed; never auto-release a live deploy lock.

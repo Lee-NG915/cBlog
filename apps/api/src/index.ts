@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { builds, buildInternal } from "./builds";
 import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
@@ -64,6 +65,8 @@ app.use("/api/*", async (c, next) => {
   }
   await next();
 });
+app.route("/api/v1/builds", builds);
+app.route("/internal/builds", buildInternal);
 app.get("/auth/github", async (c) => {
   if (
     !c.env.GITHUB_CLIENT_ID ||
@@ -74,7 +77,7 @@ app.get("/auth/github", async (c) => {
       {
         error: {
           code: "AUTH_NOT_CONFIGURED",
-          message: "尚未配置 GitHub OAuth；请使用本地验收入口",
+          message: "后台登录尚未配置完成，请联系站点所有者",
         },
       },
       503,
@@ -637,7 +640,7 @@ app.post("/api/v1/publications", async (c) => {
     .parse(await c.req.json());
   // One SQL statement creates an immutable snapshot from the same database state.
   const result = await c.env.DB.prepare(
-    `INSERT INTO publications(created_at,manifest) SELECT ?, json_object('notes',json((SELECT COALESCE(json_group_array(json_object('id',id,'slug',slug,'title',title,'body',body,'topic_id',topic_id,'tags',json(tags),'version',version,'updated_at',updated_at)),'[]') FROM notes WHERE deleted_at IS NULL AND state='ready' AND visibility='public' AND topic_id IS NOT NULL)),'revision',corpus_revision) FROM settings WHERE id=1 AND corpus_revision=?`,
+    `INSERT INTO publications(created_at,manifest) SELECT ?, json_object('notes',json((SELECT COALESCE(json_group_array(json_object('id',id,'slug',CASE WHEN source_path LIKE 'content/posts/%' THEN COALESCE(json_extract(source_metadata,'$.slug'),slug) ELSE slug END,'title',title,'body',body,'topic_id',topic_id,'topic_name',(SELECT name FROM groups WHERE id=notes.topic_id),'tags',json(tags),'version',version,'updated_at',updated_at)),'[]') FROM notes WHERE deleted_at IS NULL AND state='ready' AND visibility='public' AND topic_id IS NOT NULL)),'revision',corpus_revision) FROM settings WHERE id=1 AND corpus_revision=?`,
   )
     .bind(new Date().toISOString(), expectedRevision)
     .run();

@@ -20,13 +20,17 @@ export function Editor({
   groups,
   onBack,
   onSaved,
+  onPublish,
 }: {
   initial: Note;
   groups: Group[];
   onBack: () => void;
   onSaved: (n: Note) => void;
+  onPublish: () => void;
 }) {
   const e = useEditor(initial, onSaved),
+    [preparing, setPreparing] = useState(false),
+    [publishError, setPublishError] = useState(""),
     [preview, setPreview] = useState(false),
     [properties, setProperties] = useState(false),
     [uploading, setUploading] = useState(false),
@@ -122,6 +126,21 @@ export function Editor({
           <span>保存</span>
         </button>
         <button
+          className="quiet"
+          disabled={preparing || uploading || !e.ready}
+          onClick={() => {
+            setPreparing(true);
+            setPublishError("");
+            void e
+              .flush()
+              .then(onPublish)
+              .catch((err) => setPublishError(err.message))
+              .finally(() => setPreparing(false));
+          }}
+        >
+          {preparing ? "确认保存中…" : "保存并前往发布"}
+        </button>
+        <button
           className="icon-button"
           onClick={() => setProperties(!properties)}
           aria-label="笔记属性"
@@ -129,6 +148,11 @@ export function Editor({
           <Settings2 size={20} />
         </button>
       </div>
+      {publishError && (
+        <p role="alert" className="error">
+          {publishError}
+        </p>
+      )}
       {e.conflict && (
         <div className="warning">
           <strong>检测到版本冲突，本机内容未被覆盖。</strong>

@@ -80,3 +80,31 @@ E2E 覆盖：桌面搜索/阅读、手机目录、保存中继续输入、创建
 - 初始专题关系仅在创建对应容器时写入；重复导入不覆盖改名、重排或主动清空的成员。后续新增笔记需在工作台加入对应项目与路径，不自动追加。
 - 导入前已导出本地备份；笔记仍默认私有。原专栏 Markdown 和旧博客数据库未修改。
 - 本轮验证：后端与迁移测试 21 项通过；前端类型检查和生产构建通过。新增桌面与手机尺寸专题导航验收记录见 `apps/knowledge/tests/collections.spec.ts`。
+
+## Cloudflare 预览存储初始化（2026-09-23）
+
+已核实用户提供的 D1 `color-notes-preview` 与 KV `color-notes-images-preview` 均可通过账户 API 读取，ID 与 `apps/api/wrangler.jsonc` 一致。
+确认 D1 无业务表后，通过 Cloudflare API 应用 `0001_knowledge.sql`、`0002_source_metadata.sql`，并按 Wrangler 的表结构记录 `d1_migrations`，便于后续迁移继续执行。
+初始化后笔记数量为 0；未上传本地私人笔记或图片，未部署 Worker，未启用付费产品。KV 本次验证限于命名空间读取，Worker 内图片读写及 OAuth 仍待部署联调。
+
+## 预览部署准备
+
+Wrangler 配置已固定账户与用户提供的预览 D1/KV，启用 workers.dev、关闭版本预览 URL。线上登录页不再展示本机专用登录按钮，OAuth 尚未配置时明确返回不可用。
+2026-09-23 检查发现账户尚未初始化 workers.dev 子域名，本机 Wrangler 未登录；已发起官方设备授权流程，等待所有者完成授权和子域名初始化。未部署 Worker，未上传私人笔记。
+
+## 预览后台首次部署
+
+Wrangler OAuth 已成功授权并通过 whoami 核验。已部署至 https://color-notes-admin-preview.donghaili915.workers.dev ，版本 `517bc8c7-9d4e-4f42-95f3-f4d141953074`；远端迁移检查无待执行项。GitHub OAuth 凭证尚未配置，未上传私人笔记。
+本机系统 DNS 将该域名解析为 `157.240.13.8` 并触发证书域名不匹配；Cloudflare 官方 DoH 返回 `172.67.206.206` / `104.21.50.142`。使用官方解析地址并保留 TLS 主机名验证后，首页返回 200。日常访问需修复本机 DNS/网络解析；不要忽略证书警告。
+
+## GitHub 登录配置部署
+
+所有者经用户确认限定为 `Lee-NG915`，使用公开 GitHub 数字 ID `55341019` 校验；不以邮箱授权。Client ID 已写入 Wrangler 配置，Secret 由用户直接上传 Cloudflare，未读取其值。
+部署版本：`ae146818-4100-4b82-b934-6a39a837cef2`。线上 `/auth/github` 返回 302，目标为 GitHub OAuth，客户端 ID、`/auth/callback` 回调、S256 PKCE 以及两个 Secure/HttpOnly Cookie 已检查通过。
+用户尚需亲自完成 GitHub 授权，真实授权码兑换及登录会话仍待联调；以上检查不等于端到端登录通过。云端仍未迁入本地私人笔记。
+
+## 数据库快照构建链路实现
+
+详见 [数据库发布设计、配置与验收](./05-database-publishing.md)。新增保存屏障、不可变快照构建任务、GitHub 工作流、现有 Next 博客构建适配、图片校验、上线版本核验与失败恢复。后端和快照测试 29 项通过，浏览器本轮 4 项通过；普通和空快照均已真实静态构建。
+云端仅更新预览后台能力和任务表，构建开关保持关闭；GitHub 工作流尚未推送合入、专用构建 Secret 尚未配置，所以不能声称线上全链路已启用。
+预览后台本轮部署版本：`8471a2c2-c4e2-4bad-bda6-ac43227e5ea2`。`BUILD_PIPELINE_ENABLED=false`；首页 200，未登录 `/api/v1/builds` 与无 CI 密钥 `/internal/builds/check/snapshot` 均返回 401（使用官方解析地址且保留 TLS 验证）。

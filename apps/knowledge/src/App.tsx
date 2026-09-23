@@ -68,6 +68,19 @@ export default function App() {
     [dark, setDark] = useState(
       () => localStorage.getItem("color-theme") === "dark",
     ),
+    [buildJobs, setBuildJobs] = useState<
+      Array<{
+        id: string;
+        publication_id: number;
+        status: string;
+        run_id: string | null;
+        detail: string;
+        site_url: string | null;
+      }>
+    >([]),
+    [buildEnabled, setBuildEnabled] = useState(false),
+    [buildRepository, setBuildRepository] = useState(""),
+    [publishing, setPublishing] = useState(false),
     [publications, setPublications] = useState<
       { id: number; created_at: string; status: string }[]
     >([]);
@@ -137,12 +150,68 @@ export default function App() {
     window.addEventListener("hashchange", update);
     return () => window.removeEventListener("hashchange", update);
   }, []);
+  async function refreshPublications() {
+    const [p, b] = await Promise.all([
+      api<{ data: typeof publications }>("/publications"),
+      api<{ data: typeof buildJobs; enabled: boolean; repository: string }>(
+        "/builds",
+      ),
+    ]);
+    setPublications(p.data);
+    setBuildJobs(b.data);
+    setBuildEnabled(b.enabled);
+    setBuildRepository(b.repository);
+  }
   useEffect(() => {
-    if (view === "publish")
-      void api<{ data: typeof publications }>("/publications")
-        .then((p) => setPublications(p.data))
-        .catch((e) => setError(e.message));
-  }, [view]);
+    if (view !== "publish" || !authenticated) return;
+    void refresh().catch((e) => setError(e.message));
+    void refreshPublications().catch((e) => setError(e.message));
+    const timer = setInterval(
+      () => void refreshPublications().catch((e) => setError(e.message)),
+      5000,
+    );
+    return () => clearInterval(timer);
+  }, [view, authenticated]);
+  async function requestBuild(publicationId: number) {
+    if ((await listDrafts()).length)
+      throw new Error("还有未同步的本机草稿，请先保存后发布");
+    return api<{ data: { url?: string } }>("/builds", {
+      method: "POST",
+      body: JSON.stringify({ publicationId }),
+    });
+  }
+  async function createPublication() {
+    if (
+      !notes.some(
+        (n) => n.visibility === "public" && n.state === "ready" && n.topic_id,
+      ) &&
+      !confirm("公开范围为空。这会生成空博客，用于撤回全部文章。确定继续？")
+    )
+      return;
+    setPublishing(true);
+    setError("");
+    try {
+      if ((await listDrafts()).length)
+        throw new Error("还有未同步的本机草稿，请打开编辑器保存成功后再发布");
+      const latest = await loadCorpus();
+      if (latest.revision !== revision) {
+        await refresh();
+        throw new Error("数据库内容已更新，请核对刷新后的公开范围，再点击发布");
+      }
+      const result = await api<{ data: { id: number } }>("/publications", {
+        method: "POST",
+        body: JSON.stringify({ expectedRevision: latest.revision }),
+      });
+      if (buildEnabled) await requestBuild(result.data.id);
+      await refreshPublications();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "发布失败");
+      await refreshPublications().catch(() => {});
+    } finally {
+      setPublishing(false);
+    }
+  }
+
   const current = notes.find((n) => n.id === reading),
     activeGroup = groups.find((g) => g.id === group),
     domains = groups.filter((g) => g.kind === "domain");
@@ -449,10 +518,16 @@ export default function App() {
           给思考留一些空间，给未来的自己留一份笔记。
         </p>
         {error && <p className="error">{error}</p>}
-        <button className="primary" onClick={() => void login()}>
-          进入本地工作台 <ArrowRight size={18} />
-        </button>
-        <small>仅监听本机地址 · 笔记默认私有 · 原始数据保持不变</small>
+        {["127.0.0.1", "localhost", "[::1]"].includes(location.hostname) ? (
+          <>
+            <button className="primary" onClick={() => void login()}>
+              进入本地工作台 <ArrowRight size={18} />
+            </button>
+            <small>仅监听本机地址 · 笔记默认私有 · 原始数据保持不变</small>
+          </>
+        ) : (
+          <small>私人知识工作台 · 仅限所有者登录</small>
+        )}
         <a href="/auth/github">使用 GitHub 登录线上后台</a>
       </main>
     );
@@ -537,6 +612,12 @@ export default function App() {
                 void refresh();
               }}
               onSaved={saved}
+              onPublish={() => {
+                setEditing(null);
+                setView("publish");
+                setReading("");
+                location.hash = "";
+              }}
             />
           </Suspense>
         ) : current ? (
@@ -789,7 +870,7 @@ export default function App() {
             <p className="eyebrow">保存与发布，各有一步</p>
             <h1>发布记录</h1>
             <p className="lead">
-              先确认公开范围，再生成固定版本的快照。本地快照不会自动上线。
+              保存成功后生成固定快照，博客只读取这份快照构建。只有核验线上版本成功后，才显示已上线。
             </p>
             <div className="notice">
               <strong>
@@ -822,21 +903,83 @@ export default function App() {
               ))}
             <button
               className="primary"
-              onClick={() =>
-                void api("/publications", {
-                  method: "POST",
-                  body: JSON.stringify({ expectedRevision: revision }),
-                })
-                  .then(() =>
-                    api<{ data: typeof publications }>("/publications"),
-                  )
-                  .then((r) => setPublications(r.data))
-                  .catch((e) => setError(e.message))
+              disabled={
+                publishing ||
+                buildJobs.some((j) =>
+                  ["dispatching", "queued", "building", "deploying"].includes(
+                    j.status,
+                  ),
+                )
               }
+              onClick={() => void createPublication()}
             >
               <UploadCloud size={18} />
-              生成本地发布快照
+              {publishing
+                ? "确认保存并创建快照…"
+                : buildEnabled
+                  ? "发布到博客"
+                  : "生成本地发布快照"}
             </button>
+            {!buildEnabled && (
+              <p className="muted">
+                线上构建尚未连接，当前仅生成快照，不会自动上线。
+              </p>
+            )}
+            {buildJobs.map((j) => (
+              <div className="publication" key={j.id}>
+                <strong>快照 #{j.publication_id}</strong>
+                <span role="status">
+                  {
+                    (
+                      {
+                        dispatching: "触发中",
+                        queued: "等待构建",
+                        building: "构建中",
+                        deploying: "部署中",
+                        succeeded: "已上线",
+                        failed: "失败",
+                      } as Record<string, string>
+                    )[j.status]
+                  }
+                </span>
+                {j.detail && <p>{j.detail}</p>}
+                {j.run_id && (
+                  <a
+                    href={`https://github.com/${buildRepository}/actions/runs/${j.run_id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    构建日志
+                  </a>
+                )}
+                {j.site_url && (
+                  <a href={j.site_url} target="_blank" rel="noreferrer">
+                    查看博客
+                  </a>
+                )}
+                {["dispatching", "queued", "building", "deploying"].includes(
+                  j.status,
+                ) && (
+                  <button
+                    onClick={() => {
+                      if (
+                        !j.run_id &&
+                        !confirm("取消尚未开始的任务？取消后可重新发布。")
+                      )
+                        return;
+                      void api(`/builds/${j.id}/reconcile`, {
+                        method: "POST",
+                        body: "{}",
+                      })
+                        .then(refreshPublications)
+                        .catch((e) => setError(e.message));
+                    }}
+                  >
+                    {j.run_id ? "核验任务状态" : "取消等待"}
+                  </button>
+                )}
+              </div>
+            ))}
             <div className="section-heading">
               <h2>快照历史</h2>
             </div>
@@ -852,13 +995,25 @@ export default function App() {
                     </small>
                   </div>
                   <button
+                    disabled={
+                      !buildEnabled &&
+                      !["localhost", "127.0.0.1", "[::1]"].includes(
+                        location.hostname,
+                      )
+                    }
                     onClick={() =>
-                      void api<{ data: { url: string } }>(
-                        "/local/publish/" + p.id,
-                        { method: "POST", body: "{}" },
+                      void (
+                        buildEnabled
+                          ? requestBuild(p.id)
+                          : api<{ data: { url: string } }>(
+                              "/local/publish/" + p.id,
+                              { method: "POST", body: "{}" },
+                            )
                       )
                         .then((r) => {
-                          window.open(r.data.url, "_blank", "noopener");
+                          if (r.data.url)
+                            window.open(r.data.url, "_blank", "noopener");
+                          void refreshPublications();
                           return api<{ data: typeof publications }>(
                             "/publications",
                           );
@@ -867,7 +1022,7 @@ export default function App() {
                         .catch((e) => setError(e.message))
                     }
                   >
-                    构建阅读站
+                    {buildEnabled ? "构建此快照 / 重试" : "构建阅读站"}
                   </button>
                   <span className="pill">
                     {p.status === "snapshot"

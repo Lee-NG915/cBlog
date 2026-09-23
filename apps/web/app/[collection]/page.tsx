@@ -28,7 +28,9 @@ function toRouteParam(slug: string): string {
 }
 
 export async function generateStaticParams() {
-  return (await getAllCollections()).map((collection) => ({
+  const collections = await getAllCollections();
+  if (!collections.length) return [{ collection: "__empty__" }];
+  return collections.map((collection) => ({
     collection: toRouteParam(collection.slug),
   }));
 }

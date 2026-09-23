@@ -13,6 +13,7 @@ interface CategoryPageProps {
 
 export async function generateStaticParams() {
   const categories = await getAllCategories();
+  if (!categories.length) return [{ category: "__empty__" }];
   return categories.map((category) => ({
     category: category.slug,
   }));

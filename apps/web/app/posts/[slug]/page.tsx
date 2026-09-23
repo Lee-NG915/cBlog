@@ -30,6 +30,7 @@ interface PostPageProps {
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
+  if (!slugs.length) return [{ slug: "__empty__" }];
   return slugs.map((slug) => ({
     slug: encodeURIComponent(slug),
   }));

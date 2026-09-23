@@ -44,7 +44,8 @@ export async function generateStaticParams() {
       }))
     )
   );
-  return paramSets.flat();
+  // Next 14 static export requires a parameter even when all collections are private.
+  return paramSets.flat().length ? paramSets.flat() : [{ collection: "__empty__", slug: "__empty__" }];
 }
 
 export async function generateMetadata({

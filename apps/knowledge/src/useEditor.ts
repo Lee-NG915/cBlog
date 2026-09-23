@@ -75,7 +75,12 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
       current.current = next;
       if (mounted.current) {
         setNote(next);
-        saveCallback.current(next);
+        saveCallback.current({
+          ...snapshot,
+          ...JSON.parse(mutation.body),
+          tags: JSON.stringify(JSON.parse(mutation.body).tags),
+          version: version.current,
+        });
         if (generation.current === acked.current) {
           await draftStore("delete", next.id);
           if (generation.current === acked.current) setStatus("已同步");
@@ -158,6 +163,29 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
       window.removeEventListener("beforeunload", before);
     };
   }, []);
+  async function flush() {
+    if (!ready || blocked.current || !navigator.onLine)
+      throw new Error("请先联网并解决保存冲突");
+    const deadline = Date.now() + 20000;
+    while (busy.current || generation.current !== acked.current) {
+      if (Date.now() > deadline) throw new Error("保存尚未完成，请稍后重试");
+      if (busy.current) {
+        await new Promise((r) => setTimeout(r, 50));
+        continue;
+      }
+      const previous = acked.current;
+      await save();
+      if (blocked.current || acked.current === previous)
+        throw new Error("保存失败，未进入发布流程");
+    }
+    // Do not leave until the local draft deletion transaction has completed.
+    const confirmed = acked.current;
+    await draftStore("delete", current.current.id);
+    if (generation.current !== confirmed) {
+      await persist(current.current);
+      throw new Error("保存确认期间又有编辑，请再次保存后发布");
+    }
+  }
   async function merge() {
     const response = await api<{ data: Note }>("/notes/" + initial.id);
     return response.data;
@@ -178,6 +206,7 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
     save,
     merge,
     acceptMerge,
+    flush,
     isDirty: () => generation.current !== acked.current,
   };
 }
