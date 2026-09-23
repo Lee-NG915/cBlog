@@ -11,6 +11,7 @@ import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { root, stateDir, database } from "./local-db.mjs";
 import { rewriteLinks } from "./markdown-links.mjs";
+import { collectionTopic, seedCollections } from "./collection-seeds.mjs";
 const require = createRequire(path.join(root, "packages/core/package.json"));
 const matter = require("gray-matter");
 function walk(dir: string): string[] {
@@ -48,28 +49,36 @@ const notes = walk(path.join(root, "content"))
     const id = createHash("sha256").update(source).digest("hex").slice(0, 24);
     const isCollection = source.startsWith("content/collections/");
     const category = data.category;
-    const label = String(data.title) + " " + String(data.slug || "") + " " + path.basename(file);
-    const topic = /marketing|growth|dtc|广告|营销/i.test(label)
-      ? "growth"
-      : category === "life"
-        ? "living"
-        : category === "learning" || /复习索引|面试|学习|手记|复盘/.test(label)
-          ? "learning"
-          : /观测|observability|埋点|tracking|监控|feature.?flag/i.test(label)
-            ? "observability"
-            : /组件|设计系统|design.system|tailwind|UI组件/i.test(label)
-              ? "design-system"
-              : /缓存|性能|redis|ISR|cache/i.test(label)
-                ? "performance"
-                : /交易|支付|鉴权|payment|auth|checkout/i.test(label)
-                  ? "commerce"
-                  : /\bAI\b|harness|LLM|模型|智能/i.test(label)
-                    ? "ai-engineering"
-                    : /架构|工程|迁移|重构|Monorepo|DDD|系统|规范|战略/i.test(
-                          label,
-                        )
-                      ? "architecture"
-                      : "frontend";
+    const label =
+      String(data.title) +
+      " " +
+      String(data.slug || "") +
+      " " +
+      path.basename(file);
+    const topic =
+      collectionTopic(source, data.slug) ??
+      (/marketing|growth|dtc|广告|营销/i.test(label)
+        ? "growth"
+        : category === "life"
+          ? "living"
+          : category === "learning" ||
+              /复习索引|面试|学习|手记|复盘/.test(label)
+            ? "learning"
+            : /观测|observability|埋点|tracking|监控|feature.?flag/i.test(label)
+              ? "observability"
+              : /组件|设计系统|design.system|tailwind|UI组件/i.test(label)
+                ? "design-system"
+                : /缓存|性能|redis|ISR|cache/i.test(label)
+                  ? "performance"
+                  : /交易|支付|鉴权|payment|auth|checkout/i.test(label)
+                    ? "commerce"
+                    : /\bAI\b|harness|LLM|模型|智能/i.test(label)
+                      ? "ai-engineering"
+                      : /架构|工程|迁移|重构|Monorepo|DDD|系统|规范|战略/i.test(
+                            label,
+                          )
+                        ? "architecture"
+                        : "frontend");
     return {
       id,
       slug: data.slug || id,
@@ -235,6 +244,7 @@ try {
         JSON.stringify(n.metadata),
       );
   }
+  seedCollections(sqlite, notes);
   const paths: Record<string, string[]> = {
     "engineering-path": [
       "engineering-practice-hub",

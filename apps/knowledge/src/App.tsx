@@ -585,6 +585,30 @@ export default function App() {
                   {new Date(current.updated_at).toLocaleDateString("zh-CN")}
                 </span>
               </div>
+              <nav aria-label="笔记所属项目与学习路径">
+                {groups
+                  .filter(
+                    (g) =>
+                      (g.kind === "project" || g.kind === "path") &&
+                      memberships.some(
+                        (m) => m.group_id === g.id && m.note_id === current.id,
+                      ),
+                  )
+                  .map((g) => (
+                    <button
+                      key={g.id}
+                      className="quiet"
+                      onClick={() =>
+                        navigate(
+                          g.kind === "project" ? "projects" : "paths",
+                          g.id,
+                        )
+                      }
+                    >
+                      {g.kind === "project" ? "项目" : "学习路径"} · {g.name}
+                    </button>
+                  ))}
+              </nav>
               <button
                 className="mobile-toc quiet"
                 onClick={() => setTocOpen(true)}
