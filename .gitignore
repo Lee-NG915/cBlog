@@ -52,3 +52,12 @@ next-env.d.ts
 # Phase 7 local PostgreSQL dump artifacts (never commit)
 *.dump
 *.dump.manifest.json
+
+# Knowledge platform build, local state and test evidence
+apps/knowledge/dist/
+apps/knowledge/test-results/
+apps/knowledge/playwright-report/
+apps/api/dist/
+apps/api/.wrangler/
+apps/api/.dev.vars
+.knowledge/

@@ -1,0 +1,1 @@
+ALTER TABLE notes ADD COLUMN source_metadata TEXT NOT NULL DEFAULT '{}';

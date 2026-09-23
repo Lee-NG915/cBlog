@@ -1,5 +1,10 @@
 # Color 手记（cBlog）
 
+## 知识库本地验收版
+
+新工作台位于 `apps/knowledge`，API 位于 `apps/api`；原博客保留。运行 `pnpm knowledge:dev` 后访问 [本地工作台](http://127.0.0.1:8787/)。首次初始化、数据备份和实际功能边界见[本地使用说明](docs/knowledge-platform/04-local-runbook.md)与[实现验证记录](docs/knowledge-platform/03-implementation-status.md)。
+
+
 个人知识站点：**博客前台 + 本地内容管理 + 共享核心包**。生产仍是 GitHub Pages 上的静态站；仓库里已经具备可切换的部署态 v2（PostgreSQL、Content API、Outbox、ISR），但**尚未切真实流量**。
 
 公开站点：[https://lee-ng915.github.io/cBlog](https://lee-ng915.github.io/cBlog)

@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "color-notes-admin-preview",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+  "assets": {
+    "directory": "../knowledge/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/auth/*"],
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "color-notes-preview",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "kv_namespaces": [
+    { "binding": "IMAGES", "id": "00000000000000000000000000000000" },
+  ],
+  "vars": {
+    "APP_ENV": "preview",
+    "OWNER_GITHUB_ID": "",
+    "GITHUB_CLIENT_ID": "",
+    "PUBLIC_ORIGIN": "",
+    "AI_ENABLED": "false",
+  },
+}

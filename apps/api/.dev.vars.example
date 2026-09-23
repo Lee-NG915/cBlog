@@ -1,0 +1,2 @@
+# Copy to .dev.vars only for a local Wrangler session. Never commit secrets.
+GITHUB_CLIENT_SECRET=""
