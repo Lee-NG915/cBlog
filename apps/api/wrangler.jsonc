@@ -31,7 +31,7 @@
     "GITHUB_CLIENT_ID": "Ov23liqF5qHUxZVslwzV",
     "PUBLIC_ORIGIN": "https://lee-ng915.github.io/cBlog",
     "AI_ENABLED": "false",
-    "BUILD_PIPELINE_ENABLED": "false",
+    "BUILD_PIPELINE_ENABLED": "true",
     "BUILD_REPOSITORY": "Lee-NG915/cBlog",
     "BUILD_REF": "main",
     "BUILD_WORKFLOW": "knowledge-publish.yml",
