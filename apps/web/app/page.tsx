@@ -45,18 +45,17 @@ export default async function Home() {
       <div className="space-y-12 sm:space-y-16">
         <section className="grid gap-6 pt-2 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div
-            className="editorial-card relative overflow-hidden p-7 sm:p-10 lg:p-12"
-            data-reveal="hero"
+            className="home-hero editorial-card relative overflow-hidden p-7 sm:p-10 lg:p-12"
           >
-            <div className="pointer-events-none absolute -right-20 -top-16 h-56 w-56 rotate-12 border border-line-light opacity-60 dark:border-line-dark" />
-            <p className="editorial-label">工程 / 学习 / 生活</p>
-            <h1 className="mt-7 max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
+            <div aria-hidden="true" className="home-hero-paper pointer-events-none absolute -right-20 -top-16 h-56 w-56 rotate-12 border border-line-light opacity-60 dark:border-line-dark" />
+            <p className="home-hero-label editorial-label">工程 / 学习 / 生活</p>
+            <h1 className="home-hero-title mt-7 max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-normal text-ink dark:text-gray-50 sm:text-6xl lg:text-7xl">
               {siteConfig.title}
             </h1>
-            <p className="mt-6 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-300 sm:text-lg">
+            <p className="home-hero-description mt-6 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-300 sm:text-lg">
               {siteConfig.description}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="home-hero-actions mt-8 flex flex-wrap gap-3">
               <Link
                 href={featuredPost ? `/posts/${featuredPost.slug}` : "/categories"}
                 className="rounded-full bg-ink px-5 py-2.5 font-sans text-sm font-semibold text-background-light shadow-editorial-sm transition hover:bg-primary-700 dark:bg-gray-100 dark:text-gray-950 dark:hover:bg-primary-200"
@@ -72,7 +71,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <aside className="editorial-card p-6 sm:p-7" data-reveal data-reveal-delay="120">
+          <aside className="home-hero-overview editorial-card p-6 sm:p-7">
             <p className="editorial-label">站点概览</p>
             <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6">
               <div>
