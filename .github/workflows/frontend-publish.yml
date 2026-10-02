@@ -1,0 +1,66 @@
+name: Publish frontend with live content
+on:
+  workflow_dispatch:
+    inputs:
+      legacy_content_sha:
+        description: First legacy migration only - exact currently deployed content commit
+        required: false
+        type: string
+permissions:
+  contents: read
+  actions: read
+  deployments: read
+  pages: write
+  id-token: write
+# Share the complete resolve/build/deploy interval with BOTH content publishers.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+      LEGACY_CONTENT_SHA: ${{ inputs.legacy_content_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check publication guards
+        run: node --test scripts/knowledge/frontend-publish.test.mjs
+      - name: Resolve exactly the currently deployed content
+        run: node scripts/knowledge/frontend-publish.mjs resolve
+      - name: Build new frontend using that content
+        run: node scripts/knowledge/frontend-publish.mjs build
+      - name: Retain content inputs for the next frontend publication
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-content
+          path: .frontend/source
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/out
+      - name: Refuse to overwrite a changed content publication
+        run: node scripts/knowledge/frontend-publish.mjs guard
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Verify live frontend and unchanged publication identity
+        run: node scripts/knowledge/frontend-publish.mjs verify

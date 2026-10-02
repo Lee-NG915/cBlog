@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rewriteLinks } from "./markdown-links.mjs";
+import { saveSource } from "./published-source.mjs";
 const root = fileURLToPath(new URL("../../", import.meta.url));
 export async function prepareSnapshot(
   snapshot,
@@ -97,7 +98,15 @@ export async function prepareSnapshot(
   return { posts, categories: [...categories.values()], assets };
 }
 export async function buildSnapshot(snapshot, options = {}) {
-  const model = await prepareSnapshot(snapshot, options);
+  const originalAssets = new Map();
+  const model = await prepareSnapshot(snapshot, {
+    ...options,
+    assetLoader: options.assetLoader && (async (id) => {
+      const bytes = Buffer.from(await options.assetLoader(id));
+      originalAssets.set(id, bytes);
+      return bytes;
+    }),
+  });
   const media = path.join(root, "apps/web/public/knowledge-media");
   // Remove previous generated content/assets, never the source notes.
   for (const dir of [
@@ -175,6 +184,12 @@ export async function buildSnapshot(snapshot, options = {}) {
         revision: snapshot.manifest.revision,
       }),
     );
+    if (options.archivePath) saveSource(options.archivePath, {
+      version: 1,
+      kind: "snapshot",
+      siteUrl: options.siteUrl,
+      snapshot,
+    }, originalAssets);
   } finally {
     server.close();
     rmSync(media, { recursive: true, force: true });

@@ -67,6 +67,7 @@ else if (command === "build") {
   const site = new URL(PUBLIC_SITE_URL);
   if (site.protocol !== "https:") throw new Error("Public URL must be HTTPS");
   await buildSnapshot(snapshot, {
+    archivePath: ".frontend/source",
     basePath: site.pathname.replace(/\/$/, ""),
     siteUrl: PUBLIC_SITE_URL,
     assetLoader: async (id) => bytes(await call(`assets/${id}`), 1024 * 1024),

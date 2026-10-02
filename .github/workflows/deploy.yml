@@ -86,6 +86,28 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Record legacy content source for frontend rebuilds
+        if: vars.WEB_CONTENT_SOURCE != 'api'
+        run: |
+          node --input-type=module -e '
+            import { saveSource } from "./scripts/knowledge/published-source.mjs";
+            saveSource(".frontend/source", {
+              version: 1, kind: "legacy",
+              siteUrl: process.env.SITE_URL.replace(/\/$/, ""),
+              contentRef: process.env.GITHUB_SHA,
+            });
+          '
+
+      - name: Retain legacy content source
+        if: vars.WEB_CONTENT_SOURCE != 'api'
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-content
+          path: .frontend/source
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

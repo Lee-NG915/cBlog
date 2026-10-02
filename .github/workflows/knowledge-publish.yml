@@ -44,6 +44,14 @@ jobs:
         run: node scripts/knowledge/ci-publish.mjs claim
       - name: Download fixed snapshot and build existing blog
         run: node scripts/knowledge/ci-publish.mjs build
+      - name: Retain published content for frontend rebuilds
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-content
+          path: .frontend/source
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
