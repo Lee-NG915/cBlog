@@ -690,6 +690,12 @@ app.get("/api/v1/publications/:id", async (c) => {
     .first();
   return p ? c.json({ data: p }) : c.notFound();
 });
+app.get("/api/v1/publications/:id/scope", async (c) => {
+  const row = await c.env.DB.prepare(`SELECT (SELECT json_group_array(json_extract(n.value,'$.id'))
+    FROM json_each(p.manifest,'$.notes') n) AS ids FROM publications p WHERE p.id=?`)
+    .bind(c.req.param("id")).first<{ ids: string }>();
+  return row ? c.json({ noteIds: JSON.parse(row.ids) }) : c.notFound();
+});
 app.get("/api/v1/export", async (c) =>
   c.json({
     data: {

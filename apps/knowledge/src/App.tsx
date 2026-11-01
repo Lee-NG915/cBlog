@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import type { Note, Group, Membership } from "./types";
 import { api, download, loadCorpus, setCSRF } from "./api";
-import { draftStore, listDrafts } from "./drafts";
+import { draftStore, listDrafts, pendingDraftIds } from "./drafts";
 import { searchNotes } from "./search";
 import { Markdown, headings, readingBody, jumpToHeading } from "./Markdown";
 const Editor = lazy(() =>
@@ -174,8 +174,13 @@ export default function App() {
     return () => clearInterval(timer);
   }, [view, authenticated]);
   async function requestBuild(publicationId: number) {
-    if ((await listDrafts()).length)
-      throw new Error("还有未同步的本机草稿，请先保存后发布");
+    // On retries as well, check every note in this immutable publication,
+    // including retained live notes. Other browser drafts cannot enter it.
+    if ((await pendingDraftIds()).length) {
+      const scope = await api<{ noteIds: string[] }>(`/publications/${publicationId}/scope`);
+      if ((await pendingDraftIds()).some((id) => scope.noteIds.includes(id)))
+        throw new Error("本次快照中有未同步的本机草稿，请先保存后发布");
+    }
     return api<{ data: { url?: string } }>("/builds", {
       method: "POST",
       body: JSON.stringify({ publicationId }),
@@ -187,8 +192,8 @@ export default function App() {
     setPublishing(true);
     setError("");
     try {
-      if ((await listDrafts()).length)
-        throw new Error("还有未同步的本机草稿，请打开编辑器保存成功后再发布");
+      if ((await pendingDraftIds()).some((id) => noteIds.includes(id)))
+        throw new Error("选中的笔记还有未同步的本机草稿，请打开编辑器保存成功后再发布");
       const latest = await loadCorpus();
       if (latest.revision !== revision) {
         await refresh();
