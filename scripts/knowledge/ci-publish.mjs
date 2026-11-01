@@ -1,4 +1,7 @@
 import { buildSnapshot } from "./snapshot-build.mjs";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { readSource, validateSource } from "./published-source.mjs";
 const {
   KNOWLEDGE_API_ORIGIN,
   BUILD_PIPELINE_SECRET,
@@ -66,10 +69,16 @@ else if (command === "build") {
   if (snapshot.jobId !== BUILD_JOB_ID) throw new Error("Wrong snapshot job");
   const site = new URL(PUBLIC_SITE_URL);
   if (site.protocol !== "https:") throw new Error("Public URL must be HTTPS");
+  const baseline = JSON.parse(readFileSync(".frontend/baseline.json", "utf8"));
+  const previousSource = validateSource(readSource(".frontend/source"), PUBLIC_SITE_URL, baseline.publication);
+  const legacyContentRef = previousSource.kind === "legacy" ? previousSource.contentRef : previousSource.legacyContentRef;
   await buildSnapshot(snapshot, {
-    archivePath: ".frontend/source",
+    archivePath: ".frontend/next-source",
     basePath: site.pathname.replace(/\/$/, ""),
     siteUrl: PUBLIC_SITE_URL,
+    legacyContentRef,
+    previousSource,
+    previousAssetLoader: (id) => readFileSync(path.join(".frontend/source/assets", id)),
     assetLoader: async (id) => bytes(await call(`assets/${id}`), 1024 * 1024),
   });
 } else if (["deploying", "failed", "succeeded"].includes(command)) {

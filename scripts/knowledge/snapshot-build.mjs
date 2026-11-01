@@ -1,11 +1,12 @@
 import { createServer } from "node:http";
-import { mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rewriteLinks } from "./markdown-links.mjs";
 import { saveSource } from "./published-source.mjs";
+import { loadLegacyContent, mergePublicContent, assertPublicContentPreserved, publicRoutes } from "./legacy-content.mjs";
 const root = fileURLToPath(new URL("../../", import.meta.url));
 export async function prepareSnapshot(
   snapshot,
@@ -99,7 +100,7 @@ export async function prepareSnapshot(
 }
 export async function buildSnapshot(snapshot, options = {}) {
   const originalAssets = new Map();
-  const model = await prepareSnapshot(snapshot, {
+  const prepared = await prepareSnapshot(snapshot, {
     ...options,
     assetLoader: options.assetLoader && (async (id) => {
       const bytes = Buffer.from(await options.assetLoader(id));
@@ -107,91 +108,136 @@ export async function buildSnapshot(snapshot, options = {}) {
       return bytes;
     }),
   });
-  const media = path.join(root, "apps/web/public/knowledge-media");
-  // Remove previous generated content/assets, never the source notes.
-  for (const dir of [
-    "apps/web/.next",
-    "apps/web/out",
-    "apps/web/public/content",
-    "apps/web/public/knowledge-media",
-  ])
-    rmSync(path.join(root, dir), { recursive: true, force: true });
-  mkdirSync(media, { recursive: true });
-  for (const [id, bytes] of model.assets)
-    writeFileSync(path.join(media, id), bytes);
-  const server = createServer((req, res) => {
-    let result;
-    const url = new URL(req.url, "http://localhost");
-    if (url.pathname === "/api/v1/public/posts")
-      result = { posts: model.posts };
-    else if (url.pathname.startsWith("/api/v1/public/posts/")) {
-      const post = model.posts.find(
-        (n) =>
-          n.slug ===
-          decodeURIComponent(
-            url.pathname.slice("/api/v1/public/posts/".length),
-          ),
-      );
-      if (post) result = { post };
-    } else if (url.pathname === "/api/v1/public/categories")
-      result = { categories: model.categories };
-    else if (url.pathname === "/api/v1/public/collections")
-      result = { collections: [] };
-    else if (url.pathname === "/api/v1/public/sitemap")
-      result = {
-        sitemap: {
-          posts: model.posts.map((n) => ({
-            slug: n.slug,
-            updatedAt: n.updatedAt,
-          })),
-          collections: [],
-        },
-      };
-    res.writeHead(result ? 200 : 404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(result || { error: "Not found" }));
-  });
-  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const legacy = options.legacyContentRef
+    ? await loadLegacyContent(options.legacyContentRef, options) : null;
+  const model = mergePublicContent(legacy, prepared);
   try {
-    const port = server.address().port;
-    await new Promise((resolve, reject) => {
-      const child = spawn("pnpm", ["--filter", "@cblog/web", "build"], {
-        cwd: root,
-        stdio: "inherit",
-        env: {
-          ...process.env,
-          WEB_CONTENT_SOURCE: "api",
-          CONTENT_API_BASE_URL: `http://127.0.0.1:${port}`,
-          CONTENT_API_READ_TOKEN: "",
-          WEB_RENDER_MODE: "static-export",
-          PUBLICATION_DRIVER: "github-dispatch",
-          BASE_PATH: options.basePath || "",
-          NEXT_PUBLIC_BASE_PATH: options.basePath || "",
-          SITE_URL: options.siteUrl,
-        },
-      });
-      child.on("error", reject);
-      child.on("exit", (code) =>
-        code === 0
-          ? resolve()
-          : reject(new Error(`Blog build failed (${code})`)),
-      );
+    if (options.previousSource) {
+      const previous = options.previousSource;
+      if (previous.kind === "legacy" && previous.contentRef !== options.legacyContentRef ||
+          previous.kind === "snapshot" && previous.legacyContentRef !== options.legacyContentRef)
+        throw new Error("Published legacy content baseline changed");
+      const previousModel = previous.kind === "legacy" ? mergePublicContent(legacy, { posts: [], categories: [] })
+        : mergePublicContent(legacy, await prepareSnapshot(previous.snapshot, {
+          ...options, assetLoader: options.previousAssetLoader,
+        }));
+      assertPublicContentPreserved(previousModel, model);
+      if (previous.kind === "snapshot") {
+        const nextIds = new Set(snapshot.manifest.notes.map((n) => n.id));
+        if (previous.snapshot.manifest.notes.some((n) => !nextIds.has(n.id)))
+          throw new Error("Publication would withdraw an existing Cloudflare note; review the withdrawal before deploying");
+      }
+    }
+    const media = path.join(root, "apps/web/public/knowledge-media");
+    // Remove previous generated content/assets, never the source notes.
+    for (const dir of [
+      "apps/web/.next",
+      "apps/web/out",
+      "apps/web/public/content",
+      "apps/web/public/knowledge-media",
+    ])
+      rmSync(path.join(root, dir), { recursive: true, force: true });
+    mkdirSync(media, { recursive: true });
+    for (const [id, bytes] of model.assets)
+      writeFileSync(path.join(media, id), bytes);
+    const server = createServer((req, res) => {
+      let result;
+      const url = new URL(req.url, "http://localhost");
+      if (url.pathname === "/api/v1/public/posts")
+        result = { posts: model.posts };
+      else if (url.pathname.startsWith("/api/v1/public/posts/")) {
+        const post = model.posts.find(
+          (n) =>
+            n.slug ===
+            decodeURIComponent(
+              url.pathname.slice("/api/v1/public/posts/".length),
+            ),
+        );
+        if (post) result = { post };
+      } else if (url.pathname === "/api/v1/public/categories")
+        result = { categories: model.categories };
+      else if (url.pathname === "/api/v1/public/collections")
+        result = { collections: model.collections };
+      else if (url.pathname.startsWith("/api/v1/public/collections/")) {
+        const parts = url.pathname.slice("/api/v1/public/collections/".length).split("/").map(decodeURIComponent);
+        const collection = model.collections.find((c) => c.slug === parts[0]);
+        if (collection && parts.length === 1) result = { collection };
+        else if (collection && parts.length === 3 && parts[1] === "items") {
+          const item = collection.items.find((i) => i.slug === parts[2]);
+          if (item) result = { item };
+        }
+      }
+      else if (url.pathname === "/api/v1/public/sitemap")
+        result = {
+          sitemap: {
+            posts: model.posts.map((n) => ({
+              slug: n.slug,
+              updatedAt: n.updatedAt,
+            })),
+            categories: model.categories.map((c) => ({ slug: c.slug })),
+            collections: model.collections.map((c) => ({ slug: c.slug, noindex: c.noindex, items: c.items.map((i) => ({ slug: i.slug })) })),
+          },
+        };
+      res.writeHead(result ? 200 : 404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result || { error: "Not found" }));
     });
-    writeFileSync(
-      path.join(root, "apps/web/out/publication.json"),
-      JSON.stringify({
-        jobId: snapshot.jobId,
-        publicationId: snapshot.publicationId,
-        revision: snapshot.manifest.revision,
-      }),
-    );
-    if (options.archivePath) saveSource(options.archivePath, {
-      version: 1,
-      kind: "snapshot",
-      siteUrl: options.siteUrl,
-      snapshot,
-    }, originalAssets);
-  } finally {
-    server.close();
-    rmSync(media, { recursive: true, force: true });
-  }
+    await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+    try {
+      const port = server.address().port;
+      await new Promise((resolve, reject) => {
+        const child = spawn("pnpm", ["--filter", "@cblog/web", "build"], {
+          cwd: root,
+          stdio: "inherit",
+          env: {
+            ...process.env,
+            WEB_CONTENT_SOURCE: "api",
+            CONTENT_API_BASE_URL: `http://127.0.0.1:${port}`,
+            CONTENT_API_READ_TOKEN: "",
+            WEB_RENDER_MODE: "static-export",
+            PUBLICATION_DRIVER: "github-dispatch",
+            BASE_PATH: options.basePath || "",
+            NEXT_PUBLIC_BASE_PATH: options.basePath || "",
+            SITE_URL: options.siteUrl,
+          },
+        });
+        child.on("error", reject);
+        child.on("exit", (code) =>
+          code === 0
+            ? resolve()
+            : reject(new Error(`Blog build failed (${code})`)),
+        );
+      });
+      const output = path.join(root, "apps/web/out");
+      legacy?.copyAssets(output);
+      for (const route of publicRoutes(model)) {
+        if (!existsSync(path.join(output, route, "index.html")))
+          throw new Error(`Built site is missing public route: ${route}`);
+      }
+      mkdirSync(path.join(root, ".frontend"), { recursive: true });
+      console.log(`Verified ${publicRoutes(model).length} public content routes (${model.posts.length} posts, ${model.collections.length} collections)`);
+      writeFileSync(path.join(root, ".frontend/content-inventory.json"), JSON.stringify({
+        legacyContentRef: options.legacyContentRef || null,
+        posts: model.posts.map((p) => p.slug),
+        collections: model.collections.map((c) => ({ slug: c.slug, noindex: c.noindex, items: c.items.map((i) => i.slug) })),
+      }));
+      writeFileSync(
+        path.join(root, "apps/web/out/publication.json"),
+        JSON.stringify({
+          jobId: snapshot.jobId,
+          publicationId: snapshot.publicationId,
+          revision: snapshot.manifest.revision,
+        }),
+      );
+      if (options.archivePath) saveSource(options.archivePath, {
+        version: 1,
+        kind: "snapshot",
+        siteUrl: options.siteUrl,
+        snapshot,
+        ...(options.legacyContentRef ? { legacyContentRef: options.legacyContentRef } : {}),
+      }, originalAssets);
+    } finally {
+      server.close();
+      rmSync(media, { recursive: true, force: true });
+    }
+  } finally { legacy?.cleanup(); }
 }

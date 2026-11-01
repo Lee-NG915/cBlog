@@ -635,14 +635,33 @@ app.get("/api/v1/publications", async (c) =>
   }),
 );
 app.post("/api/v1/publications", async (c) => {
-  const { expectedRevision } = z
-    .object({ expectedRevision: z.number().int() })
+  const { expectedRevision, noteIds } = z
+    .object({ expectedRevision: z.number().int(), noteIds: z.array(z.string().min(1).max(128)).max(1000).optional() })
     .parse(await c.req.json());
-  // One SQL statement creates an immutable snapshot from the same database state.
-  const result = await c.env.DB.prepare(
-    `INSERT INTO publications(created_at,manifest) SELECT ?, json_object('notes',json((SELECT COALESCE(json_group_array(json_object('id',id,'slug',CASE WHEN source_path LIKE 'content/posts/%' THEN COALESCE(json_extract(source_metadata,'$.slug'),slug) ELSE slug END,'title',title,'body',body,'topic_id',topic_id,'topic_name',(SELECT name FROM groups WHERE id=notes.topic_id),'tags',json(tags),'version',version,'updated_at',updated_at)),'[]') FROM notes WHERE deleted_at IS NULL AND state='ready' AND visibility='public' AND topic_id IS NOT NULL)),'revision',corpus_revision) FROM settings WHERE id=1 AND corpus_revision=?`,
-  )
-    .bind(new Date().toISOString(), expectedRevision)
+  // Selected edits and the previously verified public versions come from one
+  // database revision. Never include another newly eligible note by accident.
+  const selectedIds = noteIds === undefined ? null : JSON.stringify(noteIds);
+  const result = await c.env.DB.prepare(`
+    WITH inputs AS (SELECT ? AS chosen), current_public AS (
+      SELECT n.* FROM notes n WHERE n.deleted_at IS NULL AND n.state='ready'
+        AND n.visibility='public' AND n.topic_id IS NOT NULL
+    ), last_live AS (
+      SELECT p.manifest FROM publications p JOIN build_jobs b ON b.publication_id=p.id
+      WHERE b.status='succeeded' ORDER BY b.updated_at DESC LIMIT 1
+    ), included AS (
+      SELECT json_object('id',n.id,'slug',CASE WHEN n.source_path LIKE 'content/posts/%'
+        THEN COALESCE(json_extract(n.source_metadata,'$.slug'),n.slug) ELSE n.slug END,
+        'title',n.title,'body',n.body,'topic_id',n.topic_id,'topic_name',(SELECT name FROM groups WHERE id=n.topic_id),
+        'tags',json(n.tags),'version',n.version,'updated_at',n.updated_at) AS note
+      FROM current_public n, inputs i WHERE i.chosen IS NULL OR n.id IN (SELECT value FROM json_each(i.chosen))
+      UNION ALL
+      SELECT old.value FROM last_live, json_each(last_live.manifest,'$.notes') old, inputs i
+      JOIN current_public n ON n.id=json_extract(old.value,'$.id')
+      WHERE i.chosen IS NOT NULL AND n.id NOT IN (SELECT value FROM json_each(i.chosen))
+    ) INSERT INTO publications(created_at,manifest)
+      SELECT ?,json_object('notes',json((SELECT json_group_array(json(note)) FROM included)),'revision',corpus_revision)
+      FROM settings WHERE id=1 AND corpus_revision=?
+  `).bind(selectedIds, new Date().toISOString(), expectedRevision)
     .run();
   if (!result.meta.changes)
     return c.json(

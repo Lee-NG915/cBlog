@@ -470,3 +470,35 @@ test("concurrent identical mutation returns the committed result without false c
     s.close();
   }
 });
+
+test("selected publication includes only chosen eligible notes and never exposes a private or unselected note", async () => {
+  const s = await setup();
+  try {
+    await s.create("chosen", { state: "ready", visibility: "public" });
+    await s.create("unselected", { state: "ready", visibility: "public" });
+    await s.create("private", { state: "ready", visibility: "owner" });
+    const revision = s.sqlite.prepare("SELECT corpus_revision FROM settings").get().corpus_revision;
+    const result = await s.request("/api/v1/publications", "POST", { expectedRevision: revision, noteIds: ["chosen", "private"] });
+    assert.equal(result.status, 201);
+    const manifest = JSON.parse(s.sqlite.prepare("SELECT manifest FROM publications").get().manifest);
+    assert.deepEqual(manifest.notes.map((n: { id: string }) => n.id), ["chosen"]);
+  } finally { s.close(); }
+});
+
+test("publishing a new selection keeps unselected live note versions and excludes unreviewed edits", async () => {
+  const s = await setup();
+  try {
+    await s.create("old", { state: "ready", visibility: "public", body: "live version" });
+    const rev = () => s.sqlite.prepare("SELECT corpus_revision FROM settings").get().corpus_revision;
+    const initial = await s.request("/api/v1/publications", "POST", { expectedRevision: rev(), noteIds: ["old"] });
+    const publication = (await initial.json()).data.id;
+    s.sqlite.prepare("INSERT INTO build_jobs(id,publication_id,status,created_at,updated_at) VALUES('test',?,'succeeded','now','now')").run(publication);
+    await s.request("/api/v1/notes/old", "PATCH", { title: "old", body: "unreviewed", topic_id:"topic", state:"ready",visibility:"public",tags:[],expectedVersion:1,clientMutationId:crypto.randomUUID() });
+    await s.create("new", { state: "ready", visibility: "public" });
+    const next = await s.request("/api/v1/publications", "POST", { expectedRevision: rev(), noteIds: ["new"] });
+    assert.equal(next.status, 201);
+    const manifest=JSON.parse(s.sqlite.prepare("SELECT manifest FROM publications ORDER BY id DESC LIMIT 1").get().manifest);
+    assert.deepEqual(manifest.notes.map((n: {id: string})=>n.id).sort(), ["new", "old"]);
+    assert.equal(manifest.notes.find((n: {id: string})=>n.id === "old").body, "live version");
+  } finally { s.close(); }
+});
