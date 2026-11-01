@@ -6,7 +6,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rewriteLinks } from "./markdown-links.mjs";
 import { saveSource } from "./published-source.mjs";
-import { loadLegacyContent, mergePublicContent, assertPublicContentPreserved, publicRoutes } from "./legacy-content.mjs";
+import {
+  loadLegacyContent,
+  mergePublicContent,
+  assertPublicContentPreserved,
+  publicRoutes,
+  publicInventory,
+} from "./legacy-content.mjs";
 const root = fileURLToPath(new URL("../../", import.meta.url));
 export async function prepareSnapshot(
   snapshot,
@@ -20,18 +26,35 @@ export async function prepareSnapshot(
     throw new Error("Invalid snapshot");
   const ids = new Map(),
     slugs = new Set(),
-    categories = new Map(),
+    categories = new Map(
+      (snapshot.manifest.categories || []).map((c) => [
+        c.slug,
+        { ...c, publishedCount: 0 },
+      ]),
+    ),
     assets = new Map();
+  for (const r of snapshot.manifest.references || []) {
+    if (
+      !/^[\w-]+$/.test(r.id) ||
+      !/^[-\w\u4e00-\u9fff]+\/[-\w\u4e00-\u9fff]+$/.test(r.route)
+    )
+      throw new Error("Invalid public reference");
+    if (!(snapshot.manifest.withdrawals || []).some((w) => w.id === r.id))
+      ids.set(r.id, r.route);
+  }
   for (const n of snapshot.manifest.notes) {
+    const route = n.route || `posts/${n.slug}`;
     if (
       !/^[\w-]+$/.test(n.id) ||
       !/^[-\w\u4e00-\u9fff]+$/.test(n.slug) ||
       !n.topic_id ||
-      slugs.has(n.slug)
+      slugs.has(route)
     )
       throw new Error("Invalid or duplicate note route");
-    ids.set(n.id, n.slug);
-    slugs.add(n.slug);
+    if (!/^[-\w\u4e00-\u9fff]+\/[-\w\u4e00-\u9fff]+$/.test(route))
+      throw new Error("Invalid note route");
+    ids.set(n.id, route);
+    slugs.add(route);
   }
   const posts = [];
   for (const n of snapshot.manifest.notes) {
@@ -40,7 +63,7 @@ export async function prepareSnapshot(
       if (link) {
         if (!ids.has(link[1]))
           throw new Error("Note links to a private or missing note");
-        return `${basePath}/posts/${encodeURIComponent(ids.get(link[1]))}/${link[2] ? "#" + link[2] : ""}`;
+        return `${basePath}/${ids.get(link[1]).split("/").map(encodeURIComponent).join("/")}/${link[2] ? "#" + link[2] : ""}`;
       }
       const image = url.match(/^\/api\/v1\/assets\/([a-f0-9]{64})$/);
       if (image) {
@@ -60,6 +83,21 @@ export async function prepareSnapshot(
     category.publishedCount++;
     categories.set(n.topic_id, category);
     posts.push({
+      sourceId: n.id,
+      sourceVersion: n.version ?? null,
+      sourceContentHash: createHash("sha256")
+        .update(
+          JSON.stringify([
+            n.title,
+            n.body,
+            n.topic_id,
+            Array.isArray(n.tags) ? n.tags : JSON.parse(n.tags),
+          ]),
+        )
+        .digest("hex"),
+      ...(n.route && !n.route.startsWith("posts/")
+        ? { collectionSlug: n.route.split("/")[0] }
+        : {}),
       slug: n.slug,
       title: n.title,
       editorialDate: n.updated_at,
@@ -67,7 +105,15 @@ export async function prepareSnapshot(
       categorySlug: n.topic_id,
       categoryName: category.name,
       tags: Array.isArray(n.tags) ? n.tags : JSON.parse(n.tags),
-      excerpt: n.body.replace(/[#*`>\n]/g, " ").slice(0, 160),
+      excerpt: n.body
+        .replace(/```[\s\S]*?```/g, "")
+        .split("\n")
+        .filter((line) => !/^\s*(?:#|\||>|!\[)/.test(line) && line.trim())
+        .join(" ")
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+        .replace(/[*`_]/g, "")
+        .replace(/\s+/g, " ")
+        .slice(0, 160),
       readingMinutes: Math.max(1, Math.ceil(n.body.length / 450)),
       coverUrl: null,
       contentMarkdown: markdown,
@@ -96,36 +142,87 @@ export async function prepareSnapshot(
         url.endsWith(`/knowledge-media/${id}`) ? `${url}.${extension}` : url,
       );
   }
-  return { posts, categories: [...categories.values()], assets };
+  return {
+    posts: posts.filter((p) => !p.collectionSlug),
+    collectionEntries: posts.filter((p) => p.collectionSlug),
+    categories: [...categories.values()],
+    assets,
+  };
 }
 export async function buildSnapshot(snapshot, options = {}) {
   const originalAssets = new Map();
   const prepared = await prepareSnapshot(snapshot, {
     ...options,
-    assetLoader: options.assetLoader && (async (id) => {
-      const bytes = Buffer.from(await options.assetLoader(id));
-      originalAssets.set(id, bytes);
-      return bytes;
-    }),
+    assetLoader:
+      options.assetLoader &&
+      (async (id) => {
+        const bytes = Buffer.from(await options.assetLoader(id));
+        originalAssets.set(id, bytes);
+        return bytes;
+      }),
   });
   const legacy = options.legacyContentRef
-    ? await loadLegacyContent(options.legacyContentRef, options) : null;
-  const model = mergePublicContent(legacy, prepared);
+    ? await loadLegacyContent(options.legacyContentRef, options)
+    : null;
+  const model = mergePublicContent(
+    legacy,
+    prepared,
+    snapshot.manifest.withdrawals || [],
+  );
   try {
     if (options.previousSource) {
       const previous = options.previousSource;
-      if (previous.kind === "legacy" && previous.contentRef !== options.legacyContentRef ||
-          previous.kind === "snapshot" && previous.legacyContentRef !== options.legacyContentRef)
+      if (
+        (previous.kind === "legacy" &&
+          previous.contentRef !== options.legacyContentRef) ||
+        (previous.kind === "snapshot" &&
+          previous.legacyContentRef !== options.legacyContentRef)
+      )
         throw new Error("Published legacy content baseline changed");
-      const previousModel = previous.kind === "legacy" ? mergePublicContent(legacy, { posts: [], categories: [] })
-        : mergePublicContent(legacy, await prepareSnapshot(previous.snapshot, {
-          ...options, assetLoader: options.previousAssetLoader,
-        }));
-      assertPublicContentPreserved(previousModel, model);
+      const previousModel =
+        previous.kind === "legacy"
+          ? mergePublicContent(legacy, { posts: [], categories: [] })
+          : mergePublicContent(
+              legacy,
+              await prepareSnapshot(previous.snapshot, {
+                ...options,
+                assetLoader: options.previousAssetLoader,
+              }),
+              previous.snapshot.manifest.withdrawals || [],
+            );
+      const priorWithdrawals =
+        previous.kind === "snapshot"
+          ? previous.snapshot.manifest.withdrawals || []
+          : [];
+      const newlyWithdrawn = (snapshot.manifest.withdrawals || []).filter(
+        (w) =>
+          !priorWithdrawals.some(
+            (old) => old.id === w.id && old.route === w.route,
+          ),
+      );
+      if (
+        newlyWithdrawn.some(
+          (w) =>
+            snapshot.manifest.intent?.action !== "unpublish" ||
+            snapshot.manifest.intent.noteId !== w.id ||
+            snapshot.manifest.intent.route !== w.route,
+        )
+      )
+        throw new Error(
+          "Withdrawal requires an explicit single-article action",
+        );
+      assertPublicContentPreserved(previousModel, model, newlyWithdrawn);
       if (previous.kind === "snapshot") {
         const nextIds = new Set(snapshot.manifest.notes.map((n) => n.id));
-        if (previous.snapshot.manifest.notes.some((n) => !nextIds.has(n.id)))
-          throw new Error("Publication would withdraw an existing Cloudflare note; review the withdrawal before deploying");
+        if (
+          previous.snapshot.manifest.notes.some(
+            (n) =>
+              !nextIds.has(n.id) && !newlyWithdrawn.some((w) => w.id === n.id),
+          )
+        )
+          throw new Error(
+            "Publication would withdraw an existing Cloudflare note; review the withdrawal before deploying",
+          );
       }
     }
     const media = path.join(root, "apps/web/public/knowledge-media");
@@ -159,15 +256,17 @@ export async function buildSnapshot(snapshot, options = {}) {
       else if (url.pathname === "/api/v1/public/collections")
         result = { collections: model.collections };
       else if (url.pathname.startsWith("/api/v1/public/collections/")) {
-        const parts = url.pathname.slice("/api/v1/public/collections/".length).split("/").map(decodeURIComponent);
+        const parts = url.pathname
+          .slice("/api/v1/public/collections/".length)
+          .split("/")
+          .map(decodeURIComponent);
         const collection = model.collections.find((c) => c.slug === parts[0]);
         if (collection && parts.length === 1) result = { collection };
         else if (collection && parts.length === 3 && parts[1] === "items") {
           const item = collection.items.find((i) => i.slug === parts[2]);
           if (item) result = { item };
         }
-      }
-      else if (url.pathname === "/api/v1/public/sitemap")
+      } else if (url.pathname === "/api/v1/public/sitemap")
         result = {
           sitemap: {
             posts: model.posts.map((n) => ({
@@ -175,7 +274,11 @@ export async function buildSnapshot(snapshot, options = {}) {
               updatedAt: n.updatedAt,
             })),
             categories: model.categories.map((c) => ({ slug: c.slug })),
-            collections: model.collections.map((c) => ({ slug: c.slug, noindex: c.noindex, items: c.items.map((i) => ({ slug: i.slug })) })),
+            collections: model.collections.map((c) => ({
+              slug: c.slug,
+              noindex: c.noindex,
+              items: c.items.map((i) => ({ slug: i.slug })),
+            })),
           },
         };
       res.writeHead(result ? 200 : 404, { "Content-Type": "application/json" });
@@ -214,30 +317,49 @@ export async function buildSnapshot(snapshot, options = {}) {
           throw new Error(`Built site is missing public route: ${route}`);
       }
       mkdirSync(path.join(root, ".frontend"), { recursive: true });
-      console.log(`Verified ${publicRoutes(model).length} public content routes (${model.posts.length} posts, ${model.collections.length} collections)`);
-      writeFileSync(path.join(root, ".frontend/content-inventory.json"), JSON.stringify({
-        legacyContentRef: options.legacyContentRef || null,
-        posts: model.posts.map((p) => p.slug),
-        collections: model.collections.map((c) => ({ slug: c.slug, noindex: c.noindex, items: c.items.map((i) => i.slug) })),
-      }));
+      console.log(
+        `Verified ${publicRoutes(model).length} public content routes (${model.posts.length} posts, ${model.collections.length} collections)`,
+      );
+      writeFileSync(
+        path.join(root, ".frontend/content-inventory.json"),
+        JSON.stringify({
+          legacyContentRef: options.legacyContentRef || null,
+          posts: model.posts.map((p) => p.slug),
+          collections: model.collections.map((c) => ({
+            slug: c.slug,
+            noindex: c.noindex,
+            items: c.items.map((i) => i.slug),
+          })),
+        }),
+      );
       writeFileSync(
         path.join(root, "apps/web/out/publication.json"),
         JSON.stringify({
           jobId: snapshot.jobId,
           publicationId: snapshot.publicationId,
           revision: snapshot.manifest.revision,
+          publicNotes: publicInventory(model),
         }),
       );
-      if (options.archivePath) saveSource(options.archivePath, {
-        version: 1,
-        kind: "snapshot",
-        siteUrl: options.siteUrl,
-        snapshot,
-        ...(options.legacyContentRef ? { legacyContentRef: options.legacyContentRef } : {}),
-      }, originalAssets);
+      if (options.archivePath)
+        saveSource(
+          options.archivePath,
+          {
+            version: 1,
+            kind: "snapshot",
+            siteUrl: options.siteUrl,
+            snapshot,
+            ...(options.legacyContentRef
+              ? { legacyContentRef: options.legacyContentRef }
+              : {}),
+          },
+          originalAssets,
+        );
     } finally {
       server.close();
       rmSync(media, { recursive: true, force: true });
     }
-  } finally { legacy?.cleanup(); }
+  } finally {
+    legacy?.cleanup();
+  }
 }

@@ -1,5 +1,7 @@
 import { Hono } from "hono";
-import { builds, buildInternal } from "./builds";
+import { builds, buildInternal, configured } from "./builds";
+import { publishing } from "./publishing";
+import { needsUnpublish } from "./live";
 import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
@@ -66,6 +68,7 @@ app.use("/api/*", async (c, next) => {
   await next();
 });
 app.route("/api/v1/builds", builds);
+app.route("/api/v1/publishing", publishing);
 app.route("/internal/builds", buildInternal);
 app.get("/auth/github", async (c) => {
   if (
@@ -405,6 +408,16 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
       413,
     );
   const id = c.req.param("id");
+  if (input.state === "archived" && (await needsUnpublish(c.env, id)))
+    return c.json(
+      {
+        error: {
+          code: "MUST_UNPUBLISH",
+          message: "这篇文章已上线或正在发布。请先下线，完成后再归档。",
+        },
+      },
+      409,
+    );
   if (!/^[\w-]{1,100}$/.test(id))
     return c.json(
       { error: { code: "INVALID_ID", message: "无效的笔记 ID" } },
@@ -496,9 +509,9 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
     return c.json({ data: { id, version: 1 } }, 201);
   }
   const result = await c.env.DB.prepare(
-    "UPDATE notes SET title=?,body=?,topic_id=?,state=?,visibility=?,tags=?,updated_at=?,mutation_id=?,mutation_hash=?,version=version+1 WHERE id=? AND version=? AND deleted_at IS NULL",
+    "UPDATE notes SET title=?,body=?,topic_id=?,state=?,visibility=?,tags=?,updated_at=?,mutation_id=?,mutation_hash=?,version=version+1 WHERE id=? AND version=? AND deleted_at IS NULL AND (?!='archived' OR NOT EXISTS(SELECT 1 FROM build_jobs WHERE status IN ('dispatching','queued','building','deploying')))",
   )
-    .bind(...values, id, input.expectedVersion)
+    .bind(...values, id, input.expectedVersion, input.state)
     .run();
   if (!result.meta.changes) {
     const existing = await replay();
@@ -515,13 +528,50 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
   }
   return c.json({ data: { id, version: input.expectedVersion + 1 } });
 });
+app.get("/api/v1/trash", async (c) =>
+  c.json({
+    data: (
+      await c.env.DB.prepare(
+        "SELECT id,title,version,deleted_at FROM notes WHERE deleted_at IS NOT NULL ORDER BY deleted_at DESC",
+      ).all()
+    ).results,
+  }),
+);
+app.post("/api/v1/notes/:id/restore", async (c) => {
+  const { expectedVersion } = z
+    .object({ expectedVersion: z.number().int().positive() })
+    .parse(await c.req.json());
+  const r = await c.env.DB.prepare(
+    "UPDATE notes SET deleted_at=NULL,state='draft',visibility='owner',version=version+1,updated_at=?,mutation_id=?,mutation_hash='restore' WHERE id=? AND version=? AND deleted_at IS NOT NULL",
+  )
+    .bind(
+      new Date().toISOString(),
+      crypto.randomUUID(),
+      c.req.param("id"),
+      expectedVersion,
+    )
+    .run();
+  return r.meta.changes
+    ? c.json({ data: { ok: true } })
+    : c.json({ error: { message: "文章已变化，请刷新回收站。" } }, 409);
+});
 app.delete("/api/v1/notes/:id", async (c) => {
+  if (await needsUnpublish(c.env, c.req.param("id")))
+    return c.json(
+      {
+        error: {
+          code: "MUST_UNPUBLISH",
+          message: "这篇文章已上线或正在发布。请先下线，完成后再移入回收站。",
+        },
+      },
+      409,
+    );
   const { expectedVersion } = z
     .object({ expectedVersion: z.number().int() })
     .parse(await c.req.json());
   const now = new Date().toISOString();
   const r = await c.env.DB.prepare(
-    "UPDATE notes SET deleted_at=?,updated_at=?,version=version+1,mutation_id=?,mutation_hash=? WHERE id=? AND version=? AND deleted_at IS NULL",
+    "UPDATE notes SET deleted_at=?,updated_at=?,version=version+1,mutation_id=?,mutation_hash=? WHERE id=? AND version=? AND deleted_at IS NULL AND NOT EXISTS(SELECT 1 FROM build_jobs WHERE status IN ('dispatching','queued','building','deploying'))",
   )
     .bind(
       now,
@@ -638,13 +688,28 @@ app.get("/api/v1/publications", async (c) =>
   }),
 );
 app.post("/api/v1/publications", async (c) => {
+  if (configured(c.env))
+    return c.json(
+      {
+        error: {
+          code: "CLIENT_UPDATE_REQUIRED",
+          message:
+            "发布流程已更新，请刷新后台并使用文章的发布、更新或下线按钮。",
+        },
+      },
+      409,
+    );
   const { expectedRevision, noteIds } = z
-    .object({ expectedRevision: z.number().int(), noteIds: z.array(z.string().min(1).max(128)).max(1000).optional() })
+    .object({
+      expectedRevision: z.number().int(),
+      noteIds: z.array(z.string().min(1).max(128)).max(1000).optional(),
+    })
     .parse(await c.req.json());
   // Selected edits and the previously verified public versions come from one
   // database revision. Never include another newly eligible note by accident.
   const selectedIds = noteIds === undefined ? null : JSON.stringify(noteIds);
-  const result = await c.env.DB.prepare(`
+  const result = await c.env.DB.prepare(
+    `
     WITH inputs AS (SELECT ? AS chosen), current_public AS (
       SELECT n.* FROM notes n WHERE n.deleted_at IS NULL AND n.state='ready'
         AND n.visibility='public' AND n.topic_id IS NOT NULL
@@ -659,12 +724,13 @@ app.post("/api/v1/publications", async (c) => {
       FROM current_public n, inputs i WHERE i.chosen IS NULL OR n.id IN (SELECT value FROM json_each(i.chosen))
       UNION ALL
       SELECT old.value FROM last_live, json_each(last_live.manifest,'$.notes') old, inputs i
-      JOIN current_public n ON n.id=json_extract(old.value,'$.id')
-      WHERE i.chosen IS NOT NULL AND n.id NOT IN (SELECT value FROM json_each(i.chosen))
+      WHERE i.chosen IS NOT NULL AND json_extract(old.value,'$.id') NOT IN (SELECT value FROM json_each(i.chosen))
     ) INSERT INTO publications(created_at,manifest)
       SELECT ?,json_object('notes',json((SELECT json_group_array(json(note)) FROM included)),'revision',corpus_revision)
       FROM settings WHERE id=1 AND corpus_revision=?
-  `).bind(selectedIds, new Date().toISOString(), expectedRevision)
+  `,
+  )
+    .bind(selectedIds, new Date().toISOString(), expectedRevision)
     .run();
   if (!result.meta.changes)
     return c.json(
@@ -694,9 +760,12 @@ app.get("/api/v1/publications/:id", async (c) => {
   return p ? c.json({ data: p }) : c.notFound();
 });
 app.get("/api/v1/publications/:id/scope", async (c) => {
-  const row = await c.env.DB.prepare(`SELECT (SELECT json_group_array(json_extract(n.value,'$.id'))
-    FROM json_each(p.manifest,'$.notes') n) AS ids FROM publications p WHERE p.id=?`)
-    .bind(c.req.param("id")).first<{ ids: string }>();
+  const row = await c.env.DB.prepare(
+    `SELECT (SELECT json_group_array(json_extract(n.value,'$.id'))
+    FROM json_each(p.manifest,'$.notes') n) AS ids FROM publications p WHERE p.id=?`,
+  )
+    .bind(c.req.param("id"))
+    .first<{ ids: string }>();
   return row ? c.json({ noteIds: JSON.parse(row.ids) }) : c.notFound();
 });
 app.get("/api/v1/export", async (c) =>

@@ -5,7 +5,7 @@ import { app } from "../../apps/api/src/index";
 import { issueSession, session } from "../../apps/api/src/security";
 import { publishLocal } from "./publish.mjs";
 import { Hono } from "../../apps/api/node_modules/hono/dist/index.js";
-import { database, localImages, root } from "./local-db.mjs";
+import { database, localImages, root, stateDir } from "./local-db.mjs";
 const { DB } = database();
 const env = {
   DB,
@@ -47,7 +47,7 @@ local.get("/published/*", (c) => {
     "/published/".length,
   );
   if (url.includes("..")) return c.notFound();
-  const file = path.join(root, ".knowledge/public", url || "index.html");
+  const file = path.join(stateDir, "public", url || "index.html");
   if (!existsSync(file) || !requireFile(file)) return c.notFound();
   let mime = url.endsWith(".css")
     ? "text/css"
@@ -56,7 +56,7 @@ local.get("/published/*", (c) => {
       : "text/html; charset=utf-8";
   if (url.startsWith("media/")) {
     const manifest = JSON.parse(
-      readFileSync(path.join(root, ".knowledge/public/manifest.json"), "utf8"),
+      readFileSync(path.join(stateDir, "public/manifest.json"), "utf8"),
     );
     mime =
       manifest.assets.find((a: { id: string }) => a.id === url.slice(6))

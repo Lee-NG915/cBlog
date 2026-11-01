@@ -17,14 +17,29 @@ export async function api<T>(
   options: RequestInit = {},
 ): Promise<T> {
   const response = await fetch("/api/v1" + url, {
+    signal: options.signal || AbortSignal.timeout(20000),
     ...options,
     headers: {
       "Content-Type": "application/json",
       "X-CSRF-Token": csrf,
       ...options.headers,
     },
+  }).catch((error) => {
+    throw new ApiError(
+      error.name === "TimeoutError"
+        ? "请求超时，请重新核对状态后重试。刚才的操作可能仍在处理中。"
+        : "连接中断，请联网后重试；未保存的修改会留在本机。",
+      "NETWORK",
+      0,
+    );
   });
-  const value = await response.json();
+  const value = await response.json().catch(() => {
+    throw new ApiError(
+      `服务暂时无法响应（HTTP ${response.status}），请稍后重试。`,
+      "INVALID_RESPONSE",
+      response.status,
+    );
+  });
   if (response.status === 401)
     window.dispatchEvent(new Event("cblog:session-expired"));
   if (!response.ok)
