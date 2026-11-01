@@ -30,6 +30,21 @@ test("an in-progress unrelated deployment blocks frontend publication", async ()
     q.startsWith("deployments?") ? [{ id: 2, sha }] : [{ state: "in_progress", log_url: "https://github.com/owner/repo/actions/runs/200/job/2" }]), /in progress/);
 });
 
+test("recover a deployed snapshot after a failed receipt only with a matching live marker and completed Pages step", async () => {
+  const deploy = { name: "Run actions/deploy-pages@v4", conclusion: "success" };
+  const data = {
+    "deployments?environment=github-pages&per_page=100&page=1": [{ id: 3, sha }],
+    "deployments/3/statuses?per_page=100": [{ state: "failure", log_url: "https://github.com/owner/repo/actions/runs/300/job/3" }],
+    "actions/runs/300": { path: ".github/workflows/knowledge-publish.yml", head_sha: sha, status: "completed", display_title: "knowledge-public-job" },
+    "actions/runs/300/jobs?per_page=100": { jobs: [{ name: "publish", steps: [deploy] }] },
+  };
+  const resolve = p => deployedBaseline("owner/repo", "400", async q => data[q], p);
+  assert.equal((await resolve(publication)).runId, "300");
+  await assert.rejects(resolve({ ...publication, jobId: "another" }), /No active/);
+  deploy.conclusion = "failure";
+  await assert.rejects(resolve(publication), /deploy step did not succeed/);
+});
+
 test("bootstrap cannot revert a database publication or select an arbitrary commit", () => {
   const b = { workflow: ".github/workflows/deploy.yml", sha };
   assert.equal(legacyBootstrap(b, sha, site, null).contentRef, sha);
