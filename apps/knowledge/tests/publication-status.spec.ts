@@ -1,61 +1,138 @@
 import { test, expect, type Page } from "@playwright/test";
-
-async function fixtures(page: Page, publications: Array<{id: number; status: string; build_status: string | null}>) {
-  let writes = 0;
-  await page.route("**/api/v1/**", async route => {
-    if (route.request().method() !== "GET") { writes++; return route.abort(); }
+const note = {
+  id: "article",
+  slug: "article",
+  title: "架构设计：共享工程，独立交付",
+  body: "## 架构\n\n| 模块 | 职责 |\n| --- | --- |\n| 店铺 | 交付 |",
+  topic_id: "topic",
+  state: "draft",
+  visibility: "owner",
+  tags: "[]",
+  version: 2,
+  updated_at: "2026-11-01",
+  deleted_at: null,
+};
+async function fixtures(page: Page) {
+  const state = {
+    enabled: true,
+    siteUrl: "https://blog.example",
+    repository: "fixture/blog",
+    live: [{ id: note.id, route: "posts/article", version: 1 }],
+    history: [] as any[],
+  };
+  const submitted: any[] = [];
+  await page.route("**/api/v1/**", async (route) => {
     const path = new URL(route.request().url()).pathname.replace("/api/v1", "");
-    const responses: Record<string, unknown> = {
-      "/session": { data: { csrf: "test" } },
-      "/corpus": { data: [], revision: 1, nextCursor: null },
-      "/groups": { data: [], memberships: [] },
-      "/publications": { data: publications.map(p => ({...p, created_at: "2026-11-01T03:00:00Z"})) },
-      // The successful snapshot may be outside the recent build-job page.
-      "/builds": { data: [], enabled: true, repository: "fixture/blog" },
+    if (path === "/publishing" && route.request().method() === "POST") {
+      const input = route.request().postDataJSON();
+      submitted.push(input);
+      state.history.unshift({
+        id: "job-" + submitted.length,
+        publication_id: submitted.length,
+        status: "queued",
+        run_id: "123",
+        created_at: "2026-11-01",
+        detail: "",
+        intent: {
+          action: input.action,
+          noteId: note.id,
+          title: note.title,
+          version: note.version,
+        },
+      });
+      return route.fulfill({ json: { data: state.history[0] }, status: 202 });
+    }
+    const response: Record<string, unknown> = {
+      "/session": { data: { csrf: "fixture" } },
+      "/corpus": { data: [note], revision: 1, nextCursor: null },
+      "/groups": {
+        data: [{ id: "topic", name: "架构与工程实践", kind: "topic" }],
+        memberships: [],
+      },
+      "/publishing": state,
     };
-    if (!(path in responses)) return route.abort();
-    await route.fulfill({ json: responses[path] });
+    if (!(path in response)) return route.abort();
+    await route.fulfill({ json: response[path] });
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "发布记录", exact: true }).click();
-  return () => writes;
+  return { state, submitted };
 }
-
-test("history distinguishes deployed, failed, unsubmitted and local-only snapshots", async ({page}) => {
-  const writes = await fixtures(page, [
-    {id: 3, status: "snapshot", build_status: "succeeded"},
-    {id: 2, status: "snapshot", build_status: "failed"},
-    {id: 1, status: "snapshot", build_status: null},
-    {id: 4, status: "deployed", build_status: null},
-  ]);
-  const row = (id: number) => page.getByRole("group", {name: `快照 #${id} 历史记录`,exact:true});
-  await expect(row(3).getByRole("status")).toHaveText("已上线");
-  await expect(row(3).getByRole("button", {name:"已上线",exact:true})).toBeDisabled();
-  await expect(row(3).getByRole("button", {name:"导出",exact:true})).toBeEnabled();
-  await expect(row(2).getByRole("status")).toHaveText("失败");
-  await expect(row(2).getByRole("button", {name:"重试发布",exact:true})).toBeEnabled();
-  await expect(row(1).getByRole("status")).toHaveText("已生成 · 尚未发布");
-  await expect(row(1).getByRole("button", {name:"构建此快照",exact:true})).toBeEnabled();
-  await expect(row(4).getByRole("status")).toHaveText("已构建本地阅读站");
-  expect(writes()).toBe(0);
+test("saved private flag cannot hide a live page; withdrawal stays pending until verified and retains readable manuscript", async ({
+  page,
+}) => {
+  const { state, submitted } = await fixtures(page);
+  await page.getByRole("button", { name: "博客发布", exact: true }).click();
+  const article = page.locator(".blog-article");
+  await expect(article.locator(".status-badge")).toHaveText("有未发布修改");
+  await expect(article.getByRole("link", { name: "查看博客" })).toBeVisible();
+  await article
+    .getByRole("button", { name: "从博客下线", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toContainText("后台文稿会保留");
+  await page.getByRole("button", { name: "确认下线", exact: true }).click();
+  await expect.poll(() => submitted.length).toBe(1);
+  expect(submitted[0].noteId).toBe(note.id);
+  expect(submitted[0].action).toBe("unpublish");
+  await expect(article.locator(".status-badge")).toHaveText("下线中");
+  await expect(article.getByRole("link", { name: "查看博客" })).toBeVisible();
+  await expect(
+    article.getByRole("button", { name: "更新博客" }),
+  ).toBeDisabled();
+  state.history[0].status = "deploying";
+  await expect(page.locator(".operation-progress")).toContainText(
+    "正在核验博客",
+    { timeout: 8000 },
+  );
+  state.history[0].status = "succeeded";
+  state.live = [];
+  await expect(article.locator(".status-badge")).toHaveText("已下线", {
+    timeout: 8000,
+  });
+  await expect(article.getByRole("link", { name: "查看博客" })).toHaveCount(0);
+  await article.getByRole("button", { name: note.title }).click();
+  await expect(page.locator(".prose table")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "发布文章", exact: true }),
+  ).toBeEnabled();
+  await page.screenshot({
+    path: "test-results/verified-withdrawal.png",
+    fullPage: false,
+  });
 });
-
-test("polling updates history through publishing states and prevents competing submissions", async ({page}) => {
-  const publications = [
-    {id: 3, status:"snapshot", build_status:"dispatching"},
-    {id: 2, status:"snapshot", build_status:"failed"},
-  ];
-  await fixtures(page, publications);
-  const row = page.getByRole("group", {name:"快照 #3 历史记录",exact:true});
-  await expect(row.getByRole("status")).toHaveText("触发中");
-  for (const [state,label] of [["queued","等待构建"],["building","构建中"],["deploying","部署中"],["succeeded","已上线"]]) {
-    publications[0].build_status = state;
-    await expect(row.getByRole("status")).toHaveText(label, {timeout:8000});
-    await expect(row.getByRole("button", {name:label,exact:true})).toBeDisabled();
-    if (state !== "succeeded") {
-      await expect(page.getByRole("button", {name:"发布到博客",exact:true})).toBeDisabled();
-      await expect(page.getByRole("button", {name:"重试发布",exact:true})).toBeDisabled();
-    }
-  }
-  await expect(page.getByRole("button", {name:"重试发布",exact:true})).toBeEnabled();
-});
+for (const width of [1440, 390, 320])
+  test(`publication controls remain readable at ${width}px and failed operations can retry`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const { state } = await fixtures(page);
+    if (width < 768)
+      await page.getByRole("button", { name: "打开知识目录" }).click();
+    await page.getByRole("button", { name: "博客发布", exact: true }).click();
+    await page
+      .locator(".blog-article")
+      .getByRole("button", { name: "更新博客" })
+      .click();
+    await page.getByRole("button", { name: "确认发布", exact: true }).click();
+    await expect.poll(() => state.history.length).toBe(1);
+    state.history[0].status = "failed";
+    state.history[0].detail = "示例：图片尚未同步，请保存后重试。";
+    await expect(page.locator(".blog-article .status-badge")).toHaveText(
+      "发布失败",
+      { timeout: 8000 },
+    );
+    await expect(page.locator(".blog-article")).toContainText(
+      "原页面仍在博客公开",
+    );
+    await expect(
+      page.locator(".blog-article").getByRole("button", { name: "重试发布" }),
+    ).toBeEnabled();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/blog-center-${width}.png`,
+      fullPage: false,
+    });
+  });

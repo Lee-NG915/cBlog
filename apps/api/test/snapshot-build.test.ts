@@ -61,3 +61,24 @@ test("private links, unmigrated links and duplicate routes stop the build", asyn
   const model = await prepareSnapshot(snap([]));
   assert.equal(model.posts.length, 0); // full withdrawal can build an empty site
 });
+
+test("public references resolve legacy links, retained categories survive an empty snapshot, and excerpts omit tables", async () => {
+  const s: any = snap([
+    note(
+      "a",
+      "A useful paragraph.\n\n| Header | Count |\n| --- | --- |\n| Row | 2 |\n\n[Legacy](/#note=legacy)",
+    ),
+  ]);
+  s.manifest.references = [{ id: "legacy", route: "legacy/chapter" }];
+  s.manifest.categories = [{ slug: "old-category", name: "Old category" }];
+  const m = await prepareSnapshot(s, { basePath: "/cBlog" });
+  assert.match(m.posts[0].contentMarkdown, /\/cBlog\/legacy\/chapter/);
+  assert.ok(
+    m.categories.some(
+      (c: any) => c.slug === "old-category" && c.publishedCount === 0,
+    ),
+  );
+  assert.equal(m.posts[0].excerpt.includes("|"), false);
+  s.manifest.withdrawals = [{ id: "legacy", route: "legacy/chapter" }];
+  await assert.rejects(prepareSnapshot(s), /private or missing/);
+});

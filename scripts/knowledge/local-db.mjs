@@ -3,7 +3,8 @@ import { readFileSync, mkdirSync, existsSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 export const root = fileURLToPath(new URL("../../", import.meta.url));
-export const stateDir = path.join(root, ".knowledge");
+export const stateDir =
+  process.env.KNOWLEDGE_STATE_DIR || path.join(root, ".knowledge");
 export function database(filename = path.join(stateDir, "notes.db")) {
   mkdirSync(stateDir, { recursive: true });
   const sqlite = new DatabaseSync(filename);
@@ -28,6 +29,12 @@ export function database(filename = path.join(stateDir, "notes.db")) {
   sqlite.exec(
     readFileSync(
       path.join(root, "apps/api/migrations/0003_build_jobs.sql"),
+      "utf8",
+    ),
+  );
+  sqlite.exec(
+    readFileSync(
+      path.join(root, "apps/api/migrations/0004_publication_state.sql"),
       "utf8",
     ),
   );

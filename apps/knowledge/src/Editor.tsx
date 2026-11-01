@@ -1,4 +1,4 @@
-import { useRef, useState, lazy, Suspense } from "react";
+import { useRef, useState, useEffect, lazy, Suspense } from "react";
 import { markdown } from "@codemirror/lang-markdown";
 import type { ReactCodeMirrorRef } from "@uiw/react-codemirror";
 import {
@@ -9,8 +9,12 @@ import {
   Code2,
   Save,
   Settings2,
+  UploadCloud,
+  EyeOff,
 } from "lucide-react";
 import type { Note, Group } from "./types";
+import { BlogStatus } from "./BlogPanel";
+import { articleStatus, type PublishingState } from "./publishing";
 import { useEditor } from "./useEditor";
 import { api, download } from "./api";
 import { Markdown } from "./Markdown";
@@ -21,12 +25,20 @@ export function Editor({
   onBack,
   onSaved,
   onPublish,
+  onUnpublish,
+  publishingState,
+  publishingBusy,
+  onDirtyCheck,
 }: {
   initial: Note;
   groups: Group[];
   onBack: () => void;
   onSaved: (n: Note) => void;
-  onPublish: () => void;
+  onPublish: (note: Note) => void;
+  onUnpublish: (note: Note) => void;
+  publishingState: PublishingState | null;
+  publishingBusy: boolean;
+  onDirtyCheck: (check: (() => boolean) | null) => void;
 }) {
   const e = useEditor(initial, onSaved),
     [preparing, setPreparing] = useState(false),
@@ -45,6 +57,11 @@ export function Editor({
   const [tagText, setTagText] = useState<string>(
     JSON.parse(initial.tags).join(", "),
   );
+  useEffect(() => {
+    onDirtyCheck(e.isDirty);
+    return () => onDirtyCheck(null);
+  }, []);
+  const live = articleStatus(e.note, publishingState).live;
   function insert(before: string, after = "") {
     const view = editorRef.current?.view;
     if (!view) return;
@@ -126,28 +143,74 @@ export function Editor({
           <span>保存</span>
         </button>
         <button
-          className="quiet"
-          disabled={preparing || uploading || !e.ready}
+          className="primary"
+          disabled={
+            preparing ||
+            uploading ||
+            !e.ready ||
+            publishingBusy ||
+            !publishingState?.enabled ||
+            e.note.state === "archived"
+          }
           onClick={() => {
             setPreparing(true);
             setPublishError("");
             void e
               .flush()
-              .then(onPublish)
+              .then((note) => {
+                if (!note.topic_id) {
+                  setProperties(true);
+                  throw new Error("请先在文章设置中选择分类，再发布。");
+                }
+                if (!note.body.trim())
+                  throw new Error("请先写入正文，再发布。");
+                onPublish(note);
+              })
               .catch((err) => setPublishError(err.message))
               .finally(() => setPreparing(false));
           }}
         >
-          {preparing ? "确认保存中…" : "保存并前往发布"}
+          <UploadCloud size={16} />
+          {preparing ? "正在保存…" : live ? "更新博客" : "发布文章"}
         </button>
+        {live && (
+          <button
+            className="quiet"
+            disabled={preparing || publishingBusy || !e.ready}
+            onClick={() => {
+              setPreparing(true);
+              setPublishError("");
+              void e
+                .flush()
+                .then(onUnpublish)
+                .catch((err) => setPublishError(err.message))
+                .finally(() => setPreparing(false));
+            }}
+          >
+            <EyeOff size={16} />
+            从博客下线
+          </button>
+        )}
         <button
-          className="icon-button"
+          className="quiet"
           onClick={() => setProperties(!properties)}
-          aria-label="笔记属性"
+          aria-label="文章设置"
+          aria-expanded={properties}
         >
-          <Settings2 size={20} />
+          <Settings2 size={18} />
+          文章设置
         </button>
       </div>
+      <div className="editor-publication">
+        <BlogStatus note={e.note} state={publishingState} />
+        <small>自动保存到后台；发布、更新和下线需要单独操作。</small>
+      </div>
+      {articleStatus(e.note, publishingState).failed && (
+        <p className="error editor-operation-error" role="status">
+          {articleStatus(e.note, publishingState).job?.detail}{" "}
+          可在“博客发布”查看操作记录并重试。
+        </p>
+      )}
       {publishError && (
         <p role="alert" className="error">
           {publishError}
@@ -301,12 +364,12 @@ export function Editor({
           )}
           <div className="editor-foot">
             <span>{e.note.body.length.toLocaleString()} 字符</span>
-            <span>本机草稿 · 自动同步 · Markdown 可导出</span>
+            <span>草稿自动保存 · Markdown 可导出</span>
           </div>
         </div>
         {properties && (
           <aside className="properties">
-            <h2>笔记属性</h2>
+            <h2>文章设置</h2>
             <button
               className="quiet"
               disabled={e.note.version === 0}
@@ -345,7 +408,7 @@ export function Editor({
               </details>
             )}
             <label>
-              归属主题
+              分类
               <select
                 value={e.note.topic_id || ""}
                 onChange={(v) => e.change({ topic_id: v.target.value || null })}
@@ -361,34 +424,6 @@ export function Editor({
                   ))}
               </select>
             </label>
-            <label>
-              文稿状态
-              <select
-                value={e.note.state}
-                onChange={(v) =>
-                  e.change({ state: v.target.value as Note["state"] })
-                }
-              >
-                <option value="draft">草稿</option>
-                <option value="ready">可发布</option>
-                <option value="archived">归档</option>
-              </select>
-            </label>
-            <label>
-              可见性
-              <select
-                value={e.note.visibility}
-                onChange={(v) =>
-                  e.change({ visibility: v.target.value as Note["visibility"] })
-                }
-              >
-                <option value="owner">仅自己</option>
-                <option value="public">允许公开发布</option>
-              </select>
-            </label>
-            <p className="muted">
-              允许公开不等于已上线。只有生成发布快照并完成部署后，访客才能看到。
-            </p>
             <label>
               标签（用逗号分隔）
               <input
@@ -407,7 +442,7 @@ export function Editor({
               />
             </label>
             <button className="quiet" onClick={() => setProperties(false)}>
-              收起属性
+              收起设置
             </button>
           </aside>
         )}

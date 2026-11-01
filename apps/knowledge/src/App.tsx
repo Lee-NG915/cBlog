@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useState, lazy, Suspense } from "react";
+import { useEffect, useMemo, useState, useRef, lazy, Suspense } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import {
+  Archive,
+  EyeOff,
+  Undo2,
   BookOpen,
   Search,
   ArrowUpRight,
@@ -32,35 +35,41 @@ import {
 import type { Note, Group, Membership } from "./types";
 import { api, download, loadCorpus, setCSRF } from "./api";
 import { draftStore, listDrafts, pendingDraftIds } from "./drafts";
+import { BlogPanel, BlogStatus } from "./BlogPanel";
+import {
+  articleStatus,
+  isActive,
+  type PublishingState,
+  type PublishAction,
+  type PublishJob,
+} from "./publishing";
 import { searchNotes } from "./search";
 import { Markdown, headings, readingBody, jumpToHeading } from "./Markdown";
 const Editor = lazy(() =>
   import("./Editor").then((m) => ({ default: m.Editor })),
 );
 type View =
-  "library" | "paths" | "projects" | "inbox" | "publish" | "search" | "brand";
+  | "library"
+  | "paths"
+  | "projects"
+  | "inbox"
+  | "publish"
+  | "search"
+  | "brand"
+  | "archive"
+  | "trash";
 const nav = [
   ["library", "知识库", Library],
   ["paths", "学习路径", Route],
   ["projects", "项目", Folder],
   ["inbox", "收件箱", Inbox],
 ] as const;
-const buildStatusLabels: Record<string, string> = {
-  dispatching: "触发中",
-  queued: "等待构建",
-  building: "构建中",
-  deploying: "部署中",
-  succeeded: "已上线",
-  failed: "失败",
-};
-const activeBuildStatuses = ["dispatching", "queued", "building", "deploying"];
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false),
     [checking, setChecking] = useState(true),
     [notes, setNotes] = useState<Note[]>([]),
     [groups, setGroups] = useState<Group[]>([]),
     [memberships, setMemberships] = useState<Membership[]>([]),
-    [revision, setRevision] = useState(0),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(false);
   const [view, setView] = useState<View>("library"),
@@ -77,27 +86,22 @@ export default function App() {
     [dark, setDark] = useState(
       () => localStorage.getItem("color-theme") === "dark",
     ),
-    [buildJobs, setBuildJobs] = useState<
-      Array<{
-        id: string;
-        publication_id: number;
-        status: string;
-        run_id: string | null;
-        detail: string;
-        site_url: string | null;
-      }>
-    >([]),
-    [buildEnabled, setBuildEnabled] = useState(false),
-    [publicationSelection, setPublicationSelection] = useState<string[]>([]),
-    [buildRepository, setBuildRepository] = useState(""),
-    [publishing, setPublishing] = useState(false),
-    [pendingBuildId, setPendingBuildId] = useState<number | null>(null),
-    [publications, setPublications] = useState<
-      { id: number; created_at: string; status: string; build_status?: string | null }[]
+    [publishingState, setPublishingState] = useState<PublishingState | null>(
+      null,
+    ),
+    [publishError, setPublishError] = useState(""),
+    [intent, setIntent] = useState<{
+      note: Note;
+      action: PublishAction;
+      requestId: string;
+    } | null>(null),
+    [submitting, setSubmitting] = useState(false),
+    [operationError, setOperationError] = useState(""),
+    [trash, setTrash] = useState<
+      Pick<Note, "id" | "title" | "version" | "deleted_at">[]
     >([]);
-  const buildBusy = publishing || pendingBuildId !== null ||
-    buildJobs.some((j) => activeBuildStatuses.includes(j.status)) ||
-    publications.some((p) => activeBuildStatuses.includes(p.build_status || ""));
+  const editorDirty = useRef<(() => boolean) | null>(null);
+  const buildBusy = submitting || !!publishingState?.history.some(isActive);
   const [createOpen, setCreateOpen] = useState(false),
     [newKind, setNewKind] = useState<Group["kind"]>("domain"),
     [newName, setNewName] = useState(""),
@@ -118,7 +122,6 @@ export default function App() {
         .filter((d) => !corpus.notes.some((n) => n.id === d.note.id))
         .map((d) => d.note);
       setNotes([...unsynced, ...corpus.notes]);
-      setRevision(corpus.revision);
       setGroups(g.data);
       setMemberships(g.memberships);
       setError("");
@@ -164,65 +167,121 @@ export default function App() {
     window.addEventListener("hashchange", update);
     return () => window.removeEventListener("hashchange", update);
   }, []);
-  async function refreshPublications() {
-    const [p, b] = await Promise.all([
-      api<{ data: typeof publications }>("/publications"),
-      api<{ data: typeof buildJobs; enabled: boolean; repository: string }>(
-        "/builds",
-      ),
-    ]);
-    setPublications(p.data);
-    setBuildJobs(b.data);
-    setBuildEnabled(b.enabled);
-    setBuildRepository(b.repository);
+  async function refreshPublishing() {
+    try {
+      const next = await api<PublishingState>("/publishing");
+      setPublishingState(next);
+      setPublishError("");
+    } catch (e) {
+      setPublishError("暂时无法核对博客状态。请重新连接后再操作。");
+      throw e;
+    }
   }
   useEffect(() => {
-    if (view !== "publish" || !authenticated) return;
-    void refresh().catch((e) => setError(e.message));
-    void refreshPublications().catch((e) => setError(e.message));
-    const timer = setInterval(
-      () => void refreshPublications().catch((e) => setError(e.message)),
-      5000,
-    );
-    return () => clearInterval(timer);
-  }, [view, authenticated]);
-  async function requestBuild(publicationId: number) {
-    // On retries as well, check every note in this immutable publication,
-    // including retained live notes. Other browser drafts cannot enter it.
-    if ((await pendingDraftIds()).length) {
-      const scope = await api<{ noteIds: string[] }>(`/publications/${publicationId}/scope`);
-      if ((await pendingDraftIds()).some((id) => scope.noteIds.includes(id)))
-        throw new Error("本次快照中有未同步的本机草稿，请先保存后发布");
+    if (!authenticated) {
+      setPublishingState(null);
+      return;
     }
-    return api<{ data: { url?: string } }>("/builds", {
-      method: "POST",
-      body: JSON.stringify({ publicationId }),
-    });
-  }
-  async function createPublication() {
-    const noteIds = notes.filter((n) => n.visibility === "public" && n.state === "ready" && n.topic_id && publicationSelection.includes(n.id)).map((n) => n.id);
-    if (!noteIds.length) { setError("请勾选本次要发布的笔记"); return; }
-    setPublishing(true);
-    setError("");
+    const update = () => void refreshPublishing().catch(() => {});
+    update();
+    const timer = setInterval(
+      update,
+      publishingState?.history.some(isActive) ? 3000 : 30000,
+    );
+    window.addEventListener("focus", update);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("focus", update);
+    };
+  }, [authenticated, !!publishingState?.history.some(isActive)]);
+  useEffect(() => {
+    if (authenticated && view === "trash") void loadTrash();
+  }, [authenticated, view]);
+  async function loadTrash() {
     try {
-      if ((await pendingDraftIds()).some((id) => noteIds.includes(id)))
-        throw new Error("选中的笔记还有未同步的本机草稿，请打开编辑器保存成功后再发布");
-      const latest = await loadCorpus();
-      if (latest.revision !== revision) {
-        await refresh();
-        throw new Error("数据库内容已更新，请核对刷新后的公开范围，再点击发布");
-      }
-      const result = await api<{ data: { id: number } }>("/publications", {
-        method: "POST",
-        body: JSON.stringify({ expectedRevision: latest.revision, noteIds }),
-      });
-      if (buildEnabled) await requestBuild(result.data.id);
-      await refreshPublications();
+      setTrash((await api<{ data: typeof trash }>("/trash")).data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "发布失败");
-      await refreshPublications().catch(() => {});
+      setError((e as Error).message);
+    }
+  }
+  function prepareAction(note: Note, action: PublishAction) {
+    setOperationError("");
+    setIntent({ note, action, requestId: crypto.randomUUID() });
+  }
+  async function confirmAction() {
+    if (!intent || submitting) return;
+    setSubmitting(true);
+    setOperationError("");
+    try {
+      if ((await pendingDraftIds()).includes(intent.note.id))
+        throw new Error(
+          "这篇文章还有未保存的本机修改，请回到编辑器保存后再操作。",
+        );
+      await api("/publishing", {
+        method: "POST",
+        body: JSON.stringify({
+          noteId: intent.note.id,
+          action: intent.action,
+          expectedVersion: intent.note.version,
+          requestId: intent.requestId,
+        }),
+      });
+      await refreshPublishing();
+      setIntent(null);
+    } catch (e) {
+      setOperationError((e as Error).message);
+      await refreshPublishing().catch(() => {});
     } finally {
-      setPublishing(false);
+      setSubmitting(false);
+    }
+  }
+  async function recover(job: PublishJob) {
+    if (
+      !job.run_id &&
+      !confirm("取消这次尚未开始的操作？文章和当前博客保持不变。")
+    )
+      return;
+    setSubmitting(true);
+    try {
+      await api(`/builds/${job.id}/reconcile`, { method: "POST" });
+      await refreshPublishing();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+  async function archive(note: Note) {
+    try {
+      if ((await pendingDraftIds()).includes(note.id))
+        throw new Error("请先保存这篇文章的本机修改。");
+      await api(`/notes/${note.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: note.title,
+          body: note.body,
+          topic_id: note.topic_id,
+          visibility: note.visibility,
+          tags: JSON.parse(note.tags),
+          expectedVersion: note.version,
+          clientMutationId: crypto.randomUUID(),
+          state: note.state === "archived" ? "draft" : "archived",
+        }),
+      });
+      await refresh();
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+  async function restore(note: (typeof trash)[number]) {
+    try {
+      await api(`/notes/${note.id}/restore`, {
+        method: "POST",
+        body: JSON.stringify({ expectedVersion: note.version }),
+      });
+      await Promise.all([refresh(), loadTrash()]);
+    } catch (e) {
+      setError((e as Error).message);
     }
   }
 
@@ -261,7 +320,9 @@ export default function App() {
       ));
   }
   const displayed = useMemo(() => {
-    let filtered = notes.filter((n) => n.state !== "archived");
+    let filtered = notes.filter((n) =>
+      view === "archive" ? n.state === "archived" : n.state !== "archived",
+    );
     if (view === "inbox") filtered = filtered.filter((n) => !n.topic_id);
     if (group) {
       const g = groups.find((x) => x.id === group);
@@ -300,7 +361,12 @@ export default function App() {
     [current?.body],
   );
   function navigate(v: View, g = "") {
-    if (editing && !confirm("离开写作工作台？未同步内容会保留在本机。")) return;
+    if (
+      editing &&
+      editorDirty.current?.() &&
+      !confirm("离开写作工作台？未同步内容会保留在本机。")
+    )
+      return;
     setView(v);
     setVisibleCount(20);
     setGroup(g);
@@ -321,7 +387,11 @@ export default function App() {
     window.scrollTo(0, 0);
   }
   function newNote() {
-    if (editing && !confirm("开始另一篇笔记？当前未同步内容会保留在本机。"))
+    if (
+      editing &&
+      editorDirty.current?.() &&
+      !confirm("开始另一篇笔记？当前未同步内容会保留在本机。")
+    )
       return;
     setEditing({
       id: crypto.randomUUID(),
@@ -399,9 +469,10 @@ export default function App() {
     }
   }
   async function remove(n: Note) {
-    if (!confirm(`将「${n.title}」移到已删除？原始迁移文件不会被修改。`))
-      return;
+    if (!confirm(`将「${n.title}」移入回收站？之后可以在回收站恢复。`)) return;
     try {
+      if ((await pendingDraftIds()).includes(n.id))
+        throw new Error("请先保存这篇文章的本机修改。");
       await api("/notes/" + n.id, {
         method: "DELETE",
         body: JSON.stringify({ expectedVersion: n.version }),
@@ -475,7 +546,15 @@ export default function App() {
       <div className="sidebar-bottom">
         <button className="nav-item" onClick={() => navigate("publish")}>
           <UploadCloud size={18} />
-          发布记录
+          博客发布
+        </button>
+        <button className="nav-item" onClick={() => navigate("archive")}>
+          <Archive size={18} />
+          已归档
+        </button>
+        <button className="nav-item" onClick={() => navigate("trash")}>
+          <Trash2 size={18} />
+          回收站
         </button>
         <button className="nav-item" onClick={() => navigate("brand")}>
           <BookOpen size={18} />
@@ -484,7 +563,7 @@ export default function App() {
         <div className="profile">
           <span className="avatar">C</span>
           <div>
-            Color<small>个人知识库 · 本地验收</small>
+            Color<small>个人知识库</small>
           </div>
           <button
             className="icon-button"
@@ -589,7 +668,9 @@ export default function App() {
                       paths: "学习路径",
                       projects: "项目",
                       inbox: "收件箱",
-                      publish: "发布记录",
+                      publish: "博客发布",
+                      archive: "已归档",
+                      trash: "回收站",
                       search: "知识库查询",
                       brand: "关于",
                     }[view]}
@@ -615,6 +696,14 @@ export default function App() {
             <button onClick={() => void refresh()}>重新加载</button>
           </div>
         )}
+        {publishError && (
+          <div className="error-banner" role="alert">
+            {publishError}
+            <button onClick={() => void refreshPublishing().catch(() => {})}>
+              重新核对
+            </button>
+          </div>
+        )}
         {editing ? (
           <Suspense fallback={<p>正在加载写作工作台…</p>}>
             <Editor
@@ -626,12 +715,13 @@ export default function App() {
                 void refresh();
               }}
               onSaved={saved}
-              onPublish={() => {
-                setEditing(null);
-                setView("publish");
-                setReading("");
-                location.hash = "";
+              publishingState={publishingState}
+              publishingBusy={buildBusy || !!publishError}
+              onDirtyCheck={(check) => {
+                editorDirty.current = check;
               }}
+              onPublish={(note) => prepareAction(note, "publish")}
+              onUnpublish={(note) => prepareAction(note, "unpublish")}
             />
           </Suspense>
         ) : current ? (
@@ -655,8 +745,35 @@ export default function App() {
                     编辑
                   </button>
                   <button
+                    className="quiet"
+                    disabled={
+                      !publishingState ||
+                      !!articleStatus(current, publishingState).live ||
+                      articleStatus(current, publishingState).active
+                    }
+                    title={
+                      articleStatus(current, publishingState).live
+                        ? "请先从博客下线，再归档"
+                        : "归档后可随时恢复"
+                    }
+                    onClick={() => void archive(current)}
+                  >
+                    <Archive size={16} />
+                    {current.state === "archived" ? "恢复为草稿" : "归档"}
+                  </button>
+                  <button
                     className="icon-button"
-                    aria-label="删除笔记"
+                    aria-label="移入回收站"
+                    disabled={
+                      !publishingState ||
+                      !!articleStatus(current, publishingState).live ||
+                      articleStatus(current, publishingState).active
+                    }
+                    title={
+                      articleStatus(current, publishingState).live
+                        ? "请先从博客下线，再移入回收站"
+                        : "可在回收站恢复"
+                    }
                     onClick={() => void remove(current)}
                   >
                     <Trash2 size={17} />
@@ -668,10 +785,44 @@ export default function App() {
                   "收件箱"}
               </p>
               <h1>{current.title}</h1>
+              <div className="reader-publishing">
+                <BlogStatus note={current} state={publishingState} />
+                <div className="article-actions">
+                  {current.state !== "archived" && (
+                    <button
+                      className="primary"
+                      disabled={
+                        buildBusy ||
+                        !!publishError ||
+                        !publishingState?.enabled ||
+                        current.version === 0
+                      }
+                      onClick={() => prepareAction(current, "publish")}
+                    >
+                      <UploadCloud size={16} />
+                      {articleStatus(current, publishingState).live
+                        ? "更新博客"
+                        : "发布文章"}
+                    </button>
+                  )}
+                  {articleStatus(current, publishingState).live && (
+                    <button
+                      className="quiet"
+                      disabled={buildBusy || !!publishError}
+                      onClick={() => prepareAction(current, "unpublish")}
+                    >
+                      <EyeOff size={16} />
+                      从博客下线
+                    </button>
+                  )}
+                </div>
+                {articleStatus(current, publishingState).failed && (
+                  <p className="error" role="status">
+                    {articleStatus(current, publishingState).job?.detail}
+                  </p>
+                )}
+              </div>
               <div className="note-meta">
-                <span>
-                  {current.visibility === "owner" ? "仅自己" : "允许公开"}
-                </span>
                 <span>
                   {Math.max(1, Math.ceil(current.body.length / 450))} 分钟阅读
                 </span>
@@ -880,181 +1031,40 @@ export default function App() {
             )}
           </section>
         ) : view === "publish" ? (
+          <BlogPanel
+            notes={notes}
+            groups={groups}
+            state={publishingState}
+            busy={buildBusy || !!publishError}
+            onRead={read}
+            onAction={prepareAction}
+            onRecover={(job) => void recover(job)}
+          />
+        ) : view === "trash" ? (
           <section className="page">
-            <p className="eyebrow">保存与发布，各有一步</p>
-            <h1>发布记录</h1>
-            <p className="lead">
-              保存成功后生成固定快照，博客只读取这份快照构建。只有核验线上版本成功后，才显示已上线。
-            </p>
-            <div className="notice">
-              <strong>
-                当前可进入公开快照：
-                {
-                  notes.filter(
-                    (n) =>
-                      n.visibility === "public" &&
-                      n.state === "ready" &&
-                      n.topic_id,
-                  ).length
-                }{" "}
-                篇
-              </strong>
-              <p>
-                勾选本次新增或更新的笔记。其他线上笔记保留已发布版本，旧博客文章与专栏也会保留。若会移除已上线页面，部署会停止。
-              </p>
-            </div>
-            {notes
-              .filter(
-                (n) =>
-                  n.visibility === "public" &&
-                  n.state === "ready" &&
-                  n.topic_id,
-              )
-              .map((n) => (
-                <p key={n.id}>
-                  <label><input type="checkbox" checked={publicationSelection.includes(n.id)} onChange={(e) => setPublicationSelection((ids) => e.target.checked ? [...ids, n.id] : ids.filter((id) => id !== n.id))} /> {n.title} · v{n.version}</label>
-                </p>
-              ))}
-            <button
-              className="primary"
-              disabled={
-                buildBusy
-              }
-              onClick={() => void createPublication()}
-            >
-              <UploadCloud size={18} />
-              {publishing
-                ? "确认保存并创建快照…"
-                : buildEnabled
-                  ? "发布到博客"
-                  : "生成本地发布快照"}
-            </button>
-            {!buildEnabled && (
-              <p className="muted">
-                线上构建尚未连接，当前仅生成快照，不会自动上线。
-              </p>
+            <p className="eyebrow">为误操作留一条退路</p>
+            <h1>回收站</h1>
+            <p className="lead">这里的文章已移出知识库，可随时恢复为草稿。</p>
+            {!trash.length && (
+              <div className="empty">
+                <h2>回收站是空的</h2>
+                <p>移入回收站的文章会出现在这里。</p>
+              </div>
             )}
-            {buildJobs.map((j) => (
-              <div className="publication" key={j.id}>
-                <strong>快照 #{j.publication_id}</strong>
-                <span role="status">
-                  {buildStatusLabels[j.status] || j.status}
-                </span>
-                {j.detail && <p>{j.detail}</p>}
-                {j.run_id && (
-                  <a
-                    href={`https://github.com/${buildRepository}/actions/runs/${j.run_id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    构建日志
-                  </a>
-                )}
-                {j.site_url && (
-                  <a href={j.site_url} target="_blank" rel="noreferrer">
-                    查看博客
-                  </a>
-                )}
-                {["dispatching", "queued", "building", "deploying"].includes(
-                  j.status,
-                ) && (
-                  <button
-                    onClick={() => {
-                      if (
-                        !j.run_id &&
-                        !confirm("取消尚未开始的任务？取消后可重新发布。")
-                      )
-                        return;
-                      void api(`/builds/${j.id}/reconcile`, {
-                        method: "POST",
-                        body: "{}",
-                      })
-                        .then(refreshPublications)
-                        .catch((e) => setError(e.message));
-                    }}
-                  >
-                    {j.run_id ? "核验任务状态" : "取消等待"}
-                  </button>
-                )}
+            {trash.map((n) => (
+              <div className="trash-row" key={n.id}>
+                <div>
+                  <h3>{n.title}</h3>
+                  <p className="muted">
+                    {new Date(n.deleted_at!).toLocaleString("zh-CN")}
+                  </p>
+                </div>
+                <button onClick={() => void restore(n)}>
+                  <Undo2 size={16} />
+                  恢复为草稿
+                </button>
               </div>
             ))}
-            <div className="section-heading">
-              <h2>快照历史</h2>
-            </div>
-            {publications.length === 0 ? (
-              <p className="muted">还没有发布快照。</p>
-            ) : (
-              publications.map((p) => (
-                <div className="publication" key={p.id} role="group" aria-label={`快照 #${p.id} 历史记录`}>
-                  <div>
-                    <strong>快照 #{p.id}</strong>
-                    <small>
-                      {new Date(p.created_at).toLocaleString("zh-CN")}
-                    </small>
-                  </div>
-                  <button
-                    disabled={
-                      buildBusy || p.build_status === "succeeded" ||
-                      (!buildEnabled &&
-                      !["localhost", "127.0.0.1", "[::1]"].includes(
-                        location.hostname,
-                      ))
-                    }
-                    onClick={() => {
-                      setPendingBuildId(p.id);
-                      setError("");
-                      void (
-                        buildEnabled
-                          ? requestBuild(p.id)
-                          : api<{ data: { url: string } }>(
-                              "/local/publish/" + p.id,
-                              { method: "POST", body: "{}" },
-                            )
-                      )
-                        .then(async (r) => {
-                          if (r.data.url)
-                            window.open(r.data.url, "_blank", "noopener");
-                          await refreshPublications();
-                        })
-                        .catch((e) => setError(e.message))
-                        .finally(() => setPendingBuildId(null));
-                    }}
-                  >
-                    {pendingBuildId === p.id ? "提交中…" :
-                      p.build_status === "succeeded" || activeBuildStatuses.includes(p.build_status || "")
-                        ? buildStatusLabels[p.build_status!]
-                        : buildEnabled
-                          ? p.build_status === "failed" ? "重试发布" : "构建此快照"
-                          : "构建阅读站"}
-                  </button>
-                  <span className="pill" role="status">
-                    {p.build_status
-                      ? buildStatusLabels[p.build_status] || p.build_status
-                      : p.status === "snapshot"
-                      ? "已生成 · 尚未发布"
-                      : p.status === "deployed"
-                        ? "已构建本地阅读站"
-                        : p.status}
-                  </span>
-                  <button
-                    onClick={() =>
-                      void api<{ data: { manifest: string } }>(
-                        "/publications/" + p.id,
-                      ).then((r) =>
-                        download(
-                          `publication-${p.id}.json`,
-                          r.data.manifest,
-                          "application/json",
-                        ),
-                      )
-                    }
-                  >
-                    <Download size={17} />
-                    导出
-                  </button>
-                </div>
-              ))
-            )}
           </section>
         ) : view === "brand" ? (
           <section className="page brand-page">
@@ -1108,6 +1118,7 @@ export default function App() {
                 <h1>
                   {activeGroup?.name ||
                     {
+                      archive: "已归档",
                       library: "我的知识库",
                       paths: "学习路径",
                       projects: "项目",
@@ -1117,13 +1128,15 @@ export default function App() {
                 <p className="lead">
                   {activeGroup
                     ? "在这里整理思考，连接相关的知识。"
-                    : view === "library"
-                      ? "把散落的经验归好类，让每一次学习都有迹可循。"
-                      : view === "paths"
-                        ? "围绕一个目标，按顺序理解一组知识。"
-                        : view === "projects"
-                          ? "将不同领域的笔记，组织成一次实践。"
-                          : "不急着找到归属，先留住此刻的想法。"}
+                    : view === "archive"
+                      ? "暂时收起的文章都在这里。打开文章后可以恢复为草稿。"
+                      : view === "library"
+                        ? "把散落的经验归好类，让每一次学习都有迹可循。"
+                        : view === "paths"
+                          ? "围绕一个目标，按顺序理解一组知识。"
+                          : view === "projects"
+                            ? "将不同领域的笔记，组织成一次实践。"
+                            : "不急着找到归属，先留住此刻的想法。"}
                 </p>
               </div>
               <div className="heading-actions">
@@ -1342,11 +1355,7 @@ export default function App() {
                                 "待整理"}
                             </span>
                             <span>
-                              {n.state === "draft"
-                                ? "草稿"
-                                : n.visibility === "owner"
-                                  ? "仅自己"
-                                  : "允许公开"}
+                              {articleStatus(n, publishingState).label}
                             </span>
                           </div>
                         </div>
@@ -1374,9 +1383,68 @@ export default function App() {
           </section>
         )}
         <footer className="footer">
-          慢慢写，慢慢读。<span>Color 手记 · 本地验收版</span>
+          慢慢写，慢慢读。<span>Color 手记 · 草稿与博客分开保存</span>
         </footer>
       </main>
+      <Dialog.Root
+        open={!!intent}
+        onOpenChange={(open) => {
+          if (!open && !submitting) setIntent(null);
+        }}
+      >
+        <Dialog.Portal>
+          <Dialog.Backdrop className="backdrop" />
+          <Dialog.Popup className="dialog publish-dialog">
+            <Dialog.Title>
+              {intent?.action === "unpublish"
+                ? "从博客下线这篇文章"
+                : articleStatus(intent?.note || ({} as Note), publishingState)
+                      .live
+                  ? "更新这篇博客"
+                  : "发布这篇文章"}
+            </Dialog.Title>
+            <Dialog.Close
+              className="dialog-x icon-button"
+              aria-label="关闭发布确认"
+              disabled={submitting}
+            >
+              <X />
+            </Dialog.Close>
+            <h3>{intent?.note.title}</h3>
+            <Dialog.Description>
+              {intent?.action === "unpublish"
+                ? "下线完成后，博客列表和原链接将不再提供这篇文章。后台文稿会保留，之后可以重新发布。"
+                : "将这篇已保存的文稿公开到博客。其他文章保持现有的线上版本，未发布的草稿不会一同上线。"}
+            </Dialog.Description>
+            <p className="muted">
+              {intent?.action === "unpublish"
+                ? "完成前原页面仍可能访问；核验撤下后才会显示“已下线”。"
+                : "发布需要一点时间。你可以继续编辑，页面会自动更新发布结果。"}
+            </p>
+            {operationError && (
+              <p className="error" role="alert">
+                {operationError}
+              </p>
+            )}
+            <div className="dialog-actions">
+              <Dialog.Close disabled={submitting}>取消</Dialog.Close>
+              <button
+                className={
+                  intent?.action === "unpublish" ? "danger" : "primary"
+                }
+                disabled={submitting || buildBusy || !!publishError}
+                onClick={() => void confirmAction()}
+              >
+                {submitting
+                  ? "正在提交…"
+                  : intent?.action === "unpublish"
+                    ? "确认下线"
+                    : "确认发布"}
+              </button>
+            </div>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
       <Dialog.Root open={createOpen} onOpenChange={setCreateOpen}>
         <Dialog.Portal>
           <Dialog.Backdrop className="backdrop" />

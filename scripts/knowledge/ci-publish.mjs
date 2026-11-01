@@ -1,5 +1,5 @@
 import { buildSnapshot } from "./snapshot-build.mjs";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { readSource, validateSource } from "./published-source.mjs";
 const {
@@ -70,23 +70,51 @@ else if (command === "build") {
   const site = new URL(PUBLIC_SITE_URL);
   if (site.protocol !== "https:") throw new Error("Public URL must be HTTPS");
   const baseline = JSON.parse(readFileSync(".frontend/baseline.json", "utf8"));
-  const previousSource = validateSource(readSource(".frontend/source"), PUBLIC_SITE_URL, baseline.publication);
-  const legacyContentRef = previousSource.kind === "legacy" ? previousSource.contentRef : previousSource.legacyContentRef;
-  await buildSnapshot(snapshot, {
-    archivePath: ".frontend/next-source",
-    basePath: site.pathname.replace(/\/$/, ""),
-    siteUrl: PUBLIC_SITE_URL,
-    legacyContentRef,
-    previousSource,
-    previousAssetLoader: (id) => readFileSync(path.join(".frontend/source/assets", id)),
-    assetLoader: async (id) => bytes(await call(`assets/${id}`), 1024 * 1024),
-  });
+  const previousSource = validateSource(
+    readSource(".frontend/source"),
+    PUBLIC_SITE_URL,
+    baseline.publication,
+  );
+  const legacyContentRef =
+    previousSource.kind === "legacy"
+      ? previousSource.contentRef
+      : previousSource.legacyContentRef;
+  try {
+    await buildSnapshot(snapshot, {
+      archivePath: ".frontend/next-source",
+      basePath: site.pathname.replace(/\/$/, ""),
+      siteUrl: PUBLIC_SITE_URL,
+      legacyContentRef,
+      previousSource,
+      previousAssetLoader: (id) =>
+        readFileSync(path.join(".frontend/source/assets", id)),
+      assetLoader: async (id) => bytes(await call(`assets/${id}`), 1024 * 1024),
+    });
+  } catch (error) {
+    const message = String(error.message);
+    const reason = /private or missing/.test(message)
+      ? "private-link"
+      : /Unmigrated internal/.test(message)
+        ? "internal-link"
+        : /Image|image|Asset|asset/.test(message)
+          ? "image"
+          : /withdraw|Withdrawal|public routes|baseline changed/.test(message)
+            ? "preservation"
+            : "build";
+    writeFileSync(".frontend/build-error.json", JSON.stringify({ reason }));
+    throw error;
+  }
 } else if (["deploying", "failed", "succeeded"].includes(command)) {
   // Propagation delay or a transient callback failure must not become false success.
   let last;
   for (let i = 0; i < (command === "succeeded" ? 6 : 3); i++) {
     try {
-      await call("status", { status: command });
+      await call("status", {
+        status: command,
+        ...(command === "failed" && existsSync(".frontend/build-error.json")
+          ? JSON.parse(readFileSync(".frontend/build-error.json", "utf8"))
+          : {}),
+      });
       last = null;
       break;
     } catch (e) {

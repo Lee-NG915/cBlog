@@ -56,7 +56,7 @@ test("save while typing preserves subsequent text and reload", async ({
   const title = "验收保存-" + Date.now();
   await page.getByRole("textbox", { name: "笔记标题" }).fill(title);
   await page.locator(".cm-content").fill("内容 A");
-  await expect(page.getByRole("status")).toHaveText("已同步", {
+  await expect(page.getByRole("status")).toHaveText("草稿已保存", {
     timeout: 10000,
   });
   let held = false;
@@ -71,7 +71,7 @@ test("save while typing preserves subsequent text and reload", async ({
   await page.locator(".cm-content").fill("内容 A 第一段");
   await page.waitForTimeout(1600);
   await page.locator(".cm-content").fill("内容 A 第一段 新输入 B");
-  await expect(page.getByRole("status")).toHaveText("已同步", {
+  await expect(page.getByRole("status")).toHaveText("草稿已保存", {
     timeout: 12000,
   });
   await expect(page.locator(".cm-content")).toContainText("新输入 B");
@@ -130,7 +130,7 @@ test("immutable local public build excludes private notes and supports withdrawa
   const visitor = await browser.newContext();
   const reader = await visitor.newPage();
   await reader.goto("http://127.0.0.1:8787/published/");
-  await reader.getByRole("link", { name: /验收公开笔记/ }).click();
+  await reader.locator(`a[href="/published/notes/${result.id}.html"]`).click();
   await expect(reader.locator("article")).toContainText("PUBLIC_CANARY_2026");
   await expect(reader.locator("body")).not.toContainText("复习索引");
   expect(
@@ -179,14 +179,14 @@ test("offline draft survives reload without overriding server", async ({
     .getByRole("textbox", { name: "笔记标题" })
     .fill("验收离线-" + Date.now());
   await page.locator(".cm-content").fill("最初内容");
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   await context.setOffline(true);
   await page.locator(".cm-content").fill("离线期间的新内容");
   await expect(page.getByRole("status")).toContainText("本机");
   await page.waitForTimeout(1700);
   await expect(page.getByRole("status")).toContainText("离线");
   await context.setOffline(false);
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   await page.getByRole("button", { name: "返回笔记列表" }).click();
   await page
     .locator(".note-row")
@@ -216,7 +216,7 @@ test("persisted unsynced draft restores after page is closed", async ({
   await page.getByRole("button", { name: "新建笔记", exact: true }).click();
   await page.getByRole("textbox", { name: "笔记标题" }).fill(title);
   await page.locator(".cm-content").fill("服务器版本");
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   await context.setOffline(true);
   await page.locator(".cm-content").fill("关闭前保存在本机的恢复内容");
   await expect(page.getByRole("status")).toContainText("本机");
@@ -229,7 +229,7 @@ test("persisted unsynced draft restores after page is closed", async ({
   await expect(reopened.locator(".cm-content")).toContainText(
     "关闭前保存在本机的恢复内容",
   );
-  await expect(reopened.getByRole("status")).toHaveText("已同步");
+  await expect(reopened.getByRole("status")).toHaveText("草稿已保存");
 });
 test("server conflict does not overwrite local draft", async ({ page }) => {
   await page.getByRole("button", { name: "新建笔记", exact: true }).click();
@@ -237,7 +237,7 @@ test("server conflict does not overwrite local draft", async ({ page }) => {
     .getByRole("textbox", { name: "笔记标题" })
     .fill("验收冲突-" + Date.now());
   await page.locator(".cm-content").fill("初始正文");
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   await page.evaluate(async () => {
     const s = await (await fetch("/api/v1/session")).json();
     const c = await (await fetch("/api/v1/corpus")).json();
@@ -297,7 +297,7 @@ test("image upload inserts a readable private image and keeps writing", async ({
     .getByRole("textbox", { name: "笔记标题" })
     .fill("验收图片-" + Date.now());
   await page.locator(".cm-content").fill("图片测试");
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   const image = await page.evaluate(() => {
     const canvas = document.createElement("canvas");
     canvas.width = 160;
@@ -307,15 +307,13 @@ test("image upload inserts a readable private image and keeps writing", async ({
     ctx.fillRect(0, 0, 160, 80);
     return canvas.toDataURL("image/png").split(",")[1];
   });
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "test.png",
-      mimeType: "image/png",
-      buffer: Buffer.from(image, "base64"),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "test.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(image, "base64"),
+  });
   await expect(page.locator(".cm-content")).toContainText("/api/v1/assets/");
-  await expect(page.getByRole("status")).toHaveText("已同步");
+  await expect(page.getByRole("status")).toHaveText("草稿已保存");
   await page.getByRole("button", { name: "阅读预览" }).click();
   await expect(page.locator(".prose img")).toBeVisible();
   expect(
@@ -325,9 +323,13 @@ test("image upload inserts a readable private image and keeps writing", async ({
   ).toBeGreaterThan(0);
 });
 
-test("chapter URL survives refresh without leaving the note", async ({ page }) => {
+test("chapter URL survives refresh without leaving the note", async ({
+  page,
+}) => {
   await page.getByRole("button", { name: "搜索所有笔记" }).click();
-  await page.getByRole("textbox", { name: "搜索问题" }).fill("工程实践札记索引");
+  await page
+    .getByRole("textbox", { name: "搜索问题" })
+    .fill("工程实践札记索引");
   await page.locator(".search-result").first().click();
   const title = await page.locator(".reader h1").textContent();
   await page.locator(".toc a").first().click();

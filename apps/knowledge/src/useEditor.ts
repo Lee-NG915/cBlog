@@ -4,7 +4,7 @@ import { api, ApiError } from "./api";
 import { draftStore } from "./drafts";
 export function useEditor(initial: Note, onSaved: (n: Note) => void) {
   const [note, setNote] = useState(initial),
-    [status, setStatus] = useState("已同步"),
+    [status, setStatus] = useState(initial.version ? "草稿已保存" : "等待输入"),
     [conflict, setConflict] = useState(false),
     [ready, setReady] = useState(false);
   const current = useRef(initial),
@@ -44,7 +44,7 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
       return;
     }
     busy.current = true;
-    setStatus("同步中…");
+    setStatus("正在保存草稿…");
     if (!pending.current)
       pending.current = {
         generation: generation.current,
@@ -83,7 +83,7 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
         });
         if (generation.current === acked.current) {
           await draftStore("delete", next.id);
-          if (generation.current === acked.current) setStatus("已同步");
+          if (generation.current === acked.current) setStatus("草稿已保存");
           else {
             await persist(current.current);
             setStatus("已保存到本机");
@@ -185,6 +185,7 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
       await persist(current.current);
       throw new Error("保存确认期间又有编辑，请再次保存后发布");
     }
+    return { ...current.current, version: version.current };
   }
   async function merge() {
     const response = await api<{ data: Note }>("/notes/" + initial.id);
