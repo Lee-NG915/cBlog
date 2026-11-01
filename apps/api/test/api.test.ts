@@ -505,3 +505,24 @@ test("publishing a new selection keeps unselected live note versions and exclude
     assert.equal(manifest.notes.find((n: {id: string})=>n.id === "old").body, "live version");
   } finally { s.close(); }
 });
+
+test("snapshot history reports the latest job even outside the recent 30 build jobs", async () => {
+  const s = await setup();
+  try {
+    const insert = s.sqlite.prepare("INSERT INTO publications(id,created_at,manifest,status) VALUES(?,?,'{}',?)");
+    for (const id of [1,2,3]) insert.run(id, "2026-11-01", id === 3 ? "deployed" : "snapshot");
+    const job = s.sqlite.prepare("INSERT INTO build_jobs(id,publication_id,status,created_at,updated_at) VALUES(?,?,?,?,?)");
+    job.run("failed-first",1,"failed","2026-11-01T01:00:00Z","2026-11-01T01:00:00Z");
+    job.run("succeeded-next",1,"succeeded","2026-11-01T02:00:00Z","2026-11-01T02:00:00Z");
+    // Repeated failures of another snapshot must not hide an older success.
+    for (let i=0;i<31;i++) job.run("retry-"+i,2,"failed","2026-11-01T03:00:00Z","2026-11-01T03:00:00Z");
+    let rows = (await (await s.request("/api/v1/publications")).json()).data;
+    assert.deepEqual(rows.map((p: any) => [p.id,p.status,p.build_status]), [
+      [3,"deployed",null],[2,"snapshot","failed"],[1,"snapshot","succeeded"],
+    ]);
+    job.run("active-retry",2,"queued","2026-11-01T04:00:00Z","2026-11-01T04:00:00Z");
+    rows = (await (await s.request("/api/v1/publications")).json()).data;
+    assert.equal(rows.find((p: any) => p.id === 2).build_status,"queued");
+    assert.equal(rows.some((p: any) => "manifest" in p),false);
+  } finally { s.close(); }
+});

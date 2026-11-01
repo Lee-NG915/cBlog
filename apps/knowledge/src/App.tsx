@@ -45,6 +45,15 @@ const nav = [
   ["projects", "项目", Folder],
   ["inbox", "收件箱", Inbox],
 ] as const;
+const buildStatusLabels: Record<string, string> = {
+  dispatching: "触发中",
+  queued: "等待构建",
+  building: "构建中",
+  deploying: "部署中",
+  succeeded: "已上线",
+  failed: "失败",
+};
+const activeBuildStatuses = ["dispatching", "queued", "building", "deploying"];
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false),
     [checking, setChecking] = useState(true),
@@ -82,9 +91,13 @@ export default function App() {
     [publicationSelection, setPublicationSelection] = useState<string[]>([]),
     [buildRepository, setBuildRepository] = useState(""),
     [publishing, setPublishing] = useState(false),
+    [pendingBuildId, setPendingBuildId] = useState<number | null>(null),
     [publications, setPublications] = useState<
-      { id: number; created_at: string; status: string }[]
+      { id: number; created_at: string; status: string; build_status?: string | null }[]
     >([]);
+  const buildBusy = publishing || pendingBuildId !== null ||
+    buildJobs.some((j) => activeBuildStatuses.includes(j.status)) ||
+    publications.some((p) => activeBuildStatuses.includes(p.build_status || ""));
   const [createOpen, setCreateOpen] = useState(false),
     [newKind, setNewKind] = useState<Group["kind"]>("domain"),
     [newName, setNewName] = useState(""),
@@ -905,12 +918,7 @@ export default function App() {
             <button
               className="primary"
               disabled={
-                publishing ||
-                buildJobs.some((j) =>
-                  ["dispatching", "queued", "building", "deploying"].includes(
-                    j.status,
-                  ),
-                )
+                buildBusy
               }
               onClick={() => void createPublication()}
             >
@@ -930,18 +938,7 @@ export default function App() {
               <div className="publication" key={j.id}>
                 <strong>快照 #{j.publication_id}</strong>
                 <span role="status">
-                  {
-                    (
-                      {
-                        dispatching: "触发中",
-                        queued: "等待构建",
-                        building: "构建中",
-                        deploying: "部署中",
-                        succeeded: "已上线",
-                        failed: "失败",
-                      } as Record<string, string>
-                    )[j.status]
-                  }
+                  {buildStatusLabels[j.status] || j.status}
                 </span>
                 {j.detail && <p>{j.detail}</p>}
                 {j.run_id && (
@@ -988,7 +985,7 @@ export default function App() {
               <p className="muted">还没有发布快照。</p>
             ) : (
               publications.map((p) => (
-                <div className="publication" key={p.id}>
+                <div className="publication" key={p.id} role="group" aria-label={`快照 #${p.id} 历史记录`}>
                   <div>
                     <strong>快照 #{p.id}</strong>
                     <small>
@@ -997,12 +994,15 @@ export default function App() {
                   </div>
                   <button
                     disabled={
-                      !buildEnabled &&
+                      buildBusy || p.build_status === "succeeded" ||
+                      (!buildEnabled &&
                       !["localhost", "127.0.0.1", "[::1]"].includes(
                         location.hostname,
-                      )
+                      ))
                     }
-                    onClick={() =>
+                    onClick={() => {
+                      setPendingBuildId(p.id);
+                      setError("");
                       void (
                         buildEnabled
                           ? requestBuild(p.id)
@@ -1011,23 +1011,27 @@ export default function App() {
                               { method: "POST", body: "{}" },
                             )
                       )
-                        .then((r) => {
+                        .then(async (r) => {
                           if (r.data.url)
                             window.open(r.data.url, "_blank", "noopener");
-                          void refreshPublications();
-                          return api<{ data: typeof publications }>(
-                            "/publications",
-                          );
+                          await refreshPublications();
                         })
-                        .then((r) => setPublications(r.data))
                         .catch((e) => setError(e.message))
-                    }
+                        .finally(() => setPendingBuildId(null));
+                    }}
                   >
-                    {buildEnabled ? "构建此快照 / 重试" : "构建阅读站"}
+                    {pendingBuildId === p.id ? "提交中…" :
+                      p.build_status === "succeeded" || activeBuildStatuses.includes(p.build_status || "")
+                        ? buildStatusLabels[p.build_status!]
+                        : buildEnabled
+                          ? p.build_status === "failed" ? "重试发布" : "构建此快照"
+                          : "构建阅读站"}
                   </button>
-                  <span className="pill">
-                    {p.status === "snapshot"
-                      ? "已生成 · 未部署"
+                  <span className="pill" role="status">
+                    {p.build_status
+                      ? buildStatusLabels[p.build_status] || p.build_status
+                      : p.status === "snapshot"
+                      ? "已生成 · 尚未发布"
                       : p.status === "deployed"
                         ? "已构建本地阅读站"
                         : p.status}
