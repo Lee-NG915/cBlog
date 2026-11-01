@@ -629,7 +629,10 @@ app.get("/api/v1/publications", async (c) =>
   c.json({
     data: (
       await c.env.DB.prepare(
-        "SELECT id,created_at,status FROM publications ORDER BY id DESC LIMIT 30",
+        `SELECT p.id,p.created_at,p.status,
+          (SELECT b.status FROM build_jobs b WHERE b.publication_id=p.id
+            ORDER BY b.created_at DESC,b.rowid DESC LIMIT 1) AS build_status
+          FROM publications p ORDER BY p.id DESC LIMIT 30`,
       ).all()
     ).results,
   }),
