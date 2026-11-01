@@ -27,7 +27,10 @@ export default function MobileNav() {
       }
     };
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        containerRef.current?.querySelector("button")?.focus();
+      }
     };
     document.addEventListener("mousedown", handleClick);
     document.addEventListener("keydown", handleEscape);
@@ -43,8 +46,9 @@ export default function MobileNav() {
         type="button"
         aria-label={open ? "关闭导航菜单" : "打开导航菜单"}
         aria-expanded={open}
+        aria-controls="mobile-navigation"
         onClick={() => setOpen((value) => !value)}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-line-light bg-surface-light text-ink-muted transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-300 dark:hover:border-primary-700 dark:hover:text-primary-200"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-line-light bg-surface-light text-ink-muted transition hover:border-primary-300 hover:text-primary-800 dark:border-line-dark dark:bg-surface-dark dark:text-gray-300 dark:hover:border-primary-700 dark:hover:text-primary-200"
       >
         <svg
           width="16"
@@ -73,6 +77,7 @@ export default function MobileNav() {
 
       {open && (
         <nav
+          id="mobile-navigation"
           aria-label="移动端导航"
           className="absolute right-0 top-12 z-30 w-44 rounded-lg border border-line-light bg-surface-light p-2 shadow-editorial dark:border-line-dark dark:bg-surface-dark"
         >

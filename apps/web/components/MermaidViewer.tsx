@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import usePanZoom from "@/hooks/usePanZoom";
 
 type MermaidViewerProps = {
@@ -10,7 +10,7 @@ type MermaidViewerProps = {
 };
 
 const TOOLBAR_BUTTON_CLASS =
-  "rounded-full border border-line-light bg-white/90 px-3 py-1.5 text-sm text-ink-muted transition hover:bg-white hover:text-ink dark:border-line-dark dark:bg-gray-800/90 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white";
+  "min-h-11 min-w-11 rounded-full border border-line-light bg-white/90 px-3 py-1.5 text-sm text-ink-muted transition hover:bg-white hover:text-ink dark:border-line-dark dark:bg-gray-800/90 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white";
 
 function prepareViewerSvg(svgMarkup: string): string {
   try {
@@ -30,7 +30,10 @@ function prepareViewerSvg(svgMarkup: string): string {
     let sizeStyle = "max-width:none;display:block;";
     const viewBox = svg.getAttribute("viewBox");
     if (viewBox) {
-      const parts = viewBox.trim().split(/[\s,]+/).map(Number);
+      const parts = viewBox
+        .trim()
+        .split(/[\s,]+/)
+        .map(Number);
       if (
         parts.length === 4 &&
         Number.isFinite(parts[2]) &&
@@ -69,45 +72,71 @@ export default function MermaidViewer({
     resetToOriginal,
   } = usePanZoom();
 
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const preparedSvg = useMemo(() => prepareViewerSvg(svg), [svg]);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = previousOverflow;
     };
   }, [onClose]);
+
+  useLayoutEffect(() => {
+    const trigger = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      trigger?.focus({ preventScroll: true });
+    };
+  }, []);
 
   useLayoutEffect(() => {
     fitToWidth();
   }, [fitToWidth, preparedSvg]);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex flex-col bg-ink/70 backdrop-blur"
+    <dialog
+      ref={dialogRef}
+      className="fixed inset-0 z-50 m-0 flex h-dvh w-screen max-w-none max-h-none flex-col border-0 bg-ink/90 p-0 backdrop-blur"
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key !== "Tab") return;
+        const controls = Array.from(
+          event.currentTarget.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], [tabindex="0"]',
+          ),
+        );
+        const first = controls[0],
+          last = controls[controls.length - 1];
+        if (!first) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      onClick={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
     >
       <div
         className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6"
         onClick={(event) => event.stopPropagation()}
       >
         <p className="truncate text-sm font-semibold text-white">{title}</p>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             className={TOOLBAR_BUTTON_CLASS}
@@ -170,6 +199,6 @@ export default function MermaidViewer({
           dangerouslySetInnerHTML={{ __html: preparedSvg }}
         />
       </div>
-    </div>
+    </dialog>
   );
 }

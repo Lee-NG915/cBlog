@@ -61,6 +61,7 @@ export function BlogPanel({
     .filter(
       (n) => n.state !== "archived" || state?.live.some((l) => l.id === n.id),
     )
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .filter(
       (n) => !query || n.title.toLowerCase().includes(query.toLowerCase()),
     );
@@ -88,15 +89,15 @@ export function BlogPanel({
         </span>
         <span>
           <strong>
-            {
-              notes.filter(
-                (n) =>
-                  n.state !== "archived" &&
-                  !state?.live.some((l) => l.id === n.id),
-              ).length
-            }
+            {state
+              ? notes.filter(
+                  (n) =>
+                    n.state !== "archived" &&
+                    !state?.live.some((l) => l.id === n.id),
+                ).length
+              : "—"}
           </strong>{" "}
-          篇草稿
+          篇未上线
         </span>
         {state?.siteUrl && (
           <a href={state.siteUrl} target="_blank" rel="noreferrer">

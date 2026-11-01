@@ -52,7 +52,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function CollectionIndexPage({ params }: CollectionPageProps) {
+export default async function CollectionIndexPage({
+  params,
+}: CollectionPageProps) {
   const collection = await getCollection(decodePathSegment(params.collection));
 
   if (!collection) {
@@ -65,7 +67,7 @@ export default async function CollectionIndexPage({ params }: CollectionPageProp
     <div className="space-y-8">
       <header data-reveal="hero">
         <p className="editorial-label">{collection.label}</p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
+        <h1 className="mt-3 page-title text-ink dark:text-gray-50">
           {collection.name}
         </h1>
         {collection.description && (
@@ -84,7 +86,11 @@ export default async function CollectionIndexPage({ params }: CollectionPageProp
       ) : (
         <ol className="space-y-4">
           {notes.map((note, index) => (
-            <li key={note.slug} data-reveal data-reveal-delay={(index % 4) * 80}>
+            <li
+              key={note.slug}
+              data-reveal
+              data-reveal-delay={(index % 4) * 80}
+            >
               <Link
                 href={`/${collection.slug}/${note.slug}`}
                 className="group block rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial-sm transition hover:border-primary-200 hover:shadow-editorial dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800"
@@ -102,12 +108,12 @@ export default async function CollectionIndexPage({ params }: CollectionPageProp
                         {note.excerpt}
                       </p>
                     )}
-                    <p className="mt-3 font-sans text-xs text-ink-soft dark:text-gray-500">
+                    <p className="mt-3 font-sans text-xs text-ink-soft dark:text-gray-400">
                       {note.readingTime} 分钟阅读
                     </p>
                   </div>
                   <svg
-                    className="mt-1 h-5 w-5 shrink-0 text-ink-soft transition group-hover:translate-x-1 group-hover:text-primary-700 dark:text-gray-500 dark:group-hover:text-primary-300"
+                    className="mt-1 h-5 w-5 shrink-0 text-ink-soft transition group-hover:translate-x-1 group-hover:text-primary-700 dark:text-gray-400 dark:group-hover:text-primary-300"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

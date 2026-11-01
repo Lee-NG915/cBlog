@@ -133,7 +133,9 @@ export default function Sidebar({ categories }: SidebarProps) {
             ) : (
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-50 ring-1 ring-primary-100 dark:bg-primary-900/30 dark:ring-primary-800">
                 <span className="text-lg font-bold text-primary-800 dark:text-primary-200">
-                  {(userProfile.nickname || userProfile.name || "U")[0].toUpperCase()}
+                  {(userProfile.nickname ||
+                    userProfile.name ||
+                    "U")[0].toUpperCase()}
                 </span>
               </div>
             )}
@@ -182,7 +184,7 @@ export default function Sidebar({ categories }: SidebarProps) {
           {categories.length > 0 && (
             <>
               <div className="px-4 py-2">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-500">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-400">
                   研究路径
                 </h3>
               </div>
@@ -202,7 +204,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       <FolderIcon />
                       <span className="ml-3">{category.name}</span>
                     </span>
-                    <span className="text-xs text-ink-soft dark:text-gray-500">
+                    <span className="text-xs text-ink-soft dark:text-gray-400">
                       {category.count}
                     </span>
                   </Link>
@@ -215,7 +217,7 @@ export default function Sidebar({ categories }: SidebarProps) {
           {projectLinks.length > 0 && (
             <>
               <div className="px-4 py-2 mt-4">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-500">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft dark:text-gray-400">
                   项目
                 </h3>
               </div>
@@ -250,7 +252,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
                         aria-label={link.label}
                       >
                         <GitHubIcon />
@@ -262,7 +264,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       <a
                         key={link.href}
                         href={`mailto:${link.href}`}
-                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+                        className="text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
                         aria-label={link.label}
                       >
                         <MailIcon />
@@ -275,7 +277,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                    className="text-sm text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+                      className="text-sm text-ink-soft transition-colors hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
                       aria-label={link.label}
                     >
                       {link.label}

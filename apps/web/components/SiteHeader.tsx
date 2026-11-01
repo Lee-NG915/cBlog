@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
@@ -5,6 +7,7 @@ import { mainNavItems } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
 
 export default function SiteHeader() {
+  const pathname = usePathname();
   return (
     <header className="sticky top-0 z-20 border-b border-line-light bg-background-light/88 backdrop-blur-md dark:border-line-dark dark:bg-background-dark/90">
       <div className="mx-auto flex h-16 w-full max-w-[1180px] items-center justify-between gap-3 px-5 sm:h-[72px] sm:px-7">
@@ -21,12 +24,21 @@ export default function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="主导航" className="hidden items-center gap-8 md:flex">
           {mainNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="font-sans text-sm font-medium text-ink-muted transition hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-200"
+              aria-current={
+                (
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname?.startsWith(item.href)
+                )
+                  ? "page"
+                  : undefined
+              }
+              className="font-sans text-sm font-medium text-ink-muted transition aria-[current=page]:text-primary-700 aria-[current=page]:font-semibold hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-200"
             >
               {item.label}
             </Link>

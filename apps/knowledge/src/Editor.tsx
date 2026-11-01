@@ -274,12 +274,14 @@ export function Editor({
             <div className="segmented">
               <button
                 className={!preview ? "selected" : ""}
+                aria-pressed={!preview}
                 onClick={() => setPreview(false)}
               >
                 <Code2 size={16} /> Markdown
               </button>
               <button
                 className={preview ? "selected" : ""}
+                aria-pressed={preview}
                 onClick={() => setPreview(true)}
               >
                 <Eye size={16} /> 阅读预览

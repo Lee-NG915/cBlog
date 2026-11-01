@@ -20,7 +20,7 @@ export default async function SiteFooter() {
         </div>
 
         <nav aria-label="页脚导航">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-ink-soft dark:text-gray-500">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-ink-soft dark:text-gray-400">
             页面
           </p>
           <ul className="mt-4 space-y-2.5">
@@ -37,9 +37,9 @@ export default async function SiteFooter() {
           </ul>
         </nav>
 
-        <nav aria-label="阅读路径导航">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-ink-soft dark:text-gray-500">
-            阅读路径
+        <nav aria-label="主题与专栏导航">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-ink-soft dark:text-gray-400">
+            主题与专栏
           </p>
           <ul className="mt-4 space-y-2.5">
             {postCategories.map((category) => (
@@ -58,12 +58,12 @@ export default async function SiteFooter() {
 
       <div className="border-t border-line-light dark:border-line-dark">
         <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-7">
-          <p className="font-sans text-xs text-ink-soft dark:text-gray-500">
+          <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
             © {year} {siteConfig.author} · 慢慢写，慢慢读
           </p>
           <Link
             href="/sitemap.xml"
-            className="font-sans text-xs text-ink-soft transition hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
+            className="font-sans text-xs text-ink-soft transition hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
           >
             Sitemap
           </Link>

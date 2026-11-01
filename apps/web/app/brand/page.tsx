@@ -67,7 +67,7 @@ export default function BrandPage() {
           data-reveal-delay="80"
         >
           <div className="sticky top-28 space-y-1">
-            <p className="mb-3 font-sans text-xs text-ink-soft dark:text-gray-500">
+            <p className="mb-3 font-sans text-xs text-ink-soft dark:text-gray-400">
               目录
             </p>
             {copy.toc.map((item) => (
@@ -166,7 +166,7 @@ export default function BrandPage() {
                   <p className="mt-2 flex-grow font-sans text-sm leading-6 text-ink-muted dark:text-gray-400">
                     {pillar.description}
                   </p>
-                  <p className="mt-4 border-t border-line-light pt-4 font-sans text-xs text-ink-soft dark:border-line-dark dark:text-gray-500">
+                  <p className="mt-4 border-t border-line-light pt-4 font-sans text-xs text-ink-soft dark:border-line-dark dark:text-gray-400">
                     {pillar.tone}
                   </p>
                 </Link>

@@ -27,13 +27,12 @@ import {
   Trash2,
   Download,
   LogOut,
-  Sparkles,
   Library,
   Leaf,
   List,
 } from "lucide-react";
 import type { Note, Group, Membership } from "./types";
-import { api, download, loadCorpus, setCSRF } from "./api";
+import { ApiError, api, download, loadCorpus, setCSRF } from "./api";
 import { draftStore, listDrafts, pendingDraftIds } from "./drafts";
 import { BlogPanel, BlogStatus } from "./BlogPanel";
 import {
@@ -63,6 +62,7 @@ const nav = [
   ["paths", "学习路径", Route],
   ["projects", "项目", Folder],
   ["inbox", "收件箱", Inbox],
+  ["publish", "博客发布", UploadCloud],
 ] as const;
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false),
@@ -78,8 +78,9 @@ export default function App() {
     [editing, setEditing] = useState<Note | null>(null),
     [query, setQuery] = useState(""),
     [searchScope, setSearchScope] = useState(""),
-    [ask, setAsk] = useState(false),
-    [answer, setAnswer] = useState(""),
+    [includeArchived, setIncludeArchived] = useState(false),
+    [searchCount, setSearchCount] = useState(30),
+    [collapsed, setCollapsed] = useState<Set<string>>(new Set()),
     [drawer, setDrawer] = useState(false),
     [tocOpen, setTocOpen] = useState(false),
     [large, setLarge] = useState(false),
@@ -108,6 +109,10 @@ export default function App() {
     [newParent, setNewParent] = useState(""),
     [creating, setCreating] = useState(false),
     [visibleCount, setVisibleCount] = useState(20);
+  const [dialogError, setDialogError] = useState(""),
+    [savingOrder, setSavingOrder] = useState(false),
+    [renameTarget, setRenameTarget] = useState<Group | null>(null),
+    [renameValue, setRenameValue] = useState("");
   const [organize, setOrganize] = useState(false),
     [selected, setSelected] = useState<string[]>([]);
   async function refresh() {
@@ -138,7 +143,10 @@ export default function App() {
         setAuthenticated(true);
         return refresh();
       })
-      .catch(() => {})
+      .catch((e) => {
+        if (!(e instanceof ApiError && e.status === 401))
+          setError("暂时无法连接后台，请检查网络后重试。");
+      })
       .finally(() => setChecking(false));
   }, []);
   useEffect(() => {
@@ -157,11 +165,36 @@ export default function App() {
     localStorage.setItem("color-theme", dark ? "dark" : "light");
   }, [dark]);
   useEffect(() => {
-    const update = () => {
+    const update = (event?: HashChangeEvent) => {
+      if (
+        event &&
+        editorDirty.current?.() &&
+        !confirm("离开写作工作台？未同步内容会保留在本机。")
+      ) {
+        history.replaceState(null, "", event.oldURL);
+        return;
+      }
       const p = new URLSearchParams(location.hash.slice(1));
-      if (location.hash && !p.has("note")) return;
+      if (location.hash === "#main") return;
+      const next = p.get("view") || "library";
+      if (
+        [
+          "library",
+          "paths",
+          "projects",
+          "inbox",
+          "publish",
+          "search",
+          "brand",
+          "archive",
+          "trash",
+        ].includes(next)
+      )
+        setView(next as View);
       setReading(p.get("note") || "");
-      if (p.get("group")) setGroup(p.get("group")!);
+      setGroup(p.get("group") || "");
+      setEditing(null);
+      setDrawer(false);
     };
     update();
     window.addEventListener("hashchange", update);
@@ -305,13 +338,17 @@ export default function App() {
               width: `calc(100% - ${14 + depth * 10}px)`,
             }}
             className={"topic-item " + (group === t.id ? "active" : "")}
+            aria-current={group === t.id ? "page" : undefined}
             onClick={() => navigate("library", t.id)}
           >
             {t.name}
             <span>
               {
-                notes.filter((n) => descendants(t.id).has(n.topic_id || ""))
-                  .length
+                notes.filter(
+                  (n) =>
+                    n.state !== "archived" &&
+                    descendants(t.id).has(n.topic_id || ""),
+                ).length
               }
             </span>
           </button>
@@ -334,7 +371,7 @@ export default function App() {
         const items = memberships.filter((m) => m.group_id === group);
         filtered = items
           .map((m) => notes.find((n) => n.id === m.note_id))
-          .filter((n): n is Note => !!n);
+          .filter((n): n is Note => !!n && n.state !== "archived");
       }
     }
     return activeGroup?.kind === "path" || activeGroup?.kind === "project"
@@ -344,10 +381,14 @@ export default function App() {
   const results = useMemo(
     () =>
       searchNotes(
-        searchScope ? notes.filter((n) => n.topic_id === searchScope) : notes,
+        notes.filter(
+          (n) =>
+            (includeArchived || n.state !== "archived") &&
+            (!searchScope || descendants(searchScope).has(n.topic_id || "")),
+        ),
         query,
       ),
-    [notes, query, searchScope],
+    [notes, query, searchScope, includeArchived, groups],
   );
   useEffect(() => {
     const section = new URLSearchParams(location.hash.slice(1)).get("section");
@@ -356,9 +397,12 @@ export default function App() {
         document.getElementById(section)?.scrollIntoView(),
       );
   }, [current?.id, current?.body]);
+  useEffect(() => {
+    setSearchCount(30);
+  }, [query, searchScope, includeArchived]);
   const toc = useMemo(
     () => headings(current ? readingBody(current.body, current.title) : ""),
-    [current?.body],
+    [current?.body, current?.title],
   );
   function navigate(v: View, g = "") {
     if (
@@ -373,7 +417,12 @@ export default function App() {
     setReading("");
     setEditing(null);
     setDrawer(false);
-    location.hash = "";
+    history.pushState(
+      null,
+      "",
+      "#" +
+        new URLSearchParams({ view: v, ...(g ? { group: g } : {}) }).toString(),
+    );
     setError("");
     window.scrollTo(0, 0);
   }
@@ -381,6 +430,7 @@ export default function App() {
     setEditing(null);
     setReading(n.id);
     location.hash = new URLSearchParams({
+      view,
       note: n.id,
       ...(group ? { group } : {}),
     }).toString();
@@ -427,17 +477,22 @@ export default function App() {
   async function logout() {
     if (!confirm("退出会清除本机草稿，请先导出未同步内容。确定退出吗？"))
       return;
-    await api("/session", { method: "DELETE" });
-    await draftStore("clear");
-    setNotes([]);
-    setGroups([]);
-    setEditing(null);
-    setAuthenticated(false);
-    setCSRF("");
+    try {
+      await api("/session", { method: "DELETE" });
+      await draftStore("clear");
+      setNotes([]);
+      setGroups([]);
+      setEditing(null);
+      setAuthenticated(false);
+      setCSRF("");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "退出失败，请重试。");
+    }
   }
   async function createGroup() {
     if (!newName.trim() || creating) return;
     setCreating(true);
+    setDialogError("");
     try {
       await api("/groups", {
         method: "POST",
@@ -451,12 +506,14 @@ export default function App() {
       setCreateOpen(false);
       setNewName("");
     } catch (e) {
-      setError((e as Error).message);
+      setDialogError((e as Error).message);
     } finally {
       setCreating(false);
     }
   }
   async function saveOrder(ids: string[]) {
+    setSavingOrder(true);
+    setDialogError("");
     try {
       await api("/groups/" + group + "/items", {
         method: "PUT",
@@ -465,7 +522,9 @@ export default function App() {
       await refresh();
       setOrganize(false);
     } catch (e) {
-      setError((e as Error).message);
+      setDialogError((e as Error).message);
+    } finally {
+      setSavingOrder(false);
     }
   }
   async function remove(n: Note) {
@@ -504,13 +563,17 @@ export default function App() {
           <button
             key={id}
             className={"nav-item " + (view === id && !group ? "active" : "")}
+            aria-current={view === id && !group ? "page" : undefined}
             onClick={() => navigate(id)}
           >
             <Icon size={18} />
             {label}
             {id === "inbox" && (
               <span className="count">
-                {notes.filter((n) => !n.topic_id).length}
+                {
+                  notes.filter((n) => !n.topic_id && n.state !== "archived")
+                    .length
+                }
               </span>
             )}
           </button>
@@ -523,6 +586,7 @@ export default function App() {
           aria-label="新增领域或主题"
           onClick={() => {
             setNewKind("domain");
+            setDialogError("");
             setCreateOpen(true);
           }}
         >
@@ -532,31 +596,63 @@ export default function App() {
       <nav aria-label="知识目录">
         {domains.map((d, i) => (
           <div key={d.id}>
-            <button
-              className={"nav-item " + (group === d.id ? "active" : "")}
-              onClick={() => navigate("library", d.id)}
-            >
-              <span className={"domain-dot dot-" + (i % 4)} />
-              {d.name}
-            </button>
-            {renderTopics(d.id)}
+            <div className="domain-nav-heading">
+              <button
+                className={"nav-item " + (group === d.id ? "active" : "")}
+                aria-current={group === d.id ? "page" : undefined}
+                onClick={() => navigate("library", d.id)}
+              >
+                <span className={"domain-dot dot-" + (i % 4)} />
+                {d.name}
+              </button>
+              <button
+                className="icon-button small"
+                aria-label={`${collapsed.has(d.id) ? "展开" : "收起"}${d.name}`}
+                aria-expanded={!collapsed.has(d.id)}
+                onClick={() =>
+                  setCollapsed((old) => {
+                    const next = new Set(old);
+                    next.has(d.id) ? next.delete(d.id) : next.add(d.id);
+                    return next;
+                  })
+                }
+              >
+                <ChevronRight
+                  size={16}
+                  style={{
+                    transform: collapsed.has(d.id)
+                      ? undefined
+                      : "rotate(90deg)",
+                  }}
+                />
+              </button>
+            </div>
+            {!collapsed.has(d.id) && renderTopics(d.id)}
           </div>
         ))}
       </nav>
       <div className="sidebar-bottom">
-        <button className="nav-item" onClick={() => navigate("publish")}>
-          <UploadCloud size={18} />
-          博客发布
-        </button>
-        <button className="nav-item" onClick={() => navigate("archive")}>
+        <button
+          className={"nav-item " + (view === "archive" ? "active" : "")}
+          aria-current={view === "archive" ? "page" : undefined}
+          onClick={() => navigate("archive")}
+        >
           <Archive size={18} />
           已归档
         </button>
-        <button className="nav-item" onClick={() => navigate("trash")}>
+        <button
+          className={"nav-item " + (view === "trash" ? "active" : "")}
+          aria-current={view === "trash" ? "page" : undefined}
+          onClick={() => navigate("trash")}
+        >
           <Trash2 size={18} />
           回收站
         </button>
-        <button className="nav-item" onClick={() => navigate("brand")}>
+        <button
+          className={"nav-item " + (view === "brand" ? "active" : "")}
+          aria-current={view === "brand" ? "page" : undefined}
+          onClick={() => navigate("brand")}
+        >
           <BookOpen size={18} />
           关于这间小书房
         </button>
@@ -610,7 +706,12 @@ export default function App() {
           <br />
           给思考留一些空间，给未来的自己留一份笔记。
         </p>
-        {error && <p className="error">{error}</p>}
+        {error && (
+          <div className="error" role="alert">
+            <p>{error}</p>
+            <button onClick={() => location.reload()}>重新连接</button>
+          </div>
+        )}
         {["127.0.0.1", "localhost", "[::1]"].includes(location.hostname) ? (
           <>
             <button className="primary" onClick={() => void login()}>
@@ -645,7 +746,7 @@ export default function App() {
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <main id="main" className="main">
+      <main id="main" tabIndex={-1} className="main">
         <header className="topbar">
           <button
             className="mobile-only icon-button"
@@ -930,11 +1031,20 @@ export default function App() {
               </Dialog.Portal>
             </Dialog.Root>
           </div>
+        ) : reading && !loading ? (
+          <section className="page empty">
+            <h1>这篇笔记暂时无法打开</h1>
+            <p>它可能已移入回收站，或链接已失效。</p>
+            <button onClick={() => navigate("trash")}>查看回收站</button>
+            <button onClick={() => navigate("library")}>返回知识库</button>
+          </section>
         ) : view === "search" ? (
           <section className="page search-page">
             <p className="eyebrow">把问题带进来</p>
             <h1>找到你记过的答案</h1>
-            <p className="lead">查一个关键词，或用自己的话描述想了解的内容。</p>
+            <p className="lead">
+              按关键词、标题或正文查找，支持中文、英文与常用同义表达。
+            </p>
             <div className="search-box">
               <Search />
               <input
@@ -946,22 +1056,6 @@ export default function App() {
               />
             </div>
             <div className="search-options">
-              <div className="segmented">
-                <button
-                  className={!ask ? "selected" : ""}
-                  onClick={() => setAsk(false)}
-                >
-                  <Search size={16} />
-                  找笔记
-                </button>
-                <button
-                  className={ask ? "selected" : ""}
-                  onClick={() => setAsk(true)}
-                >
-                  <Sparkles size={16} />
-                  问笔记
-                </button>
-              </div>
               <select
                 aria-label="搜索主题范围"
                 value={searchScope}
@@ -977,35 +1071,24 @@ export default function App() {
                   ))}
               </select>
             </div>
-            {ask && (
-              <div className="notice">
-                <strong>引用问答尚未连接模型</strong>
-                <p>
-                  本地检索已支持中文、英文与常用同义表达。模型连接完成前，不生成未经验证的答案。
-                </p>
-                <button
-                  className="quiet"
-                  onClick={() =>
-                    void api("/search/answer", {
-                      method: "POST",
-                      body: JSON.stringify({ query }),
-                    }).catch((e) => setAnswer(e.message))
-                  }
-                >
-                  检查问答状态
-                </button>
-                {answer && <p role="status">{answer}</p>}
-              </div>
-            )}
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={includeArchived}
+                onChange={(e) => setIncludeArchived(e.target.checked)}
+              />
+              包含已归档笔记
+            </label>
             <div className="section-heading">
               <h2>
                 {query ? `找到 ${results.length} 篇相关笔记` : "最近的笔记"}
               </h2>
               <span className="muted">
-                全文与同义词检索 · 当前 {notes.length} 篇
+                全文检索 · 已展示 {Math.min(searchCount, results.length)} /{" "}
+                {results.length} 篇
               </span>
             </div>
-            {results.slice(0, 30).map(({ note, snippet }) => (
+            {results.slice(0, searchCount).map(({ note, snippet }) => (
               <button
                 className="search-result"
                 key={note.id}
@@ -1013,7 +1096,7 @@ export default function App() {
               >
                 <small>
                   {groups.find((g) => g.id === note.topic_id)?.name || "收件箱"}{" "}
-                  · {note.state === "draft" ? "草稿" : "笔记"}
+                  · {articleStatus(note, publishingState).label}
                 </small>
                 <h3>
                   {note.title}
@@ -1022,6 +1105,14 @@ export default function App() {
                 <p>{snippet}</p>
               </button>
             ))}
+            {searchCount < results.length && (
+              <button
+                className="load-more"
+                onClick={() => setSearchCount((n) => n + 30)}
+              >
+                继续查看 · 还有 {results.length - searchCount} 篇
+              </button>
+            )}
             {results.length === 0 && (
               <div className="empty">
                 <Search />
@@ -1145,17 +1236,9 @@ export default function App() {
                     <button
                       className="quiet"
                       onClick={() => {
-                        const name = prompt("新的名称", activeGroup.name);
-                        if (name)
-                          void api("/groups/" + group, {
-                            method: "PATCH",
-                            body: JSON.stringify({
-                              name,
-                              expectedVersion: activeGroup.version,
-                            }),
-                          })
-                            .then(refresh)
-                            .catch((e) => setError(e.message));
+                        setRenameTarget(activeGroup);
+                        setRenameValue(activeGroup.name);
+                        setDialogError("");
                       }}
                     >
                       重命名
@@ -1197,6 +1280,7 @@ export default function App() {
                           : "topic",
                     );
                     setNewParent(domains[0]?.id || "");
+                    setDialogError("");
                     setCreateOpen(true);
                   }}
                 >
@@ -1213,8 +1297,10 @@ export default function App() {
               <>
                 <div className="domain-grid">
                   {domains.map((d, i) => {
-                    const count = notes.filter((n) =>
-                      descendants(d.id).has(n.topic_id || ""),
+                    const count = notes.filter(
+                      (n) =>
+                        n.state !== "archived" &&
+                        descendants(d.id).has(n.topic_id || ""),
                     ).length;
                     return (
                       <button
@@ -1282,7 +1368,16 @@ export default function App() {
                       <Route size={25} />
                       <h2>{g.name}</h2>
                       <p>
-                        {memberships.filter((m) => m.group_id === g.id).length}{" "}
+                        {
+                          memberships.filter(
+                            (m) =>
+                              m.group_id === g.id &&
+                              notes.some(
+                                (n) =>
+                                  n.id === m.note_id && n.state !== "archived",
+                              ),
+                          ).length
+                        }{" "}
                         篇笔记 · {view === "paths" ? "按顺序学习" : "实践资料"}
                       </p>
                       <span>
@@ -1303,7 +1398,12 @@ export default function App() {
                     <button
                       className="quiet"
                       onClick={() => {
-                        setSelected(displayed.map((n) => n.id));
+                        setSelected(
+                          memberships
+                            .filter((m) => m.group_id === group)
+                            .map((m) => m.note_id),
+                        );
+                        setDialogError("");
                         setOrganize(true);
                       }}
                     >
@@ -1323,11 +1423,25 @@ export default function App() {
                 ) : displayed.length === 0 ? (
                   <div className="empty">
                     <FileText />
-                    <h2>从一篇笔记开始</h2>
-                    <p>想法还没成形也没关系，先记下来。</p>
-                    <button className="primary" onClick={newNote}>
-                      写第一篇笔记
-                    </button>
+                    <h2>
+                      {view === "archive"
+                        ? "没有已归档的笔记"
+                        : view === "inbox"
+                          ? "收件箱已整理好"
+                          : "这里还没有笔记"}
+                    </h2>
+                    <p>
+                      {view === "archive"
+                        ? "归档用于收起暂时不用的文章，随时可以恢复。"
+                        : view === "inbox"
+                          ? "未选择分类的新笔记会出现在这里。"
+                          : "先写一篇，或从已有笔记中选择。"}
+                    </p>
+                    {view !== "archive" && (
+                      <button className="primary" onClick={newNote}>
+                        写一篇笔记
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div className="notes-list">
@@ -1494,11 +1608,77 @@ export default function App() {
             )}
             <button
               className="primary"
-              disabled={!newName.trim() || creating}
+              disabled={
+                !newName.trim() ||
+                creating ||
+                (newKind === "topic" && !newParent)
+              }
               onClick={() => void createGroup()}
             >
-              创建
+              {creating ? "正在创建…" : "创建"}
             </button>
+            {dialogError && (
+              <p className="error" role="alert">
+                {dialogError}
+              </p>
+            )}
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
+      <Dialog.Root
+        open={!!renameTarget}
+        onOpenChange={(open) => {
+          if (!open && !creating) setRenameTarget(null);
+        }}
+      >
+        <Dialog.Portal>
+          <Dialog.Backdrop className="backdrop" />
+          <Dialog.Popup className="dialog">
+            <Dialog.Title>重命名目录</Dialog.Title>
+            <Dialog.Close className="dialog-x icon-button" aria-label="关闭">
+              <X />
+            </Dialog.Close>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (!renameTarget) return;
+                setCreating(true);
+                setDialogError("");
+                void api("/groups/" + renameTarget.id, {
+                  method: "PATCH",
+                  body: JSON.stringify({
+                    name: renameValue.trim(),
+                    expectedVersion: renameTarget.version,
+                  }),
+                })
+                  .then(async () => {
+                    await refresh();
+                    setRenameTarget(null);
+                  })
+                  .catch((e) => setDialogError(e.message))
+                  .finally(() => setCreating(false));
+              }}
+            >
+              <label>
+                目录名称
+                <input
+                  autoFocus
+                  value={renameValue}
+                  onChange={(e) => setRenameValue(e.target.value)}
+                />
+              </label>
+              {dialogError && (
+                <p className="error" role="alert">
+                  {dialogError}
+                </p>
+              )}
+              <button
+                className="primary"
+                disabled={creating || !renameValue.trim()}
+              >
+                {creating ? "正在保存…" : "保存名称"}
+              </button>
+            </form>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
@@ -1572,7 +1752,9 @@ export default function App() {
               >
                 <option value="">选择一篇笔记…</option>
                 {notes
-                  .filter((n) => !selected.includes(n.id))
+                  .filter(
+                    (n) => n.state !== "archived" && !selected.includes(n.id),
+                  )
                   .map((n) => (
                     <option key={n.id} value={n.id}>
                       {n.title}
@@ -1582,10 +1764,16 @@ export default function App() {
             </label>
             <button
               className="primary"
+              disabled={savingOrder}
               onClick={() => void saveOrder(selected)}
             >
-              保存顺序
+              {savingOrder ? "正在保存…" : "保存顺序"}
             </button>
+            {dialogError && (
+              <p className="error" role="alert">
+                {dialogError}
+              </p>
+            )}
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>

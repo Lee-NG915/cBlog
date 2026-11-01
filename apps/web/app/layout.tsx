@@ -50,41 +50,26 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
-        <link
-          rel="preconnect"
-          href="https://fontsapi.zeoseven.com"
-          crossOrigin="anonymous"
-        />
-        {/*
-          Maple Mono NF CN is split into many unicode-range files. Loading every
-          weight duplicates those CJK requests, so the site ships one real font
-          and lets the browser synthesize emphasis without changing glyph metrics.
-        */}
-        <link
-          rel="stylesheet"
-          href="https://fontsapi.zeoseven.com/442/main/result.css"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html:
               "try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}",
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('reveal-ready')}}catch(e){}",
-          }}
-        />
       </head>
-      <body
-        className="min-h-screen bg-background-light font-sans text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100"
-      >
+      <body className="min-h-screen bg-background-light font-sans text-ink transition-colors duration-300 dark:bg-background-dark dark:text-gray-100">
         <ThemeProvider>
           <RevealController />
           <div className="flex min-h-screen flex-col">
+            <a href="#main-content" className="skip-link">
+              跳至正文
+            </a>
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1180px] flex-grow px-4 py-8 sm:px-7 sm:py-14">
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="mx-auto w-full max-w-[1180px] flex-grow px-4 py-8 sm:px-7 sm:py-14"
+            >
               {children}
             </main>
             <SiteFooter />

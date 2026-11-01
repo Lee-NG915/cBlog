@@ -46,9 +46,14 @@ export const mainNavItems: NavItem[] = [
     icon: "home",
   },
   {
-    label: "路径",
+    label: "主题",
     href: "/categories",
     icon: "folder",
+  },
+  {
+    label: "搜索",
+    href: "/search",
+    icon: "search",
   },
   {
     label: "关于",
