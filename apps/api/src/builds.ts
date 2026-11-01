@@ -131,7 +131,9 @@ builds.post("/", async (c) => {
           "UPDATE build_jobs SET status='failed',detail=?,updated_at=? WHERE id=? AND status='dispatching'",
         )
           .bind(
-            `GitHub 拒绝触发（HTTP ${r.status}），请检查工作流和令牌权限`,
+            r.status === 403
+              ? "GitHub 拒绝触发（HTTP 403）：请检查专用令牌是否可访问本仓库，并具备 Actions 读写权限。Workflows 写权限不能代替 Actions 写权限。"
+              : `GitHub 拒绝触发（HTTP ${r.status}），请检查工作流和令牌权限`,
             now(),
             id,
           )

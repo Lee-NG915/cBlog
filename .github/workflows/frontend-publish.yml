@@ -44,6 +44,13 @@ jobs:
         run: node --test scripts/knowledge/frontend-publish.test.mjs
       - name: Resolve exactly the currently deployed content
         run: node scripts/knowledge/frontend-publish.mjs resolve
+      - name: Identify snapshot runtime
+        id: source
+        run: node -e 'console.log("kind=" + require("./.frontend/source/source.json").kind)' >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        if: steps.source.outputs.kind == 'snapshot'
+        with:
+          node-version: '24'
       - name: Build new frontend using that content
         run: node scripts/knowledge/frontend-publish.mjs build
       - name: Retain content inputs for the next frontend publication

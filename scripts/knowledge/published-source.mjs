@@ -19,6 +19,8 @@ export function validateSource(source, siteUrl, publication) {
     if (!/^[a-f0-9]{40}$/.test(source.contentRef) || publication !== null)
       throw new Error("Cannot use legacy content for a database publication");
   } else if (source.kind === "snapshot") {
+    if (source.legacyContentRef !== undefined && !/^[a-f0-9]{40}$/.test(source.legacyContentRef))
+      throw new Error("Invalid preserved legacy content commit");
     const s = source.snapshot;
     if (!s || !publication || s.jobId !== publication.jobId ||
         s.publicationId !== publication.publicationId ||

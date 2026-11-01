@@ -79,6 +79,7 @@ export default function App() {
       }>
     >([]),
     [buildEnabled, setBuildEnabled] = useState(false),
+    [publicationSelection, setPublicationSelection] = useState<string[]>([]),
     [buildRepository, setBuildRepository] = useState(""),
     [publishing, setPublishing] = useState(false),
     [publications, setPublications] = useState<
@@ -181,13 +182,8 @@ export default function App() {
     });
   }
   async function createPublication() {
-    if (
-      !notes.some(
-        (n) => n.visibility === "public" && n.state === "ready" && n.topic_id,
-      ) &&
-      !confirm("公开范围为空。这会生成空博客，用于撤回全部文章。确定继续？")
-    )
-      return;
+    const noteIds = notes.filter((n) => n.visibility === "public" && n.state === "ready" && n.topic_id && publicationSelection.includes(n.id)).map((n) => n.id);
+    if (!noteIds.length) { setError("请勾选本次要发布的笔记"); return; }
     setPublishing(true);
     setError("");
     try {
@@ -200,7 +196,7 @@ export default function App() {
       }
       const result = await api<{ data: { id: number } }>("/publications", {
         method: "POST",
-        body: JSON.stringify({ expectedRevision: latest.revision }),
+        body: JSON.stringify({ expectedRevision: latest.revision, noteIds }),
       });
       if (buildEnabled) await requestBuild(result.data.id);
       await refreshPublications();
@@ -886,7 +882,7 @@ export default function App() {
                 篇
               </strong>
               <p>
-                需要同时满足「可发布」「允许公开」「已选择主题」。迁移笔记默认仅自己。
+                勾选本次新增或更新的笔记。其他线上笔记保留已发布版本，旧博客文章与专栏也会保留。若会移除已上线页面，部署会停止。
               </p>
             </div>
             {notes
@@ -898,7 +894,7 @@ export default function App() {
               )
               .map((n) => (
                 <p key={n.id}>
-                  {n.title} · v{n.version}
+                  <label><input type="checkbox" checked={publicationSelection.includes(n.id)} onChange={(e) => setPublicationSelection((ids) => e.target.checked ? [...ids, n.id] : ids.filter((id) => id !== n.id))} /> {n.title} · v{n.version}</label>
                 </p>
               ))}
             <button

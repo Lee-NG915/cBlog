@@ -108,6 +108,7 @@ async function main(command) {
       const { buildSnapshot } = await import("./snapshot-build.mjs");
       await buildSnapshot(source.snapshot, {
         siteUrl, basePath: site.pathname.replace(/\/$/, ""),
+        legacyContentRef: source.legacyContentRef,
         assetLoader: (id) => readFileSync(path.join(sourceDir, "assets", id)),
       });
     } else {
