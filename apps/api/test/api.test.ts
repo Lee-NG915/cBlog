@@ -482,6 +482,9 @@ test("selected publication includes only chosen eligible notes and never exposes
     assert.equal(result.status, 201);
     const manifest = JSON.parse(s.sqlite.prepare("SELECT manifest FROM publications").get().manifest);
     assert.deepEqual(manifest.notes.map((n: { id: string }) => n.id), ["chosen"]);
+    const id = (await result.json()).data.id;
+    assert.deepEqual(await (await s.request(`/api/v1/publications/${id}/scope`)).json(), {noteIds: ["chosen"]});
+    assert.equal((await s.request("/api/v1/publications/9999/scope")).status, 404);
   } finally { s.close(); }
 });
 
