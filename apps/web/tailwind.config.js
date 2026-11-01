@@ -25,10 +25,28 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: mapleFontFamily,
+        sans: [
+          "system-ui",
+          "-apple-system",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "sans-serif",
+        ],
         mono: mapleFontFamily,
-        serif: mapleFontFamily,
-        display: mapleFontFamily,
+        serif: [
+          "system-ui",
+          "-apple-system",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "sans-serif",
+        ],
+        display: [
+          "system-ui",
+          "-apple-system",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "sans-serif",
+        ],
       },
       colors: {
         primary: {
@@ -61,7 +79,7 @@ module.exports = {
         ink: {
           DEFAULT: "#22201D",
           muted: "#5F574E",
-          soft: "#83796E",
+          soft: "#73685D",
         },
         line: {
           light: "#DED2C1",

@@ -46,9 +46,7 @@ export default async function AboutPage() {
     <div className="mx-auto max-w-4xl space-y-8">
       <header className="mb-2" data-reveal="hero">
         <p className="editorial-label">关于这个站点</p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
-          关于
-        </h1>
+        <h1 className="mt-3 page-title text-ink dark:text-gray-50">关于</h1>
       </header>
 
       <div

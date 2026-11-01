@@ -246,6 +246,7 @@ export default function MermaidEnhancer() {
         return;
       }
 
+      diagram.focus({ preventScroll: true });
       setExpandedDiagram({
         title: diagram.dataset.title || "图例",
         svg: decodeURIComponent(diagram.dataset.svg),

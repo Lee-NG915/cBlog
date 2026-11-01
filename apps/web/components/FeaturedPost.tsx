@@ -10,15 +10,18 @@ interface FeaturedPostProps {
   revealDelay?: number;
 }
 
-export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProps) {
+export default function FeaturedPost({
+  post,
+  revealDelay = 0,
+}: FeaturedPostProps) {
   return (
     <Link
       href={`/posts/${post.slug}`}
-      className="group grid overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial transition hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[360px] md:grid-cols-[0.95fr_1.05fr]"
+      className="group grid overflow-hidden rounded-lg border border-line-light bg-surface-light shadow-editorial transition hover:border-primary-200 dark:border-line-dark dark:bg-surface-dark dark:hover:border-primary-800 md:min-h-[320px] md:grid-cols-[0.95fr_1.05fr]"
       data-reveal
       data-reveal-delay={revealDelay}
     >
-      <div className="relative min-h-[220px] overflow-hidden bg-ink dark:bg-black sm:min-h-[300px] md:min-h-[360px]">
+      <div className="relative min-h-[160px] overflow-hidden bg-ink dark:bg-black sm:min-h-[240px] md:min-h-[320px]">
         {post.coverImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -44,27 +47,28 @@ export default function FeaturedPost({ post, revealDelay = 0 }: FeaturedPostProp
             </div>
           </div>
         )}
-        <div className="absolute bottom-6 left-6 rounded-full bg-background-light/92 px-4 py-2 font-sans text-sm font-semibold text-ink shadow-editorial-sm">
+        <div className="absolute bottom-6 left-6 rounded-full bg-background-light/95 px-4 py-2 font-sans text-sm font-semibold text-ink shadow-editorial-sm">
           {post.category}
         </div>
       </div>
 
       <div className="flex flex-col p-6 sm:p-8 md:p-9">
         <div className="mb-6 flex flex-wrap items-center gap-3 font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
-            <span>推荐阅读</span>
-            {post.status === "draft" && <DraftBadge />}
-            <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
-            <time className="tracking-normal text-ink-muted dark:text-gray-300">
-              {post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
-            </time>
-          </div>
+          <span>推荐阅读</span>
+          {post.status === "draft" && <DraftBadge />}
+          <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
+          <time className="tracking-normal text-ink-muted dark:text-gray-300">
+            {post.date &&
+              format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
+          </time>
+        </div>
 
-        <h2 className="max-w-2xl font-display text-4xl font-bold leading-[1.12] tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-5xl">
+        <h2 className="max-w-2xl font-display text-2xl font-semibold leading-snug tracking-normal text-ink transition group-hover:text-primary-800 dark:text-gray-50 dark:group-hover:text-primary-200 sm:text-3xl">
           {post.title}
         </h2>
 
         {post.excerpt && (
-          <p className="mt-5 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-200">
+          <p className="mt-5 line-clamp-4 max-w-2xl font-sans text-base leading-8 text-ink-muted dark:text-gray-200">
             {post.excerpt}
           </p>
         )}

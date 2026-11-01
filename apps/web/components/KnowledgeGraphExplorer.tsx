@@ -131,7 +131,7 @@ function DetailPanel({
 
       {related.length > 0 && (
         <div className="mt-8 border-t border-line-light pt-6 dark:border-line-dark">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft dark:text-gray-500">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft dark:text-gray-400">
             关联节点
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
@@ -193,13 +193,32 @@ export default function KnowledgeGraphExplorer() {
 
   const pathRoles = ["all", "前端基础", "迁移专项", "业务链路"];
   const activeTrack =
-    READING_TRACKS.find((track) => track.role === pathRole) ?? READING_TRACKS[0];
-  const migratedNoteCount = KNOWLEDGE_NODES.filter((node) => node.blogSlug).length;
+    READING_TRACKS.find((track) => track.role === pathRole) ??
+    READING_TRACKS[0];
+  const migratedNoteCount = KNOWLEDGE_NODES.filter(
+    (node) => node.blogSlug,
+  ).length;
   const overviewItems = [
-    { label: "结构层级", value: String(LAYER_ORDER.length), note: "从架构到实现" },
-    { label: "主题域", value: String(DOMAIN_META.length), note: "覆盖横向能力与业务域" },
-    { label: "已整理笔记", value: String(migratedNoteCount), note: "可直接跳转阅读" },
-    { label: "推荐路线", value: String(READING_TRACKS.length), note: "按目标快速进入" },
+    {
+      label: "结构层级",
+      value: String(LAYER_ORDER.length),
+      note: "从架构到实现",
+    },
+    {
+      label: "主题域",
+      value: String(DOMAIN_META.length),
+      note: "覆盖横向能力与业务域",
+    },
+    {
+      label: "已整理笔记",
+      value: String(migratedNoteCount),
+      note: "可直接跳转阅读",
+    },
+    {
+      label: "推荐路线",
+      value: String(READING_TRACKS.length),
+      note: "按目标快速进入",
+    },
   ];
 
   useEffect(() => {
@@ -232,7 +251,7 @@ export default function KnowledgeGraphExplorer() {
             key={item.label}
             className="rounded-2xl border border-line-light bg-surface-light p-5 shadow-sm dark:border-line-dark dark:bg-surface-dark"
           >
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft dark:text-gray-500">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft dark:text-gray-400">
               {item.label}
             </p>
             <p className="mt-3 font-display text-3xl font-semibold text-ink dark:text-gray-50">
@@ -248,7 +267,10 @@ export default function KnowledgeGraphExplorer() {
       <div className="rounded-2xl border border-line-light bg-background-light/70 p-5 dark:border-line-dark dark:bg-background-dark/40 sm:p-6">
         <div className="grid gap-4 lg:grid-cols-4">
           {LAYER_ORDER.map((layer, index) => (
-            <div key={layer} className="relative rounded-2xl border border-line-light bg-surface-light p-4 dark:border-line-dark dark:bg-surface-dark">
+            <div
+              key={layer}
+              className="relative rounded-2xl border border-line-light bg-surface-light p-4 dark:border-line-dark dark:bg-surface-dark"
+            >
               <span className="font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
                 Step {index + 1}
               </span>
@@ -287,7 +309,7 @@ export default function KnowledgeGraphExplorer() {
           ))}
         </div>
 
-        <p className="font-sans text-xs text-ink-soft dark:text-gray-500">
+        <p className="font-sans text-xs text-ink-soft dark:text-gray-400">
           点击节点查看摘要与关联 · 先看结构，再选方向，最后进入工程笔记
         </p>
       </div>
@@ -341,7 +363,7 @@ export default function KnowledgeGraphExplorer() {
                     <p className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-primary-700 dark:text-primary-300">
                       {LAYER_META[layer].label}
                     </p>
-                    <p className="mt-2 max-w-2xl font-sans text-sm leading-7 text-ink-soft dark:text-gray-500">
+                    <p className="mt-2 max-w-2xl font-sans text-sm leading-7 text-ink-soft dark:text-gray-400">
                       {LAYER_META[layer].description}
                     </p>
                   </div>
@@ -482,7 +504,7 @@ export default function KnowledgeGraphExplorer() {
           </div>
 
           <div className="space-y-4">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft dark:text-gray-500">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-soft dark:text-gray-400">
               该域下的节点
             </p>
             {filteredNodes.map((node) => (
@@ -528,7 +550,7 @@ export default function KnowledgeGraphExplorer() {
                     <p className="mt-2 font-sans text-sm leading-7 text-ink-muted dark:text-gray-400">
                       {track.summary}
                     </p>
-                    <p className="mt-4 font-sans text-xs leading-6 text-ink-soft dark:text-gray-500">
+                    <p className="mt-4 font-sans text-xs leading-6 text-ink-soft dark:text-gray-400">
                       读完收获：{track.outcome}
                     </p>
                   </button>
@@ -565,36 +587,39 @@ export default function KnowledgeGraphExplorer() {
               </div>
 
               <ol className="relative space-y-0 border-l-2 border-primary-200 pl-6 dark:border-primary-800">
-              {pathSteps.map((step, index) => {
-                if (!step.node) return null;
-                return (
-                  <li key={`${step.step}-${step.nodeId}-${index}`} className="pb-10 last:pb-0">
-                    <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-primary-500 bg-surface-light dark:bg-surface-dark" />
-                    <button
-                      type="button"
-                      onClick={() => setSelectedId(step.node!.id)}
-                      className="w-full rounded-2xl border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 dark:border-line-dark dark:bg-background-dark sm:p-6"
+                {pathSteps.map((step, index) => {
+                  if (!step.node) return null;
+                  return (
+                    <li
+                      key={`${step.step}-${step.nodeId}-${index}`}
+                      className="pb-10 last:pb-0"
                     >
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
-                          Step {step.step}
-                        </span>
-                        {step.role && (
-                          <span className="rounded-full bg-accent-blue/10 px-2 py-0.5 font-sans text-[10px] text-accent-blue">
-                            {step.role}
+                      <span className="absolute -left-[9px] mt-1.5 h-4 w-4 rounded-full border-2 border-primary-500 bg-surface-light dark:bg-surface-dark" />
+                      <button
+                        type="button"
+                        onClick={() => setSelectedId(step.node!.id)}
+                        className="w-full rounded-2xl border border-line-light bg-background-light p-5 text-left transition hover:border-primary-200 dark:border-line-dark dark:bg-background-dark sm:p-6"
+                      >
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-sans text-xs font-semibold text-primary-700 dark:text-primary-300">
+                            Step {step.step}
                           </span>
-                        )}
-                      </div>
-                      <p className="mt-2 font-sans text-sm font-semibold text-ink dark:text-gray-100">
-                        {step.node.label}
-                      </p>
-                      <p className="mt-1 font-sans text-xs leading-5 text-ink-muted dark:text-gray-400">
-                        {step.node.summary}
-                      </p>
-                    </button>
-                  </li>
-                );
-              })}
+                          {step.role && (
+                            <span className="rounded-full bg-accent-blue/10 px-2 py-0.5 font-sans text-[10px] text-accent-blue">
+                              {step.role}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-2 font-sans text-sm font-semibold text-ink dark:text-gray-100">
+                          {step.node.label}
+                        </p>
+                        <p className="mt-1 font-sans text-xs leading-5 text-ink-muted dark:text-gray-400">
+                          {step.node.summary}
+                        </p>
+                      </button>
+                    </li>
+                  );
+                })}
               </ol>
             </div>
           </div>

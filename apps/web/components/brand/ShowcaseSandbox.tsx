@@ -13,6 +13,8 @@ export default function ShowcaseSandbox({
   return (
     <div
       className={`showcase-sandbox ${className}`.trim()}
+      {...({ inert: "" } as Record<string, string>)}
+      aria-label="静态样式预览"
       data-showcase-preview
     >
       {children}

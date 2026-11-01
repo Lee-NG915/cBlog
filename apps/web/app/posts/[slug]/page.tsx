@@ -1,3 +1,4 @@
+import { distinctExcerpt, readingHtml } from "@/lib/content-display";
 import type { Metadata } from "next";
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
@@ -98,22 +99,29 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
+  const excerpt = distinctExcerpt(post.content, post.excerpt);
   const headings = getPostHeadings(post.content);
   const content = await markdownToHtml(
     post.content,
     headings,
-    docAssetBase(post.filePath)
+    docAssetBase(post.filePath),
   );
   const hasMermaidDiagrams = content.includes("mermaid-diagram");
   const showKnowledgeGraph = post.slug === "ecommerce-knowledge-map";
   const categories = await getAllCategories();
   const allPosts = await getAllPosts();
-  const sidebarCategories = categories.map((category) => ({
-    ...category,
-    posts: allPosts
-      .filter((categoryPost) => categoryPost.categorySlug === category.slug)
-      .slice(0, 4),
-  }));
+  const sidebarCategories = categories
+    .filter((category) => category.slug === post.categorySlug)
+    .map((category) => ({
+      ...category,
+      posts: allPosts
+        .filter(
+          (categoryPost) =>
+            categoryPost.categorySlug === category.slug &&
+            categoryPost.slug !== post.slug,
+        )
+        .slice(0, 4),
+    }));
   const canonicalUrl = getSiteUrl(`/posts/${post.slug}/`);
   const image = getSeoImageUrl(post.coverImage);
   const jsonLd = {
@@ -162,7 +170,10 @@ export default async function PostPage({ params }: PostPageProps) {
         )}
 
         <header className="mb-8 pb-2 sm:mb-10 sm:pb-4">
-          <div className="mb-6 flex flex-wrap items-center gap-3" data-reveal="hero">
+          <div
+            className="mb-6 flex flex-wrap items-center gap-3"
+            data-reveal="hero"
+          >
             <Link
               href={`/categories/${post.categorySlug}`}
               className="rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
@@ -176,24 +187,20 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
 
           <h1
-            className={`max-w-5xl break-words font-display font-bold tracking-normal text-ink dark:text-gray-50 ${
-              post.title.length > 20
-                ? "text-3xl leading-[1.22] sm:text-4xl sm:leading-[1.18] lg:text-5xl lg:leading-[1.14]"
-                : "text-4xl leading-[1.16] sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
-            }`}
+            className="article-title text-ink dark:text-gray-50"
             data-reveal="hero"
             data-reveal-delay="80"
           >
             {post.title}
           </h1>
 
-          {post.excerpt && (
+          {excerpt && (
             <p
-              className="mt-6 max-w-4xl break-words font-sans text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9"
+              className="mt-6 max-w-4xl break-words font-sans text-base leading-8 text-ink-muted dark:text-gray-300 sm:text-lg"
               data-reveal
               data-reveal-delay="140"
             >
-              {post.excerpt}
+              {excerpt}
             </p>
           )}
 
@@ -237,6 +244,12 @@ export default async function PostPage({ params }: PostPageProps) {
           }
         >
           <div className="min-w-0 space-y-6">
+            {headings.length > 0 && (
+              <details className="mobile-toc">
+                <summary>文章目录 · {headings.length} 节</summary>
+                <PostTableOfContents headings={headings} />
+              </details>
+            )}
             {showKnowledgeGraph && headings.length > 0 && (
               <div className="max-w-3xl" data-reveal>
                 <PostTableOfContents headings={headings} title="阅读地图" />
@@ -250,90 +263,96 @@ export default async function PostPage({ params }: PostPageProps) {
             )}
             <div
               className={`prose -mx-4 min-w-0 border-y border-line-light bg-surface-light px-4 py-6 shadow-none dark:border-line-dark dark:bg-surface-dark sm:mx-0 sm:rounded-lg sm:border sm:p-8 sm:shadow-editorial ${
-                showKnowledgeGraph
-                  ? "lg:p-10"
-                  : "lg:p-9"
+                showKnowledgeGraph ? "lg:p-10" : "lg:p-9"
               }`}
               data-reveal
               data-post-body
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{
+                __html: readingHtml(content),
+              }}
             />
             {hasMermaidDiagrams && <MermaidEnhancer />}
           </div>
 
           {!showKnowledgeGraph && (
-          <aside className="hidden min-w-0 lg:block" data-reveal data-reveal-delay="140">
-            <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
-              {headings.length > 0 && (
-                <PostTableOfContents headings={headings} title="文章目录" />
-              )}
+            <aside
+              className="hidden min-w-0 lg:block"
+              data-reveal
+              data-reveal-delay="140"
+            >
+              <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1">
+                {headings.length > 0 && (
+                  <PostTableOfContents headings={headings} title="文章目录" />
+                )}
 
-              <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300">
-                    同主题继续
-                  </p>
-                  <Link
-                    href="/categories"
-                    className="font-sans text-xs font-medium text-ink-soft transition hover:text-primary-800 dark:text-gray-500 dark:hover:text-primary-200"
-                  >
-                    全部
-                  </Link>
-                </div>
-
-                <div className="mt-5 space-y-6">
-                  {sidebarCategories.map((category) => (
-                    <section
-                      key={category.slug}
-                      className="border-t border-line-light pt-5 first:border-t-0 first:pt-0 dark:border-line-dark"
+                <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-sans text-xs font-semibold tracking-normal text-primary-700 dark:text-primary-300">
+                      同主题继续
+                    </p>
+                    <Link
+                      href="/categories"
+                      className="font-sans text-xs font-medium text-ink-soft transition hover:text-primary-800 dark:text-gray-400 dark:hover:text-primary-200"
                     >
-                      <Link
-                        href={`/categories/${category.slug}`}
-                        className="group flex items-center justify-between gap-3"
+                      全部
+                    </Link>
+                  </div>
+
+                  <div className="mt-5 space-y-6">
+                    {sidebarCategories.map((category) => (
+                      <section
+                        key={category.slug}
+                        className="border-t border-line-light pt-5 first:border-t-0 first:pt-0 dark:border-line-dark"
                       >
-                        <span className="font-sans text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
-                          {category.name}
-                        </span>
-                        <span className="rounded-full bg-primary-50 px-2.5 py-1 font-sans text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
-                          {category.count}
-                        </span>
-                      </Link>
+                        <Link
+                          href={`/categories/${category.slug}`}
+                          className="group flex items-center justify-between gap-3"
+                        >
+                          <span className="font-sans text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
+                            {category.name}
+                          </span>
+                          <span className="rounded-full bg-primary-50 px-2.5 py-1 font-sans text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                            {category.count}
+                          </span>
+                        </Link>
 
-                      <div className="mt-3 space-y-2">
-                        {category.posts.length === 0 ? (
-                          <p className="font-sans text-xs leading-5 text-ink-soft dark:text-gray-500">
-                            暂无文章
-                          </p>
-                        ) : (
-                          category.posts.map((categoryPost) => {
-                            const isCurrentPost =
-                              categoryPost.slug === post.slug;
+                        <div className="mt-3 space-y-2">
+                          {category.posts.length === 0 ? (
+                            <p className="font-sans text-xs leading-5 text-ink-soft dark:text-gray-400">
+                              暂无文章
+                            </p>
+                          ) : (
+                            category.posts.map((categoryPost) => {
+                              const isCurrentPost =
+                                categoryPost.slug === post.slug;
 
-                            return (
-                              <Link
-                                key={categoryPost.slug}
-                                href={`/posts/${categoryPost.slug}`}
-                                aria-current={isCurrentPost ? "page" : undefined}
-                                className={`block rounded-md px-3 py-2 font-sans text-sm leading-5 transition ${
-                                  isCurrentPost
-                                    ? "bg-primary-50 font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
-                                    : "text-ink-muted hover:bg-background-light hover:text-primary-800 dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-primary-200"
-                                }`}
-                              >
-                                <span className="line-clamp-2">
-                                  {categoryPost.title}
-                                </span>
-                              </Link>
-                            );
-                          })
-                        )}
-                      </div>
-                    </section>
-                  ))}
+                              return (
+                                <Link
+                                  key={categoryPost.slug}
+                                  href={`/posts/${categoryPost.slug}`}
+                                  aria-current={
+                                    isCurrentPost ? "page" : undefined
+                                  }
+                                  className={`block rounded-md px-3 py-2 font-sans text-sm leading-5 transition ${
+                                    isCurrentPost
+                                      ? "bg-primary-50 font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200"
+                                      : "text-ink-muted hover:bg-background-light hover:text-primary-800 dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-primary-200"
+                                  }`}
+                                >
+                                  <span className="line-clamp-2">
+                                    {categoryPost.title}
+                                  </span>
+                                </Link>
+                              );
+                            })
+                          )}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </aside>
+            </aside>
           )}
         </div>
       </article>

@@ -47,7 +47,12 @@ export default function PostTableOfContents({
 
     const handleHashChange = () => {
       const rawHash = window.location.hash.replace(/^#/, "");
-      const hash = rawHash ? decodeURIComponent(rawHash) : "";
+      let hash = rawHash;
+      try {
+        hash = decodeURIComponent(rawHash);
+      } catch {
+        return;
+      }
       if (hash) {
         setActiveId(hash);
       }
@@ -67,12 +72,9 @@ export default function PostTableOfContents({
   }
 
   return (
-    <nav
-      aria-label="文章目录"
-      className="editorial-card space-y-4 p-5 sm:p-6"
-    >
+    <nav aria-label="文章目录" className="editorial-card space-y-4 p-5 sm:p-6">
       <div className="flex items-center justify-between gap-3">
-        <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary-700 dark:text-primary-300">
+        <p className="font-sans text-xs font-semibold tracking-normal text-primary-700 dark:text-primary-300">
           {title}
         </p>
         <span className="font-sans text-xs text-ink-soft dark:text-gray-400">
@@ -88,6 +90,15 @@ export default function PostTableOfContents({
             <li key={heading.id}>
               <a
                 href={`#${heading.id}`}
+                onClick={(event) => {
+                  const details = event.currentTarget.closest("details");
+                  if (details) {
+                    details.open = false;
+                    const target = document.getElementById(heading.id);
+                    target?.setAttribute("tabindex", "-1");
+                    target?.focus({ preventScroll: true });
+                  }
+                }}
                 className={`toc-link ${isActive ? "toc-link-active" : ""} ${
                   heading.level === 3 ? "pl-4" : ""
                 }`}

@@ -19,13 +19,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
   const allCategories = await getAllCategories();
   const currentCategory = allCategories.find((c) => c.slug === params.category);
 
   if (!currentCategory) {
     return {
-      title: "阅读路径不存在",
+      title: "主题与专栏不存在",
     };
   }
 
@@ -78,11 +80,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="space-y-8">
       <div data-reveal="fade">
-        <BackButton href="/categories" label="返回路径" />
+        <BackButton href="/categories" label="返回主题" />
       </div>
       <header data-reveal="hero">
-        <p className="editorial-label">阅读路径</p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-normal text-ink dark:text-gray-50 sm:text-6xl">
+        <p className="editorial-label">主题与专栏</p>
+        <h1 className="mt-3 page-title text-ink dark:text-gray-50">
           {currentCategory.name}
         </h1>
         <p className="mt-4 font-sans text-ink-muted dark:text-gray-300">
@@ -91,22 +93,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </header>
 
       {posts.length === 0 ? (
-          <div className="editorial-card py-16 text-center" data-reveal>
-            <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
-              这个路径下还没有文章。
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, index) => (
-              <PostCard
-                key={post.slug}
-                post={post}
-                revealDelay={(index % 3) * 90}
-              />
-            ))}
-          </div>
-        )}
+        <div className="editorial-card py-16 text-center" data-reveal>
+          <p className="font-sans text-lg text-ink-muted dark:text-gray-400">
+            这个主题的文章还在整理中。
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, index) => (
+            <PostCard
+              key={post.slug}
+              post={post}
+              revealDelay={(index % 3) * 90}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -16,13 +16,11 @@ export function jumpToHeading(id: string) {
     params.set("section", id);
     history.replaceState(null, "", "#" + params.toString());
   }
-  document
-    .getElementById(id)
-    ?.scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "auto"
-        : "smooth",
-    });
+  document.getElementById(id)?.scrollIntoView({
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth",
+  });
 }
 export function headingSlug(text: string) {
   return (
@@ -73,6 +71,7 @@ export function headings(body: string) {
 }
 function Pre({ children }: { children: ReactNode }) {
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
   if (
     isValidElement<{ className?: string }>(children) &&
     children.props.className === "language-mermaid"
@@ -82,17 +81,28 @@ function Pre({ children }: { children: ReactNode }) {
     <div className="code-wrap">
       <button
         className="copy"
-        aria-label="复制代码"
+        aria-label={copied ? "已复制代码" : "复制代码"}
         onClick={() =>
-          void navigator.clipboard.writeText(textOf(children)).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1500);
-          })
+          void navigator.clipboard
+            .writeText(textOf(children))
+            .then(() => {
+              setCopyError(false);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1500);
+            })
+            .catch(() => setCopyError(true))
         }
       >
         {copied ? <Check size={16} /> : <Copy size={16} />}
       </button>
-      <pre>{children}</pre>
+      <pre tabIndex={0} aria-label="代码内容">
+        {children}
+      </pre>
+      {copyError && (
+        <p className="copy-feedback" role="status">
+          未能访问剪贴板，请选中代码后复制。
+        </p>
+      )}
     </div>
   );
 }

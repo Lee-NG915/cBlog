@@ -30,12 +30,12 @@ export default function BrandVisualPreview() {
           ))}
         </div>
         <p className="mt-8 font-serif text-base leading-relaxed text-ink/90 dark:text-gray-300">
-          中文、英文、标题、正文和代码都使用 Maple Mono CN 的圆润字形，再用字号与字重拉开层级。正文行距偏宽，整体想让你像坐在窗边翻笔记本，而不是刷短内容。
+          标题和正文采用清晰的系统字形，代码保持等宽。手机上也留足行距，用目录找到章节，用搜索翻回旧文。像坐在窗边翻一本熟悉的笔记。
         </p>
       </div>
 
       <div>
-        <p className="mb-4 font-sans text-sm text-ink-soft dark:text-gray-500">
+        <p className="mb-4 font-sans text-sm text-ink-soft dark:text-gray-400">
           文章在列表里大致长这样
         </p>
         <ShowcaseSandbox>

@@ -90,8 +90,8 @@ export const brandCore = {
 
   presentation: [
     "背景偏暖，像摊开笔记本，不晃眼",
-    "新版知识库正文与界面采用系统中文无衬线字体，代码保留等宽；旧阅读端在切换前保留 Maple Mono CN",
-    "新版正文立即可见，不依赖滚动动画；保留安静的状态反馈",
+    "博客与后台统一采用系统中文无衬线字体，代码保留等宽；正文无需等待外部字体",
+    "所有正文立即可见，不依赖脚本或滚动动画；首页保留可减少动效的轻入场",
     "卡片边框淡淡的，鼠标移上去改改颜色就行",
     "长文有目录和一条轻进度线，方便回看，不打断阅读",
     "按主题翻文章，不搞信息流那套",
@@ -108,7 +108,7 @@ export const brandCore = {
     {
       brand: "墨色字",
       token: "ink / ink-muted / ink-soft",
-      value: "#22201D / #5F574E / #83796E",
+      value: "#22201D / #5F574E / #73685D",
       usage: "正文、日期、次要说明",
     },
     {
@@ -136,10 +136,10 @@ export const brandCore = {
       usage: "文章块、侧栏、模块外框",
     },
     {
-      brand: "滚动浮现",
-      token: "data-reveal + RevealController",
-      value: "opacity + translate 0.75s",
-      usage: "区块进入视口时淡入",
+      brand: "即时阅读",
+      token: "正文直接渲染 / 首页 CSS 入场",
+      value: "正文首屏可见，尊重减少动效偏好",
+      usage: "不依赖滚动脚本显示文章",
     },
     {
       brand: "阅读进度",
@@ -156,25 +156,25 @@ export const brandCore = {
     {
       brand: "长文排版",
       token: "prose",
-      value: "移动端行高 1.9，较宽屏约 1.95",
+      value: "移动端 17px / 行高 1.9，桌面 18px / 行高 1.95",
       usage: "Markdown 正文；小屏减少内边距并允许宽内容横向滚动",
     },
     {
       brand: "标题字体",
-      token: "font-display / Maple Mono NF CN",
-      value: "Maple Mono CN 400 + 合成强调",
+      token: "font-display / 系统中文无衬线",
+      value: "系统字形，600 字重",
       usage: "标题、卡片题名",
     },
     {
       brand: "界面字体",
-      token: "font-sans / Maple Mono NF CN",
-      value: "Maple Mono CN 400，完整中英文字形",
+      token: "font-sans / 系统中文无衬线",
+      value: "系统字形，400–600 字重",
       usage: "导航、按钮、标签、元信息",
     },
     {
       brand: "代码字体",
-      token: "font-mono / Maple Mono NF CN",
-      value: "Maple Mono CN 400 + 合成强调，支持连字与中英文 2:1 对齐",
+      token: "font-mono / 本机等宽字体",
+      value: "优先使用本机等宽字体，无需网络加载",
       usage: "行内代码、代码块",
     },
   ],
@@ -199,7 +199,7 @@ export const brandCore = {
       pillars: {
         label: "内容",
         title: "你会在这里读到什么",
-        lead: "大致分三类，边界也不严格，有时一篇里什么都有。",
+        lead: "大致分四类，边界也不严格，有时一篇里什么都有。",
       },
       experience: {
         label: "阅读",

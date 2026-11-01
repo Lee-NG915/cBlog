@@ -1,3 +1,4 @@
+import { distinctExcerpt, readingHtml } from "@/lib/content-display";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -41,11 +42,13 @@ export async function generateStaticParams() {
       (await getCollectionNotes(collection.slug)).map((note) => ({
         collection: toRouteParam(collection.slug),
         slug: toRouteParam(note.slug),
-      }))
-    )
+      })),
+    ),
   );
   // Next 14 static export requires a parameter even when all collections are private.
-  return paramSets.flat().length ? paramSets.flat() : [{ collection: "__empty__", slug: "__empty__" }];
+  return paramSets.flat().length
+    ? paramSets.flat()
+    : [{ collection: "__empty__", slug: "__empty__" }];
 }
 
 export async function generateMetadata({
@@ -63,9 +66,7 @@ export async function generateMetadata({
   return {
     title: note.title,
     description: note.excerpt,
-    ...(collection.noindex
-      ? { robots: { index: false, follow: false } }
-      : {}),
+    ...(collection.noindex ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -82,11 +83,17 @@ export default async function CollectionNotePage({
   }
 
   const allNotes = await getCollectionNotes(collection.slug);
+  const noteIndex = allNotes.findIndex((item) => item.slug === note.slug);
+  const neighbors = [
+    { note: allNotes[noteIndex - 1], label: "上一篇" },
+    { note: allNotes[noteIndex + 1], label: "下一篇" },
+  ];
+  const excerpt = distinctExcerpt(note.content, note.excerpt);
   const headings = getPostHeadings(note.content);
   const content = await markdownToHtml(
     note.content,
     headings,
-    `/content/collections/${collection.slug}`
+    `/content/collections/${collection.slug}`,
   );
   const hasMermaidDiagrams = content.includes("mermaid-diagram");
 
@@ -112,33 +119,60 @@ export default async function CollectionNotePage({
           </div>
 
           <h1
-            className="max-w-5xl break-words font-display text-4xl font-bold leading-[1.16] tracking-normal text-ink dark:text-gray-50 sm:text-6xl sm:leading-[1.08] lg:text-7xl lg:leading-[1.06]"
+            className="article-title text-ink dark:text-gray-50"
             data-reveal="hero"
             data-reveal-delay="80"
           >
             {note.title}
           </h1>
 
-          {note.excerpt && (
+          {excerpt && (
             <p
-              className="mt-6 max-w-4xl break-words font-sans text-lg leading-8 text-ink-muted dark:text-gray-300 sm:text-xl sm:leading-9"
+              className="mt-6 max-w-4xl break-words font-sans text-base leading-8 text-ink-muted dark:text-gray-300 sm:text-lg"
               data-reveal
               data-reveal-delay="140"
             >
-              {note.excerpt}
+              {excerpt}
             </p>
           )}
         </header>
 
         <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,760px)_300px] xl:gap-12">
           <div className="min-w-0 space-y-6">
+            {headings.length > 0 && (
+              <details className="mobile-toc">
+                <summary>文章目录 · {headings.length} 节</summary>
+                <PostTableOfContents headings={headings} />
+              </details>
+            )}
             <div
               className="prose -mx-4 min-w-0 border-y border-line-light bg-surface-light px-4 py-6 shadow-none dark:border-line-dark dark:bg-surface-dark sm:mx-0 sm:rounded-lg sm:border sm:p-8 sm:shadow-editorial lg:p-9"
               data-reveal
               data-post-body
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{
+                __html: readingHtml(content),
+              }}
             />
             {hasMermaidDiagrams && <MermaidEnhancer />}
+            <nav aria-label="专栏前后篇" className="grid gap-3 sm:grid-cols-2">
+              {neighbors.map(
+                ({ note: item, label }) =>
+                  item && (
+                    <Link
+                      key={label}
+                      href={`/${collection.slug}/${item.slug}`}
+                      className="editorial-card p-5"
+                    >
+                      <span className="block text-sm text-ink-muted dark:text-gray-300">
+                        {label}
+                      </span>
+                      <span className="mt-2 block font-medium">
+                        {item.title}
+                      </span>
+                    </Link>
+                  ),
+              )}
+            </nav>
           </div>
 
           <aside
@@ -152,7 +186,7 @@ export default async function CollectionNotePage({
               )}
 
               <div className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial dark:border-line-dark dark:bg-surface-dark">
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300">
+                <p className="font-sans text-xs font-semibold tracking-normal text-primary-700 dark:text-primary-300">
                   全部笔记
                 </p>
 

@@ -1,24 +1,26 @@
 import Link from "next/link";
-
 export default function NotFound() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="text-center">
-          <h1 className="text-6xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-            404
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-            你访问的页面不存在。
-          </p>
-          <Link
-            href="/"
-            className="inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-          >
-            返回首页
-          </Link>
-        </div>
-      </main>
-    </div>
+    <section className="mx-auto max-w-xl py-16 text-center">
+      <p className="editorial-label">404 · 页面未找到</p>
+      <h1 className="page-title mt-4">这页暂时不在书架上</h1>
+      <p className="my-6 leading-8 text-ink-muted dark:text-gray-300">
+        链接可能已更改，或文章已下线。可以回首页，或搜索其他手记。
+      </p>
+      <div className="flex justify-center gap-4">
+        <Link
+          className="rounded-full bg-accent-sage px-6 py-3 text-white"
+          href="/"
+        >
+          返回首页
+        </Link>
+        <Link
+          className="rounded-full border border-line-light px-6 py-3"
+          href="/search"
+        >
+          搜索手记
+        </Link>
+      </div>
+    </section>
   );
 }
