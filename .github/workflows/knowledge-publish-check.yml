@@ -1,0 +1,32 @@
+name: Validate knowledge publication
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/*publish*.yml'
+      - 'apps/api/**'
+      - 'apps/knowledge/**'
+      - 'apps/web/**'
+      - 'scripts/knowledge/**'
+      - 'docs/knowledge-platform/examples/**'
+      - 'pnpm-lock.yaml'
+permissions:
+  contents: read
+jobs:
+  build-with-existing-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --global pnpm@12.4.2
+      - run: pnpm install --frozen-lockfile
+      - run: node --test scripts/knowledge/legacy-content.test.mjs scripts/knowledge/frontend-publish.test.mjs
+      - run: pnpm knowledge:test && pnpm --filter @cblog/knowledge-api typecheck && pnpm knowledge:build
+      - name: Build selected note plus existing published posts and collections
+        env:
+          TEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/knowledge/preserving-build-check.mjs
