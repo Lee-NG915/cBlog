@@ -225,15 +225,17 @@ async function verifyLive(e: Bindings, j: Job) {
     const r = await fetch(
       `${e.PUBLIC_ORIGIN.replace(/\/$/, "")}/publication.json?job=${j.id}`,
       {
-        redirect: "error",
+        // workerd only accepts "manual" or "follow". A redirect cannot attest
+        // to a marker at the configured Pages origin.
+        redirect: "manual",
         signal: AbortSignal.timeout(10000),
         cache: "no-store",
       },
     );
+    if (r.status !== 200) return false;
     const body = new TextDecoder().decode(
       await limitedBody(r as unknown as Request, 4096),
     );
-    if (!r.ok || body.length > 4096) return false;
     const v = JSON.parse(body);
     return v.jobId === j.id && v.publicationId === j.publication_id;
   } catch {

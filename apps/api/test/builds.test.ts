@@ -81,12 +81,13 @@ async function setup() {
 }
 test("immutable job, exclusive dispatch, authenticated claim, verified live acknowledgement", async (t) => {
   const s = await setup();
-  let marker: any = {};
-  t.mock.method(globalThis, "fetch", async (input: any) =>
-    String(input).startsWith("https://api.github.com")
-      ? new Response(null, { status: 204 })
-      : Response.json(marker),
-  );
+  let marker: any = {}, markerStatus = 200;
+  t.mock.method(globalThis, "fetch", async (input: any, init?: RequestInit) => {
+    if (String(input).startsWith("https://api.github.com"))
+      return new Response(null, { status: 204 });
+    if (init?.redirect !== "manual") throw new TypeError("Expected a manual redirect check in workerd");
+    return Response.json(marker, { status: markerStatus });
+  });
   try {
     const id = await s.job();
     assert.equal(
@@ -149,6 +150,9 @@ test("immutable job, exclusive dispatch, authenticated claim, verified live ackn
       409,
     );
     marker = { jobId: id, publicationId: 1 };
+    markerStatus = 302;
+    assert.equal((await s.request(`/internal/builds/${id}/status`, { status: "succeeded" })).status, 409);
+    markerStatus = 200;
     assert.equal(
       (
         await s.request(`/internal/builds/${id}/status`, {

@@ -18,7 +18,7 @@ function api(repository, suffix) {
   return JSON.parse(run("gh", ["api", `repos/${repository}/${suffix}`]));
 }
 
-export async function deployedBaseline(repository, currentRun, request) {
+export async function deployedBaseline(repository, currentRun, request, publication = null) {
   // Ignore the environment deployment created for this running frontend job.
   for (let page = 1; page <= 5; page++) {
     const deployments = await request(`deployments?environment=github-pages&per_page=100&page=${page}`);
@@ -31,9 +31,20 @@ export async function deployedBaseline(repository, currentRun, request) {
         ? s.log_url.slice(prefix.length).match(/^(\d+)(?:\/|$)/)?.[1] : null;
       if (runId === String(currentRun)) continue;
       if (s.state === "in_progress") throw new Error("Another Pages deployment is in progress");
-      if (s.state !== "success") continue;
+      // A Pages deployment can finish before its database acknowledgement fails.
+      // Only recover that case when the marker and the actual deploy step agree.
+      const lostReceipt = s.state === "failure" && publication?.jobId && runId;
+      if (s.state !== "success" && !lostReceipt) continue;
       if (!runId) throw new Error("Cannot identify the active deployment's workflow run");
       const workflow = await request(`actions/runs/${runId}`);
+      if (lostReceipt) {
+        if (workflow.path !== ".github/workflows/knowledge-publish.yml" ||
+            workflow.display_title !== `knowledge-${publication.jobId}`) continue;
+        const jobs = await request(`actions/runs/${runId}/jobs?per_page=100`);
+        if (!jobs.jobs.some(j => j.name === "publish" &&
+            j.steps?.some(step => step.name.startsWith("Run actions/deploy-pages@") && step.conclusion === "success")))
+          throw new Error("Live marker matches this run but the Pages deploy step did not succeed");
+      }
       if (!supported.has(workflow.path) || workflow.head_sha !== d.sha)
         throw new Error("Unrecognized live publication workflow or commit");
       if (workflow.status !== "completed")
@@ -82,8 +93,9 @@ async function main(command) {
     return JSON.parse(text);
   }
   async function liveBaseline() {
-    const deployment = await deployedBaseline(repository, currentRun, request);
-    return { ...deployment, publication: await marker("publication.json"), frontend: await marker("frontend.json") };
+    const publication = await marker("publication.json");
+    const deployment = await deployedBaseline(repository, currentRun, request, publication);
+    return { ...deployment, publication, frontend: await marker("frontend.json") };
   }
   if (command === "resolve") {
     const baseline = await liveBaseline();
