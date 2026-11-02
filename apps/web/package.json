@@ -24,7 +24,8 @@
     "react-dom": "^18.2.0",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
-    "remark-html": "^16.0.1"
+    "remark-html": "^16.0.1",
+    "@cblog/ui": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

@@ -28,7 +28,8 @@ test("save barrier waits for last edit then opens publication review", async ({
   await page.getByRole("button", { name: "文章设置", exact: true }).click();
   await page
     .getByRole("combobox", { name: "分类", exact: true })
-    .selectOption({ index: 1 });
+    .click();
+  await page.getByRole("option").nth(1).click();
   await page.route("**/api/v1/notes/*", async (route) => {
     if (["POST", "PATCH"].includes(route.request().method())) {
       savedId = route.request().url().split("/").pop()!;

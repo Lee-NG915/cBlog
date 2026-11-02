@@ -1,4 +1,5 @@
 "use client";
+import { SelectField } from "@cblog/ui";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 export type SearchEntry = {
@@ -62,11 +63,11 @@ export default function PublicSearch({ entries }: { entries: SearchEntry[] }) {
         </label>
         <label className="grid gap-2 text-sm font-medium">
           主题或专栏
-          <select
+          <SelectField
             value={group}
             className="min-h-12 w-full rounded-lg border border-line-strong bg-surface-light px-3 text-base dark:border-line-dark dark:bg-surface-dark"
-            onChange={(e) => {
-              setGroup(e.target.value);
+            onValueChange={(e) => {
+              setGroup(e);
               setCount(20);
             }}
           >
@@ -74,7 +75,7 @@ export default function PublicSearch({ entries }: { entries: SearchEntry[] }) {
             {groups.map((g) => (
               <option key={g}>{g}</option>
             ))}
-          </select>
+          </SelectField>
         </label>
       </div>
       <p role="status" className="text-sm text-ink-muted dark:text-gray-300">

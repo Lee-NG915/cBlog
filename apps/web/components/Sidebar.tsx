@@ -204,7 +204,7 @@ export default function Sidebar({ categories }: SidebarProps) {
                       <FolderIcon />
                       <span className="ml-3">{category.name}</span>
                     </span>
-                    <span className="text-xs text-ink-soft dark:text-gray-400">
+                    <span className="shrink-0 whitespace-nowrap tabular-nums text-xs text-ink-soft dark:text-gray-400">
                       {category.count}
                     </span>
                   </Link>

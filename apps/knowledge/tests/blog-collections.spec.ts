@@ -27,9 +27,11 @@ for (const mobile of [false,true]) test(`collection visibility confirms scope an
  const card=page.locator('.collection-card').first();
  await card.getByText('查看所属文章').click();
  await expect(card.getByRole('button',{name:note.title})).toBeVisible();
- await card.getByLabel('专栏可见性').selectOption('unlisted');
+ await card.getByLabel('专栏可见性').click();
+ await page.getByRole('option',{name:'仅链接访问',exact:true}).click();
  await expect(card).toContainText('已有链接仍可访问');
- await card.getByLabel('专栏可见性').selectOption('private');
+ await card.getByLabel('专栏可见性').click();
+ await page.getByRole('option',{name:'仅后台',exact:true}).click();
  await card.getByRole('button',{name:'应用并更新博客'}).click();
  await expect(page.getByRole('dialog')).toContainText('影响本专栏的 1 篇已发布文章');
  await page.getByRole('button',{name:'暂不调整'}).click();expect(submissions).toBe(0);
@@ -47,7 +49,8 @@ for (const mobile of [false,true]) test(`collection visibility confirms scope an
  await page.reload();
  await expect(card).toContainText('当前线上：仅后台');
  await expect(card.getByRole('link',{name:'查看博客专栏'})).toHaveCount(0);
- await card.getByLabel('专栏可见性').selectOption('public');
+ await card.getByLabel('专栏可见性').click();
+ await page.getByRole('option',{name:'公开展示',exact:true}).click();
  await card.getByRole('button',{name:'应用并更新博客'}).click();
  await expect(page.getByRole('dialog')).toContainText('后台的未发布修改不会随之公开');
  await page.getByRole('button',{name:'暂不调整'}).click();

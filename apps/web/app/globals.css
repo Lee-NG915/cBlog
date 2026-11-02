@@ -378,3 +378,6 @@
     }
   }
 }
+
+:root { --control-surface: theme('colors.surface.light'); --control-ink: theme('colors.ink.DEFAULT'); --control-muted: theme('colors.ink.muted'); --control-border: theme('colors.line.strong'); --control-accent: theme('colors.accent.sage'); --control-soft: theme('colors.surface.strong'); }
+.dark { --control-surface: theme('colors.surface.dark'); --control-ink: theme('colors.gray.100'); --control-muted: theme('colors.gray.300'); --control-border: theme('colors.line.dark'); --control-accent: theme('colors.primary.300'); --control-soft: theme('colors.background.dark'); }

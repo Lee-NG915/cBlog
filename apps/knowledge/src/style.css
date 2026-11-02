@@ -2054,3 +2054,33 @@ button.primary {
 .collection-members small { display: block; color: var(--muted); margin-top: 2px; }
 @media (max-width: 1100px) { .collection-grid { grid-template-columns: minmax(0,1fr); } }
 @media (max-width: 600px) { .collection-card { padding: 20px; } .collection-controls .primary { width: 100%; } }
+
+:root { --control-surface: var(--surface); --control-ink: var(--ink); --control-muted: var(--muted); --control-border: var(--line); --control-accent: var(--sage); --control-soft: var(--sage-soft); }
+
+.display-date-field > label { display: block; margin-bottom: 8px; }
+.date-input-row { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.date-input-row:focus-within { outline: 2px solid var(--sage); outline-offset: 3px; }
+.date-input-row input { min-width: 0; width: 100%; border: 0; background: transparent; outline: none; font-variant-numeric: tabular-nums; }
+.date-input-row button { flex-shrink: 0; border: 0; margin-right: 4px; }
+.date-dialog { width: min(380px, calc(100vw - 24px)); padding: 24px; }
+.date-dialog h2 { font-size: 1.2rem; margin: 0 32px 8px 0; }
+.date-dialog > p { color: var(--muted); font-size: .875rem; }
+.calendar-heading { display: flex; gap: 6px; align-items: center; margin: 20px 0 14px; }
+.calendar-heading .calendar-year { margin: 0; width: 80px; flex: 0 0 80px; }
+.calendar-year input { width: 100%; text-align: center; padding-inline: 8px; }
+.calendar-heading .c-select { width: 100%; }
+.calendar-heading .icon-button { flex: 0 0 36px; min-width: 36px; padding: 6px; }
+.calendar-grid [role="row"] { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 2px; }
+.calendar-week { color: var(--muted); text-align: center; font-size: .8rem; line-height: 32px; }
+.calendar-grid button { width: 100%; min-width: 0; min-height: 40px; padding: 4px; border: 1px solid transparent; font-variant-numeric: tabular-nums; }
+.calendar-grid button.outside { color: var(--muted); opacity: .6; }
+.calendar-grid button[aria-current="date"] { border-color: var(--sage); }
+.calendar-grid button.selected { background: var(--sage); color: var(--paper); opacity: 1; }
+.calendar-shortcuts { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.calendar-shortcuts button { font-size: .875rem; padding: 6px 12px; }
+.calendar-shortcuts span { margin-left: auto; color: var(--muted); font-size: .8rem; }
+.calendar-time { display: grid; grid-template-columns: 1fr 100px; align-items: center; gap: 12px; font-size: .875rem; }
+.calendar-time input { width: 100%; text-align: center; font-variant-numeric: tabular-nums; }
+.field-error { color: var(--danger); font-size: .875rem; }
+.action-notice { display: flex; align-items: center; gap: 12px; margin: 16px 24px; flex-wrap: wrap; }
+@media (max-width: 400px) { .date-dialog { padding: 18px; } .calendar-heading { gap: 4px; } .calendar-heading .calendar-year { width: 70px; flex-basis: 70px; } .calendar-shortcuts { gap: 5px; } }

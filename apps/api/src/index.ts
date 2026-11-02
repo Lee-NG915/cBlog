@@ -209,8 +209,10 @@ app.get("/api/v1/corpus", async (c) => {
     .bind(cursor)
     .all<Note>();
   const items = notes.results.slice(0, 30);
+  const deleted = cursor ? [] : (await c.env.DB.prepare("SELECT id FROM notes WHERE deleted_at IS NOT NULL").all<{id:string}>()).results;
   return c.json({
     data: items,
+    deletedIds: deleted.map(n=>n.id),
     revision: revision!.corpus_revision,
     nextCursor: notes.results.length > 30 ? items.at(-1)!.id : null,
   });

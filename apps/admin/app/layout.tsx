@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AdminNav from "@/components/AdminNav";
 import SessionBar from "@/components/SessionBar";
 import "./globals.css";
+import "@cblog/ui/styles.css";
 
 export const metadata: Metadata = {
   title: {

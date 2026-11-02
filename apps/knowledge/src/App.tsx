@@ -1,3 +1,4 @@
+import { SelectField } from "@cblog/ui";
 import { useEffect, useMemo, useState, useRef, lazy, Suspense } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import {
@@ -33,7 +34,12 @@ import {
 } from "lucide-react";
 import type { Note, Group, Membership } from "./types";
 import { ApiError, api, download, loadCorpus, setCSRF } from "./api";
-import { draftStore, listDrafts, pendingDraftIds } from "./drafts";
+import {
+  draftStore,
+  listDrafts,
+  pendingDraftIds,
+  visibleLocalDrafts,
+} from "./drafts";
 import { BlogCollectionsPanel } from "./BlogCollectionsPanel";
 import { BlogPanel, BlogStatus } from "./BlogPanel";
 import {
@@ -101,6 +107,8 @@ export default function App() {
     } | null>(null),
     [submitting, setSubmitting] = useState(false),
     [operationError, setOperationError] = useState(""),
+    [notice, setNotice] = useState(""),
+    [trashDraftIds, setTrashDraftIds] = useState<string[]>([]),
     [trash, setTrash] = useState<
       Pick<Note, "id" | "title" | "version" | "deleted_at">[]
     >([]);
@@ -126,9 +134,11 @@ export default function App() {
         api<{ data: Group[]; memberships: Membership[] }>("/groups"),
       ]);
       const drafts = await listDrafts().catch(() => []);
-      const unsynced = drafts
-        .filter((d) => !corpus.notes.some((n) => n.id === d.note.id))
-        .map((d) => d.note);
+      const unsynced = visibleLocalDrafts(
+        drafts,
+        corpus.notes,
+        corpus.deletedIds,
+      );
       setNotes([...unsynced, ...corpus.notes]);
       setGroups(g.data);
       setMemberships(g.memberships);
@@ -236,6 +246,7 @@ export default function App() {
   }, [authenticated, view]);
   async function loadTrash() {
     try {
+      setTrashDraftIds(await pendingDraftIds());
       setTrash((await api<{ data: typeof trash }>("/trash")).data);
     } catch (e) {
       setError((e as Error).message);
@@ -532,15 +543,25 @@ export default function App() {
     }
   }
   async function remove(n: Note) {
-    if (!confirm(`将「${n.title}」移入回收站？之后可以在回收站恢复。`)) return;
     try {
-      if ((await pendingDraftIds()).includes(n.id))
-        throw new Error("请先保存这篇文章的本机修改。");
+      if (n.version === 0)
+        throw new Error(
+          "这篇笔记还只保存在本机。请先保存到后台，再移入回收站。",
+        );
+      const hasLocal = (await pendingDraftIds()).includes(n.id);
+      if (
+        !confirm(
+          `将「${n.title}」移入回收站？之后可以恢复。${hasLocal ? "本机未同步修改也会保留，恢复后可比较。" : ""}`,
+        )
+      )
+        return;
       await api("/notes/" + n.id, {
         method: "DELETE",
         body: JSON.stringify({ expectedVersion: n.version }),
       });
-      navigate("library");
+      setNotes((previous) => previous.filter((note) => note.id !== n.id));
+      setNotice(`「${n.title}」已移入回收站。`);
+      navigate("inbox");
       await refresh();
     } catch (e) {
       setError((e as Error).message);
@@ -796,6 +817,26 @@ export default function App() {
             </button>
           </div>
         </header>
+        {notice && (
+          <div className="notice action-notice" role="status">
+            <span>{notice}</span>
+            <button
+              onClick={() => {
+                setNotice("");
+                navigate("trash");
+              }}
+            >
+              查看回收站
+            </button>
+            <button
+              className="icon-button"
+              aria-label="关闭提示"
+              onClick={() => setNotice("")}
+            >
+              <X size={16} />
+            </button>
+          </div>
+        )}
         {error && (
           <div className="error-banner" role="alert">
             {error}
@@ -901,7 +942,8 @@ export default function App() {
                         buildBusy ||
                         !!publishError ||
                         !publishingState?.enabled ||
-                        articleStatus(current, publishingState).collectionPrivate ||
+                        articleStatus(current, publishingState)
+                          .collectionPrivate ||
                         current.version === 0
                       }
                       onClick={() => prepareAction(current, "publish")}
@@ -1062,10 +1104,10 @@ export default function App() {
               />
             </div>
             <div className="search-options">
-              <select
+              <SelectField
                 aria-label="搜索主题范围"
                 value={searchScope}
-                onChange={(e) => setSearchScope(e.target.value)}
+                onValueChange={(e) => setSearchScope(e)}
               >
                 <option value="">全部主题</option>
                 {groups
@@ -1075,7 +1117,7 @@ export default function App() {
                       {g.name}
                     </option>
                   ))}
-              </select>
+              </SelectField>
             </div>
             <label className="checkbox-label">
               <input
@@ -1128,7 +1170,14 @@ export default function App() {
             )}
           </section>
         ) : view === "collections" ? (
-          <BlogCollectionsPanel notes={notes} state={publishingState} busy={buildBusy || !!publishError} refresh={refreshPublishing} onRead={read} onRecover={(job)=>void recover(job)}/>
+          <BlogCollectionsPanel
+            notes={notes}
+            state={publishingState}
+            busy={buildBusy || !!publishError}
+            refresh={refreshPublishing}
+            onRead={read}
+            onRecover={(job) => void recover(job)}
+          />
         ) : view === "publish" ? (
           <BlogPanel
             notes={notes}
@@ -1154,6 +1203,11 @@ export default function App() {
               <div className="trash-row" key={n.id}>
                 <div>
                   <h3>{n.title}</h3>
+                  {trashDraftIds.includes(n.id) && (
+                    <p className="muted">
+                      本机仍有未同步修改，恢复后可继续比较和编辑。
+                    </p>
+                  )}
                   <p className="muted">
                     {new Date(n.deleted_at!).toLocaleString("zh-CN")}
                   </p>
@@ -1577,15 +1631,15 @@ export default function App() {
             </Dialog.Close>
             <label>
               类型
-              <select
+              <SelectField
                 value={newKind}
-                onChange={(e) => setNewKind(e.target.value as Group["kind"])}
+                onValueChange={(e) => setNewKind(e as Group["kind"])}
               >
                 <option value="domain">领域</option>
                 <option value="topic">主题</option>
                 <option value="path">学习路径</option>
                 <option value="project">项目</option>
-              </select>
+              </SelectField>
             </label>
             <label>
               名称
@@ -1599,9 +1653,9 @@ export default function App() {
             {newKind === "topic" && (
               <label>
                 所属领域或主题
-                <select
+                <SelectField
                   value={newParent}
-                  onChange={(e) => setNewParent(e.target.value)}
+                  onValueChange={(e) => setNewParent(e)}
                 >
                   <option value="">请选择</option>
                   {groups
@@ -1611,7 +1665,7 @@ export default function App() {
                         {g.name}
                       </option>
                     ))}
-                </select>
+                </SelectField>
               </label>
             )}
             <button
@@ -1751,11 +1805,10 @@ export default function App() {
             </div>
             <label>
               添加已有笔记
-              <select
+              <SelectField
                 value=""
-                onChange={(e) => {
-                  if (e.target.value)
-                    setSelected((a) => [...a, e.target.value]);
+                onValueChange={(e) => {
+                  if (e) setSelected((a) => [...a, e]);
                 }}
               >
                 <option value="">选择一篇笔记…</option>
@@ -1768,7 +1821,7 @@ export default function App() {
                       {n.title}
                     </option>
                   ))}
-              </select>
+              </SelectField>
             </label>
             <button
               className="primary"

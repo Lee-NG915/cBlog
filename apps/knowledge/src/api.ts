@@ -53,12 +53,14 @@ export async function api<T>(
 export async function loadCorpus(): Promise<Corpus> {
   for (let retry = 0; retry < 3; retry++) {
     const notes: Note[] = [];
+    const deletedIds: string[] = [];
     let cursor = "",
       revision: number | undefined;
     try {
       do {
         const response = await api<{
           data: Note[];
+          deletedIds?: string[];
           revision: number;
           nextCursor: string | null;
         }>(
@@ -67,10 +69,11 @@ export async function loadCorpus(): Promise<Corpus> {
             (revision === undefined ? "" : "&revision=" + revision),
         );
         notes.push(...response.data);
+        deletedIds.push(...(response.deletedIds || []));
         revision = response.revision;
         cursor = response.nextCursor || "";
       } while (cursor);
-      return { notes, revision: revision! };
+      return { notes, revision: revision!, deletedIds };
     } catch (e) {
       if (!(e instanceof ApiError && e.code === "CORPUS_CHANGED")) throw e;
     }

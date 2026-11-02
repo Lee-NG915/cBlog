@@ -1,3 +1,4 @@
+import { SelectField } from "@cblog/ui";
 import { useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { BookOpen, ExternalLink } from "lucide-react";
@@ -54,9 +55,9 @@ export function BlogCollectionsPanel({ notes, state, busy, refresh, onRead, onRe
         {c.visibility !== "private" && <a className="text-link" href={`${state.siteUrl.replace(/\/$/,"")}/${encodeURIComponent(c.slug)}/`} target="_blank" rel="noreferrer">查看博客专栏 <ExternalLink size={14}/></a>}
         <div className="collection-controls">
           <label htmlFor={`visibility-${c.slug}`}>专栏可见性</label>
-          <select id={`visibility-${c.slug}`} value={selected} disabled={busy || saving || !state.enabled} onChange={e=>setSelection({...selection,[c.slug]:e.target.value as CollectionVisibility})}>
+          <SelectField id={`visibility-${c.slug}`} value={selected} disabled={busy || saving || !state.enabled} onValueChange={e=>setSelection({...selection,[c.slug]:e as CollectionVisibility})}>
             {Object.entries(modes).map(([value,m])=><option key={value} value={value}>{m.label}</option>)}
-          </select>
+          </SelectField>
           <p className="muted">{modes[selected].description}</p>
           <button className="primary" disabled={busy || saving || !state.enabled || selected === c.visibility} onClick={()=>{setError("");setIntent({collection:c,visibility:selected,publicationId:state.publicationId!,requestId:crypto.randomUUID()});}}>应用并更新博客</button>
         </div>

@@ -83,7 +83,7 @@ const nextConfig = {
   trailingSlash: true,
   basePath: basePath,
   assetPrefix: basePath,
-  transpilePackages: ["@cblog/core"],
+  transpilePackages: ["@cblog/core", "@cblog/ui"],
   experimental: {
     serverComponentsExternalPackages: ["better-sqlite3"],
   },

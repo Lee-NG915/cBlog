@@ -1,0 +1,107 @@
+.c-select.c-select {
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 14px;
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  color: var(--control-ink);
+  background: var(--control-surface);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.c-select-value {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.c-select-icon {
+  display: inline-flex;
+  flex: 0 0 20px;
+  color: var(--control-muted);
+  transition: transform 0.15s;
+}
+.c-select[data-popup-open] .c-select-icon {
+  transform: rotate(180deg);
+}
+.c-select.c-select:hover,
+.c-select.c-select[data-popup-open] {
+  border-color: var(--control-accent);
+  background: var(--control-surface);
+}
+.c-select.c-select:focus-visible {
+  outline: 2px solid var(--control-accent);
+  outline-offset: 3px;
+}
+.c-select.c-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.c-select-positioner {
+  z-index: 120;
+  max-width: calc(100vw - 24px);
+  outline: none;
+}
+.c-select-popup {
+  width: var(--anchor-width);
+  min-width: 140px;
+  max-width: calc(100vw - 24px);
+  padding: 5px;
+  border: 1px solid var(--control-border);
+  border-radius: 12px;
+  color: var(--control-ink);
+  background: var(--control-surface);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--control-ink) 14%, transparent);
+  font-size: 1rem;
+}
+.c-select-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: min(320px, var(--available-height));
+  outline: none;
+}
+.c-select-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  outline: none;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.c-select-option[data-highlighted],
+.c-select-option[data-selected] {
+  background: var(--control-soft);
+}
+.c-select-option[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.c-select-check {
+  flex: 0 0 18px;
+  color: var(--control-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .c-select,
+  .c-select-icon {
+    transition: none;
+  }
+}
