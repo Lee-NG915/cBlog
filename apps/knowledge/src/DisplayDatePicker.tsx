@@ -41,7 +41,7 @@ export function DisplayDatePicker({
   function commitText() {
     if (!text.trim()) {
       setError("");
-      onChange(null);
+      if (value) onChange(null);
       return;
     }
     const normal = normalizeDisplayDate(text);
@@ -51,7 +51,7 @@ export function DisplayDatePicker({
     }
     setText(normal.replace("T", " "));
     setError("");
-    onChange(fromDisplayInput(normal));
+    if (normal !== toDisplayInput(value)) onChange(fromDisplayInput(normal));
   }
   function shiftMonth(delta: number) {
     const d = new Date(Date.UTC(year, month + delta, 1));
@@ -338,7 +338,8 @@ export function DisplayDatePicker({
                     setError("请输入有效的时间，例如 20:30。");
                     return;
                   }
-                  onChange(fromDisplayInput(normal));
+                  if (normal !== toDisplayInput(value))
+                    onChange(fromDisplayInput(normal));
                   setText(normal.replace("T", " "));
                   setError("");
                   setOpen(false);
