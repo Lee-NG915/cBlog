@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rewriteLinks } from "./markdown-links.mjs";
 import { applyPublicationDates, assertDateOnlyChange } from "./publication-dates.mjs";
+import { applyCollectionVisibility, publicCollections, assertCollectionOnlyChange } from "./collection-visibility.mjs";
 import { saveSource } from "./published-source.mjs";
 import {
   loadLegacyContent,
@@ -173,6 +174,7 @@ export async function buildSnapshot(snapshot, options = {}) {
     snapshot.manifest.withdrawals || [],
   );
   applyPublicationDates(model, snapshot.manifest.publicationDates);
+  applyCollectionVisibility(model, snapshot.manifest.collectionVisibility);
   try {
     if (options.previousSource) {
       const previous = options.previousSource;
@@ -194,6 +196,15 @@ export async function buildSnapshot(snapshot, options = {}) {
               }),
               previous.snapshot.manifest.withdrawals || [],
             );
+      if (previous.kind === "snapshot") {
+        applyPublicationDates(previousModel, previous.snapshot.manifest.publicationDates);
+        applyCollectionVisibility(previousModel, previous.snapshot.manifest.collectionVisibility);
+      }
+      const collectionAction = snapshot.manifest.intent?.action === "collection-visibility";
+      if (collectionAction) {
+        if (previous.kind !== "snapshot") throw new Error("Collection action requires a published baseline");
+        assertCollectionOnlyChange(previous.snapshot.manifest, snapshot.manifest);
+      }
       const priorWithdrawals =
         previous.kind === "snapshot"
           ? previous.snapshot.manifest.withdrawals || []
@@ -215,7 +226,8 @@ export async function buildSnapshot(snapshot, options = {}) {
         throw new Error(
           "Withdrawal requires an explicit single-article action",
         );
-      assertPublicContentPreserved(previousModel, model, newlyWithdrawn);
+      assertPublicContentPreserved(previousModel, model, newlyWithdrawn,
+        collectionAction && snapshot.manifest.intent.visibility === "private" ? snapshot.manifest.intent.collectionSlug : null);
       if (snapshot.manifest.intent?.action === "dates") assertDateOnlyChange(previousModel, model);
       if (previous.kind === "snapshot") {
         const nextIds = new Set(snapshot.manifest.notes.map((n) => n.id));
@@ -344,6 +356,7 @@ export async function buildSnapshot(snapshot, options = {}) {
           publicationId: snapshot.publicationId,
           revision: snapshot.manifest.revision,
           publicNotes: publicInventory(model),
+          publicCollections: publicCollections(model),
         }),
       );
       if (options.archivePath)

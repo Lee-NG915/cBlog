@@ -180,6 +180,7 @@ export function BlogPanel({
                     busy ||
                     !state?.enabled ||
                     n.version === 0 ||
+                    s.collectionPrivate ||
                     n.state === "archived"
                   }
                   onClick={() => onAction(n, "publish")}
@@ -231,7 +232,7 @@ export function BlogPanel({
             <div>
               <strong>{j.intent?.title || "历史发布"}</strong>
               <p>
-                {j.intent?.action === "unpublish" ? "下线文章" : "发布文章"} ·{" "}
+                {j.intent?.action === "collection-visibility" ? "调整专栏可见性" : j.intent?.action === "dates" ? "调整展示时间" : j.intent?.action === "unpublish" ? "下线文章" : "发布文章"} ·{" "}
                 {new Date(j.created_at).toLocaleString("zh-CN")}
               </p>
               <span

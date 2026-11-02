@@ -252,6 +252,7 @@ export function assertPublicContentPreserved(
   previous,
   next,
   authorizedWithdrawals = [],
+  authorizedCollection = null,
 ) {
   const routes = new Set(publicRoutes(next));
   const inventory = publicInventory(previous);
@@ -259,6 +260,13 @@ export function assertPublicContentPreserved(
     if (!inventory.some((n) => n.id === w.id && n.route === w.route))
       throw new Error("Withdrawal does not match the published article");
   const allowed = new Set(authorizedWithdrawals.map((n) => n.route));
+  if (authorizedCollection) {
+    const collection = previous.collections?.find(c => c.slug === authorizedCollection);
+    if (collection) {
+      allowed.add(collection.slug);
+      for (const item of collection.items) allowed.add(`${collection.slug}/${item.slug}`);
+    }
+  }
   const removed = publicRoutes(previous).filter(
     (r) => !routes.has(r) && !allowed.has(r),
   );

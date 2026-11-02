@@ -3,13 +3,16 @@ import { z } from "zod";
 import type { Bindings, Note } from "./types";
 import { builds, configured } from "./builds";
 import { liveNotes, lastPublication } from "./live";
+import { collectionState } from "./blog-collections";
 import { hash } from "./security";
 
 export const publishing = new Hono<{ Bindings: Bindings }>();
 const active = "'dispatching','queued','building','deploying'";
 publishing.get("/", async (c) => {
-  const [live, history] = await Promise.all([
+  const [live, collections, last, history] = await Promise.all([
     liveNotes(c.env),
+    collectionState(c.env),
+    lastPublication(c.env),
     c.env.DB.prepare(
       `SELECT j.*,
     json_extract(p.manifest,'$.intent') AS intent FROM build_jobs j JOIN publications p ON p.id=j.publication_id
@@ -18,6 +21,8 @@ publishing.get("/", async (c) => {
   ]);
   return c.json({
     live,
+    collections,
+    publicationId: last?.id || 0,
     history: history.results.map((j) => ({
       ...j,
       intent: j.intent ? JSON.parse(String(j.intent)) : null,
@@ -140,6 +145,9 @@ publishing.post("/", async (c) => {
   let withdrawals = (previous.withdrawals || []).filter(
     (n: { id: string }) => n.id !== note.id,
   );
+  const collection = (await collectionState(c.env)).find(c=>c.members.some(m=>m.id===note.id));
+  if (input.action === "publish" && collection?.visibility === "private")
+    return c.json({error:{message:"所属专栏仅后台可见。请先在“博客专栏”恢复可见性，再更新文章。"}},409);
   const metadata = JSON.parse(note.source_metadata || "{}");
   const slug = note.source_path?.startsWith("content/posts/")
     ? metadata.slug || note.slug
@@ -148,6 +156,7 @@ publishing.post("/", async (c) => {
     currentLive?.route ||
     (previous.withdrawals || []).find((n: { id: string }) => n.id === note.id)
       ?.route ||
+    collection?.members.find(m=>m.id===note.id)?.route ||
     `posts/${slug}`;
   const publicationDates = { ...(previous.publicationDates || {}) };
   const priorNote = previous.notes.find((n: { id: string }) => n.id === note.id);
@@ -207,6 +216,7 @@ publishing.post("/", async (c) => {
     .filter((n) => !withdrawals.some((w: { id: string }) => w.id === n.id))
     .map(({ id, route }) => ({ id, route }));
   const manifest = {
+    collectionVisibility: previous.collectionVisibility || {},
     notes,
     publicationDates,
     withdrawals,

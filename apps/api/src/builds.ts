@@ -92,16 +92,16 @@ builds.post("/", async (c) => {
       },
       409,
     );
+  const articleAction = ["publish", "unpublish"].includes(manifest.intent?.action);
   if (manifest.intent) {
-    const target = await c.env.DB.prepare(
+    const target = articleAction ? await c.env.DB.prepare(
       "SELECT version FROM notes WHERE id=? AND deleted_at IS NULL",
     )
       .bind(manifest.intent.noteId)
-      .first<{ version: number }>();
+      .first<{ version: number }>() : null;
     if (
       (last?.id || 0) !== manifest.basePublicationId ||
-      !target ||
-      target.version !== manifest.intent.version
+      (articleAction && (!target || target.version !== manifest.intent.version))
     )
       return c.json(
         {
@@ -118,7 +118,7 @@ builds.post("/", async (c) => {
   try {
     const r = await c.env.DB.prepare(
       `INSERT INTO build_jobs(id,publication_id,status,created_at,updated_at) SELECT ?,?,'dispatching',?,? FROM settings WHERE id=1 AND (corpus_revision=? OR ?=1) AND NOT EXISTS(SELECT 1 FROM build_jobs WHERE publication_id=? AND status='succeeded')
-      AND (?=0 OR (EXISTS(SELECT 1 FROM notes WHERE id=? AND version=? AND deleted_at IS NULL)
+      AND (?=0 OR ((?=0 OR EXISTS(SELECT 1 FROM notes WHERE id=? AND version=? AND deleted_at IS NULL))
         AND COALESCE((SELECT publication_id FROM build_jobs WHERE status='succeeded' ORDER BY updated_at DESC,created_at DESC LIMIT 1),0)=?))`,
     )
       .bind(
@@ -130,6 +130,7 @@ builds.post("/", async (c) => {
         manifest.intent ? 1 : 0,
         publicationId,
         manifest.intent ? 1 : 0,
+        articleAction ? 1 : 0,
         manifest.intent?.noteId || "",
         manifest.intent?.version || 0,
         manifest.basePublicationId || 0,
@@ -319,6 +320,28 @@ async function verifyLive(e: Bindings, j: Job) {
               entry.publishedAt !== date.publishedAt ||
               entry.displayPublishedAt !== date.displayPublishedAt ||
               entry.editedAt !== date.editedAt) return false;
+        }
+      }
+      if (manifest.intent.action === "collection-visibility") {
+        const expected = manifest.intent.expectedInventory;
+        if (!Array.isArray(expected) || entries.data.length !== expected.length) return false;
+        const keys = ["route", "version", "contentHash", "publishedAt", "displayPublishedAt", "editedAt"] as const;
+        for (const old of expected) {
+          const entry = entries.data.find(n => n.id === old.id);
+          if (!entry || keys.some(key => (entry[key] ?? null) !== (old[key] ?? null))) return false;
+        }
+        const slug = manifest.intent.collectionSlug;
+        const visibility = manifest.intent.visibility;
+        if (!/^[\w-]+$/.test(slug) || !["public","unlisted","private"].includes(visibility) || !Array.isArray(v.publicCollections)) return false;
+        const collection = v.publicCollections.find((c: {slug: string}) => c.slug === slug);
+        if (visibility === "private" ? !!collection : !collection || collection.visibility !== visibility || collection.articleCount !== manifest.intent.articleCount) return false;
+        for (const route of new Set<string>(manifest.intent.verifyRoutes || [])) {
+          if (route !== slug && !route.startsWith(slug + "/")) return false;
+          if (!/^[-\w\u4e00-\u9fff]+(?:\/[-\w\u4e00-\u9fff]+)?$/.test(route)) return false;
+          const page = await fetch(`${e.PUBLIC_ORIGIN.replace(/\/$/, "")}/${route}/?verify=${j.id}`, {
+            redirect: "manual", cache: "no-store", signal: AbortSignal.timeout(10000),
+          });
+          if (visibility === "private" ? ![404,410].includes(page.status) : page.status !== 200) return false;
         }
       }
       if (manifest.intent.action === "publish") {

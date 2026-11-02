@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 export default async function SearchPage() {
   const posts = await getAllPosts();
-  const collections = await getAllCollections();
+  const collections = (await getAllCollections()).filter(c => c.visibility !== "unlisted");
   const entries: SearchEntry[] = posts.map((p) => ({
     href: `/posts/${p.slug}`,
     title: p.title,

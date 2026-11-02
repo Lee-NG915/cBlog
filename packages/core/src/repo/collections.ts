@@ -10,6 +10,7 @@ export interface CollectionMeta {
   label: string;
   badge: string;
   noindex: boolean;
+  visibility?: "public" | "unlisted";
   sortOrder: number;
 }
 

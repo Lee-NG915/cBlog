@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 export default async function CategoriesPage() {
   const categories = await getAllCategories();
   const collections = await Promise.all(
-    (await getAllCollections()).map(async (c) => ({
+    (await getAllCollections()).filter(c => c.visibility !== "unlisted").map(async (c) => ({
       ...c,
       count: (await getCollectionNotes(c.slug)).length,
     })),

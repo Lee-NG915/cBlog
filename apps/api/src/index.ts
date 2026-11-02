@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { builds, buildInternal, configured } from "./builds";
+import { blogCollections } from "./blog-collections";
 import { publishing } from "./publishing";
 import { needsUnpublish } from "./live";
 import { bodyLimit } from "hono/body-limit";
@@ -70,6 +71,7 @@ app.use("/api/*", async (c, next) => {
 });
 app.route("/api/v1/builds", builds);
 app.route("/api/v1/publishing", publishing);
+app.route("/api/v1/blog-collections", blogCollections);
 app.route("/internal/builds", buildInternal);
 app.get("/auth/github", async (c) => {
   if (
