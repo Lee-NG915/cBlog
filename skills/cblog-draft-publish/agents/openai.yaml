@@ -1,0 +1,4 @@
+interface:
+  display_name: "cBlog 草稿导入"
+  short_description: "将完整文章和本地图片安全导入 cBlog 草稿，保留人工修改并验证读回结果"
+  default_prompt: "使用 $cblog-draft-publish 将这篇文章和图片导入 cBlog 后台草稿，并验证内容完整。"

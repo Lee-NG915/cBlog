@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { builds, buildInternal, configured } from "./builds";
 import { blogCollections } from "./blog-collections";
+import { automation } from "./automation";
 import { publishing } from "./publishing";
 import { needsUnpublish } from "./live";
 import { bodyLimit } from "hono/body-limit";
@@ -46,6 +47,12 @@ app.use(
   }),
 );
 app.use("/api/*", async (c, next) => {
+  // This namespace has its own draft-only bearer authentication. All existing
+  // browser API routes continue to require the owner session and CSRF checks.
+  if (c.req.path === "/api/v1/automation" || c.req.path.startsWith("/api/v1/automation/")) {
+    await next();
+    return;
+  }
   const auth = await session(c);
   if (!auth)
     return c.json(
@@ -69,6 +76,7 @@ app.use("/api/*", async (c, next) => {
   }
   await next();
 });
+app.route("/api/v1/automation", automation);
 app.route("/api/v1/builds", builds);
 app.route("/api/v1/publishing", publishing);
 app.route("/api/v1/blog-collections", blogCollections);

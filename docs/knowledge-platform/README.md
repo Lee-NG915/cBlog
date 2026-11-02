@@ -33,3 +33,4 @@
 
 - [05 · 数据库驱动的静态构建与发布链路](./05-database-publishing.md)：保存屏障、固定快照、任务状态、GitHub 配置及上线验收。
 - [06 · 仅更新前端的发布入口](./06-frontend-publishing.md)：复用当前已上线内容，独立发布前端代码，保留 GitHub Pages 和数据库发布开关。
+- [08 · 草稿导入 API 与 Skill](./08-draft-automation.md)：通过专用凭据上传完整文章和图片，防重复、保护人工修改，并读回核验。
