@@ -9,7 +9,7 @@ export type PublishJob = {
   detail: string;
   run_id: string | null;
   intent: {
-    action: PublishAction;
+    action: PublishAction | "dates";
     noteId: string;
     title: string;
     version: number;
@@ -25,6 +25,9 @@ export type PublishingState = {
     route: string;
     version: number | null;
     contentHash?: string | null;
+    publishedAt?: string | null;
+    displayPublishedAt?: string | null;
+    editedAt?: string | null;
   }[];
   history: PublishJob[];
 };
@@ -36,7 +39,9 @@ export function articleStatus(note: Note, state: PublishingState | null) {
   const active = !!job && isActive(job),
     failed = job?.status === "failed" && !job.detail.startsWith("已取消");
   const changed =
-    !!live && live.version !== null && live.version !== note.version;
+    !!live && ((live.version !== null && live.version !== note.version) ||
+      (live.displayPublishedAt ?? null) !== (note.display_published_at ?? null) ||
+      (live.version === null && !!note.content_updated_at && note.content_updated_at !== live.editedAt));
   let label = !state
     ? "正在核对"
     : live

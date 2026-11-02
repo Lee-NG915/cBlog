@@ -215,6 +215,9 @@ export function publicInventory(model) {
       route: `posts/${p.slug}`,
       version: p.sourceVersion ?? null,
       contentHash: p.sourceContentHash ?? null,
+      publishedAt: p.publishedAt ?? p.editorialDate ?? null,
+      displayPublishedAt: p.displayPublishedAt ?? null,
+      editedAt: p.updatedAt ?? null,
     })),
     ...(model.collections || []).flatMap((c) =>
       c.items.map((n) => ({
@@ -222,6 +225,9 @@ export function publicInventory(model) {
         route: `${c.slug}/${n.slug}`,
         version: n.sourceVersion ?? null,
         contentHash: n.sourceContentHash ?? null,
+        publishedAt: n.publishedAt ?? n.editorialDate ?? null,
+        displayPublishedAt: n.displayPublishedAt ?? null,
+        editedAt: n.updatedAt ?? null,
       })),
     ),
   ].filter((n) => n.id);

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { publicationDate } from "@/lib/publication-date";
 import {
   getAllCategories,
   getAllPosts,
@@ -143,9 +142,7 @@ export default async function CategoriesPage() {
                         </p>
                         {post.date && (
                           <time className="shrink-0 font-sans text-xs text-ink-soft dark:text-gray-400">
-                            {format(new Date(post.date), "MM.dd", {
-                              locale: zhCN,
-                            })}
+                            {publicationDate(post.date).slice(5)}
                           </time>
                         )}
                       </div>
@@ -221,9 +218,7 @@ export default async function CategoriesPage() {
                   最近更新
                 </p>
                 <p className="mt-1.5 font-sans text-2xl font-semibold text-ink dark:text-gray-100">
-                  {format(new Date(latestUpdate), "yyyy.MM.dd", {
-                    locale: zhCN,
-                  })}
+                  {publicationDate(latestUpdate)}
                 </p>
               </div>
             )}

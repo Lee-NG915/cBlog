@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { publicationDate } from "@/lib/publication-date";
 import type { Post } from "@/lib/content";
 
 interface EssayListItemProps {
@@ -14,7 +13,7 @@ export default function EssayListItem({ post }: EssayListItemProps) {
       className="group grid grid-cols-[160px_1fr_auto] items-start gap-6 border-t border-line-light py-6 transition dark:border-line-dark"
     >
       <div className="space-y-2 font-sans text-sm text-ink-muted dark:text-gray-400">
-        <p>{post.date && format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}</p>
+        <p>{post.date && publicationDate(post.date)}</p>
         <p>{post.readingTime || 1} 分钟阅读</p>
       </div>
 

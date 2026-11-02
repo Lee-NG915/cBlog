@@ -2,6 +2,7 @@ import { distinctExcerpt, readingHtml } from "@/lib/content-display";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ArticleDate from "@/components/ArticleDate";
 import BackButton from "@/components/BackButton";
 import MermaidEnhancer from "@/components/MermaidEnhancer";
 import PostReadingProgress from "@/components/PostReadingProgress";
@@ -66,6 +67,7 @@ export async function generateMetadata({
   return {
     title: note.title,
     description: note.excerpt,
+    openGraph: { type: "article", publishedTime: note.date || undefined, modifiedTime: note.updatedAt || note.date || undefined },
     ...(collection.noindex ? { robots: { index: false, follow: false } } : {}),
   };
 }
@@ -116,6 +118,7 @@ export default async function CollectionNotePage({
             <span className="font-sans text-sm text-ink-muted dark:text-gray-400">
               {note.readingTime} 分钟阅读
             </span>
+            <ArticleDate value={note.date} />
           </div>
 
           <h1
@@ -153,6 +156,7 @@ export default async function CollectionNotePage({
                 __html: readingHtml(content),
               }}
             />
+            <ArticleDate value={note.updatedAt} edited />
             {hasMermaidDiagrams && <MermaidEnhancer />}
             <nav aria-label="专栏前后篇" className="grid gap-3 sm:grid-cols-2">
               {neighbors.map(

@@ -5,6 +5,9 @@ export type LiveNote = {
   route: string;
   version: number | null;
   contentHash?: string | null;
+    publishedAt?: string | null;
+    displayPublishedAt?: string | null;
+    editedAt?: string | null;
 };
 export async function lastPublication(env: Bindings) {
   return env.DB.prepare(

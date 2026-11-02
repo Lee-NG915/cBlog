@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rewriteLinks } from "./markdown-links.mjs";
+import { applyPublicationDates, assertDateOnlyChange } from "./publication-dates.mjs";
 import { saveSource } from "./published-source.mjs";
 import {
   loadLegacyContent,
@@ -100,8 +101,10 @@ export async function prepareSnapshot(
         : {}),
       slug: n.slug,
       title: n.title,
-      editorialDate: n.updated_at,
-      updatedAt: n.updated_at,
+      publishedAt: n.published_at || n.updated_at,
+      displayPublishedAt: n.display_published_at ?? null,
+      editorialDate: n.display_published_at || n.published_at || n.updated_at,
+      updatedAt: n.content_updated_at ?? null,
       categorySlug: n.topic_id,
       categoryName: category.name,
       tags: Array.isArray(n.tags) ? n.tags : JSON.parse(n.tags),
@@ -169,6 +172,7 @@ export async function buildSnapshot(snapshot, options = {}) {
     prepared,
     snapshot.manifest.withdrawals || [],
   );
+  applyPublicationDates(model, snapshot.manifest.publicationDates);
   try {
     if (options.previousSource) {
       const previous = options.previousSource;
@@ -212,6 +216,7 @@ export async function buildSnapshot(snapshot, options = {}) {
           "Withdrawal requires an explicit single-article action",
         );
       assertPublicContentPreserved(previousModel, model, newlyWithdrawn);
+      if (snapshot.manifest.intent?.action === "dates") assertDateOnlyChange(previousModel, model);
       if (previous.kind === "snapshot") {
         const nextIds = new Set(snapshot.manifest.notes.map((n) => n.id));
         if (

@@ -55,13 +55,14 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
           state: snapshot.state,
           visibility: snapshot.visibility,
           tags: JSON.parse(snapshot.tags),
+          display_published_at: snapshot.display_published_at ?? null,
           expectedVersion: version.current,
           clientMutationId: crypto.randomUUID(),
         }),
       };
     const mutation = pending.current;
     try {
-      const r = await api<{ data: { version: number } }>(
+      const r = await api<{ data: { version: number; updated_at?: string; content_updated_at?: string | null } }>(
         "/notes/" + snapshot.id,
         {
           method: version.current === 0 ? "POST" : "PATCH",
@@ -71,7 +72,11 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
       version.current = r.data.version;
       acked.current = mutation.generation;
       pending.current = null;
-      const next = { ...current.current, version: version.current };
+      const serverTimes = {
+        ...(r.data.updated_at ? { updated_at: r.data.updated_at } : {}),
+        ...(r.data.content_updated_at !== undefined ? { content_updated_at: r.data.content_updated_at } : {}),
+      };
+      const next = { ...current.current, ...serverTimes, version: version.current };
       current.current = next;
       if (mounted.current) {
         setNote(next);
@@ -79,6 +84,7 @@ export function useEditor(initial: Note, onSaved: (n: Note) => void) {
           ...snapshot,
           ...JSON.parse(mutation.body),
           tags: JSON.stringify(JSON.parse(mutation.body).tags),
+          ...serverTimes,
           version: version.current,
         });
         if (generation.current === acked.current) {

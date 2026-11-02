@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { publicationDate } from "@/lib/publication-date";
 import DraftBadge from "@/components/DraftBadge";
 import type { PostSummary } from "@/lib/content";
 import { getImagePath } from "@/lib/utils";
@@ -40,7 +39,7 @@ export default function PostCard({ post, revealDelay = 0 }: PostCardProps) {
             </div>
             <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
               {post.date &&
-                format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
+                publicationDate(post.date)}
             </time>
           </div>
           <h2 className="mb-3 font-display text-xl font-bold leading-snug tracking-normal text-ink transition-colors hover:text-primary-800 dark:text-gray-100 dark:hover:text-primary-200">

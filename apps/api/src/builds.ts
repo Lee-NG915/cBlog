@@ -293,6 +293,9 @@ async function verifyLive(e: Bindings, j: Job) {
               .regex(/^[-\w\u4e00-\u9fff]+\/[-\w\u4e00-\u9fff]+$/),
             version: z.number().int().nullable(),
             contentHash: z.string().nullable().optional(),
+            publishedAt: z.string().datetime({ offset: true }).nullable().optional(),
+            displayPublishedAt: z.string().datetime({ offset: true }).nullable().optional(),
+            editedAt: z.string().datetime({ offset: true }).nullable().optional(),
           }),
         )
         .max(2000)
@@ -305,6 +308,19 @@ async function verifyLive(e: Bindings, j: Job) {
         new Set(entries.data.map((n) => n.route)).size !== entries.data.length
       )
         return false;
+      if (manifest.intent.action === "dates") {
+        const expected = manifest.intent.expectedInventory;
+        if (!Array.isArray(expected) || entries.data.length !== expected.length) return false;
+        for (const old of expected) {
+          const entry = entries.data.find((n) => n.id === old.id);
+          const date = manifest.publicationDates?.[old.id];
+          if (!entry || !date || entry.route !== old.route ||
+              entry.contentHash !== old.contentHash ||
+              entry.publishedAt !== date.publishedAt ||
+              entry.displayPublishedAt !== date.displayPublishedAt ||
+              entry.editedAt !== date.editedAt) return false;
+        }
+      }
       if (manifest.intent.action === "publish") {
         if (
           !target ||

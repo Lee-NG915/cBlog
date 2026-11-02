@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { publicationDate } from "@/lib/publication-date";
 import DraftBadge from "@/components/DraftBadge";
 import type { Post } from "@/lib/content";
 import { getImagePath } from "@/lib/utils";
@@ -59,7 +58,7 @@ export default function FeaturedPost({
           <span className="h-px w-10 bg-primary-200 dark:bg-primary-800" />
           <time className="tracking-normal text-ink-muted dark:text-gray-300">
             {post.date &&
-              format(new Date(post.date), "yyyy.MM.dd", { locale: zhCN })}
+              publicationDate(post.date)}
           </time>
         </div>
 

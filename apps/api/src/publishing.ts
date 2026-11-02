@@ -149,6 +149,26 @@ publishing.post("/", async (c) => {
     (previous.withdrawals || []).find((n: { id: string }) => n.id === note.id)
       ?.route ||
     `posts/${slug}`;
+  const publicationDates = { ...(previous.publicationDates || {}) };
+  const priorNote = previous.notes.find((n: { id: string }) => n.id === note.id);
+  const priorDate = publicationDates[note.id];
+  const contentHash = await hash(JSON.stringify([note.title, note.body, note.topic_id, JSON.parse(note.tags)]));
+  const priorHash = currentLive?.contentHash || (priorNote && await hash(JSON.stringify([
+    priorNote.title, priorNote.body, priorNote.topic_id,
+    Array.isArray(priorNote.tags) ? priorNote.tags : JSON.parse(priorNote.tags),
+  ])));
+  const firstPublished = new Date(priorDate?.publishedAt || currentLive?.publishedAt ||
+    priorNote?.published_at || metadata.date || priorNote?.updated_at || new Date().toISOString()).toISOString();
+  // Keep the original publication date even after withdrawal and later republishing.
+  publicationDates[note.id] = {
+    route,
+    publishedAt: firstPublished,
+    displayPublishedAt: input.action === "publish" ? note.display_published_at ?? null : priorDate?.displayPublishedAt ?? currentLive?.displayPublishedAt ?? null,
+    editedAt: input.action === "publish" && (currentLive || priorDate) &&
+      (priorHash ? priorHash !== contentHash : !!note.content_updated_at)
+        ? note.content_updated_at || note.updated_at
+        : priorDate?.editedAt ?? currentLive?.editedAt ?? null,
+  };
   if (input.action === "publish") {
     const topic = await c.env.DB.prepare("SELECT name FROM groups WHERE id=?")
       .bind(note.topic_id)
@@ -164,6 +184,9 @@ publishing.post("/", async (c) => {
       tags: JSON.parse(note.tags),
       version: note.version,
       updated_at: note.updated_at,
+      published_at: firstPublished,
+      display_published_at: note.display_published_at ?? null,
+      content_updated_at: publicationDates[note.id].editedAt,
     });
   } else withdrawals.push({ id: note.id, route: currentLive!.route });
   const categories = [
@@ -185,6 +208,7 @@ publishing.post("/", async (c) => {
     .map(({ id, route }) => ({ id, route }));
   const manifest = {
     notes,
+    publicationDates,
     withdrawals,
     categories,
     references,

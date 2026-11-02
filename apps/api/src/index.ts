@@ -22,6 +22,7 @@ const noteInput = z.object({
   state: z.enum(["draft", "ready", "archived"]),
   visibility: z.enum(["owner", "public"]),
   tags: z.array(z.string().max(40)).max(20),
+  display_published_at: z.string().datetime({ offset: true }).nullable().optional(),
   expectedVersion: z.number().int().nonnegative(),
   clientMutationId: z.string().uuid(),
 });
@@ -468,6 +469,19 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
       { error: { code: "INVALID_TOPIC", message: "请选择有效主题" } },
       422,
     );
+  const existingNote = c.req.method === "PATCH"
+    ? await c.env.DB.prepare("SELECT * FROM notes WHERE id=?").bind(id).first<Note>()
+    : null;
+  const savedAt = new Date().toISOString();
+  // Omission from an older client preserves the field; explicit null clears it.
+  const displayDate = input.display_published_at === undefined
+    ? existingNote?.display_published_at ?? null
+    : input.display_published_at === null ? null : new Date(input.display_published_at).toISOString();
+  const contentChanged = !!existingNote && (
+    existingNote.title !== input.title || existingNote.body !== input.body ||
+    existingNote.topic_id !== input.topic_id || existingNote.tags !== JSON.stringify(input.tags)
+  );
+  const editedAt = contentChanged ? savedAt : existingNote?.content_updated_at ?? null;
   const values = [
     input.title,
     input.body,
@@ -475,9 +489,11 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
     input.state,
     input.visibility,
     JSON.stringify(input.tags),
-    new Date().toISOString(),
+    savedAt,
     input.clientMutationId,
     payloadHash,
+    displayDate,
+    editedAt,
   ];
   if (c.req.method === "POST") {
     if (input.expectedVersion !== 0)
@@ -497,7 +513,7 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
     }
     try {
       await c.env.DB.prepare(
-        "INSERT INTO notes(title,body,topic_id,state,visibility,tags,updated_at,mutation_id,mutation_hash,id,slug) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO notes(title,body,topic_id,state,visibility,tags,updated_at,mutation_id,mutation_hash,display_published_at,content_updated_at,id,slug) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
       )
         .bind(...values, id, id)
         .run();
@@ -506,10 +522,10 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
       if (existing) return existing;
       throw error;
     }
-    return c.json({ data: { id, version: 1 } }, 201);
+    return c.json({ data: { id, version: 1, updated_at: savedAt, content_updated_at: editedAt, display_published_at: displayDate } }, 201);
   }
   const result = await c.env.DB.prepare(
-    "UPDATE notes SET title=?,body=?,topic_id=?,state=?,visibility=?,tags=?,updated_at=?,mutation_id=?,mutation_hash=?,version=version+1 WHERE id=? AND version=? AND deleted_at IS NULL AND (?!='archived' OR NOT EXISTS(SELECT 1 FROM build_jobs WHERE status IN ('dispatching','queued','building','deploying')))",
+    "UPDATE notes SET title=?,body=?,topic_id=?,state=?,visibility=?,tags=?,updated_at=?,mutation_id=?,mutation_hash=?,display_published_at=?,content_updated_at=?,version=version+1 WHERE id=? AND version=? AND deleted_at IS NULL AND (?!='archived' OR NOT EXISTS(SELECT 1 FROM build_jobs WHERE status IN ('dispatching','queued','building','deploying')))",
   )
     .bind(...values, id, input.expectedVersion, input.state)
     .run();
@@ -526,7 +542,7 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
       409,
     );
   }
-  return c.json({ data: { id, version: input.expectedVersion + 1 } });
+  return c.json({ data: { id, version: input.expectedVersion + 1, updated_at: savedAt, content_updated_at: editedAt, display_published_at: displayDate } });
 });
 app.get("/api/v1/trash", async (c) =>
   c.json({
@@ -720,7 +736,8 @@ app.post("/api/v1/publications", async (c) => {
       SELECT json_object('id',n.id,'slug',CASE WHEN n.source_path LIKE 'content/posts/%'
         THEN COALESCE(json_extract(n.source_metadata,'$.slug'),n.slug) ELSE n.slug END,
         'title',n.title,'body',n.body,'topic_id',n.topic_id,'topic_name',(SELECT name FROM groups WHERE id=n.topic_id),
-        'tags',json(n.tags),'version',n.version,'updated_at',n.updated_at) AS note
+        'tags',json(n.tags),'version',n.version,'updated_at',n.updated_at,
+        'display_published_at',n.display_published_at,'content_updated_at',n.content_updated_at) AS note
       FROM current_public n, inputs i WHERE i.chosen IS NULL OR n.id IN (SELECT value FROM json_each(i.chosen))
       UNION ALL
       SELECT old.value FROM last_live, json_each(last_live.manifest,'$.notes') old, inputs i
