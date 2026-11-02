@@ -22,6 +22,16 @@ for (const mobile of [false,true]) test(`display date saves, reloads and clears 
   const saved=()=>page.evaluate(async id=>(await(await fetch('/api/v1/notes/'+id)).json()).data,id);
   await expect.poll(async()=>(await saved()).display_published_at).toBe('2026-02-03T13:35:00.000Z');
   const before=await saved();
+  let unchangedWrites=0;
+  page.on('request',r=>{if(['PATCH','POST'].includes(r.method())&&r.url().endsWith('/notes/'+id))unchangedWrites++;});
+  await page.clock.install();
+  await field.focus();await field.press('Tab');
+  await page.getByRole('button',{name:'打开日期选择器'}).click();
+  await page.getByRole('button',{name:'应用时间',exact:true}).click();
+  await page.clock.runFor(2000);
+  expect(unchangedWrites).toBe(0);
+  expect((await saved()).version).toBe(before.version);
+  await page.clock.resume();
   await page.reload();
   await page.locator('.note-row').filter({hasText:title}).click();
   await page.getByRole('button',{name:'编辑',exact:true}).click();
