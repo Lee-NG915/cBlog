@@ -17,7 +17,8 @@
     "@base-ui/react": "^1.0.0",
     "@uiw/react-codemirror": "^4.23.7",
     "@codemirror/lang-markdown": "^6.3.1",
-    "mermaid": "^11.15.0"
+    "mermaid": "^11.15.0",
+    "@cblog/ui": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.46",

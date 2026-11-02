@@ -1,4 +1,5 @@
 "use client";
+import { SelectField } from "@cblog/ui";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -121,18 +122,18 @@ export default function NewPostPage() {
           <label className="label" htmlFor="new-post-category">
             分类
           </label>
-          <select
+          <SelectField
             id="new-post-category"
             className="input"
             value={categorySlug}
-            onChange={(event) => setCategorySlug(event.target.value)}
+            onValueChange={(event) => setCategorySlug(event)}
           >
             {categories.map((item) => (
               <option key={item.slug} value={item.slug}>
                 {item.name}
               </option>
             ))}
-          </select>
+          </SelectField>
         </div>
         <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? "创建中..." : "创建文章"}

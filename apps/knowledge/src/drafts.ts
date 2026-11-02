@@ -58,9 +58,26 @@ export async function pendingDraftIds(): Promise<string[]> {
   const database = await db();
   try {
     return await new Promise<string[]>((resolve, reject) => {
-      const req = database.transaction("drafts", "readonly").objectStore("drafts").getAllKeys();
+      const req = database
+        .transaction("drafts", "readonly")
+        .objectStore("drafts")
+        .getAllKeys();
       req.onsuccess = () => resolve(req.result.map(String));
       req.onerror = () => reject(req.error);
     });
-  } finally { database.close(); }
+  } finally {
+    database.close();
+  }
+}
+
+// Deleted server notes can retain a local recovery copy, but never enter active lists.
+export function visibleLocalDrafts(
+  drafts: Draft[],
+  server: Note[],
+  deletedIds: string[],
+) {
+  const known = new Set([...server.map((n) => n.id), ...deletedIds]);
+  return drafts
+    .filter((d) => !known.has(d.note.id) && !d.note.deleted_at)
+    .map((d) => d.note);
 }

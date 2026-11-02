@@ -7,3 +7,13 @@ export function toDisplayInput(value?: string | null) {
 export function fromDisplayInput(value: string) {
   return value ? new Date(value + "+08:00").toISOString() : null;
 }
+
+export function normalizeDisplayDate(value: string) {
+  const input = value.trim().replaceAll("/", "-").replace(" ", "T");
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(input)) return null;
+  try {
+    return toDisplayInput(fromDisplayInput(input)) === input ? input : null;
+  } catch {
+    return null;
+  }
+}

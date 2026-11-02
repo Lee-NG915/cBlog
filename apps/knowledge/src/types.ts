@@ -26,4 +26,4 @@ export type Membership = {
   note_id: string;
   position: number;
 };
-export type Corpus = { notes: Note[]; revision: number };
+export type Corpus = { notes: Note[]; revision: number; deletedIds: string[] };

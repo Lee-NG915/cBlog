@@ -116,7 +116,7 @@ export default async function CategoriesPage() {
                   data-reveal-delay={(index % 3) * 90}
                 >
                   <div className="mb-5 flex items-start justify-between gap-4">
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <h2 className="font-display text-2xl font-bold tracking-normal text-ink dark:text-gray-50">
                         {category.name}
                       </h2>
@@ -124,7 +124,7 @@ export default async function CategoriesPage() {
                         {category.description}
                       </p>
                     </div>
-                    <span className="rounded-full bg-primary-50 px-3 py-1 font-sans text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                    <span className="shrink-0 whitespace-nowrap tabular-nums rounded-full bg-primary-50 px-3 py-1 font-sans text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
                       {category.count}
                     </span>
                   </div>

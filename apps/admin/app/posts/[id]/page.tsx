@@ -1,4 +1,5 @@
 "use client";
+import { SelectField } from "@cblog/ui";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -500,12 +501,12 @@ export default function PostEditorPage({
             <label className="label" htmlFor="post-category">
               分类
             </label>
-            <select
+            <SelectField
               id="post-category"
               className="input"
               value={categorySlug}
-              onChange={(event) => {
-                setCategorySlug(event.target.value);
+              onValueChange={(event) => {
+                setCategorySlug(event);
                 setDirty(true);
               }}
             >
@@ -514,7 +515,7 @@ export default function PostEditorPage({
                   {item.name}
                 </option>
               ))}
-            </select>
+            </SelectField>
           </div>
           <div className="space-y-1 border-t border-slate-100 pt-3 text-xs text-slate-400">
             <p className="break-all">slug：{post.slug}</p>

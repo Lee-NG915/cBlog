@@ -1,4 +1,5 @@
 "use client";
+import { SelectField } from "@cblog/ui";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -88,21 +89,23 @@ export default function PostsPage() {
           setKeyword(keywordInput.trim());
         }}
       >
-        <select
-          className="input w-32"
+        <SelectField
+          className="input"
+          style={{width:"8rem"}}
           value={status}
-          onChange={(event) => setStatus(event.target.value)}
+          onValueChange={(event) => setStatus(event)}
           aria-label="状态筛选"
         >
           <option value="">全部状态</option>
           <option value="draft">草稿</option>
           <option value="published">已发布</option>
           <option value="archived">已归档</option>
-        </select>
-        <select
-          className="input w-44"
+        </SelectField>
+        <SelectField
+          className="input"
+          style={{width:"11rem"}}
           value={category}
-          onChange={(event) => setCategory(event.target.value)}
+          onValueChange={(event) => setCategory(event)}
           aria-label="分类筛选"
         >
           <option value="">全部分类</option>
@@ -111,7 +114,7 @@ export default function PostsPage() {
               {item.name}
             </option>
           ))}
-        </select>
+        </SelectField>
         <input
           className="input w-56"
           placeholder="搜索标题或 slug"

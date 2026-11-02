@@ -15,7 +15,8 @@ for (const mobile of [false,true]) test(`display date saves, reloads and clears 
   await page.locator('.cm-content').fill('完整正文与表格保留。\n\n| 参数 | 作用 |\n| --- | --- |\n| date | 展示日期 |');
   await page.getByRole('button',{name:'文章设置',exact:true}).click();
   const field=page.getByLabel('发布展示时间',{exact:true});
-  await field.fill('2026-02-03T21:35');
+  await field.fill('2026-02-03 21:35');
+  await field.press('Enter');
   await expect(page.locator('.save-label')).toHaveText('草稿已保存');
   await expect.poll(()=>id).not.toBe('');
   const saved=()=>page.evaluate(async id=>(await(await fetch('/api/v1/notes/'+id)).json()).data,id);
@@ -25,8 +26,9 @@ for (const mobile of [false,true]) test(`display date saves, reloads and clears 
   await page.locator('.note-row').filter({hasText:title}).click();
   await page.getByRole('button',{name:'编辑',exact:true}).click();
   await page.getByRole('button',{name:'文章设置',exact:true}).click();
-  await expect(field).toHaveValue('2026-02-03T21:35');
-  await field.fill('2026-02-05T10:24');
+  await expect(field).toHaveValue('2026-02-03 21:35');
+  await field.fill('2026-02-05 10:24');
+  await field.press('Enter');
   await expect.poll(async()=>(await saved()).display_published_at).toBe('2026-02-05T02:24:00.000Z');
   expect((await saved()).content_updated_at).toBe(before.content_updated_at);
   await page.screenshot({path:`test-results/date-editor-${mobile?'mobile':'desktop'}.png`,fullPage:true});

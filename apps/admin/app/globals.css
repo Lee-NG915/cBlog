@@ -63,3 +63,5 @@
 .preview-prose .mermaid-figure { @apply my-4; }
 .preview-prose .mermaid-diagram { @apply flex justify-center overflow-x-auto rounded-md border border-slate-200 bg-white p-3; }
 .preview-prose figcaption { @apply mt-1 text-center text-xs text-slate-400; }
+
+:root { --control-surface: theme('colors.white'); --control-ink: theme('colors.slate.800'); --control-muted: theme('colors.slate.500'); --control-border: theme('colors.slate.300'); --control-accent: theme('colors.emerald.700'); --control-soft: theme('colors.emerald.50'); }

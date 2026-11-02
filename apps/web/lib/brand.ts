@@ -89,6 +89,7 @@ export const brandCore = {
   },
 
   presentation: [
+    "下拉菜单共用纸色面板、固定箭头和鼠尾草选中态；数字徽标保持单行。日期允许直接输入，日历需确认后应用",
     "背景偏暖，像摊开笔记本，不晃眼",
     "博客与后台统一采用系统中文无衬线字体，代码保留等宽；正文无需等待外部字体",
     "所有正文立即可见，不依赖脚本或滚动动画；首页保留可减少动效的轻入场",
@@ -99,6 +100,12 @@ export const brandCore = {
   ],
 
   designSystemMapping: [
+    {
+      brand: "统一表单控件",
+      token: "@cblog/ui / --control-* / display-date-field",
+      value: "46px 触控区、10px 圆角、可见焦点与单行选中值",
+      usage: "博客搜索、后台筛选和文章设置；展开选项可换行，日期使用 UTC+8",
+    },
     {
       brand: "纸色底",
       token: "background-light / background-dark",

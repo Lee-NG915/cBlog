@@ -1,3 +1,4 @@
+import { SelectField } from "@cblog/ui";
 import { useState } from "react";
 import {
   ExternalLink,
@@ -139,10 +140,10 @@ export function BlogPanel({
         </label>
         <label>
           发布状态
-          <select
+          <SelectField
             value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value);
+            onValueChange={(e) => {
+              setFilter(e);
               setCount(20);
             }}
           >
@@ -151,7 +152,7 @@ export function BlogPanel({
             <option value="draft">草稿 / 已下线</option>
             <option value="changed">有未发布修改</option>
             <option value="failed">操作失败</option>
-          </select>
+          </SelectField>
         </label>
       </div>
       <p className="muted">{matching.length} 篇文章 · 每次操作只影响所选文章</p>

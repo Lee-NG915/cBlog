@@ -213,6 +213,14 @@ test("corpus pagination uses revision and deletion is filtered", async () => {
     const next = await (await s.request("/api/v1/corpus")).json();
     assert.equal(next.data.length, 1);
     assert.equal(next.data[0].id, "new");
+    assert.deepEqual(next.deletedIds, ["note"]);
+    const stale = await s.request("/api/v1/corpus?revision=" + next.revision);
+    assert.equal(stale.status, 200);
+    assert.equal((await s.request("/api/v1/notes/note/restore", "POST", {expectedVersion: 2})).status, 200);
+    const restored = await (await s.request("/api/v1/corpus")).json();
+    assert.deepEqual(restored.deletedIds, []);
+    assert.equal(restored.data.length, 2);
+    assert.equal((await s.request("/api/v1/corpus?revision=" + next.revision)).status, 409);
   } finally {
     s.close();
   }

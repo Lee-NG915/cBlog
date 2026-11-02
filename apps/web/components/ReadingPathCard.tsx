@@ -24,7 +24,7 @@ export default function ReadingPathCard({
             {category.name}
           </h3>
         </div>
-        <span className="rounded-full bg-primary-50 px-3 py-1 font-sans text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+        <span className="shrink-0 whitespace-nowrap tabular-nums rounded-full bg-primary-50 px-3 py-1 font-sans text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
           {category.count}
         </span>
       </div>

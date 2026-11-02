@@ -175,7 +175,7 @@ export default async function PostPage({ params }: PostPageProps) {
           >
             <Link
               href={`/categories/${post.categorySlug}`}
-              className="rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
+              className="shrink-0 whitespace-nowrap tabular-nums rounded-full bg-primary-50 px-4 py-2 font-sans text-sm font-semibold text-primary-800 transition hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-200 dark:hover:bg-primary-900/50"
             >
               {post.category}
             </Link>
@@ -296,7 +296,7 @@ export default async function PostPage({ params }: PostPageProps) {
                           <span className="font-sans text-sm font-semibold text-ink transition group-hover:text-primary-800 dark:text-gray-100 dark:group-hover:text-primary-200">
                             {category.name}
                           </span>
-                          <span className="rounded-full bg-primary-50 px-2.5 py-1 font-sans text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
+                          <span className="shrink-0 whitespace-nowrap tabular-nums rounded-full bg-primary-50 px-2.5 py-1 font-sans text-xs font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
                             {category.count}
                           </span>
                         </Link>

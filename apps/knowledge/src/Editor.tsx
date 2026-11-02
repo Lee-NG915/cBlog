@@ -1,3 +1,4 @@
+import { SelectField } from "@cblog/ui";
 import { useRef, useState, useEffect, lazy, Suspense } from "react";
 import { markdown } from "@codemirror/lang-markdown";
 import type { ReactCodeMirrorRef } from "@uiw/react-codemirror";
@@ -18,7 +19,8 @@ import { articleStatus, type PublishingState } from "./publishing";
 import { useEditor } from "./useEditor";
 import { api, download } from "./api";
 import { Markdown } from "./Markdown";
-import { fromDisplayInput, toDisplayInput } from "./dates";
+import { toDisplayInput } from "./dates";
+import { DisplayDatePicker } from "./DisplayDatePicker";
 const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
 export function Editor({
   initial,
@@ -413,9 +415,9 @@ export function Editor({
             )}
             <label>
               分类
-              <select
+              <SelectField
                 value={e.note.topic_id || ""}
-                onChange={(v) => e.change({ topic_id: v.target.value || null })}
+                onValueChange={(v) => e.change({ topic_id: v || null })}
               >
                 <option value="">收件箱 · 待整理</option>
                 {groups
@@ -426,7 +428,7 @@ export function Editor({
                       {g.name}
                     </option>
                   ))}
-              </select>
+              </SelectField>
             </label>
             <label>
               标签（用逗号分隔）
@@ -445,18 +447,7 @@ export function Editor({
                 }
               />
             </label>
-            <label>
-              发布展示时间
-              <input
-                type="datetime-local"
-                value={toDisplayInput(e.note.display_published_at)}
-                aria-describedby="display-date-help"
-                onChange={(event) => {
-                  if (!event.target.validity.badInput)
-                    e.change({ display_published_at: fromDisplayInput(event.target.value) });
-                }}
-              />
-            </label>
+            <DisplayDatePicker value={e.note.display_published_at} onChange={value=>e.change({display_published_at:value})}/>
             <small id="display-date-help">
               按 UTC+8 设置，用于博客显示与排序；留空沿用首次发布时间。
               保存后点击“{live ? "更新博客" : "发布文章"}”生效，不是定时发布。

@@ -6,6 +6,7 @@ on:
       - 'apps/api/**'
       - 'apps/knowledge/**'
       - 'apps/web/**'
+      - 'packages/ui/**'
       - 'scripts/knowledge/**'
       - 'docs/knowledge-platform/examples/**'
       - 'pnpm-lock.yaml'

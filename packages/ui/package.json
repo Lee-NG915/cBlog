@@ -1,0 +1,20 @@
+{
+  "name": "@cblog/ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/SelectField.tsx",
+    "./styles.css": "./src/controls.css"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.46"
+  }
+}
