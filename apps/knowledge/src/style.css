@@ -1004,7 +1004,7 @@ button.primary {
 }
 .editor-grid.with-properties {
   max-width: none;
-  grid-template-columns: minmax(0, 1fr) 250px;
+  grid-template-columns: minmax(0, 1fr) 300px;
 }
 .writing {
   padding: 34px 38px;
