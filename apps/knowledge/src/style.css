@@ -2034,3 +2034,23 @@ button.primary {
     grid-template-columns: 1fr;
   }
 }
+
+/* Collections keep the actual live state separate from the requested change. */
+.collection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 28px; align-items: start; }
+.collection-card { padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); min-width: 0; }
+.collection-card-heading { display: flex; align-items: center; gap: 10px; }
+.collection-card-heading h2 { font-size: 1.25rem; margin: 0; }
+.collection-card p { line-height: 1.7; }
+.collection-live { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: .875rem; margin: 20px 0 12px; }
+.collection-controls { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+.collection-controls label { display: block; font-weight: 600; margin-bottom: 8px; }
+.collection-controls select { width: 100%; }
+.collection-controls .muted { min-height: 3.4em; font-size: .875rem; }
+.collection-members { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 16px; }
+.collection-members summary { cursor: pointer; padding: 6px 0; }
+.collection-members ol { padding-left: 24px; max-height: 360px; overflow-y: auto; }
+.collection-members li { margin: 12px 0; }
+.collection-members .text-link { text-align: left; white-space: normal; overflow-wrap: anywhere; }
+.collection-members small { display: block; color: var(--muted); margin-top: 2px; }
+@media (max-width: 1100px) { .collection-grid { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 600px) { .collection-card { padding: 20px; } .collection-controls .primary { width: 100%; } }

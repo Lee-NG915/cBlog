@@ -236,11 +236,12 @@ function summaryToCollection(dto: PublicCollectionSummaryDto): CollectionMeta {
     id: 0,
     slug: dto.slug,
     name: dto.name,
-    description: dto.description,
+    description: dto.description.replace(/，仅通过手动输入路由访问。$/, "。"),
     label: dto.label,
     // DTO badge 可空，复刻 core listCollections 的 `badge || name` 兜底
     badge: dto.badge || dto.name,
     noindex: dto.noindex,
+    visibility: dto.visibility || "public",
     sortOrder: dto.sortOrder,
   };
 }

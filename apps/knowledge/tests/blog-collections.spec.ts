@@ -1,0 +1,57 @@
+import {test,expect} from '@playwright/test';
+for (const mobile of [false,true]) test(`collection visibility confirms scope and tracks actual live state (${mobile?'mobile':'desktop'})`,async({page})=>{
+ if(mobile)await page.setViewportSize({width:390,height:844});
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ const names=['RightCapital 面试笔记','addx.ai 面试笔记','促销系统笔记','交易模块可观测性'];
+ const state:any={enabled:true,siteUrl:'https://blog.example',repository:'owner/repo',publicationId:1,live:[{id:'a',route:'series0/a',version:1}],history:[],collections:names.map((name,i)=>({slug:'series'+i,name,description:'完整技术文章与目录',visibility:'public',members:i?[]:[{id:'a',route:'series0/a',position:0}],retainedInventory:[]}))};
+ const note={id:'a',title:'专栏中的完整技术文档',body:'# 原稿\n完整正文',version:1,state:'draft',visibility:'owner',topic_id:null,tags:[],updated_at:'2026-11-01',created_at:'2026-11-01'};
+ let submissions=0;
+ await page.route('**/api/v1/**',async route=>{
+   const path=new URL(route.request().url()).pathname;
+   let value:any={};
+   if(path.endsWith('/session'))value={data:{csrf:'test'}};
+   else if(path.endsWith('/corpus'))value={data:[note],revision:1,nextCursor:null};
+   else if(path.endsWith('/groups'))value={data:[],memberships:[]};
+   else if(path.endsWith('/publishing'))value=state;
+   else if(path.endsWith('/visibility')){
+    const input=route.request().postDataJSON();
+    expect(input.visibility).toBe('private');expect(input.expectedPublicationId).toBe(1);submissions++;
+    state.history=[{id:'job',publication_id:2,status:'queued',detail:'',run_id:'123',created_at:'2026-11-02',intent:{action:'collection-visibility',collectionSlug:'series0',visibility:'private',title:names[0]}}];
+    value={data:state.history[0]};
+   }
+   await route.fulfill({json:value});
+ });
+ await page.goto('/#view=collections');
+ await expect(page.getByRole('heading',{name:'博客专栏',exact:true})).toBeVisible();
+ for(const name of names)await expect(page.getByRole('heading',{name,exact:true})).toBeVisible();
+ const card=page.locator('.collection-card').first();
+ await card.getByText('查看所属文章').click();
+ await expect(card.getByRole('button',{name:note.title})).toBeVisible();
+ await card.getByLabel('专栏可见性').selectOption('unlisted');
+ await expect(card).toContainText('已有链接仍可访问');
+ await card.getByLabel('专栏可见性').selectOption('private');
+ await card.getByRole('button',{name:'应用并更新博客'}).click();
+ await expect(page.getByRole('dialog')).toContainText('影响本专栏的 1 篇已发布文章');
+ await page.getByRole('button',{name:'暂不调整'}).click();expect(submissions).toBe(0);
+ await card.getByRole('button',{name:'应用并更新博客'}).click();
+ await page.getByRole('button',{name:'确认并更新博客'}).click();
+ await expect(page.getByRole('dialog')).not.toBeVisible();expect(submissions).toBe(1);
+ await expect(card).toContainText('当前线上：公开展示');
+ await expect(card).toContainText('正在变更为“仅后台”，尚未生效');
+ await expect(card.getByLabel('专栏可见性')).toBeDisabled();
+ state.history[0].status='failed';state.history[0].detail='构建失败';
+ await page.reload();
+ await expect(card).toContainText('当前线上：公开展示');
+ await expect(card.getByRole('button',{name:'重试变更'})).toBeVisible();
+ state.history[0].status='succeeded';state.history[0].detail='';state.publicationId=2;state.live=[];state.collections[0].visibility='private';state.collections[0].retainedInventory=[{id:'a',route:'series0/a',version:1}];
+ await page.reload();
+ await expect(card).toContainText('当前线上：仅后台');
+ await expect(card.getByRole('link',{name:'查看博客专栏'})).toHaveCount(0);
+ await card.getByLabel('专栏可见性').selectOption('public');
+ await card.getByRole('button',{name:'应用并更新博客'}).click();
+ await expect(page.getByRole('dialog')).toContainText('后台的未发布修改不会随之公开');
+ await page.getByRole('button',{name:'暂不调整'}).click();
+ await page.screenshot({path:`test-results/collections-${mobile?'mobile':'desktop'}.png`,fullPage:true});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ expect(errors).toEqual([]);
+});

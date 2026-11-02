@@ -40,6 +40,7 @@ export function database(filename = path.join(stateDir, "notes.db")) {
   );
   if (!sqlite.prepare("PRAGMA table_info(notes)").all().some((c) => c.name === "display_published_at"))
     sqlite.exec(readFileSync(path.join(root, "apps/api/migrations/0005_publication_dates.sql"), "utf8"));
+  sqlite.exec(readFileSync(path.join(root, "apps/api/migrations/0006_blog_collections.sql"), "utf8"));
   class Statement {
     constructor(sql, values = []) {
       this.sql = sql;

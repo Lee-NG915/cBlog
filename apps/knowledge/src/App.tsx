@@ -34,6 +34,7 @@ import {
 import type { Note, Group, Membership } from "./types";
 import { ApiError, api, download, loadCorpus, setCSRF } from "./api";
 import { draftStore, listDrafts, pendingDraftIds } from "./drafts";
+import { BlogCollectionsPanel } from "./BlogCollectionsPanel";
 import { BlogPanel, BlogStatus } from "./BlogPanel";
 import {
   articleStatus,
@@ -52,6 +53,7 @@ type View =
   | "paths"
   | "projects"
   | "inbox"
+  | "collections"
   | "publish"
   | "search"
   | "brand"
@@ -63,6 +65,7 @@ const nav = [
   ["projects", "项目", Folder],
   ["inbox", "收件箱", Inbox],
   ["publish", "博客发布", UploadCloud],
+  ["collections", "博客专栏", BookOpen],
 ] as const;
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false),
@@ -184,6 +187,7 @@ export default function App() {
           "projects",
           "inbox",
           "publish",
+          "collections",
           "search",
           "brand",
           "archive",
@@ -770,6 +774,7 @@ export default function App() {
                       projects: "项目",
                       inbox: "收件箱",
                       publish: "博客发布",
+                      collections: "博客专栏",
                       archive: "已归档",
                       trash: "回收站",
                       search: "知识库查询",
@@ -896,6 +901,7 @@ export default function App() {
                         buildBusy ||
                         !!publishError ||
                         !publishingState?.enabled ||
+                        articleStatus(current, publishingState).collectionPrivate ||
                         current.version === 0
                       }
                       onClick={() => prepareAction(current, "publish")}
@@ -1121,6 +1127,8 @@ export default function App() {
               </div>
             )}
           </section>
+        ) : view === "collections" ? (
+          <BlogCollectionsPanel notes={notes} state={publishingState} busy={buildBusy || !!publishError} refresh={refreshPublishing} onRead={read} onRecover={(job)=>void recover(job)}/>
         ) : view === "publish" ? (
           <BlogPanel
             notes={notes}

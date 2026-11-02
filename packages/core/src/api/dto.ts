@@ -42,6 +42,7 @@ export interface PublicCollectionSummaryDto {
   label: string;
   badge: string | null;
   noindex: boolean;
+  visibility?: "public" | "unlisted";
   sortOrder: number;
   publishedItemCount: number;
 }
@@ -88,6 +89,7 @@ export interface PublicSitemapDto {
   collections: Array<{
     slug: string;
     noindex: boolean;
+  visibility?: "public" | "unlisted";
     items: Array<{ slug: string }>;
   }>;
 }

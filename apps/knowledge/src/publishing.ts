@@ -1,4 +1,10 @@
 import type { Note } from "./types";
+export type CollectionVisibility = "public" | "unlisted" | "private";
+export type BlogCollection = {
+  slug: string; name: string; description: string; visibility: CollectionVisibility;
+  members: {id: string; route: string; position: number}[];
+  retainedInventory: PublishingState["live"];
+};
 export type PublishAction = "publish" | "unpublish";
 export type PublishJob = {
   id: string;
@@ -9,8 +15,10 @@ export type PublishJob = {
   detail: string;
   run_id: string | null;
   intent: {
-    action: PublishAction | "dates";
-    noteId: string;
+    action: PublishAction | "dates" | "collection-visibility";
+    collectionSlug?: string;
+    visibility?: CollectionVisibility;
+    noteId?: string;
     title: string;
     version: number;
     route: string;
@@ -30,12 +38,16 @@ export type PublishingState = {
     editedAt?: string | null;
   }[];
   history: PublishJob[];
+  collections?: BlogCollection[];
+  publicationId?: number;
 };
 export const isActive = (j: PublishJob) =>
   ["dispatching", "queued", "building", "deploying"].includes(j.status);
 export function articleStatus(note: Note, state: PublishingState | null) {
   const live = state?.live.find((n) => n.id === note.id),
     job = state?.history.find((j) => j.intent?.noteId === note.id);
+  const collection = state?.collections?.find(c=>c.members.some(m=>m.id===note.id));
+  const collectionPrivate = collection?.visibility === "private";
   const active = !!job && isActive(job),
     failed = job?.status === "failed" && !job.detail.startsWith("已取消");
   const changed =
@@ -52,12 +64,13 @@ export function articleStatus(note: Note, state: PublishingState | null) {
         ? "已归档"
         : job?.intent?.action === "unpublish" && job.status === "succeeded"
           ? "已下线"
-          : "草稿";
+          : collectionPrivate ? "专栏仅后台" : "草稿";
   if (active) label = job.intent?.action === "unpublish" ? "下线中" : "发布中";
   else if (failed)
     label = job.intent?.action === "unpublish" ? "下线失败" : "发布失败";
   return {
     live,
+    collectionPrivate,
     job,
     active,
     failed,
@@ -82,7 +95,7 @@ export function articleStatus(note: Note, state: PublishingState | null) {
               : live.version === null
                 ? "这是已在博客公开的历史文章。保存草稿不会更改线上版本。"
                 : "访客可以在博客阅读这篇文章。"
-            : "仅保存在后台，访客无法从博客访问。",
+            : collectionPrivate ? "所属专栏仅后台可见。请在“博客专栏”调整可见性后，再更新文章。" : "仅保存在后台，访客无法从博客访问。",
   };
 }
 export function articleUrl(
@@ -97,6 +110,7 @@ export function articleUrl(
   );
 }
 export function jobLabel(job: PublishJob) {
+  if (job.intent?.action === "collection-visibility" && job.status === "succeeded") return "可见性已生效";
   const withdraw = job.intent?.action === "unpublish";
   if (job.status === "succeeded") return withdraw ? "已下线" : "已上线";
   if (job.status === "failed" && job.detail.startsWith("已取消"))

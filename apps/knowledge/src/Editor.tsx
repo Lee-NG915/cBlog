@@ -150,6 +150,7 @@ export function Editor({
             uploading ||
             !e.ready ||
             publishingBusy ||
+            articleStatus(e.note, publishingState).collectionPrivate ||
             !publishingState?.enabled ||
             e.note.state === "archived"
           }
