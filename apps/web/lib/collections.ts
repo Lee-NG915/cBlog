@@ -22,6 +22,8 @@ export interface CollectionNote {
   content: string;
   excerpt: string;
   readingTime: number;
+  date?: string | null;
+  updatedAt?: string | null;
 }
 
 export function getAllCollections(): CollectionMeta[] {

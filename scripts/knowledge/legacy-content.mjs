@@ -208,6 +208,8 @@ export function mergePublicContent(legacy, snapshot, withdrawals = []) {
   };
 }
 
+const inventoryDate = (value) => value && Number.isFinite(Date.parse(value)) ? new Date(value).toISOString() : null;
+
 export function publicInventory(model) {
   return [
     ...model.posts.map((p) => ({
@@ -215,6 +217,9 @@ export function publicInventory(model) {
       route: `posts/${p.slug}`,
       version: p.sourceVersion ?? null,
       contentHash: p.sourceContentHash ?? null,
+      publishedAt: inventoryDate(p.publishedAt ?? p.editorialDate),
+      displayPublishedAt: inventoryDate(p.displayPublishedAt),
+      editedAt: inventoryDate(p.updatedAt),
     })),
     ...(model.collections || []).flatMap((c) =>
       c.items.map((n) => ({
@@ -222,6 +227,9 @@ export function publicInventory(model) {
         route: `${c.slug}/${n.slug}`,
         version: n.sourceVersion ?? null,
         contentHash: n.sourceContentHash ?? null,
+        publishedAt: inventoryDate(n.publishedAt ?? n.editorialDate),
+        displayPublishedAt: inventoryDate(n.displayPublishedAt),
+        editedAt: inventoryDate(n.updatedAt),
       })),
     ),
   ].filter((n) => n.id);

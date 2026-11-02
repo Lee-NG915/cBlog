@@ -246,6 +246,8 @@ function summaryToCollection(dto: PublicCollectionSummaryDto): CollectionMeta {
 }
 
 function itemSummaryToNote(dto: {
+  editorialDate?: string | null;
+  updatedAt?: string | null;
   slug: string;
   title: string;
   excerpt: string;
@@ -256,6 +258,8 @@ function itemSummaryToNote(dto: {
     slug: dto.slug,
     title: dto.title,
     order: dto.sortOrder,
+    date: toIso(dto.editorialDate),
+    updatedAt: toIso(dto.updatedAt),
     content: "",
     excerpt: dto.excerpt,
     readingTime: dto.readingMinutes,

@@ -8,8 +8,7 @@ import MermaidEnhancer from "@/components/MermaidEnhancer";
 import PostReadingProgress from "@/components/PostReadingProgress";
 import PostTableOfContents from "@/components/PostTableOfContents";
 import { isDraftPreviewEnabled } from "@/lib/content";
-import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import ArticleDate from "@/components/ArticleDate";
 import {
   docAssetBase,
   getAllCategories,
@@ -209,22 +208,7 @@ export default async function PostPage({ params }: PostPageProps) {
             data-reveal
             data-reveal-delay="180"
           >
-            {post.date && (
-              <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
-                发布于{" "}
-                {format(new Date(post.date), "yyyy.MM.dd", {
-                  locale: zhCN,
-                })}
-              </time>
-            )}
-            {post.updatedAt && (
-              <time className="font-sans text-sm text-ink-soft dark:text-gray-400">
-                更新于{" "}
-                {format(new Date(post.updatedAt), "yyyy.MM.dd", {
-                  locale: zhCN,
-                })}
-              </time>
-            )}
+            <ArticleDate value={post.date} />
             {post.tags.map((tag) => (
               <span
                 key={tag}
@@ -271,6 +255,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 __html: readingHtml(content),
               }}
             />
+            <ArticleDate value={post.updatedAt} edited />
             {hasMermaidDiagrams && <MermaidEnhancer />}
           </div>
 

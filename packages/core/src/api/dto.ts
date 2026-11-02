@@ -47,6 +47,8 @@ export interface PublicCollectionSummaryDto {
 }
 
 export interface PublicCollectionItemSummaryDto {
+  editorialDate?: string | null;
+  updatedAt?: string | null;
   slug: string;
   title: string;
   excerpt: string;
@@ -58,7 +60,7 @@ export interface PublicCollectionItemSummaryDto {
 export interface PublicCollectionItemDetailDto
   extends PublicCollectionItemSummaryDto {
   contentMarkdown: string;
-  updatedAt: string;
+  updatedAt: string | null;
 }
 
 export interface PublicCollectionDetailDto extends PublicCollectionSummaryDto {

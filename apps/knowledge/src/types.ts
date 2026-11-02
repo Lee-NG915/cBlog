@@ -9,6 +9,8 @@ export type Note = {
   tags: string;
   version: number;
   updated_at: string;
+  display_published_at?: string | null;
+  content_updated_at?: string | null;
   deleted_at: string | null;
 };
 export type Group = {

@@ -275,3 +275,78 @@ test("stale versions and archiving a live note are refused without losing draft 
     s.sqlite.close();
   }
 });
+
+test("display date saves persist, publication is stable through edits and withdrawal, old clients preserve overrides", async (t) => {
+  const s = await setup();
+  t.mock.method(globalThis, "fetch", async () => new Response(null, { status: 204 }));
+  const get = async () => (await (await s.request('/api/v1/notes/private')).json()).data;
+  const save = async (changes: any, omit = false) => {
+    const n = await get();
+    const payload = {...n, tags: JSON.parse(n.tags), expectedVersion:n.version, clientMutationId:crypto.randomUUID(), ...changes};
+    if (omit) delete payload.display_published_at;
+    const r = await s.request('/api/v1/notes/private','PATCH',payload);
+    assert.equal(r.status,200);
+    return get();
+  };
+  let tick = 0;
+  const publish = async (action = 'publish') => {
+    const n = await get();
+    const r = await s.publish('private',action,crypto.randomUUID(),n.version);
+    assert.equal(r.status,202);
+    const job = (await r.json()).data;
+    const manifest = s.snapshot();
+    s.sqlite.prepare("UPDATE build_jobs SET status='succeeded',updated_at=? WHERE id=?").run(`2090-01-01T00:00:${String(++tick).padStart(2,'0')}Z`, job.id);
+    return manifest.publicationDates.private;
+  };
+  try {
+    // Historical imports may store equivalent tag arrays with whitespace.
+    s.sqlite.prepare("UPDATE notes SET tags='[ ]',version=version+1,mutation_id=?,mutation_hash=? WHERE id='private'").run(crypto.randomUUID(),'historical-tags');
+    let n = await save({display_published_at:'2025-03-04T20:15:00+08:00'});
+    assert.equal(n.display_published_at,'2025-03-04T12:15:00.000Z');
+    assert.equal(n.content_updated_at,null);
+    const first = await publish();
+    assert.equal(first.editedAt,null);
+    n = await save({display_published_at:'2025-05-06T21:10:00+08:00'});
+    assert.equal(n.content_updated_at,null);
+    const dateOnly = await publish();
+    assert.equal(dateOnly.publishedAt, first.publishedAt);
+    assert.equal(dateOnly.editedAt,null);
+    n = await save({body:'Full updated technical body'},true);
+    assert.equal(n.display_published_at,'2025-05-06T13:10:00.000Z');
+    assert.ok(n.content_updated_at);
+    const edited = await publish();
+    assert.equal(edited.publishedAt,first.publishedAt);
+    assert.equal(edited.editedAt,n.content_updated_at);
+    await publish('unpublish');
+    const again = await publish();
+    assert.equal(again.publishedAt,first.publishedAt);
+    await save({display_published_at:null});
+    const cleared = await publish();
+    assert.equal(cleared.displayPublishedAt,null);
+    assert.equal(cleared.publishedAt,first.publishedAt);
+    assert.equal(cleared.editedAt,edited.editedAt);
+  } finally { s.sqlite.close(); }
+});
+
+test('date-only deployment waits for matching dates and the complete public inventory', async(t)=>{
+ const s=await setup(); let marker:any={};
+ t.mock.method(globalThis,'fetch',async(input:any)=>String(input).includes('api.github.com')?new Response(null,{status:204}):Response.json(marker));
+ try {
+  const job=(await(await s.publish()).json()).data;
+  const dates=Object.fromEntries(['a','b'].map(id=>[id,{route:'posts/'+id,publishedAt:'2026-01-01T00:00:00.000Z',displayPublishedAt:'2026-02-01T00:00:00.000Z',editedAt:null}]));
+  const expected=['a','b'].map(id=>({id,route:'posts/'+id,version:1,contentHash:null}));
+  const manifest={...s.snapshot(),publicationDates:dates,intent:{action:'dates',expectedInventory:expected}};
+  s.sqlite.prepare('UPDATE publications SET manifest=? WHERE id=?').run(JSON.stringify(manifest),job.publication_id);
+  await s.request(`/internal/builds/${job.id}/claim`,'POST',{runId:'123'});
+  await s.request(`/internal/builds/${job.id}/status`,'POST',{status:'deploying'});
+  const status=()=>s.request(`/internal/builds/${job.id}/status`,'POST',{status:'succeeded'});
+  marker={jobId:job.id,publicationId:job.publication_id,publicNotes:expected.map(n=>({...n,...dates[n.id]}))};
+  marker.publicNotes[0].displayPublishedAt='2026-03-01T00:00:00.000Z';
+  assert.equal((await status()).status,409);
+  marker.publicNotes[0].displayPublishedAt=dates.a.displayPublishedAt;
+  const last=marker.publicNotes.pop();assert.equal((await status()).status,409);
+  marker.publicNotes.push(last);assert.equal((await status()).status,200);
+  const state=await(await s.request('/api/v1/publishing')).json();
+  assert.equal(state.live[0].displayPublishedAt,dates.a.displayPublishedAt);
+ }finally{s.sqlite.close();}
+});

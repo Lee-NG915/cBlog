@@ -18,6 +18,7 @@ import { articleStatus, type PublishingState } from "./publishing";
 import { useEditor } from "./useEditor";
 import { api, download } from "./api";
 import { Markdown } from "./Markdown";
+import { fromDisplayInput, toDisplayInput } from "./dates";
 const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
 export function Editor({
   initial,
@@ -443,6 +444,31 @@ export function Editor({
                 }
               />
             </label>
+            <label>
+              发布展示时间
+              <input
+                type="datetime-local"
+                value={toDisplayInput(e.note.display_published_at)}
+                aria-describedby="display-date-help"
+                onChange={(event) => {
+                  if (!event.target.validity.badInput)
+                    e.change({ display_published_at: fromDisplayInput(event.target.value) });
+                }}
+              />
+            </label>
+            <small id="display-date-help">
+              按 UTC+8 设置，用于博客显示与排序；留空沿用首次发布时间。
+              保存后点击“{live ? "更新博客" : "发布文章"}”生效，不是定时发布。
+              后续编辑时间自动记录在文章末尾，不会覆盖发布时间。
+            </small>
+            {e.note.display_published_at && (
+              <button className="quiet" onClick={() => e.change({ display_published_at: null })}>
+                恢复首次发布时间
+              </button>
+            )}
+            {live?.publishedAt && (
+              <small>首次发布时间：{toDisplayInput(live.publishedAt).replace("T", " ")}（UTC+8）</small>
+            )}
             <button className="quiet" onClick={() => setProperties(false)}>
               收起设置
             </button>

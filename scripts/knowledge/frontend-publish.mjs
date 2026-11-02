@@ -89,7 +89,7 @@ async function main(command) {
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`Cannot read live ${name}: HTTP ${response.status}`);
     const text = await response.text();
-    if (text.length > 16384) throw new Error("Unexpected publication marker size");
+    if (text.length > 256 * 1024) throw new Error("Unexpected publication marker size");
     return JSON.parse(text);
   }
   async function liveBaseline() {
