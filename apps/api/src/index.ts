@@ -479,7 +479,7 @@ app.on(["POST", "PATCH"], "/api/v1/notes/:id", async (c) => {
     : input.display_published_at === null ? null : new Date(input.display_published_at).toISOString();
   const contentChanged = !!existingNote && (
     existingNote.title !== input.title || existingNote.body !== input.body ||
-    existingNote.topic_id !== input.topic_id || existingNote.tags !== JSON.stringify(input.tags)
+    existingNote.topic_id !== input.topic_id || JSON.stringify(JSON.parse(existingNote.tags)) !== JSON.stringify(input.tags)
   );
   const editedAt = contentChanged ? savedAt : existingNote?.content_updated_at ?? null;
   const values = [

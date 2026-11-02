@@ -299,6 +299,8 @@ test("display date saves persist, publication is stable through edits and withdr
     return manifest.publicationDates.private;
   };
   try {
+    // Historical imports may store equivalent tag arrays with whitespace.
+    s.sqlite.prepare("UPDATE notes SET tags='[ ]',version=version+1,mutation_id=?,mutation_hash=? WHERE id='private'").run(crypto.randomUUID(),'historical-tags');
     let n = await save({display_published_at:'2025-03-04T20:15:00+08:00'});
     assert.equal(n.display_published_at,'2025-03-04T12:15:00.000Z');
     assert.equal(n.content_updated_at,null);
