@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { app } from "../src/index";
+import { CORPUS_PAGE_BYTES } from "../src/corpus";
 import { hash } from "../src/security";
 import { database, localImages } from "../../../scripts/knowledge/local-db.mjs";
 import { searchNotes } from "../../knowledge/src/search";
@@ -224,6 +225,113 @@ test("corpus pagination uses revision and deletion is filtered", async () => {
   } finally {
     s.close();
   }
+});
+test("corpus bounds multibyte and escaped payloads without fetching lookahead bodies or losing rows", async (t) => {
+  const s = await setup();
+  try {
+    const insert = s.sqlite.prepare(`INSERT INTO notes
+      (id,slug,title,body,tags,source_metadata,updated_at,mutation_id,mutation_hash,deleted_at)
+      VALUES(?,?,?,?,?,?,'2026-01-01',?,?,?)`);
+    for (let i = 0; i < 40; i++) {
+      const id = "note-" + String(i).padStart(2, "0");
+      insert.run(id, id, i === 3 ? "长标题".repeat(15000) : id,
+        i === 7 ? "大".repeat(100000) : i === 10 ? "\0".repeat(40000) : "字🙂\n\"\\".repeat(7000),
+        JSON.stringify(i === 12 ? ["标签".repeat(25000)] : []),
+        JSON.stringify(i === 15 ? { imported: "资料".repeat(30000) } : {}),
+        crypto.randomUUID(), id, [4, 37].includes(i) ? "2026-01-02" : null);
+    }
+    const expected = s.sqlite.prepare("SELECT * FROM notes WHERE deleted_at IS NULL ORDER BY id").all();
+    const fetched: any[] = [];
+    const prepare = s.env.DB.prepare.bind(s.env.DB);
+    t.mock.method(s.env.DB, "prepare", (sql: string) => {
+      const track = (statement: any): any => new Proxy(statement, {
+        get(target, key) {
+          if (key === "bind") return (...values: any[]) => track(target.bind(...values));
+          if (key === "all") return async (...args: any[]) => {
+            const result = await target.all(...args);
+            fetched.push(...result.results.filter((row: any) => "body" in row));
+            return result;
+          };
+          return typeof target[key] === "function" ? target[key].bind(target) : target[key];
+        },
+      });
+      return track(prepare(sql));
+    });
+    const received: any[] = [];
+    let cursor = "", revision: number | undefined, pages = 0, largestBoundedPage = 0, oversizedPages = 0;
+    do {
+      fetched.length = 0;
+      const response = await s.request("/api/v1/corpus?cursor=" + cursor +
+        (revision === undefined ? "" : "&revision=" + revision));
+      assert.equal(response.status, 200);
+      const page = await response.json();
+      assert.ok(page.data.length > 0 && page.data.length <= 30);
+      const pageBytes = Buffer.byteLength(JSON.stringify(page.data));
+      assert.ok(pageBytes <= CORPUS_PAGE_BYTES || page.data.length === 1);
+      if (pageBytes > CORPUS_PAGE_BYTES) oversizedPages++;
+      else largestBoundedPage = Math.max(largestBoundedPage, pageBytes);
+      assert.deepEqual(JSON.parse(JSON.stringify(fetched)), page.data, "no unused full-body lookahead");
+      assert.deepEqual(page.deletedIds, cursor ? [] : ["note-04", "note-37"]);
+      if (page.nextCursor) assert.equal(page.nextCursor, page.data.at(-1).id);
+      received.push(...page.data);
+      cursor = page.nextCursor || "";
+      revision = page.revision;
+      assert.ok(++pages <= expected.length, "every page advances the cursor");
+    } while (cursor);
+    assert.deepEqual(received, JSON.parse(JSON.stringify(expected)));
+    assert.equal(new Set(received.map((n) => n.id)).size, expected.length);
+    t.diagnostic(`fixture: ${expected.length} notes in ${pages} pages; largest bounded page: ${largestBoundedPage} bytes; oversized single-note pages: ${oversizedPages}; former 31-row read: ${Buffer.byteLength(JSON.stringify(expected.slice(0, 31)))} bytes`);
+  } finally { s.close(); }
+});
+test("corpus item boundary and terminal cursor handle empty, exact and partial pages", async () => {
+  for (const count of [0, 1, 30, 31, 60, 61]) {
+    const s = await setup();
+    try {
+      const insert = s.sqlite.prepare("INSERT INTO notes(id,slug,title,updated_at,mutation_id,mutation_hash) VALUES(?,?,?,'2026-01-01',?,?)");
+      for (let i = 0; i < count; i++) {
+        const id = "n" + String(i).padStart(3, "0");
+        insert.run(id, id, id, crypto.randomUUID(), id);
+      }
+      let cursor = "", seen = 0, pages = 0;
+      do {
+        const response = await s.request("/api/v1/corpus?cursor=" + cursor);
+        assert.equal(response.status, 200);
+        const page = await response.json();
+        assert.equal(page.data.length, Math.min(30, count - seen));
+        seen += page.data.length;
+        assert.equal(page.nextCursor, seen < count ? page.data.at(-1).id : null);
+        cursor = page.nextCursor || "";
+        pages++;
+      } while (cursor);
+      assert.equal(seen, count);
+      assert.equal(pages, Math.max(1, Math.ceil(count / 30)));
+    } finally { s.close(); }
+  }
+});
+test("corpus refuses a page changed between sizing and fetching", async (t) => {
+  const s = await setup();
+  try {
+    await s.create();
+    const prepare = s.env.DB.prepare.bind(s.env.DB);
+    let changed = false;
+    t.mock.method(s.env.DB, "prepare", (sql: string) => {
+      if (!changed && sql.startsWith("SELECT * FROM notes WHERE deleted_at IS NULL AND id>")) {
+        changed = true;
+        s.sqlite.prepare("UPDATE notes SET body=?,version=version+1,mutation_id=?,mutation_hash=? WHERE id='note'")
+          .run("changed while reading", crypto.randomUUID(), "concurrent-update");
+      }
+      return prepare(sql);
+    });
+    const response = await s.request("/api/v1/corpus");
+    assert.equal(changed, true);
+    assert.equal(response.status, 409);
+    assert.equal((await response.json()).error.code, "CORPUS_CHANGED");
+    const retry = await s.request("/api/v1/corpus");
+    assert.equal(retry.status, 200);
+    const page = await retry.json();
+    assert.equal(page.data[0].body, "changed while reading");
+    assert.equal(page.nextCursor, null);
+  } finally { s.close(); }
 });
 test("path reorder rejects duplicates and stale versions", async () => {
   const s = await setup();

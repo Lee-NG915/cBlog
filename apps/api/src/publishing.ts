@@ -2,22 +2,24 @@ import { Hono } from "hono";
 import { z } from "zod";
 import type { Bindings, Note } from "./types";
 import { builds, configured } from "./builds";
-import { liveNotes, lastPublication } from "./live";
+import { liveNotes, lastPublication, lastPublicationMetadata } from "./live";
 import { collectionState } from "./blog-collections";
 import { hash } from "./security";
 
 export const publishing = new Hono<{ Bindings: Bindings }>();
 const active = "'dispatching','queued','building','deploying'";
 publishing.get("/", async (c) => {
-  const [live, collections, last, history] = await Promise.all([
-    liveNotes(c.env),
-    collectionState(c.env),
-    lastPublication(c.env),
+  const [last, history] = await Promise.all([
+    lastPublicationMetadata(c.env),
     c.env.DB.prepare(
       `SELECT j.*,
     json_extract(p.manifest,'$.intent') AS intent FROM build_jobs j JOIN publications p ON p.id=j.publication_id
     ORDER BY j.created_at DESC LIMIT 50`,
     ).all(),
+  ]);
+  const [live, collections] = await Promise.all([
+    liveNotes(c.env, last),
+    collectionState(c.env, last),
   ]);
   return c.json({
     live,

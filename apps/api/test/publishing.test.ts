@@ -86,8 +86,95 @@ async function setup() {
           .get()!.manifest,
       ),
     );
-  return { sqlite, request, publish, snapshot, original };
+  return { sqlite, env, request, publish, snapshot, original };
 }
+test("publishing status projects large snapshots and preserves verified and legacy inventories", async (t) => {
+  const s = await setup();
+  try {
+    const retained = [{ id: "hidden", route: "series/hidden", version: 4 }];
+    const manifest = {
+      notes: [
+        { ...s.original[0], body: "正文\n".repeat(300000), route: "series/a" },
+        { ...s.original[1], body: "OTHER".repeat(300000), version: null },
+      ],
+      collectionVisibility: { series: { visibility: "private", retainedInventory: retained } },
+    };
+    const stored = JSON.stringify(manifest);
+    s.sqlite.prepare("UPDATE publications SET manifest=? WHERE id=1").run(stored);
+    s.sqlite.prepare("INSERT INTO blog_collections(slug,name,members) VALUES('series','Series',?)")
+      .run(JSON.stringify([{ id: "a", route: "series/a", position: 0 }]));
+    // A newer failed publication must not become the live base.
+    s.sqlite.prepare("INSERT INTO publications(created_at,manifest) VALUES('2026-02-01',?)")
+      .run(JSON.stringify({ notes: [], collectionVisibility: {} }));
+    s.sqlite.exec("INSERT INTO build_jobs(id,publication_id,status,created_at,updated_at) VALUES('failed',2,'failed','2026-02-01','2026-02-01')");
+
+    const reads: { sql: string; bytes: number }[] = [];
+    const prepare = s.env.DB.prepare.bind(s.env.DB);
+    t.mock.method(s.env.DB, "prepare", (sql: string) => {
+      const track = (statement: any): any => new Proxy(statement, {
+        get(target, key) {
+          if (key === "bind") return (...values: any[]) => track(target.bind(...values));
+          if (key === "first" || key === "all") return async (...args: any[]) => {
+            const result = await target[key](...args);
+            reads.push({ sql, bytes: Buffer.byteLength(JSON.stringify(result)) });
+            return result;
+          };
+          return typeof target[key] === "function" ? target[key].bind(target) : target[key];
+        },
+      });
+      return track(prepare(sql));
+    });
+    let largestReadBytes = 0;
+    const state = async () => {
+      reads.length = 0;
+      const response = await s.request("/api/v1/publishing");
+      assert.equal(response.status, 200);
+      const result = await response.json();
+      assert.equal(result.publicationId, 1);
+      assert.equal(result.collections[0].visibility, "private");
+      assert.deepEqual(result.collections[0].retainedInventory, retained);
+      const readBytes = reads.reduce((sum, r) => sum + r.bytes, 0);
+      largestReadBytes = Math.max(largestReadBytes, readBytes);
+      assert.ok(readBytes < 16384,
+        "status queries must not return full article bodies to the Worker");
+      assert.equal(reads.filter((r) => r.sql.includes("AS collection_visibility")).length, 1);
+      return result;
+    };
+    const legacy = [
+      { id: "a", route: "series/a", version: 1 },
+      { id: "b", route: "posts/b", version: null },
+    ];
+    assert.deepEqual((await state()).live, legacy);
+    s.sqlite.prepare("INSERT INTO live_site VALUES(1,'mismatched-job',1,?,'2026-01-01')")
+      .run(JSON.stringify([{ id: "wrong", route: "posts/wrong", version: 99 }]));
+    assert.deepEqual((await state()).live, legacy);
+    const verified = [{ id: "a", route: "series/a", version: 7, contentHash: "verified-hash",
+      publishedAt: "2025-01-01", displayPublishedAt: null, editedAt: "2026-01-01" }];
+    s.sqlite.prepare("UPDATE live_site SET job_id='old',notes=? WHERE id=1").run(JSON.stringify(verified));
+    assert.deepEqual((await state()).live, verified);
+    reads.length = 0;
+    const collections = await (await s.request("/api/v1/blog-collections")).json();
+    assert.equal(collections.publicationId, 1);
+    assert.equal(collections.data[0].visibility, "private");
+    assert.ok(reads.reduce((sum, r) => sum + r.bytes, 0) < 16384);
+    assert.equal(reads.filter((r) => r.sql.includes("AS collection_visibility")).length, 1);
+    assert.equal(s.sqlite.prepare("SELECT manifest FROM publications WHERE id=1").get()!.manifest, stored);
+    t.diagnostic(`fixture manifest: ${Buffer.byteLength(stored)} bytes; largest publishing status D1 result: ${largestReadBytes} bytes`);
+  } finally { s.sqlite.close(); }
+});
+test("publishing status without a successful publication keeps empty live inventory and default collections", async () => {
+  const s = await setup();
+  try {
+    s.sqlite.exec("UPDATE build_jobs SET status='failed'; INSERT INTO blog_collections(slug,name) VALUES('series','Series')");
+    const response = await s.request("/api/v1/publishing");
+    assert.equal(response.status, 200);
+    const state = await response.json();
+    assert.equal(state.publicationId, 0);
+    assert.deepEqual(state.live, []);
+    assert.equal(state.collections[0].visibility, "public");
+    assert.deepEqual(state.collections[0].retainedInventory, []);
+  } finally { s.sqlite.close(); }
+});
 test("single-article publish preserves other live versions and ignores private drafts; replay dispatches once", async (t) => {
   const s = await setup();
   let dispatches = 0;

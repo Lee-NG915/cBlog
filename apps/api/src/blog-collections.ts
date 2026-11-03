@@ -2,18 +2,18 @@ import { Hono } from "hono";
 import { z } from "zod";
 import type { Bindings } from "./types";
 import { builds, configured } from "./builds";
-import { lastPublication, liveNotes, type LiveNote } from "./live";
+import { lastPublication, lastPublicationMetadata, liveNotes, type LiveNote, type PublicationMetadata } from "./live";
 import { hash } from "./security";
 
 type Visibility = "public" | "unlisted" | "private";
 type Catalog = { slug: string; name: string; description: string; members: string; position: number };
 const active = "'dispatching','queued','building','deploying'";
-export async function collectionState(env: Bindings) {
+export async function collectionState(env: Bindings, publication?: PublicationMetadata | null) {
   const [last, catalog] = await Promise.all([
-    lastPublication(env),
+    publication === undefined ? lastPublicationMetadata(env) : publication,
     env.DB.prepare("SELECT * FROM blog_collections ORDER BY position,slug").all<Catalog>(),
   ]);
-  const settings = last ? JSON.parse(last.manifest).collectionVisibility || {} : {};
+  const settings = last?.collection_visibility ? JSON.parse(last.collection_visibility) || {} : {};
   return catalog.results.map((c) => ({
     ...c,
     members: JSON.parse(c.members) as { id: string; route: string; position: number }[],
@@ -23,7 +23,8 @@ export async function collectionState(env: Bindings) {
 }
 export const blogCollections = new Hono<{ Bindings: Bindings }>();
 blogCollections.get("/", async (c) => {
-  const [data, last] = await Promise.all([collectionState(c.env), lastPublication(c.env)]);
+  const last = await lastPublicationMetadata(c.env);
+  const data = await collectionState(c.env, last);
   return c.json({ data, publicationId: last?.id || 0 });
 });
 blogCollections.post("/:slug/visibility", async (c) => {

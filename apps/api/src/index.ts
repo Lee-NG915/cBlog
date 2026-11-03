@@ -3,6 +3,7 @@ import { builds, buildInternal, configured } from "./builds";
 import { blogCollections } from "./blog-collections";
 import { automation } from "./automation";
 import { publishing } from "./publishing";
+import { corpusPage } from "./corpus";
 import { needsUnpublish } from "./live";
 import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
@@ -211,18 +212,19 @@ app.get("/api/v1/corpus", async (c) => {
       },
       409,
     );
-  const notes = await c.env.DB.prepare(
-    "SELECT * FROM notes WHERE deleted_at IS NULL AND id>? ORDER BY id LIMIT 31",
-  )
-    .bind(cursor)
-    .all<Note>();
-  const items = notes.results.slice(0, 30);
+  const page = await corpusPage(c.env, cursor);
   const deleted = cursor ? [] : (await c.env.DB.prepare("SELECT id FROM notes WHERE deleted_at IS NOT NULL").all<{id:string}>()).results;
+  // Sizing and fetching are separate reads. Never return a mixed revision if a
+  // concurrent save/deletion changed the selected prefix between those reads.
+  const current = await c.env.DB.prepare(
+    "SELECT corpus_revision FROM settings WHERE id=1",
+  ).first<{ corpus_revision: number }>();
+  if (current!.corpus_revision !== revision!.corpus_revision)
+    return c.json({ error: { code: "CORPUS_CHANGED", message: "笔记已更新，正在重新加载" } }, 409);
   return c.json({
-    data: items,
+    ...page,
     deletedIds: deleted.map(n=>n.id),
     revision: revision!.corpus_revision,
-    nextCursor: notes.results.length > 30 ? items.at(-1)!.id : null,
   });
 });
 app.get("/api/v1/groups", async (c) =>
