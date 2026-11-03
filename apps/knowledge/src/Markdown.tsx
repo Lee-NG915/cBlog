@@ -5,6 +5,7 @@ import {
   useState,
   lazy,
   Suspense,
+  memo,
 } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -106,7 +107,7 @@ function Pre({ children }: { children: ReactNode }) {
     </div>
   );
 }
-export function Markdown({ body }: { body: string }) {
+export const Markdown = memo(function Markdown({ body }: { body: string }) {
   const used = new Map<string, number>();
   const header = (level: number, children: ReactNode) => {
     const base = headingSlug(textOf(children)),
@@ -184,4 +185,4 @@ export function Markdown({ body }: { body: string }) {
       </ReactMarkdown>
     </div>
   );
-}
+});
