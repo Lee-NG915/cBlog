@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill 案例生产流水线"
+  short_description: "组织取证、完整文稿、技术图表与独立验收，按版本交付私有草稿"
+  default_prompt: "使用 $cblog-skill-story-pipeline 组织本批案例研究、创作、独立审阅和私有草稿交付。"
