@@ -1,0 +1,99 @@
+# Skill 故事生产线：进度盘点与后续安排
+
+- 盘点日期：2026-11-04
+- 盘点方式：远端知识库工作台（`color-notes-admin-preview`）实际查询 + 源仓库目录盘点 + 本仓库方案文档核对
+- 范围：Skill 案例文章与口播稿的生产线，不含 FDE 转型等其他内容线
+
+## 一、方案与基础设施现状
+
+生产线由本仓库两层 Skill 构成，均已合入 `main`：
+
+| 组件 | 提交 | 职责 | 状态 |
+|---|---|---|---|
+| `skills/cblog-draft-publish` | `6f5e8c7` | 草稿专用 API 上传器：source-key 防重复、版本 CAS、图片读回、中断恢复 | 已实现，有模拟测试 |
+| `skills/cblog-skill-story-pipeline` | `8bf00e8` | 案例生产总控：台账、角色分离、独立审稿、冻结包、双稿交付状态机 | 已实现，有单元测试 |
+| 远端工作台（Cloudflare Worker + D1/KV） | 见 `docs/knowledge-platform/` | 草稿存储与后台页面 | 已部署，运行中 |
+| 公开发布链路 | `.github/workflows/knowledge-publish.yml` | 数据库快照 → 静态构建 → GitHub Pages | 已配置，未对 Skill 案例执行 |
+
+内容方法论技能（`.agents/skills/`，2026-09-23 落地，见 [技能筛选报告](./skill-selection-2026-09-23.md)）：`cblog-content-strategy`、`cblog-reader-research`、`cblog-editorial`、`cblog-social-visuals`、`cblog-content-metrics`、`cblog-seo-review`、`cblog-webapp-check`。
+
+## 二、素材来源盘点
+
+源仓库为 AddX AI Agent Extensions（Plugin 格式，本地路径 `~/Desktop/a4x/skills`），共 **232 个 Skill**，按 14 个类目组织：
+
+| 类目 | Skill 数 | 类目 | Skill 数 |
+|---|---|---|---|
+| development | 26 | agent-harness | 20 |
+| collaboration | 23 | observability | 19 |
+| data | 22 | infrastructure | 17 |
+| product | 21 | quality | 16 |
+| delivery | 21 | security | 14 |
+| experimentation | 11 | hardware | 12 |
+| customer-care | 7 | business-operations | 3 |
+
+素材充足，瓶颈不在选题来源，而在研究、审稿与验收产能。所有案例写作须遵守脱敏要求（公司、品牌、人员、内部域名、真实路径与编号一律匿名化，见管线 `references/roles.md`）。
+
+## 三、昨日上传盘点（2026-11-03）
+
+远端工作台当前共 390 篇笔记，其中 **2026-11-03 上传 84 篇，全部为 `draft` 状态**，无 ready / 公开。扣除 2 篇 FDE 线草稿（《FDE 岗位共性需求分析》《FDE 转型实战——1》），**Skill 案例线共 82 篇草稿，覆盖 8 个知识领域**：
+
+| 主题 | 草稿数 | 推算案例数 |
+|---|---|---|
+| ai-engineering | 20 | 10 |
+| growth | 14 | 7 |
+| hextech-operations | 14 | 7 |
+| hextech-records | 12 | 6 |
+| observability | 10 | 5 |
+| architecture | 6 | 3 |
+| hextech-design | 6 | 3 |
+| **合计** | **82** | **41** |
+
+配对依据：同一主题的草稿以数秒间隔成对写入，抽查确认一对草稿为同一案例的两个成稿（如「AI 回写 Issue」与「聊天和会议交给 AI 后，Issue 怎样更新才不会记错」）。逐篇核对配对关系仍需台账支持，见后续安排。
+
+**显式标注「口播稿｜」的草稿共 9 篇**，对应 9 个案例：
+
+1. 口播稿｜一条永远通过的测试，漏掉了什么（测试策略）
+2. 口播稿｜成本分析 Skill 怎样把金额、假设和执行分开（云成本）
+3. 口播稿｜"只多查一次"，为什么还要做性能预检（性能评估）
+4. 口播稿｜请求超时以后，Agent 该怎样继续（任务恢复）
+5. 口播稿｜从故障报告继续追查代码和调用方（故障分析）
+6. 口播稿｜代码审查里的文件来源核对（代码审查）
+7. 口播稿｜投放分析中的分工与独立评估（投放分析）
+8. 口播稿｜视频打标时，怎样区分观察和推断（视频打标）
+9. 口播稿｜安全审计 Skill 怎样避免把未知写成通过（安全审计）
+
+其余 32 个案例的配对稿标题未标注「口播稿」，是文章+口播双稿还是同一案例的两个文章版本，需要逐篇核对正文后确认。
+
+## 四、当前进度对照管线阶段
+
+按 `cblog-skill-story-pipeline` 的执行顺序核对：
+
+| 阶段 | 状态 | 依据 / 缺口 |
+|---|---|---|
+| 1. 对账既有稿件与 source-key | **未完成（本机）** | 当前工作区未找到台账 `pipeline.sqlite` 与上传 manifest；82 篇草稿的 source_path 均为空，说明未走标准 source-key 导入或元数据未回填 |
+| 2. 案例与任务登记 | 无法确认 | 无台账可核对 |
+| 3. 研究 → 写作 | **已完成（事实层面）** | 82 篇成稿已在远端，主题与源仓库类目对应 |
+| 4. 独立内容审稿 / 视觉审阅 | **无证据** | 未找到审阅报告（`reviews/`）与冻结包记录 |
+| 5. 冻结双稿包 + 上传 | 上传事实成立，冻结环节无证据 | 草稿在远端且 `state=draft`，但无 package 记录可引用 |
+| 6. 页面验收与双稿交付 | 未完成 | 草稿未发布，状态未推进 |
+| 公开发布 | 未开始 | 需单独授权 |
+
+结论：**写作产能已跑通并产出 41 个案例的成稿，但质量门禁（台账、独立审稿、冻结、页面验收）的证据链缺失**。按管线约定，这批草稿目前只能计为「已保存草稿」，不能计为「已交付」。
+
+## 五、后续安排
+
+按优先级排序：
+
+1. **恢复台账（阻塞项）**：找到昨天执行上传的会话与私人工作目录（含 `pipeline.sqlite`、manifest、回执）。若确认丢失，则以远端 82 篇草稿为事实源重建台账：逐篇 `read` 读回，登记为既有产物。
+2. **核对配对与口播覆盖**：逐篇确认 41 个案例的双稿关系，给未标注的口播稿补标题前缀；列出缺口播稿的案例清单。
+3. **回填 source-key**：为每个案例的文章/口播固定稳定 source-key（`story-xxx-article` / `story-xxx-script`），后续修改沿用同一 key，避免重复创建。
+4. **独立审稿**：按 `roles.md` 门槛逐案例执行内容审阅（evidence / technical / privacy / oral），重点核对脱敏是否彻底（源仓库含内部认证信息、真实域名与人员线索）。
+5. **冻结包与页面验收**：审稿通过后冻结双稿包，逐篇打开后台真实页面验收（桌面 + 移动 + 图片 + 私有草稿状态）。
+6. **发布决策**：验收通过的案例清单交由所有者决定是否公开发布，以及走 GitHub Pages 静态链路还是保留在知识库内。
+7. **选题排期**：以 41 个已有案例为第一批；源仓库剩余约 190 个 Skill 按 `cblog-content-strategy` 排优先级，不以下批数量为目标。
+
+## 六、风险与注意
+
+- 源仓库 `AGENTS.md` 含内部环境变量清单与内部域名，**任何案例成稿不得携带这些信息**；审稿的 privacy 项是第一优先级。
+- 本地 `.knowledge/notes.db` 是今日新建的空库，与远端草稿无关；不要把本地库当作台账来源。
+- 远端草稿均无 `display_published_at`，发布前需按 `08-publication-dates.md` 单独设定展示日期。
