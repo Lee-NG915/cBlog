@@ -39,6 +39,7 @@ class HTTPService:
     def open(self, req, timeout=None):
         self.calls.append((req.method, req.full_url, req.data, dict(req.headers)))
         assert req.headers["Authorization"] == "Bearer " + TOKEN
+        assert req.headers["User-agent"] == c.USER_AGENT
         path = req.full_url[len(BASE):]
         if req.method == "GET" and path == "/capabilities":
             value = {"service": "cblog-draft-automation", "version": 1, "mode": "draft-only"}

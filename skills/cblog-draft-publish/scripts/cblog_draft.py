@@ -24,6 +24,7 @@ import urllib.request
 import uuid
 
 DEFAULT_BASE = "https://color-notes-admin-preview.donghaili915.workers.dev/api/v1/automation"
+USER_AGENT = "cblog-draft-publish/1.0"
 DEFAULT_TOKEN_FILE = "~/.config/cblog/draft-api-token"
 MAX_ASSET, MAX_BODY = 1048576, 262144
 KEY_RE = re.compile(r"[a-z0-9](?:[a-z0-9_-]{0,118}[a-z0-9])?\Z")
@@ -238,7 +239,7 @@ class API:
         if not path.startswith("/") or path.startswith("//"):
             raise DraftError("INVALID_PATH", "只允许访问当前草稿 API。")
         data = canonical(payload) if payload is not None else raw
-        headers = {"Authorization": "Bearer " + self.token, "Accept": "application/octet-stream" if binary else "application/json"}
+        headers = {"Authorization": "Bearer " + self.token, "Accept": "application/octet-stream" if binary else "application/json", "User-Agent": USER_AGENT}
         if data is not None:
             headers["Content-Type"] = mime or "application/json; charset=utf-8"
         if self.dns_resolver == "cloudflare" and self.resolved_ips is None:

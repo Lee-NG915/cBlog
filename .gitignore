@@ -68,3 +68,7 @@ apps/api/.dev.vars
 .frontend/
 
 apps/knowledge/test-results-public/
+
+# python
+__pycache__/
+*.pyc
