@@ -27,7 +27,7 @@ export const profile = {
   name: "李东海",
   penName: "Color",
   role: "全栈开发工程师 · 前端方向 / AI 应用",
-  tagline: "做多应用前端架构，也把业务上下文沉淀成 AI 能执行的工程流程。",
+  tagline: "致力于成为AI时代的超级个体",
   email: "ngup915@163.com",
   highlights: [
     {
@@ -86,7 +86,7 @@ export const profile = {
       detail: "持续整理的 AI 与开源项目收藏。",
     },
     {
-      name: "GitHub · Dylan Li",
+      name: "GitHub · Color",
       url: "https://github.com/Lee-NG915?tab=repositories",
       domain: "github.com/Lee-NG915",
       detail: "代码与项目仓库。",

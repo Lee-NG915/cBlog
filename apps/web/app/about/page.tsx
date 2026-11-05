@@ -84,26 +84,6 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* 站点介绍 */}
-      <div
-        className="prose rounded-lg border border-line-light bg-surface-light p-8 shadow-editorial dark:border-line-dark dark:bg-surface-dark"
-        data-reveal
-      >
-        <p>
-          这里更像一本慢慢写的本子：学到哪记到哪，工程里踩过的坑、生活里的小事，偶尔翻回去看一眼。
-        </p>
-        <ul>
-          <li>学习记录：最近在啃什么、怎么理解的、哪里还卡着。</li>
-          <li>工程札记：写代码、部署、工具选用时的真实取舍。</li>
-          <li>专题整理：围绕一个主题整理的复盘、问题清单和阶段性记录。</li>
-          <li>生活手记：工作以外的小事，不用包装，真实就好。</li>
-        </ul>
-        <p>
-          想了解我怎么看这间站、希望读者有什么感受，见{" "}
-          <a href="/brand/">品牌手记</a>。
-        </p>
-      </div>
-
       {/* 关于我 */}
       <section
         className="rounded-lg border border-line-light bg-surface-light p-6 shadow-editorial-sm dark:border-line-dark dark:bg-surface-dark sm:p-7"
@@ -111,7 +91,7 @@ export default async function AboutPage() {
       >
         <p className="editorial-label">关于我</p>
         <h2 className="mt-2 font-display text-xl font-bold text-ink dark:text-gray-100">
-          做的事和做事的方式
+          擅长的事情
         </h2>
         <div className="mt-5 grid gap-5 sm:grid-cols-3">
           {profile.highlights.map((item) => (
@@ -146,6 +126,23 @@ export default async function AboutPage() {
           ))}
         </ol>
       </section>
+
+      {/* 站点介绍 */}
+      <div
+        className="prose rounded-lg border border-line-light bg-surface-light p-8 shadow-editorial dark:border-line-dark dark:bg-surface-dark"
+        data-reveal
+      >
+        <ul>
+          <li>学习记录：最近在啃什么、怎么理解的、哪里还卡着。</li>
+          <li>工程札记：写代码、部署、工具选用时的真实取舍。</li>
+          <li>专题整理：围绕一个主题整理的复盘、问题清单和阶段性记录。</li>
+          <li>生活手记：工作以外的小事，不用包装，真实就好。</li>
+        </ul>
+        <p>
+          想了解我怎么看这间站、希望读者有什么感受，见{" "}
+          <a href="/brand/">品牌手记</a>。
+        </p>
+      </div>
 
       {/* 其他站点 */}
       <section data-reveal>
