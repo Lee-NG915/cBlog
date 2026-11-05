@@ -72,3 +72,6 @@ apps/knowledge/test-results-public/
 # python
 __pycache__/
 *.pyc
+
+# local working inbox (private, not for publish)
+/.inbox/
