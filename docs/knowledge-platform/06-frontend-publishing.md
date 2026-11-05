@@ -4,13 +4,15 @@ GitHub Pages 继续承载公开博客。`KNOWLEDGE_PIPELINE=true` 保留，后�
 
 ## 发布入口
 
-在 GitHub Actions 选择 **Publish frontend with live content**，分支选 `main`，点击 Run workflow。也可以执行：
+前端相关路径（`apps/web/**`、`packages/**`、`pnpm-lock.yaml`、`pnpm-workspace.yaml`、本工作流自身）push 到 `main` 时**自动触发**；其他路径的推送不触发。内容路径（`content/`、`data/`）不会触发——线上内容来源是已部署归档，不是仓库 Markdown。
+
+手动入口仍然保留：在 GitHub Actions 选择 **Publish frontend with live content**，分支选 `main`，点击 Run workflow。也可以执行：
 
 ```sh
 gh workflow run frontend-publish.yml --repo Lee-NG915/cBlog --ref main
 ```
 
-这是手动入口，普通推送不自动替换公开内容。后台笔记的保存、编辑、发布状态均不由此流程修改。
+手动入口可用于不发代码的重建（如恢复过期 artifact 前的验证）。后台笔记的保存、编辑、发布状态均不由此流程修改。
 
 ## 内容如何保持不变
 

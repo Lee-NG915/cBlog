@@ -1,5 +1,14 @@
 name: Publish frontend with live content
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/web/**"
+      - "packages/**"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/frontend-publish.yml"
   workflow_dispatch:
     inputs:
       legacy_content_sha:
